@@ -263,7 +263,7 @@
     }
   ],
   attributes: [
-    { name: 'dmx-ag-grid-value', attributeStartsWith: 'dmx-bind', attribute: 'value', title: 'Value', type: 'boolean',
+    { name: 'dmx-ag-grid-value', attributeStartsWith: 'dmx-bind', attribute: 'column_defs', title: 'Configs', type: 'boolean',
       display: 'fieldset', icon: 'fa fa-lg fa-chevron-right',
       groupTitle: 'Grid Config', groupIcon: 'fa fa-lg fa-cubes',
       defaultValue: false, show: ['valueValue'], noChangeOnHide: true,
