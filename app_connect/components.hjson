@@ -91,6 +91,14 @@
   "help": "Specifies if the column can be resized"
 },
 {
+  "name": "sortable",
+  "attribute": "sortable",
+  "title": "Sortable",
+  "type": "boolean",
+  "defaultValue": true,
+  "help": "Specifies if the column are sortable"
+},
+{
   "name": "filter",
   "attribute": "filter",
   "title": "Filter",
@@ -105,6 +113,14 @@
   "type": "boolean",
   "defaultValue": true,
   "help": "Specifies if the column has a floating filter"
+},
+{
+  "name": "exportToCSV",
+  "attribute": "exportToCSV",
+  "title": "CSV Export",
+  "type": "boolean",
+  "defaultValue": true,
+  "help": "Specifies if Export to CSV to be enabled"
 },
 {
   "name": "columnHoverHighlight",

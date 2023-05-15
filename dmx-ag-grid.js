@@ -25,15 +25,17 @@ dmx.Component('ag-grid', {
     localeText: null,
     minWidth: 150,
     resizable: true,
+    sortable: true,
     filter: true,
     floatingFilter: true,
-    columnHoverHighlight: true
+    columnHoverHighlight: true,
+    exportToCSV: true
   },
-  
+
   attributes: {
     id: { default: null },
-    rowData: { type: Array,  default: [] },
-    column_defs: { type: Array,  default: [] },
+    rowData: { type: Array, default: [] },
+    column_defs: { type: Array, default: [] },
     data: { type: Array, default: [] },
     domLayout: { default: 'autoHeight' },
     enableCellTextSelection: { type: Boolean, default: true },
@@ -55,35 +57,135 @@ dmx.Component('ag-grid', {
     suppressPropertyNamesCheck: { type: Boolean, default: false },
     localeText: { default: null },
     minWidth: { type: Number, default: 150 },
+    sortable: { type: Boolean, default: true },
     resizable: { type: Boolean, default: true },
     filter: { type: Boolean, default: true },
-    floatingFilter: {  type: Boolean, default: true },
-    columnHoverHighlight: { type: Boolean, default: true }
+    floatingFilter: { type: Boolean, default: true },
+    columnHoverHighlight: { type: Boolean, default: true },
+    exportToCSV: { type: Boolean, default: true }
   },
 
   methods: {
-    setData: function(rowData, columnDefs) {
+    setData: function (rowData, columnDefs) {
       this.set('rowData', rowData);
       this.set('columnDefs', columnDefs);
       this.refreshGrid();
     }
   },
 
-  refreshGrid: function() {
-    console.log(this.props)
+  refreshGrid: function () {
     const gridId = this.props.id;
     const rowData = this.props.data;
     let columnDefs = null;
+    let exportToCSV = this.props.exportToCSV;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
       return;
     }
+    function humanize(str) {
+      if (str == null) return str;
+
+      str = String(str)
+        .trim()
+        .replace(/([a-z\D])([A-Z]+)/g, '$1_$2')
+        .replace(/[-\s]+/g, '_')
+        .toLowerCase()
+        .replace(/_id$/, '')
+        .replace(/_/g, ' ')
+        .trim();
+
+      return str.charAt(0).toUpperCase() + str.substr(1);
+    }
+    function blankOrNullValueFormatter(params) {
+      if (params.value == null) {
+        return "-";
+      }
+
+      if (typeof params.value === "string") {
+        return params.value.trim() === "" ? "-" : params.value;
+      }
+
+      return params.value;
+    }
+    function formatTime(params, timezone) {
+      if (params.value == null) {
+        return '-';
+      } else {
+        const date = new Date(params.value);
+        if (timezone) {
+          const options = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+            timeZone: 'UTC'
+          };
+          return date.toLocaleString('en-GB', options).toUpperCase();
+        } else {
+          const options = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+          };
+          return date.toLocaleString('en-GB', options).toUpperCase();
+        }
+      }
+    }
+    // Function to detect the data type based on the values
+    function detectDataType(values) {
+      let hasDate = false;
+      let hasNumber = false;
+      let hasText = false;
+
+      for (const value of values) {
+        if (value === null || value === undefined || value === '') {
+          hasText = true;
+        } else if (!isNaN(Number(value))) {
+          hasNumber = true;
+        } else if (!isNaN(Date.parse(value))) {
+          hasDate = true;
+        } else {
+          hasText = true;
+        }
+      }
+
+      if (hasDate && !hasNumber && !hasText) {
+        return 'date';
+      } else if (hasNumber && !hasText) {
+        return 'number';
+      } else {
+        return 'text';
+      }
+    }
+
     if (Array.isArray(this.props.column_defs) && this.props.column_defs.length > 0) {
       columnDefs = this.props.column_defs;
     } else {
       const firstRow = rowData[0];
+
       columnDefs = Object.keys(firstRow).map(key => {
-        return { headerName: key, field: key};
+        // Assuming rowData is an array of objects
+        const values = rowData.map(row => row[key]);
+        const dataType = detectDataType(values);
+        let filter;
+        let valueFormatter;
+
+        if (dataType === 'number') {
+          filter = 'agNumberColumnFilter';
+          valueFormatter = blankOrNullValueFormatter;
+        } else if (dataType === 'date') {
+          filter = 'agDateColumnFilter';
+          valueFormatter = (params) => formatTime(params, false);
+        } else {
+          filter = 'agTextColumnFilter';
+          valueFormatter = blankOrNullValueFormatter;
+        }
+        return { headerName: humanize(key), field: key, filter: filter, valueFormatter: valueFormatter };
       });
     }
     const gridOptions = {
@@ -92,7 +194,8 @@ dmx.Component('ag-grid', {
         flex: 1,
         minWidth: this.props.minWidth,
         resizable: this.props.resizable,
-        filter: this.props.resizable,
+        filter: this.props.filter,
+        sortable: this.props.sortable,
         floatingFilter: this.props.floatingFilter
       },
       domLayout: 'autoHeight',
@@ -115,38 +218,72 @@ dmx.Component('ag-grid', {
       suppressPropertyNamesCheck: this.props.suppressPropertyNamesCheck,
       localeText: this.props.localeText
     };
-  
-    const gridDiv = document.querySelector(`#${gridId.replace('-grid','')}`);
-  
+
+    const gridDiv = document.querySelector(`#${gridId.replace('-grid', '')}`);
+
     if (!gridDiv) {
-      console.error(`Grid container element with ID '${gridId.replace('-grid','')}' not found.`);
+      console.error(`Grid container element with ID '${gridId.replace('-grid', '')}' not found.`);
       return;
     }
-  
+
     if (this.props.gridInstance) {
       this.props.gridInstance.destroy(); // Destroy the previous grid instance if it exists
     }
-  
     const gridConfig = {
       columnDefs: columnDefs,
       rowData: rowData,
       ...gridOptions
     };
-  
-// Create ag-Grid instance
-new agGrid.Grid(gridDiv, gridConfig);
-gridReady = true;
+
+    // Create ag-Grid instance
+    new agGrid.Grid(gridDiv, gridConfig);
+    const gridElement = document.getElementById(gridId.replace('-grid', ''));
+    const gridContainer = gridElement.parentNode;
+
+    if (!gridContainer) {
+      console.error('Grid container not found.');
+      return;
+    }
+
+    // Create the export button
+    if (exportToCSV) {
+      const exportButton = document.createElement('button');
+      exportButton.innerText = 'Export to CSV';
+      exportButton.addEventListener('click', () => {
+        const params = {
+          fileName: 'export.csv', // Set the desired file name here
+          allColumns: true,
+          processCellCallback: function (params) {
+            const columnDef = params.column.getColDef();
+            const valueFormatter = columnDef.valueFormatter;
+            if (valueFormatter && typeof valueFormatter === "function") {
+              const formattedValue = valueFormatter(params);
+              if (formattedValue !== null && formattedValue !== undefined) {
+                return formattedValue;
+              }
+            }
+            return params.value;
+          },
+        };
+        gridConfig.api.exportDataAsCsv(params);
+      });
+    
+      // Append the export button to the grid container
+      gridContainer.parentNode.insertBefore(exportButton, gridContainer);
+    
+      exportButton.style.marginBottom = '10px';
+    }
   },
 
   events: {
     'dmx-ag-grid-row-data-updated': Event
   },
 
-  render: function() {
-    this.refreshGrid();
+  render: function () {
+    // this.refreshGrid();
   },
 
-  update: function(props) {
+  update: function (props) {
     // dmx.equal is a helper function the does a deep compare
     // which is useful when comparing arrays and objects
     if (!dmx.equal(this.props.data, props.data)) {
