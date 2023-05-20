@@ -167,17 +167,30 @@ dmx.Component('ag-grid', {
       columnDefs = this.props.column_defs;
     } else {
       const firstRow = rowData[0];
-
+    
       columnDefs = Object.keys(firstRow).map(key => {
         // Assuming rowData is an array of objects
         const values = rowData.map(row => row[key]);
-        const dataType = detectDataType(values);
+        const nonNullValues = values.filter(value => value !== null);
+        const dataType = detectDataType(nonNullValues);
         let filter;
         let valueFormatter;
-
+    
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
-          valueFormatter = blankOrNullValueFormatter;
+          if (/(amount|amt)$/.test(key)) {
+            valueFormatter = function (params) {
+              if (params.value != null) {
+                return Number(params.value).toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                });
+              }
+              return '-';
+            };
+          } else {
+            valueFormatter = blankOrNullValueFormatter;
+          }
         } else if (dataType === 'date') {
           filter = 'agDateColumnFilter';
           valueFormatter = (params) => formatTime(params, false);
