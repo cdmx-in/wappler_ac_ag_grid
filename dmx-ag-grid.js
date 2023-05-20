@@ -29,7 +29,11 @@ dmx.Component('ag-grid', {
     filter: true,
     floatingFilter: true,
     columnHoverHighlight: true,
-    exportToCSV: true
+    exportToCSV: true,
+    fixedHeader: false,
+    topbarClass: null,
+    fixedHeaderOffset: 100,
+    fixedTopOffset: 80
   },
 
   attributes: {
@@ -62,7 +66,11 @@ dmx.Component('ag-grid', {
     filter: { type: Boolean, default: true },
     floatingFilter: { type: Boolean, default: true },
     columnHoverHighlight: { type: Boolean, default: true },
-    exportToCSV: { type: Boolean, default: true }
+    exportToCSV: { type: Boolean, default: true },
+    fixedHeader: { type: Boolean, default: false },
+    topbarClass: { type: Text, default: 'topbar' },
+    fixedHeaderOffset: { type: Number, default: 100 },
+    fixedTopOffset: { type: Number, default: 80 }
   },
 
   methods: {
@@ -76,6 +84,10 @@ dmx.Component('ag-grid', {
   refreshGrid: function () {
     const gridId = this.props.id;
     const rowData = this.props.data;
+    const fixedHeader = this.props.fixedHeader;
+    const fixedHeaderOffset = this.props.fixedHeaderOffset;
+    const topbarClass = this.props.topbarClass;
+    const fixedTopOffset = this.props.fixedTopOffset
     let columnDefs = null;
     let exportToCSV = this.props.exportToCSV;
     if (!rowData || rowData.length === 0) {
@@ -256,6 +268,24 @@ dmx.Component('ag-grid', {
     if (!gridContainer) {
       console.error('Grid container not found.');
       return;
+    }
+    if (fixedHeader) {
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('.ag-header');
+      const topbar = document.querySelector('.'+topbarClass);
+      const topbarHeight = (topbar ? topbar.getBoundingClientRect().height: 0) + fixedTopOffset;
+      const headerPos = (topbar ? topbar.getBoundingClientRect().bottom: 0) + fixedHeaderOffset;
+
+      if (window.pageYOffset > headerPos) {
+          header.style.position = 'fixed';
+          header.style.top = `${topbarHeight}px`;
+          header.style.zIndex = '99';
+          document.body.style.marginBottom = `${header.offsetHeight}px`; // Add margin to the bottom of the page
+      } else {
+          header.style.position = 'static';
+          document.body.style.marginBottom = '0'; // Reset the margin
+      }
+      });
     }
 
     // Create the export button

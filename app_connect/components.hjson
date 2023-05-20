@@ -143,7 +143,7 @@
       attribute: 'pagination',
       title: 'Pagination',
       type: 'boolean',
-      defaultValue: false,
+      defaultValue: true,
       help: 'Enables pagination'
       },
       {
@@ -151,9 +151,53 @@
       attribute: 'paginationPageSize',
       title: 'Pagination Page Size',
       type: 'number',
-      defaultValue: 10,
+      defaultValue: 20,
       help: 'Number of rows to show per page'
       },
+      {
+      name: "fixedHeader",
+      attribute: "fixedHeader",
+      title: "Fixed Header",
+      type: "boolean",
+      display: "fieldset",
+      noChangeOnHide: true,
+      groupEnabler: true,
+      defaultValue: false,
+      show: [
+        "fixedHeaderOffset",
+        "topbarClass",
+        "fixedTopOffset"
+      ]
+      children: [
+        {
+          name: "fixedHeaderOffset",
+          attribute: "fixedHeaderOffset",
+          title: "Header Offset",
+          type: "number",
+          initDisplay: "none",
+          defaultValue: 100,
+          "help": "Specifies offset from top of viewport area (Optional)"
+            },
+            {
+          name: "topbarClass",
+          attribute: "topbarClass",
+          title: "Topbar Class",
+          type: "text",
+          initDisplay: "none",
+          defaultValue: 'topbar',
+          "help": "Specify class eg: topbar to measure the offset from (Optional)"
+            },
+            {
+          name: "fixedTopOffset",
+          attribute: "fixedTopOffset",
+          title: "Topbar Offset",
+          type: "number",
+          initDisplay: "none",
+          defaultValue: 80,
+          "help": "Specify topbar offset, Default: 80"
+            }
+          ]
+            },
       {
       name: 'rowHeight',
       attribute: 'rowHeight',
