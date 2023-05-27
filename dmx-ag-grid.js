@@ -244,10 +244,10 @@ dmx.Component('ag-grid', {
       localeText: this.props.localeText
     };
 
-    const gridDiv = document.querySelector(`#${gridId.replace('-grid', '')}`);
+    const gridDiv = document.querySelector('.ag-theme-alpine');
 
     if (!gridDiv) {
-      console.error(`Grid container element with ID '${gridId.replace('-grid', '')}' not found.`);
+      console.error(`Grid container element with ID '${gridId}' not found.`);
       return;
     }
 
@@ -262,7 +262,7 @@ dmx.Component('ag-grid', {
 
     // Create ag-Grid instance
     new agGrid.Grid(gridDiv, gridConfig);
-    const gridElement = document.getElementById(gridId.replace('-grid', ''));
+    const gridElement = document.querySelector('.ag-theme-alpine');
     const gridContainer = gridElement.parentNode;
 
     if (!gridContainer) {
@@ -279,7 +279,7 @@ dmx.Component('ag-grid', {
       if (window.pageYOffset > headerPos) {
           header.style.position = 'fixed';
           header.style.top = `${topbarHeight}px`;
-          header.style.zIndex = '99';
+          header.style.zIndex = '1';
           document.body.style.marginBottom = `${header.offsetHeight}px`; // Add margin to the bottom of the page
       } else {
           header.style.position = 'static';
