@@ -1,6 +1,6 @@
 {
     "name": "@roney492/wappler_ag_grid",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "type": "module",
     "description": "App Connect extension for AG Grid Table Generation",
     "license": "MIT",

@@ -5,4 +5,5 @@ This Custom Module provides the below features:
 3. Provides Grid Options Applicable for all fields
 4. Dynamic Binding available for Custom Column Definitions
 5. Export to CSV button
-6. Fixed header options
+6. Sticky header options
+7. Custom Styles (Column Data)

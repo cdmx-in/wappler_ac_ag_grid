@@ -3,6 +3,7 @@ dmx.Component('ag-grid', {
     id: null,
     rowData: [],
     column_defs: [],
+    cstyles: null,
     gridInstance: null,
     domLayout: 'autoHeight',
     enableCellTextSelection: true,
@@ -37,40 +38,142 @@ dmx.Component('ag-grid', {
   },
 
   attributes: {
-    id: { default: null },
-    rowData: { type: Array, default: [] },
-    column_defs: { type: Array, default: [] },
-    data: { type: Array, default: [] },
-    domLayout: { default: 'autoHeight' },
-    enableCellTextSelection: { type: Boolean, default: true },
-    rowSelection: { type: Boolean, default: false },
-    suppressRowDeselection: { type: Boolean, default: false },
-    pagination: { type: Boolean, default: true },
-    paginationPageSize: { default: 20 },
-    rowHeight: { type: Number, default: null },
-    headerHeight: { type: Number, default: null },
-    suppressRowClickSelection: { type: Boolean, default: false },
-    suppressMenuHide: { type: Boolean, default: false },
-    suppressMovableColumns: { type: Boolean, default: false },
-    enableCellExpressions: { type: Boolean, default: false },
-    animateRows: { type: Boolean, default: false },
-    suppressAggFuncInHeader: { type: Boolean, default: false },
-    suppressAggAtRootLevel: { type: Boolean, default: false },
-    suppressClipboardPaste: { type: Boolean, default: false },
-    suppressScrollOnNewData: { type: Boolean, default: false },
-    suppressPropertyNamesCheck: { type: Boolean, default: false },
-    localeText: { default: null },
-    minWidth: { type: Number, default: 150 },
-    sortable: { type: Boolean, default: true },
-    resizable: { type: Boolean, default: true },
-    filter: { type: Boolean, default: true },
-    floatingFilter: { type: Boolean, default: true },
-    columnHoverHighlight: { type: Boolean, default: true },
-    exportToCSV: { type: Boolean, default: true },
-    fixedHeader: { type: Boolean, default: false },
-    topbarClass: { type: Text, default: 'topbar' },
-    fixedHeaderOffset: { type: Number, default: 100 },
-    fixedTopOffset: { type: Number, default: 80 }
+    id: {
+      default: null
+    },
+    rowData: {
+      type: Array,
+      default: []
+    },
+    column_defs: {
+      type: Array,
+      default: []
+    },
+    cstyles: {
+      type: Object,
+      default: {}
+    },
+    data: {
+      type: Array,
+      default: []
+    },
+    domLayout: {
+      default: 'autoHeight'
+    },
+    enableCellTextSelection: {
+      type: Boolean,
+      default: true
+    },
+    rowSelection: {
+      type: Boolean,
+      default: false
+    },
+    suppressRowDeselection: {
+      type: Boolean,
+      default: false
+    },
+    pagination: {
+      type: Boolean,
+      default: true
+    },
+    paginationPageSize: {
+      default: 20
+    },
+    rowHeight: {
+      type: Number,
+      default: null
+    },
+    headerHeight: {
+      type: Number,
+      default: null
+    },
+    suppressRowClickSelection: {
+      type: Boolean,
+      default: false
+    },
+    suppressMenuHide: {
+      type: Boolean,
+      default: false
+    },
+    suppressMovableColumns: {
+      type: Boolean,
+      default: false
+    },
+    enableCellExpressions: {
+      type: Boolean,
+      default: false
+    },
+    animateRows: {
+      type: Boolean,
+      default: false
+    },
+    suppressAggFuncInHeader: {
+      type: Boolean,
+      default: false
+    },
+    suppressAggAtRootLevel: {
+      type: Boolean,
+      default: false
+    },
+    suppressClipboardPaste: {
+      type: Boolean,
+      default: false
+    },
+    suppressScrollOnNewData: {
+      type: Boolean,
+      default: false
+    },
+    suppressPropertyNamesCheck: {
+      type: Boolean,
+      default: false
+    },
+    localeText: {
+      default: null
+    },
+    minWidth: {
+      type: Number,
+      default: 150
+    },
+    sortable: {
+      type: Boolean,
+      default: true
+    },
+    resizable: {
+      type: Boolean,
+      default: true
+    },
+    filter: {
+      type: Boolean,
+      default: true
+    },
+    floatingFilter: {
+      type: Boolean,
+      default: true
+    },
+    columnHoverHighlight: {
+      type: Boolean,
+      default: true
+    },
+    exportToCSV: {
+      type: Boolean,
+      default: true
+    },
+    fixedHeader: {
+      type: Boolean,
+      default: false
+    },
+    topbarClass: {
+      type: Text,
+      default: 'topbar'
+    },
+    fixedHeaderOffset: {
+      type: Number,
+      default: 100
+    },
+    fixedTopOffset: {
+      type: Number,
+      default: 80
+    }
   },
 
   methods: {
@@ -88,12 +191,13 @@ dmx.Component('ag-grid', {
     const fixedHeaderOffset = this.props.fixedHeaderOffset;
     const topbarClass = this.props.topbarClass;
     const fixedTopOffset = this.props.fixedTopOffset
-    let columnDefs = null;
+    let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
       return;
     }
+
     function humanize(str) {
       if (str == null) return str;
 
@@ -108,6 +212,7 @@ dmx.Component('ag-grid', {
 
       return str.charAt(0).toUpperCase() + str.substr(1);
     }
+
     function blankOrNullValueFormatter(params) {
       if (params.value == null) {
         return "-";
@@ -119,6 +224,7 @@ dmx.Component('ag-grid', {
 
       return params.value;
     }
+
     function formatTime(params, timezone) {
       if (params.value == null) {
         return '-';
@@ -174,20 +280,23 @@ dmx.Component('ag-grid', {
         return 'text';
       }
     }
-
+    console.log(this.props.cstyles)
     if (Array.isArray(this.props.column_defs) && this.props.column_defs.length > 0) {
       columnDefs = this.props.column_defs;
     } else {
       const firstRow = rowData[0];
-    
+
       columnDefs = Object.keys(firstRow).map(key => {
         // Assuming rowData is an array of objects
         const values = rowData.map(row => row[key]);
         const nonNullValues = values.filter(value => value !== null);
         const dataType = detectDataType(nonNullValues);
         let filter;
+        let valueGetter;
+        let filterValueGetter;
         let valueFormatter;
-    
+
+
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
           if (/(amount|amt)$/.test(key)) {
@@ -210,7 +319,69 @@ dmx.Component('ag-grid', {
           filter = 'agTextColumnFilter';
           valueFormatter = blankOrNullValueFormatter;
         }
-        return { headerName: humanize(key), field: key, filter: filter, valueFormatter: valueFormatter };
+        // Check if custom definition exists for the current field
+        if (this.props.definitions && this.props.definitions[key]) {
+          const definition = this.props.definitions[key];
+          if (definition.valueGetter) {
+            valueGetter = eval(`(data) => ${definition.valueGetter}`);
+          }
+          if (definition.filterGetter) {
+            filterValueGetter = eval(`(params) => ${definition.filterGetter}`);
+          }
+        }
+        function extractConditionParts(condition) {
+          const parts = condition.match(/(.+?)(===|==|!=|>|<|>=|<=)(.+)/);
+          if (parts) {
+            const [, left, operator, right] = parts;
+            return [left.trim(), operator.trim(), right.trim()];
+          }
+          return [];
+        }
+        
+        function evaluateCondition(left, operator, right) {
+          switch (operator) {
+            case '===':
+              return left.toString() === right.toString();
+            case '==':
+              return left.toString() == right.toString();
+            case '!=':
+              return left.toString() != right.toString();
+            case '>':
+              return left.toNumber() > right.toNumber();
+            case '<':
+              return left.toNumber() < right.toNumber();
+            case '>=':
+              return left.toNumber() >= right.toNumber();
+            case '<=':
+              return left.toNumber() <= right.toNumber();
+            default:
+              return false;
+          }
+        }
+const cstyles = this.props.cstyles
+ // Check if custom color exists for the current field and condition
+ function applyCellStyle(params) {
+  const field = params.colDef.field.toString();
+  if (cstyles.hasOwnProperty(field)) {
+    const condition = cstyles[field].condition;
+    const customColor = cstyles[field].customColor;
+    const [left, operator, right] = extractConditionParts(condition);
+    // Check if the field exists and its value is true
+    if (params.data.hasOwnProperty(field) && evaluateCondition(params.data[left], operator, right)) {
+      return { color: customColor };
+    }
+  }
+  return null;
+}
+        return {
+          headerName: humanize(key),
+          field: key,
+          filter: filter,
+          valueFormatter: valueFormatter,
+          valueGetter: valueGetter,
+          filterValueGetter: filterValueGetter,
+          cellStyle: applyCellStyle
+        };
       });
     }
     const gridOptions = {
@@ -270,21 +441,21 @@ dmx.Component('ag-grid', {
       return;
     }
     if (fixedHeader) {
-    window.addEventListener('scroll', function() {
-      const header = document.querySelector('.ag-header');
-      const topbar = document.querySelector('.'+topbarClass);
-      const topbarHeight = (topbar ? topbar.getBoundingClientRect().height: 0) + fixedTopOffset;
-      const headerPos = (topbar ? topbar.getBoundingClientRect().bottom: 0) + fixedHeaderOffset;
+      window.addEventListener('scroll', function () {
+        const header = document.querySelector('.ag-header');
+        const topbar = document.querySelector('.' + topbarClass);
+        const topbarHeight = (topbar ? topbar.getBoundingClientRect().height : 0) + fixedTopOffset;
+        const headerPos = (topbar ? topbar.getBoundingClientRect().bottom : 0) + fixedHeaderOffset;
 
-      if (window.pageYOffset > headerPos) {
+        if (window.pageYOffset > headerPos) {
           header.style.position = 'fixed';
           header.style.top = `${topbarHeight}px`;
           header.style.zIndex = '1';
           document.body.style.marginBottom = `${header.offsetHeight}px`; // Add margin to the bottom of the page
-      } else {
+        } else {
           header.style.position = 'static';
           document.body.style.marginBottom = '0'; // Reset the margin
-      }
+        }
       });
     }
 
@@ -310,10 +481,10 @@ dmx.Component('ag-grid', {
         };
         gridConfig.api.exportDataAsCsv(params);
       });
-    
+
       // Append the export button to the grid container
       gridContainer.parentNode.insertBefore(exportButton, gridContainer);
-    
+
       exportButton.style.marginBottom = '10px';
     }
   },
