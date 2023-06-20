@@ -1,12 +1,12 @@
 {
-    "name": "@roney492/wappler_ag_grid",
-    "version": "0.0.4",
+    "name": "@cdmx/wappler_ag_grid",
+    "version": "0.0.1",
     "type": "module",
     "description": "App Connect extension for AG Grid Table Generation",
     "license": "MIT",
     "author": {
-        "name": "roney492",
-        "url": "https://github.com/roney492"
+        "name": "cdmx1",
+        "url": "https://github.com/cdmx1"
     },
     "keywords": [
         "wappler-extension",
