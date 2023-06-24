@@ -6,6 +6,7 @@ dmx.Component('ag-grid', {
     cstyles: null,
     cnames: null,
     cwidths: null,
+    data_changes: null,
     gridInstance: null,
     domLayout: 'autoHeight',
     enableCellTextSelection: true,
@@ -42,69 +43,25 @@ dmx.Component('ag-grid', {
   },
 
   attributes: {
-    id: {
-      default: null
-    },
-    rowData: {
-      type: Array,
-      default: []
-    },
-    column_defs: {
-      type: Array,
-      default: []
-    },
-    cstyles: {
-      type: Object,
-      default: {}
-    },
+    id: { default: null },
+    rowData: { type: Array, default: [] },
+    column_defs: { type: Array, default: [] },
+    cstyles: { type: Object, default: {} },
     cnames: { type: Object, default: {} },
     cwidths: { type: Object, default: {} },
-    data: {
-      type: Array,
-      default: []
-    },
-    domLayout: {
-      default: 'autoHeight'
-    },
-    enableCellTextSelection: {
-      type: Boolean,
-      default: true
-    },
-    rowSelection: {
-      type: Boolean,
-      default: false
-    },
-    suppressRowDeselection: {
-      type: Boolean,
-      default: false
-    },
-    pagination: {
-      type: Boolean,
-      default: true
-    },
-    paginationPageSize: {
-      default: 20
-    },
-    rowHeight: {
-      type: Number,
-      default: null
-    },
-    headerHeight: {
-      type: Number,
-      default: null
-    },
-    suppressRowClickSelection: {
-      type: Boolean,
-      default: false
-    },
-    suppressMenuHide: {
-      type: Boolean,
-      default: false
-    },
-    suppressMovableColumns: {
-      type: Boolean,
-      default: false
-    },
+    data_changes: { type: Object, default: {} },
+    data: { type: Array, default: [] },
+    domLayout: { default: 'autoHeight' },
+    enableCellTextSelection: { type: Boolean, default: true },
+    rowSelection: { type: Boolean, default: false },
+    suppressRowDeselection: { type: Boolean, default: false },
+    pagination: { type: Boolean, default: true },
+    paginationPageSize: { default: 20 },
+    rowHeight: { type: Number, default: null },
+    headerHeight: { type: Number, default: null },
+    suppressRowClickSelection: { type: Boolean, default: false },
+    suppressMenuHide: { type: Boolean, default: false },
+    suppressMovableColumns: { type: Boolean, default: false },
     enableCellExpressions: {
       type: Boolean,
       default: false
@@ -200,6 +157,7 @@ dmx.Component('ag-grid', {
     const topbarClass = this.props.topbarClass;
     const fixedTopOffset = this.props.fixedTopOffset;
     const timezone = this.props.timezone || false;
+    const dataChanges = this.props.data_changes;
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
     if (!rowData || rowData.length === 0) {
@@ -289,6 +247,16 @@ dmx.Component('ag-grid', {
         return 'text';
       }
     }
+    function getValueGetter(key, dataChanges) {
+      return function(params) {
+        let value = params.data[key];
+        if (dataChanges.hasOwnProperty(key)) {
+          const change = dataChanges[key];
+          value = change.new_value;
+        }
+        return value;
+      };
+    }
     if (Array.isArray(this.props.column_defs) && this.props.column_defs.length > 0) {
       columnDefs = this.props.column_defs;
     } else {
@@ -336,6 +304,9 @@ dmx.Component('ag-grid', {
           if (definition.filterGetter) {
             filterValueGetter = eval(`(params) => ${definition.filterGetter}`);
           }
+        }
+        else {
+          valueGetter = getValueGetter(key, dataChanges);
         }
         function extractConditionParts(condition) {
           const parts = condition.match(/(.+?)(===|==|!=|>|<|>=|<=)(.+)/);

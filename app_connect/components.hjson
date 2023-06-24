@@ -91,7 +91,7 @@
               "title": "Minimum Width",
               "type": "number",
               "defaultValue": 150,
-              "help": "The minimum width of the columns"
+              "help": "The minimum width of the column"
             },
             {
               "name": "resizable",
@@ -437,6 +437,76 @@
                     "field": "",
                     "condition": "",
                     "customColor": ""
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "group": "📒 Data Manipulation",
+          "variables": [
+            {
+              "name": "data_changes",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "data_changes",
+              "title": "Configure Fields",
+              "type": "boolean",
+              "display": "fieldset",
+              "show": [
+                "dataChanges"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Add custom values for the field data based on value, ex: field: status, value: false, new_value: Disabled"
+              "children": [
+                {
+                  "name": "help",
+                  "type": "static",
+                  "help": "Add custom values for the field data based on value, ex: field: status, value: false, new_value: Disabled"
+                },
+                {
+                  "name": "dataChanges",
+                  "attribute": "dmx-bind:data_changes",
+                  "title": "Fields Data",
+                  "type": "grid",
+                  "dataBindings": true,
+                  "key": "field",
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "size": "10%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "value",
+                      "caption": "Value",
+                      "size": "10%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      field: "new_value",
+                      caption: "New Value",
+                      size: "10%",
+                      editable: {
+                        type: "text"
+                      }
+                    }
+                  ],
+                  "newRecord": {
+                    "name": "",
+                    "value": "",
+                    "field": "",
+                    "new_value": ""
                   }
                 }
               ]

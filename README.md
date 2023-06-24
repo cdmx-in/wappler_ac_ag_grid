@@ -8,4 +8,6 @@ This Custom Module provides the below features:
 6. Sticky header options
 7. Custom Styles (Column Data)
 8. Custom Header Names
-9. Timezone setting for Date fields
+9. Custom min and max widths
+10. Timezone setting for Date fields
+11. Data Manipulation
