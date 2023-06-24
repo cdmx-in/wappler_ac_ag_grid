@@ -91,7 +91,7 @@
               "title": "Minimum Width",
               "type": "number",
               "defaultValue": 150,
-              "help": "The minimum width of the column"
+              "help": "The minimum width of the columns"
             },
             {
               "name": "resizable",
@@ -164,6 +164,62 @@
               "type": "number",
               "defaultValue": 20,
               "help": "Number of rows to show per page"
+            },
+            {
+              "name": "timezone",
+              "attribute": "timezone",
+              "title": "Timezone",
+              "type": "droplist",
+              "defaultValue": '',
+              "values": [
+              {title: 'Local', value: ''},
+              {title: 'UTC - Coordinated Universal Time', value: 'UTC'},
+              {title: 'GMT - Greenwich Mean Time', value: 'GMT'},
+              {title: 'PST - Pacific Standard Time', value: 'PST'},
+              {title: 'PDT - Pacific Daylight Time', value: 'PDT'},
+              {title: 'EST - Eastern Standard Time', value: 'EST'},
+              {title: 'EDT - Eastern Daylight Time', value: 'EDT'},
+              {title: 'CST - Central Standard Time', value: 'CST'},
+              {title: 'CDT - Central Daylight Time', value: 'CDT'},
+              {title: 'MST - Mountain Standard Time', value: 'MST'},
+              {title: 'MDT - Mountain Daylight Time', value: 'MDT'},
+              {title: 'HST - Hawaii Standard Time', value: 'HST'},
+              {title: 'AKST - Alaska Standard Time', value: 'AKST'},
+              {title: 'AKDT - Alaska Daylight Time', value: 'AKDT'},
+              {title: 'AEST - Australian Eastern Standard Time', value: 'AEST'},
+              {title: 'AEDT - Australian Eastern Daylight Time', value: 'AEDT'},
+              {title: 'ACST - Australian Central Standard Time', value: 'ACST'},
+              {title: 'ACDT - Australian Central Daylight Time', value: 'ACDT'},
+              {title: 'AWST - Australian Western Standard Time', value: 'AWST'},
+              {title: 'BST - British Summer Time', value: 'BST'},
+              {title: 'IST - Indian Standard Time', value: 'IST'},
+              {title: 'JST - Japan Standard Time', value: 'JST'},
+              {title: 'CET - Central European Time', value: 'CET'},
+              {title: 'CEST - Central European Summer Time', value: 'CEST'},
+              {title: 'EET - Eastern European Time', value: 'EET'},
+              {title: 'EEST - Eastern European Summer Time', value: 'EEST'},
+              {title: 'MSK - Moscow Standard Time', value: 'MSK'},
+              {title: 'IST - Israel Standard Time', value: 'IST'},
+              {title: 'NZST - New Zealand Standard Time', value: 'NZST'},
+              {title: 'NZDT - New Zealand Daylight Time', value: 'NZDT'},
+              {title: 'NST - Newfoundland Standard Time', value: 'NST'},
+              {title: 'NDT - Newfoundland Daylight Time', value: 'NDT'},
+              {title: 'AST - Atlantic Standard Time', value: 'AST'},
+              {title: 'ADT - Atlantic Daylight Time', value: 'ADT'},
+              {title: 'GMT+1 - Central European Standard Time', value: 'GMT+1'},
+              {title: 'GMT+2 - Eastern European Standard Time', value: 'GMT+2'},
+              {title: 'GMT+3 - Moscow Standard Time', value: 'GMT+3'},
+              {title: 'GMT+4 - Gulf Standard Time', value: 'GMT+4'},
+              {title: 'GMT+5 - Pakistan Standard Time', value: 'GMT+5'},
+              {title: 'GMT+6 - Central Asia Standard Time', value: 'GMT+6'},
+              {title: 'GMT+7 - Southeast Asia Standard Time', value: 'GMT+7'},
+              {title: 'GMT+8 - China Standard Time', value: 'GMT+8'},
+              {title: 'GMT+9 - Japan Standard Time', value: 'GMT+9'},
+              {title: 'GMT+10 - Australian Eastern Standard Time', value: 'GMT+10'},
+              {title: 'GMT+11 - Solomon Islands Time', value: 'GMT+11'},
+              {title: 'GMT+12 - New Zealand Standard Time', value: 'GMT+12'}
+              ],
+              "help": "Timezone for Date Fields"
             },
             {
               "name": "fixedHeader",
@@ -386,7 +442,143 @@
               ]
             }
           ]
+        },
+        {
+          "group": "📒 Custom Headers",
+          "variables": [
+            {
+              "name": "cnames",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "cnames",
+              "title": "Configure Header Names",
+              "type": "boolean",
+              "display": "fieldset",
+              "show": [
+                "listCustomNames"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Add custom headers to column"
+              "children": [
+                {
+                  "name": "help",
+                  "type": "static",
+                  "help": "Add custom headers to column"
+                },
+                {
+                  "name": "listCustomNames",
+                  "attribute": "dmx-bind:cnames",
+                  "title": "Header Names",
+                  "type": "grid",
+                  "dataBindings": true,
+                  "key": "field",
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "size": "20%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      field: "custom_name",
+                      caption: "Name",
+                      size: "20%",
+                      editable: {
+                        type: "text"
+                      },
+                      help: "Identity, Name,etc"
+                    }
+                  ],
+                  "newRecord": {
+                    "name": "",
+                    "value": "",
+                    "field": "",
+                    "custom_name": ""
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "group": "📒 Custom Widths",
+          "variables": [
+            {
+              "name": "cwidths",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "cwidths",
+              "title": "Configure Custom Widths",
+              "type": "boolean",
+              "display": "fieldset",
+              "show": [
+                "listCustomWidths",
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Add custom widths for the field"
+              "children": [
+                {
+                  "name": "help",
+                  "type": "static",
+                  "help": "Add custom widths for the field"
+                },
+                {
+                  "name": "listCustomWidths",
+                  "attribute": "dmx-bind:cwidths",
+                  "title": "Column Name",
+                  "type": "grid",
+                  "dataBindings": true,
+                  "key": "field",
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "size": "20%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      field: "min_width",
+                      caption: "Min Width",
+                      size: "20%",
+                      editable: {
+                        type: "text"
+                      },
+                      help: "Min Width",
+                    },
+                    {
+                      field: "max_width",
+                      caption: "Max Width",
+                      size: "20%",
+                      editable: {
+                        type: "text"
+                      },
+                      help: "Max Width",
+                    }
+                  ],
+                  "newRecord": {
+                    "name": "",
+                    "value": "",
+                    "field": "",
+                    "custom_name": ""
+                  }
+                }
+              ]
+            }
+          ]
         }
+
       ],
       "actionsScheme": [],
       "children": [],

@@ -4,6 +4,8 @@ dmx.Component('ag-grid', {
     rowData: [],
     column_defs: [],
     cstyles: null,
+    cnames: null,
+    cwidths: null,
     gridInstance: null,
     domLayout: 'autoHeight',
     enableCellTextSelection: true,
@@ -34,7 +36,9 @@ dmx.Component('ag-grid', {
     fixedHeader: false,
     topbarClass: null,
     fixedHeaderOffset: 100,
-    fixedTopOffset: 80
+    fixedTopOffset: 80,
+    fixedHorizonatalScroll: false,
+    timezone: null
   },
 
   attributes: {
@@ -53,6 +57,8 @@ dmx.Component('ag-grid', {
       type: Object,
       default: {}
     },
+    cnames: { type: Object, default: {} },
+    cwidths: { type: Object, default: {} },
     data: {
       type: Array,
       default: []
@@ -173,7 +179,9 @@ dmx.Component('ag-grid', {
     fixedTopOffset: {
       type: Number,
       default: 80
-    }
+    },
+    fixedHorizonatalScroll: { type: Boolean, default: false },
+    timezone: {type: Text, default: '' }
   },
 
   methods: {
@@ -190,7 +198,8 @@ dmx.Component('ag-grid', {
     const fixedHeader = this.props.fixedHeader;
     const fixedHeaderOffset = this.props.fixedHeaderOffset;
     const topbarClass = this.props.topbarClass;
-    const fixedTopOffset = this.props.fixedTopOffset
+    const fixedTopOffset = this.props.fixedTopOffset;
+    const timezone = this.props.timezone || false;
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
     if (!rowData || rowData.length === 0) {
@@ -238,9 +247,9 @@ dmx.Component('ag-grid', {
             hour: 'numeric',
             minute: 'numeric',
             hour12: true,
-            timeZone: 'UTC'
+            timeZone: timezone
           };
-          return date.toLocaleString('en-GB', options).toUpperCase();
+          return date.toLocaleString('en-IN', options).toUpperCase();
         } else {
           const options = {
             day: '2-digit',
@@ -250,7 +259,7 @@ dmx.Component('ag-grid', {
             minute: 'numeric',
             hour12: true
           };
-          return date.toLocaleString('en-GB', options).toUpperCase();
+          return date.toLocaleString('en-IN', options).toUpperCase();
         }
       }
     }
@@ -280,7 +289,6 @@ dmx.Component('ag-grid', {
         return 'text';
       }
     }
-    console.log(this.props.cstyles)
     if (Array.isArray(this.props.column_defs) && this.props.column_defs.length > 0) {
       columnDefs = this.props.column_defs;
     } else {
@@ -314,7 +322,7 @@ dmx.Component('ag-grid', {
           }
         } else if (dataType === 'date') {
           filter = 'agDateColumnFilter';
-          valueFormatter = (params) => formatTime(params, false);
+          valueFormatter = (params) => formatTime(params, timezone);
         } else {
           filter = 'agTextColumnFilter';
           valueFormatter = blankOrNullValueFormatter;
@@ -373,14 +381,28 @@ const cstyles = this.props.cstyles
   }
   return null;
 }
+        cnames = this.props.cnames
+        cwidths = this.props.cwidths
+        if (cnames.hasOwnProperty(key)) {
+        console.log(key)
+        const cname = cnames[key]
+        headerName = cname ? cname.custom_name : humanize(key);
+        }
+        else {
+          headerName = humanize(key);
+        }
         return {
-          headerName: humanize(key),
+          headerName: headerName,
           field: key,
           filter: filter,
           valueFormatter: valueFormatter,
           valueGetter: valueGetter,
           filterValueGetter: filterValueGetter,
-          cellStyle: applyCellStyle
+          cellStyle: applyCellStyle,
+          ...(cwidths.hasOwnProperty(key) && {
+            minWidth: parseInt(cwidths[key].min_width),
+            maxWidth: parseInt(cwidths[key].max_width),
+          }),
         };
       });
     }
