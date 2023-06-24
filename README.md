@@ -7,3 +7,5 @@ This Custom Module provides the below features:
 5. Export to CSV button
 6. Sticky header options
 7. Custom Styles (Column Data)
+8. Custom Header Names
+9. Timezone setting for Date fields
