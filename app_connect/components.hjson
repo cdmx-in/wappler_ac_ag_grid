@@ -9,7 +9,7 @@
       "icon": "fa fa-lg fa-table",
       "state": "opened",
       "anyParent": true,
-      "template": "<dmx-ag-grid id=\"@@id@@-grid\">\n<div id=\"@@id@@\" class=\"col ag-theme-alpine\">\n</div>\n</dmx-ag-grid>",
+      "template": "<dmx-ag-grid id=\"@@id@@\"></dmx-ag-grid>",
       "baseName": "aggrid",
       "help": "AG Grid component for data display",
       "dataScheme": [
@@ -56,35 +56,6 @@
         {
           "group": "AG Grid Options",
           "variables": [
-            {
-              "name": "defaultColDef",
-              "attribute": "defaultColDef",
-              "title": "Default Column Definition",
-              "type": "object",
-              "defaultValue": {},
-              "help": "Default properties for all columns"
-            },
-            {
-              "name": "columnTypes",
-              "attribute": "columnTypes",
-              "title": "Column Types",
-              "type": "object",
-              "defaultValue": {},
-              "help": "Map of custom column types"
-            },
-            {
-              "name": "rowSelection",
-              "attribute": "rowSelection",
-              "title": "Row Selection",
-              "type": "string",
-              "defaultValue": "single",
-              "options": [
-                "single",
-                "multiple",
-                "none"
-              ],
-              "help": "Defines the row selection mode"
-            },
             {
               "name": "minWidth",
               "attribute": "minWidth",

@@ -160,6 +160,9 @@ dmx.Component('ag-grid', {
     const dataChanges = this.props.data_changes;
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
+
+
+    this.$node.innerHTML = `<div id=${gridId +'-grid'}></div>`
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
       return;
@@ -423,10 +426,9 @@ const cstyles = this.props.cstyles
       rowData: rowData,
       ...gridOptions
     };
-
     // Create ag-Grid instance
     new agGrid.Grid(gridDiv, gridConfig);
-    const gridElement = document.querySelector('.ag-theme-alpine');
+    const gridElement = document.getElementById(gridId+'-grid');
     const gridContainer = gridElement.parentNode;
 
     if (!gridContainer) {
@@ -486,13 +488,13 @@ const cstyles = this.props.cstyles
     'dmx-ag-grid-row-data-updated': Event
   },
 
-  render: function () {
-    // this.refreshGrid();
+  render: function(node) {
+    if (this.$node) {
+      this.$parse();
+    }
   },
 
   update: function (props) {
-    // dmx.equal is a helper function the does a deep compare
-    // which is useful when comparing arrays and objects
     if (!dmx.equal(this.props.data, props.data)) {
       this.refreshGrid();
     }
