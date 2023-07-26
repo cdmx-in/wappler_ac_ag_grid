@@ -355,7 +355,7 @@ const cstyles = this.props.cstyles
       localeText: this.props.localeText
     };
 
-    const gridDiv = document.querySelector('.ag-theme-alpine');
+    const gridDiv = document.getElementById(gridId+'-grid');
 
     if (!gridDiv) {
       console.error(`Grid container element with ID '${gridId}' not found.`);
