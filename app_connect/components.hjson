@@ -66,7 +66,7 @@
             },
             {
               "name": "resizable",
-              "attribute": "resizable",
+              "attribute": "dmx-bind:resizable",
               "title": "Resizable",
               "type": "boolean",
               "defaultValue": true,
@@ -74,7 +74,7 @@
             },
             {
               "name": "sortable",
-              "attribute": "sortable",
+              "attribute": "dmx-bind:sortable",
               "title": "Sortable",
               "type": "boolean",
               "defaultValue": true,
@@ -82,7 +82,7 @@
             },
             {
               "name": "filter",
-              "attribute": "filter",
+              "attribute": "dmx-bind:filter",
               "title": "Filter",
               "type": "boolean",
               "defaultValue": true,
@@ -90,7 +90,7 @@
             },
             {
               "name": "floatingFilter",
-              "attribute": "floatingFilter",
+              "attribute": "dmx-bind:floatingFilter",
               "title": "Floating Filter",
               "type": "boolean",
               "defaultValue": true,
@@ -98,7 +98,7 @@
             },
             {
               "name": "exportToCSV",
-              "attribute": "exportToCSV",
+              "attribute": "dmx-bind:exportToCSV",
               "title": "CSV Export",
               "type": "boolean",
               "defaultValue": true,
@@ -106,7 +106,7 @@
             },
             {
               "name": "columnHoverHighlight",
-              "attribute": "columnHoverHighlight",
+              "attribute": "dmx-bind:columnHoverHighlight",
               "title": "Column Hover Highlight",
               "type": "boolean",
               "defaultValue": true,
@@ -114,7 +114,7 @@
             },
             {
               "name": "suppressRowDeselection",
-              "attribute": "suppressRowDeselection",
+              "attribute": "dmx-bind:suppressRowDeselection",
               "title": "Supress Row Deselection",
               "type": "boolean",
               "defaultValue": true,
@@ -122,7 +122,7 @@
             },
             {
               "name": "pagination",
-              "attribute": "pagination",
+              "attribute": "dmx-bind:pagination",
               "title": "Pagination",
               "type": "boolean",
               "defaultValue": true,

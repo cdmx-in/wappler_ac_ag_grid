@@ -62,87 +62,31 @@ dmx.Component('ag-grid', {
     suppressRowClickSelection: { type: Boolean, default: false },
     suppressMenuHide: { type: Boolean, default: false },
     suppressMovableColumns: { type: Boolean, default: false },
-    enableCellExpressions: {
-      type: Boolean,
-      default: false
-    },
-    animateRows: {
-      type: Boolean,
-      default: false
-    },
-    suppressAggFuncInHeader: {
-      type: Boolean,
-      default: false
-    },
-    suppressAggAtRootLevel: {
-      type: Boolean,
-      default: false
-    },
-    suppressClipboardPaste: {
-      type: Boolean,
-      default: false
-    },
-    suppressScrollOnNewData: {
-      type: Boolean,
-      default: false
-    },
-    suppressPropertyNamesCheck: {
-      type: Boolean,
-      default: false
-    },
-    localeText: {
-      default: null
-    },
-    minWidth: {
-      type: Number,
-      default: 150
-    },
-    sortable: {
-      type: Boolean,
-      default: true
-    },
-    resizable: {
-      type: Boolean,
-      default: true
-    },
-    filter: {
-      type: Boolean,
-      default: true
-    },
-    floatingFilter: {
-      type: Boolean,
-      default: true
-    },
-    columnHoverHighlight: {
-      type: Boolean,
-      default: true
-    },
-    exportToCSV: {
-      type: Boolean,
-      default: true
-    },
-    fixedHeader: {
-      type: Boolean,
-      default: false
-    },
-    topbarClass: {
-      type: Text,
-      default: 'topbar'
-    },
-    fixedHeaderOffset: {
-      type: Number,
-      default: 100
-    },
-    fixedTopOffset: {
-      type: Number,
-      default: 80
-    },
+    enableCellExpressions: { type: Boolean, default: false },
+    animateRows: { type: Boolean, default: false },
+    suppressAggFuncInHeader: { type: Boolean, default: false },
+    suppressAggAtRootLevel: { type: Boolean, default: false },
+    suppressClipboardPaste: { type: Boolean, default: false },
+    suppressScrollOnNewData: { type: Boolean, default: false },
+    suppressPropertyNamesCheck: { type: Boolean, default: false },
+    localeText: { default: null }, 
+    minWidth: { type: Number, default: 150 },
+    sortable: { type: Boolean, default: true },
+    resizable: { type: Boolean, default: true },
+    filter: { type: Boolean, default: true },
+    floatingFilter: { type: Boolean, default: true },
+    columnHoverHighlight: { type: Boolean, default: true },
+    exportToCSV: { type: Boolean, default: true },
+    fixedHeader: { type: Boolean, default: false },
+    topbarClass: { type: Text, default: 'topbar' },
+    fixedHeaderOffset: { type: Number, default: 100 },
+    fixedTopOffset: { type: Number, default: 80 },
     fixedHorizonatalScroll: { type: Boolean, default: false },
     timezone: {type: Text, default: '' }
   },
 
   methods: {
-    setData: function (rowData, columnDefs) {
+    setValue: function (rowData, columnDefs) {
       this.set('rowData', rowData);
       this.set('columnDefs', columnDefs);
       this.refreshGrid();
