@@ -106,7 +106,7 @@ dmx.Component('ag-grid', {
     let exportToCSV = this.props.exportToCSV;
 
 
-    this.$node.innerHTML = `<div id=${gridId +'-grid'}></div>`
+    this.$node.innerHTML = `<div id=${gridId}-grid class="ag-theme-alpine"></div>`;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
       return;
