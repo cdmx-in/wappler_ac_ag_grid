@@ -115,16 +115,34 @@ dmx.Component('ag-grid', {
       console.error('No row data provided.');
       return;
     }
-    window.clickEvent = (columnName, value) => {
-      // this.set('fields', {"field": columnName, "data": value});
-      this.set('id', value);
+    function formatValue(value, key, dataType, timezone) {
+      params = {"value":value}
+      if (dataType === 'number') {
+        if (/(amount|amt)$/.test(key)) {
+          return Number(value).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+        } else {
+          return blankOrNullValueFormatter(params);
+        }
+      } else if (dataType === 'date') {
+        return formatTime(params, timezone);
+      } else {
+        return blankOrNullValueFormatter(params);
+      }
+    }
+    window.clickEvent = (columnName, value, idValue) => {
+      this.set('fields', {"field": columnName, "data": value});
+      this.set('id', idValue);
       this.dispatchEvent('row_clicked')
     };
     function clickCellRenderer(params) {
       const idValue = params.data.id;
-      const columnName = params.colDef.field; 
-      const value = params.value != null ? params.value.toString() : '-';
-      return `<div onclick="clickEvent('${columnName}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
+      const columnName = params.colDef.field;
+      const dataType = detectDataType([params.value]);
+      const value = formatValue(params.value, columnName, dataType, timezone);
+      return `<div onclick="clickEvent('${columnName}', '${value}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
     }
     
 

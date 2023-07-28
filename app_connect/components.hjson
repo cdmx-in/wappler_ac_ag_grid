@@ -17,6 +17,11 @@
           "name": "id",
           "title": "Id",
           "type": "number"
+        },
+        {
+          "name": "fields",
+          "title": "Fields",
+          "type": "object"
         }
       ],
       "outputType": "object",
@@ -746,7 +751,8 @@
       "groupIcon": "fa fa-lg fa-cubes",
       "defaultValue": false,
       "show": [
-        "rowClicked"
+        "rowClicked",
+        "rowMods"
       ],
       "noChangeOnHide": true,
       "type": "boolean",
