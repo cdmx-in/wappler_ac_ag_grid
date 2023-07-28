@@ -14,21 +14,13 @@
       "help": "AG Grid component for data display",
       "dataScheme": [
         {
-          "name": "data",
-          "title": "Data",
-          "type": "object"
+          "name": "id",
+          "title": "Id",
+          "type": "number"
         }
       ],
       "outputType": "object",
       "dataPick": true,
-      "outputType": "object",
-      "dataScheme": [
-        {
-          "name": "data",
-          "title": "Data",
-          "type": "object"
-        }
-      ],
       "properties": [
         {
           "group": "AG Grid Properties",
@@ -50,6 +42,20 @@
               "defaultValue": [],
               "required": true,
               "help": "Enter Data Source"
+            },
+            {
+              "name": "grid_theme",
+              "attribute": "grid_theme",
+              "title": "Theme",
+              "type": "droplist",
+              "defaultValue": 'ag-theme-alpine',
+              "values": [
+              {title: 'Alpine', value: 'ag-theme-alpine'},
+              {title: 'Balham', value: 'ag-theme-balham'},
+              {title: 'Material', value: 'ag-theme-material'},
+              {title: 'Base', value: 'ag-grid'}
+              ],
+              "help": "Select a theme for the grid"
             }
           ]
         },
@@ -194,7 +200,7 @@
             },
             {
               "name": "fixedHeader",
-              "attribute": "fixedHeader",
+              "attribute": "dmx-bind:fixedHeader",
               "title": "Sticky Header",
               "type": "boolean",
               "display": "fieldset",
@@ -254,7 +260,7 @@
             },
             {
               "name": "suppressRowClickSelection",
-              "attribute": "suppressRowClickSelection",
+              "attribute": "dmx-bind:suppressRowClickSelection",
               "title": "Suppress Row Click Selection",
               "type": "boolean",
               "defaultValue": false,
@@ -262,7 +268,7 @@
             },
             {
               "name": "suppressMenuHide",
-              "attribute": "suppressMenuHide",
+              "attribute": "dmx-bind:suppressMenuHide",
               "title": "Suppress Menu Hide",
               "type": "boolean",
               "defaultValue": false,
@@ -270,7 +276,7 @@
             },
             {
               "name": "suppressMovableColumns",
-              "attribute": "suppressMovableColumns",
+              "attribute": "dmx-bind:suppressMovableColumns",
               "title": "Suppress Movable Columns",
               "type": "boolean",
               "defaultValue": false,
@@ -278,7 +284,7 @@
             },
             {
               "name": "enableCellExpressions",
-              "attribute": "enableCellExpressions",
+              "attribute": "dmx-bind:enableCellExpressions",
               "title": "Enable Cell Expressions",
               "type": "boolean",
               "defaultValue": false,
@@ -286,7 +292,7 @@
             },
             {
               "name": "animateRows",
-              "attribute": "animateRows",
+              "attribute": "dmx-bind:animateRows",
               "title": "Animate Rows",
               "type": "boolean",
               "defaultValue": false,
@@ -294,7 +300,7 @@
             },
             {
               "name": "suppressAggFuncInHeader",
-              "attribute": "suppressAggFuncInHeader",
+              "attribute": "dmx-bind:suppressAggFuncInHeader",
               "title": "Suppress Aggregation Function in Header",
               "type": "boolean",
               "defaultValue": false,
@@ -302,7 +308,7 @@
             },
             {
               "name": "suppressAggAtRootLevel",
-              "attribute": "suppressAggAtRootLevel",
+              "attribute": "dmx-bind:suppressAggAtRootLevel",
               "title": "Suppress Aggregation at Root Level",
               "type": "boolean",
               "defaultValue": false,
@@ -310,7 +316,7 @@
             },
             {
               "name": "suppressClipboardPaste",
-              "attribute": "suppressClipboardPaste",
+              "attribute": "dmx-bind:suppressClipboardPaste",
               "title": "Suppress Clipboard Paste",
               "type": "boolean",
               "defaultValue": false,
@@ -318,7 +324,7 @@
             },
             {
               "name": "suppressScrollOnNewData",
-              "attribute": "suppressScrollOnNewData",
+              "attribute": "dmx-bind:suppressScrollOnNewData",
               "title": "Suppress Scroll on New Data",
               "type": "boolean",
               "defaultValue": false,
@@ -326,7 +332,7 @@
             },
             {
               "name": "suppressPropertyNamesCheck",
-              "attribute": "suppressPropertyNamesCheck",
+              "attribute": "dmx-bind:suppressPropertyNamesCheck",
               "title": "Suppress Property Names Check",
               "type": "boolean",
               "defaultValue": false,
@@ -339,6 +345,14 @@
               "type": "object",
               "defaultValue": {},
               "help": "Localization strings for the grid"
+            },
+            {
+              "name": "rowClickEvent",
+              "attribute": "dmx-bind:row_click_event",
+              "title": "Row Click Events",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "This enabled row click en=vents whcihc can then be used in Dynamic events => Grid Events => Row Clicked"
             }
           ]
         },
@@ -621,7 +635,17 @@
         }
 
       ],
-      "actionsScheme": [],
+      actionsScheme: [
+        {
+          addTitle: 'Reload Grid',
+          title : 'Reload Grid',
+          name : 'reloadGrid',
+          icon : 'fa fa-lg fa-play',
+          state : 'opened',
+          help: 'Reload the AG Grid',
+          properties : []
+        },
+      ],
       "children": [],
       "allowed_children": {},
       "copyFiles": [
@@ -632,6 +656,14 @@
         {
           "src": "ag-theme-alpine.css",
           "dst": "css/ag-theme-alpine.css"
+        },
+        {
+          "src": "ag-theme-balham.css",
+          "dst": "css/ag-theme-balham.css"
+        },
+        {
+          "src": "ag-theme-material.css",
+          "dst": "css/ag-theme-material.css"
         },
         {
           "src": "dmx-ag-grid.js",
@@ -651,6 +683,14 @@
         },
         {
           "src": "css/ag-theme-alpine.css",
+          "type": "css"
+        },
+        {
+          "src": "css/ag-theme-balham.css",
+          "type": "css"
+        },
+        {
+          "src": "css/ag-theme-material.css",
           "type": "css"
         }
       ],
@@ -696,44 +736,33 @@
   ],
   "events": [
     {
-      "name": "dmx-ag-grid-row-data-updated",
+      "name": "dmx-ag-grid-row-clicked",
       "attributeStartsWith": "dmx-on",
+      "attribute": "row_clicked",
       "display": "fieldset",
-      "title": "Updated",
+      "title": "Row Clicked",
       "icon": "fa fa-lg fa-chevron-right",
       "groupTitle": "Grid Events",
       "groupIcon": "fa fa-lg fa-cubes",
       "defaultValue": false,
       "show": [
-        "updatedValue",
-        "updatedMods"
+        "rowClicked"
       ],
       "noChangeOnHide": true,
       "type": "boolean",
       "groupEnabler": true,
       "children": [
         {
-          "name": "updatedValue",
+          "name": "rowClicked",
           "attributeStartsWith": "dmx-on",
-          "attribute": "updated",
+          "attribute": "row_clicked",
           "isValue": true,
           "actionsPicker": true,
           "title": "Action:",
           "type": "text",
           "help": "Choose the action to execute.",
           "defaultValue": "",
-          "initDisplay": "none" //, required: true
-        },
-        {
-          "name": "updatedMods",
-          "attributeStartsWith": "dmx-on",
-          "attribute": "updated",
-          "isModifiers": true,
-          "title": "Modifiers:",
-          "type": "enum",
-          "defaultValue": "",
-          "initDisplay": "none",
-          "valuesType": "event_modifiers" //values: EVENT_MODIFIERS
+          "initDisplay": "none"
         }
       ],
       "allowedOn": {

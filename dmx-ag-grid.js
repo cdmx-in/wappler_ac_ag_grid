@@ -39,12 +39,14 @@ dmx.Component('ag-grid', {
     fixedHeaderOffset: 100,
     fixedTopOffset: 80,
     fixedHorizonatalScroll: false,
-    timezone: null
+    timezone: null,
+    fields: {}
   },
 
   attributes: {
     id: { default: null },
     rowData: { type: Array, default: [] },
+    grid_theme: { type: String, default: 'ag-theme-alpine' },
     column_defs: { type: Array, default: [] },
     cstyles: { type: Object, default: {} },
     cnames: { type: Object, default: {} },
@@ -82,7 +84,8 @@ dmx.Component('ag-grid', {
     fixedHeaderOffset: { type: Number, default: 100 },
     fixedTopOffset: { type: Number, default: 80 },
     fixedHorizonatalScroll: { type: Boolean, default: false },
-    timezone: {type: Text, default: '' }
+    timezone: {type: Text, default: '' },
+    row_click_event: {type: Boolean, default: false }
   },
 
   methods: {
@@ -102,15 +105,28 @@ dmx.Component('ag-grid', {
     const fixedTopOffset = this.props.fixedTopOffset;
     const timezone = this.props.timezone || false;
     const dataChanges = this.props.data_changes;
+    const grid_theme = this.props.grid_theme;
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
 
 
-    this.$node.innerHTML = `<div id=${gridId}-grid class="ag-theme-alpine"></div>`;
+    this.$node.innerHTML = `<div id=${gridId}-grid class="${grid_theme}"></div>`;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
       return;
     }
+    window.clickEvent = (columnName, value) => {
+      // this.set('fields', {"field": columnName, "data": value});
+      this.set('id', value);
+      this.dispatchEvent('row_clicked')
+    };
+    function clickCellRenderer(params) {
+      const idValue = params.data.id;
+      const columnName = params.colDef.field; 
+      const value = params.value != null ? params.value.toString() : '-';
+      return `<div onclick="clickEvent('${columnName}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
+    }
+    
 
     function humanize(str) {
       if (str == null) return str;
@@ -301,6 +317,7 @@ const cstyles = this.props.cstyles
 }
         cnames = this.props.cnames
         cwidths = this.props.cwidths
+        enableClickEvent = this.props.row_click_event;
         if (cnames.hasOwnProperty(key)) {
         console.log(key)
         const cname = cnames[key]
@@ -321,6 +338,7 @@ const cstyles = this.props.cstyles
             minWidth: parseInt(cwidths[key].min_width),
             maxWidth: parseInt(cwidths[key].max_width),
           }),
+          cellRenderer: enableClickEvent ? 'clickCellRenderer' : undefined
         };
       });
     }
@@ -352,7 +370,10 @@ const cstyles = this.props.cstyles
       suppressClipboardPaste: this.props.suppressClipboardPaste,
       suppressScrollOnNewData: this.props.suppressScrollOnNewData,
       suppressPropertyNamesCheck: this.props.suppressPropertyNamesCheck,
-      localeText: this.props.localeText
+      localeText: this.props.localeText,
+      components: {
+        clickCellRenderer: clickCellRenderer
+      }
     };
 
     const gridDiv = document.getElementById(gridId+'-grid');
@@ -429,17 +450,23 @@ const cstyles = this.props.cstyles
   },
 
   events: {
-    'dmx-ag-grid-row-data-updated': Event
+    row_clicked: Event
   },
 
   render: function(node) {
     if (this.$node) {
+      
       this.$parse();
     }
   },
 
   update: function (props) {
     if (!dmx.equal(this.props.data, props.data)) {
+      this.set("id", {
+        status: 0,
+        message: 'tedt',
+        response: null
+    })
       this.refreshGrid();
     }
   },

@@ -11,3 +11,5 @@ This Custom Module provides the below features:
 9. Custom min and max widths
 10. Timezone setting for Date fields
 11. Data Manipulation
+12. Theme selection
+13. Row Click Event Handling
