@@ -1,4 +1,5 @@
-﻿# wappler_ag_grid
+﻿Maintained by: Roney Dsilva
+
 This Custom Module provides the below features:
 1. Generates AG-Grid given a Data Source
 2. Automatically sets the Filter types and Date formats
@@ -13,3 +14,5 @@ This Custom Module provides the below features:
 11. Data Manipulation
 12. Theme selection
 13. Row Click Event Handling
+14. Options to enable checkboxes for IDs for bulk select Operations
+15. Options to enable Toggle Sliders for status fields
