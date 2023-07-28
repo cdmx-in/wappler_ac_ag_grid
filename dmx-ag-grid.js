@@ -85,7 +85,10 @@ dmx.Component('ag-grid', {
     fixedTopOffset: { type: Number, default: 80 },
     fixedHorizonatalScroll: { type: Boolean, default: false },
     timezone: {type: Text, default: '' },
-    row_click_event: {type: Boolean, default: false }
+    row_click_event: {type: Boolean, default: false },
+    row_checkbox_event: {type: Boolean, default: false },
+    row_status_event: {type: Boolean, default: false }
+    
   },
 
   methods: {
@@ -106,6 +109,8 @@ dmx.Component('ag-grid', {
     const timezone = this.props.timezone || false;
     const dataChanges = this.props.data_changes;
     const grid_theme = this.props.grid_theme;
+    const enableCheckboxEvent = this.props.row_checkbox_event;
+    const enableStatusToggle = this.props.row_status_event;
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
 
@@ -128,7 +133,8 @@ dmx.Component('ag-grid', {
         }
       } else if (dataType === 'date') {
         return formatTime(params, timezone);
-      } else {
+      } 
+       else {
         return blankOrNullValueFormatter(params);
       }
     }
@@ -137,12 +143,77 @@ dmx.Component('ag-grid', {
       this.set('id', idValue);
       this.dispatchEvent('row_clicked')
     };
+    window.handleCheckboxClick = (event, columnName, value, idValue) => {
+      const isChecked = event.target.checked;
+      if (isChecked) {
+        // Code for when the checkbox is checked
+        this.set('id', idValue);
+        this.set('fields', {"field": columnName, "data": value});
+        this.dispatchEvent('row_checkbox_checked')
+      } else {
+        // Code for when the checkbox is unchecked
+        this.set('id', idValue);
+        this.set('fields', {"field": columnName, "data": value});
+        this.dispatchEvent('row_checkbox_unchecked')
+      }
+    };
+    window.handleStatusToggle = (event, columnName, value, idValue) => {
+      const isChecked = event.target.checked;
+      if (isChecked) {
+        // Code for when the checkbox is checked
+        this.set('id', idValue);
+        this.set('fields', {"field": columnName, "data": value});
+        this.dispatchEvent('row_status_checked')
+      } else {
+        // Code for when the checkbox is unchecked
+        this.set('id', idValue);
+        this.set('fields', {"field": columnName, "data": value});
+        this.dispatchEvent('row_status_unchecked')
+      }
+    };
     function clickCellRenderer(params) {
       const idValue = params.data.id;
       const columnName = params.colDef.field;
       const dataType = detectDataType([params.value]);
       const value = formatValue(params.value, columnName, dataType, timezone);
       return `<div onclick="clickEvent('${columnName}', '${value}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
+    }
+    function checkboxCellRenderer(params) {
+      const idValue = params.data.id;
+      const columnName = params.colDef.field;
+      const dataType = detectDataType([params.value]);
+      const value = formatValue(params.value, columnName, dataType, timezone);
+    
+      if (columnName === "id") {
+        return `
+          <input 
+            type="checkbox" 
+            onclick="handleCheckboxClick(event, '${columnName}', '${value}', '${idValue}')"
+          />
+        `;
+      } else if (columnName == "status" && enableStatusToggle) {
+        // Assuming `value` is a boolean representing the status
+        const checked = value==true ? "checked" : "";
+        return `
+          <label class="switch switch-success">
+            <input 
+              type="checkbox" class="switch-input"
+              ${checked}
+              onclick="handleStatusToggle(event, '${columnName}', '${value}', '${idValue}')"
+            />
+            <span class="switch-toggle-slider" role="status">
+            </span>
+            <span class="switch-on">
+                <i class="bx bx-check"></i>
+            </span>
+            <span class="switch-off">
+                <i class="bx bx-x"></i>
+            </span>
+        </label>
+        `;
+      } else {
+        return value;
+      }
     }
     
 
@@ -356,7 +427,7 @@ const cstyles = this.props.cstyles
             minWidth: parseInt(cwidths[key].min_width),
             maxWidth: parseInt(cwidths[key].max_width),
           }),
-          cellRenderer: enableClickEvent ? 'clickCellRenderer' : undefined
+          cellRenderer: enableClickEvent ? 'clickCellRenderer' : (enableCheckboxEvent ? 'checkboxCellRenderer' : undefined)
         };
       });
     }
@@ -390,7 +461,8 @@ const cstyles = this.props.cstyles
       suppressPropertyNamesCheck: this.props.suppressPropertyNamesCheck,
       localeText: this.props.localeText,
       components: {
-        clickCellRenderer: clickCellRenderer
+        clickCellRenderer: clickCellRenderer,
+        checkboxCellRenderer: checkboxCellRenderer
       }
     };
 
@@ -468,7 +540,11 @@ const cstyles = this.props.cstyles
   },
 
   events: {
-    row_clicked: Event
+    row_clicked: Event,
+    row_checkbox_checked: Event,
+    row_checkbox_unchecked: Event,
+    row_status_checked: Event,
+    row_status_unchecked: Event
   },
 
   render: function(node) {

@@ -357,7 +357,23 @@
               "title": "Row Click Events",
               "type": "boolean",
               "defaultValue": false,
-              "help": "This enabled row click en=vents whcihc can then be used in Dynamic events => Grid Events => Row Clicked"
+              "help": "This enabled row click events which can then be used in Dynamic events => Grid Events => Row Clicked"
+            },
+            {
+              "name": "rowCheckboxEvent",
+              "attribute": "dmx-bind:row_checkbox_event",
+              "title": "Row Checkbox Events",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "This enabled row checkbox events which can then be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked"
+            },
+            {
+              "name": "rowStatusEvent",
+              "attribute": "dmx-bind:row_status_event",
+              "title": "Row Status Events",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "This enabled row status events which can then be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked"
             }
           ]
         },
@@ -671,6 +687,10 @@
           "dst": "css/ag-theme-material.css"
         },
         {
+          "src": "switch-toggle-slider.css",
+          "dst": "css/switch-toggle-slider.css"
+        },
+        {
           "src": "dmx-ag-grid.js",
           "dst": "js/dmx-ag-grid.js"
         }
@@ -696,6 +716,10 @@
         },
         {
           "src": "css/ag-theme-material.css",
+          "type": "css"
+        },
+        {
+          "src": "css/switch-toggle-slider.css",
           "type": "css"
         }
       ],
@@ -751,8 +775,7 @@
       "groupIcon": "fa fa-lg fa-cubes",
       "defaultValue": false,
       "show": [
-        "rowClicked",
-        "rowMods"
+        "rowClicked"
       ],
       "noChangeOnHide": true,
       "type": "boolean",
@@ -762,6 +785,143 @@
           "name": "rowClicked",
           "attributeStartsWith": "dmx-on",
           "attribute": "row_clicked",
+          "isValue": true,
+          "actionsPicker": true,
+          "title": "Action:",
+          "type": "text",
+          "help": "Choose the action to execute.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-checkbox-checked",
+      "attributeStartsWith": "dmx-on",
+      "attribute": "row_checkbox_checked",
+      "display": "fieldset",
+      "title": "Checkbox Checked",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Events",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "rowCheckboxChecked"
+      ],
+      "noChangeOnHide": true,
+      "type": "boolean",
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "rowCheckboxChecked",
+          "attributeStartsWith": "dmx-on",
+          "attribute": "row_checkbox_checked",
+          "isValue": true,
+          "actionsPicker": true,
+          "title": "Action:",
+          "type": "text",
+          "help": "Choose the action to execute.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-checkbox-unchecked",
+      "attributeStartsWith": "dmx-on",
+      "attribute": "row_checkbox_unchecked",
+      "display": "fieldset",
+      "title": "Checkbox Unchecked",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Events",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "rowCheckboxUnchecked"
+      ],
+      "noChangeOnHide": true,
+      "type": "boolean",
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "rowCheckboxUnchecked",
+          "attributeStartsWith": "dmx-on",
+          "attribute": "row_checkbox_unchecked",
+          "isValue": true,
+          "actionsPicker": true,
+          "title": "Action:",
+          "type": "text",
+          "help": "Choose the action to execute.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    }
+    ,
+    {
+      "name": "dmx-ag-grid-status-checked",
+      "attributeStartsWith": "dmx-on",
+      "attribute": "row_status_checked",
+      "display": "fieldset",
+      "title": "Status Checked",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Events",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "rowStatusChecked"
+      ],
+      "noChangeOnHide": true,
+      "type": "boolean",
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "rowStatusChecked",
+          "attributeStartsWith": "dmx-on",
+          "attribute": "row_status_checked",
+          "isValue": true,
+          "actionsPicker": true,
+          "title": "Action:",
+          "type": "text",
+          "help": "Choose the action to execute.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-status-unchecked",
+      "attributeStartsWith": "dmx-on",
+      "attribute": "row_status_unchecked",
+      "display": "fieldset",
+      "title": "Status Unchecked",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Events",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "rowStatusUnchecked"
+      ],
+      "noChangeOnHide": true,
+      "type": "boolean",
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "rowStatusUnchecked",
+          "attributeStartsWith": "dmx-on",
+          "attribute": "row_status_unchecked",
           "isValue": true,
           "actionsPicker": true,
           "title": "Action:",

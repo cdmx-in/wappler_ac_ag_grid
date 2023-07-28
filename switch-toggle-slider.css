@@ -1,0 +1,345 @@
+.select-wrapper-status {
+    position: relative;
+}
+
+.select-wrapper-status i.fa {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.switch {
+    margin-right: 0.75rem;
+    position: relative;
+    vertical-align: middle;
+    margin-bottom: 0;
+    display: inline-block;
+    border-radius: 30rem;
+    min-height: 1.35rem;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+}
+
+.switch .switch-label:first-child {
+    padding-right: 0.5rem;
+}
+
+.switch .switch-input~.switch-label {
+    padding-left: 3rem;
+}
+
+.switch .switch-toggle-slider {
+    width: 2.5rem;
+    height: 1.35rem;
+    font-size: 0.625rem;
+    line-height: 1.35rem;
+    border: 1px solid transparent;
+    top: 0;
+}
+
+.switch .switch-toggle-slider i {
+    position: relative;
+    font-size: 0.9375rem;
+    top: -1.35px;
+}
+
+.switch .switch-label {
+    top: 0.01875rem;
+}
+
+.switch .switch-input:checked~.switch-toggle-slider::after {
+    left: 1.15rem;
+}
+
+.switch .switch-toggle-slider::after {
+    top: -1px;
+    margin: 0.25rem 0 0 0.25rem;
+    width: 13px;
+    height: 13px;
+}
+
+.switch .switch-on {
+    padding-left: 0.25rem;
+    padding-right: 1.1rem;
+}
+
+.switch .switch-off {
+    padding-left: 1.1rem;
+    padding-right: 0.25rem;
+}
+
+[dir=rtl] .switch .switch-label {
+    padding-right: 3rem;
+    padding-left: 0;
+}
+
+[dir=rtl] .switch .switch-input:checked~.switch-toggle-slider::after {
+    left: auto;
+    right: 1.15rem;
+}
+
+[dir=rtl] .switch .switch-toggle-slider::after {
+    margin-left: 0;
+    margin-right: 0.25rem;
+}
+
+[dir=rtl] .switch .switch-on {
+    padding-left: 1.1rem;
+    padding-right: 0.25rem;
+}
+
+[dir=rtl] .switch .switch-off {
+    padding-left: 0.25rem;
+    padding-right: 1.1rem;
+}
+
+[dir=rtl] .switch {
+    margin-left: 0.75rem;
+    margin-right: 0;
+}
+
+.switch-input {
+    opacity: 0;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    z-index: -1;
+}
+
+.switch-toggle-slider {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 30rem;
+    background: #e9ecee;
+    color: #677788;
+    -webkit-transition-duration: 0.2s;
+            transition-duration: 0.2s;
+    -webkit-transition-property: left, right, background, -webkit-box-shadow;
+    transition-property: left, right, background, -webkit-box-shadow;
+    transition-property: left, right, background, box-shadow;
+    transition-property: left, right, background, box-shadow, -webkit-box-shadow;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+        user-select: none;
+}
+
+.switch-label {
+    display: inline-block;
+    font-weight: 400;
+    color: #677788;
+    position: relative;
+    cursor: default;
+}
+
+.switch-off,
+.switch-on {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    -webkit-transition-duration: 0.2s;
+            transition-duration: 0.2s;
+    -webkit-transition-property: left, right;
+    transition-property: left, right;
+}
+
+.switch-on {
+    left: -100%;
+}
+
+[dir=rtl] .switch-on {
+    left: auto;
+    right: -100%;
+}
+
+.switch-input:not(:checked)~.switch-toggle-slider .switch-on {
+    color: transparent;
+}
+
+.switch-off {
+    left: 0;
+}
+
+[dir=rtl] .switch-off {
+    right: 0;
+    left: auto;
+}
+
+.switch-input:checked~.switch-toggle-slider .switch-on {
+    left: 0;
+}
+
+[dir=rtl] .switch-input:checked~.switch-toggle-slider .switch-on {
+    right: 0;
+    left: auto;
+}
+
+.switch-input:checked~.switch-toggle-slider .switch-off {
+    left: 100%;
+    color: transparent;
+}
+
+[dir=rtl] .switch-input:checked~.switch-toggle-slider .switch-off {
+    right: 100%;
+    left: auto;
+}
+
+.switch-toggle-slider::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    display: block;
+    border-radius: 999px;
+    background: #fff;
+    -webkit-box-shadow: -1px 2px 3px 0 rgba(0, 0, 0, 0.2);
+            box-shadow: -1px 2px 3px 0 rgba(0, 0, 0, 0.2);
+    -webkit-transition-duration: 0.2s;
+            transition-duration: 0.2s;
+    -webkit-transition-property: left, right, background;
+    transition-property: left, right, background;
+}
+
+[dir=rtl] .switch-toggle-slider::after {
+    right: 0;
+    left: auto;
+}
+
+.switches-stacked::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.switches-stacked .switch {
+    display: block;
+}
+
+html:not([dir=rtl]) .switches-stacked .switch {
+    margin-right: 0;
+}
+
+[dir=rtl] .switches-stacked .switch {
+    margin-left: 0;
+}
+
+.switches-stacked .switch:not(:last-child) {
+    margin-bottom: 0.75rem;
+}
+
+.switch-square,
+.switch-square .switch-toggle-slider {
+    border-radius: 0.25rem;
+}
+
+.switch-square .switch-toggle-slider::after {
+    border-radius: calc(0.25rem - 2px);
+}
+
+.switch-input:disabled~.switch-toggle-slider {
+    opacity: 0.65;
+}
+
+.switch-input:disabled~.switch-toggle-slider::after {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
+.switch-input:disabled~.switch-label {
+    color: #a8b1bb;
+}
+
+.switch-success.switch .switch-input:checked~.switch-toggle-slider {
+    background: #39da8a;
+    color: #fff;
+}
+
+.switch-success.switch .switch-input:active~.switch-toggle-slider {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
+.switch-success.switch .switch-input:focus~.switch-toggle-slider {
+    -webkit-box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+            box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+}
+
+.switch-info.switch .switch-input:checked~.switch-toggle-slider {
+    background: #00cfdd;
+    color: #fff;
+}
+
+.switch-info.switch .switch-input:active~.switch-toggle-slider {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
+.switch-info.switch .switch-input:focus~.switch-toggle-slider {
+    -webkit-box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+            box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+}
+
+.switch-warning.switch .switch-input:checked~.switch-toggle-slider {
+    background: #fdac41;
+    color: #fff;
+}
+
+.switch-warning.switch .switch-input:active~.switch-toggle-slider {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
+.switch-warning.switch .switch-input:focus~.switch-toggle-slider {
+    -webkit-box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+            box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+}
+
+.switch-danger.switch .switch-input:checked~.switch-toggle-slider {
+    background: #ff5b5c;
+    color: #fff;
+}
+
+.switch-danger.switch .switch-input:active~.switch-toggle-slider {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
+.switch-danger.switch .switch-input:focus~.switch-toggle-slider {
+    -webkit-box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+            box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+}
+
+.switch-dark.switch .switch-input:checked~.switch-toggle-slider {
+    background: #495563;
+    color: #fff;
+}
+
+.switch-dark.switch .switch-input:active~.switch-toggle-slider {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
+.switch-dark.switch .switch-input:focus~.switch-toggle-slider {
+    -webkit-box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+            box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+}
+
+.switch-gray.switch .switch-input:checked~.switch-toggle-slider {
+    background: rgba(38, 60, 85, 0.5);
+    color: #fff;
+}
+
+.switch-gray.switch .switch-input:active~.switch-toggle-slider {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
+.switch-gray.switch .switch-input:focus~.switch-toggle-slider {
+    -webkit-box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+            box-shadow: 0 0 0 0.12rem rgba(147, 158, 170, 0.3);
+}
+
+
+                                        
