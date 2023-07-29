@@ -55,7 +55,7 @@ dmx.Component('ag-grid', {
     data: { type: Array, default: [] },
     domLayout: { default: 'autoHeight' },
     enableCellTextSelection: { type: Boolean, default: true },
-    rowSelection: { type: Boolean, default: false },
+    rowSelection: { type: String, default: 'single' },
     suppressRowDeselection: { type: Boolean, default: false },
     pagination: { type: Boolean, default: true },
     paginationPageSize: { default: 20 },

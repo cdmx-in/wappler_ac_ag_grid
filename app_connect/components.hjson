@@ -153,6 +153,18 @@
               "help": "Number of rows to show per page"
             },
             {
+              "name": "rowSelection",
+              "attribute": "rowSelection",
+              "title": "Row Selection",
+              "type": "droplist",
+              "defaultValue": 'single',
+              "values": [
+              {title: 'Single', value: 'single'},
+              {title: 'Muliple', value: 'multiple'}
+              ],
+              "help": "Row Selection (single or multiple)"
+            },
+            {
               "name": "timezone",
               "attribute": "timezone",
               "title": "Timezone",
