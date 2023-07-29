@@ -357,23 +357,23 @@
               "title": "Row Click Events",
               "type": "boolean",
               "defaultValue": false,
-              "help": "This enabled row click events which can then be used in Dynamic events => Grid Events => Row Clicked"
+              "help": "This enables row click events which can then be used in Dynamic events => Grid Events => Row Clicked"
             },
             {
               "name": "rowCheckboxEvent",
               "attribute": "dmx-bind:row_checkbox_event",
-              "title": "Row Checkbox Events",
+              "title": "Enable Row Selection",
               "type": "boolean",
               "defaultValue": false,
-              "help": "This enabled row checkbox events which can then be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked"
+              "help": "This enables row selection which can then be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked"
             },
             {
               "name": "rowStatusEvent",
               "attribute": "dmx-bind:row_status_event",
-              "title": "Row Status Events",
+              "title": "Enable Row Status Toggle",
               "type": "boolean",
               "defaultValue": false,
-              "help": "This enabled row status events which can then be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked"
+              "help": "This enables row status events which can then be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked"
             }
           ]
         },
@@ -486,7 +486,6 @@
                     {
                       "field": "field",
                       "caption": "Field",
-                      "size": "10%",
                       "editable": {
                         "type": "text"
                       }
@@ -494,7 +493,6 @@
                     {
                       "field": "value",
                       "caption": "Value",
-                      "size": "10%",
                       "editable": {
                         "type": "text"
                       }
@@ -502,7 +500,6 @@
                     {
                       field: "new_value",
                       caption: "New Value",
-                      size: "10%",
                       editable: {
                         type: "text"
                       }

@@ -178,20 +178,26 @@ dmx.Component('ag-grid', {
       const value = formatValue(params.value, columnName, dataType, timezone);
       return `<div onclick="clickEvent('${columnName}', '${value}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
     }
+    function idCheckboxCellRenderer(params) {
+      const idValue = params.data.id;
+      const columnName = params.colDef.field;
+      const dataType = detectDataType([params.value]);
+      const value = formatValue(params.value, columnName, dataType, timezone);
+      return `
+          <input 
+            type="checkbox" 
+            onclick="handleCheckboxClick(event, '${columnName}', '${value}', '${idValue}')"
+          />
+        `;
+    }
+
     function checkboxCellRenderer(params) {
       const idValue = params.data.id;
       const columnName = params.colDef.field;
       const dataType = detectDataType([params.value]);
       const value = formatValue(params.value, columnName, dataType, timezone);
     
-      if (columnName === "id") {
-        return `
-          <input 
-            type="checkbox" 
-            onclick="handleCheckboxClick(event, '${columnName}', '${value}', '${idValue}')"
-          />
-        `;
-      } else if (columnName == "status" && enableStatusToggle) {
+      if (columnName == "status" && enableStatusToggle) {
         // Assuming `value` is a boolean representing the status
         const checked = value==true ? "checked" : "";
         return `
@@ -389,21 +395,20 @@ dmx.Component('ag-grid', {
               return false;
           }
         }
-const cstyles = this.props.cstyles
- // Check if custom color exists for the current field and condition
- function applyCellStyle(params) {
-  const field = params.colDef.field.toString();
-  if (cstyles.hasOwnProperty(field)) {
-    const condition = cstyles[field].condition;
-    const customColor = cstyles[field].customColor;
-    const [left, operator, right] = extractConditionParts(condition);
-    // Check if the field exists and its value is true
-    if (params.data.hasOwnProperty(field) && evaluateCondition(params.data[left], operator, right)) {
-      return { color: customColor };
-    }
-  }
-  return null;
-}
+        const cstyles = this.props.cstyles
+        // Check if custom color exists for the current field and condition
+        function applyCellStyle(params) {
+            const field = params.colDef.field.toString();
+            if (cstyles.hasOwnProperty(field)) {
+              const condition = cstyles[field].condition;
+              const customColor = cstyles[field].customColor;
+              const [left, operator, right] = extractConditionParts(condition);
+              if (params.data.hasOwnProperty(field) && evaluateCondition(params.data[left], operator, right)) {
+                return { color: customColor };
+              }
+            }
+            return null;
+          }
         cnames = this.props.cnames
         cwidths = this.props.cwidths
         enableClickEvent = this.props.row_click_event;
@@ -427,10 +432,26 @@ const cstyles = this.props.cstyles
             minWidth: parseInt(cwidths[key].min_width),
             maxWidth: parseInt(cwidths[key].max_width),
           }),
-          cellRenderer: enableClickEvent ? 'clickCellRenderer' : (enableCheckboxEvent ? 'checkboxCellRenderer' : undefined)
+          cellRenderer: enableClickEvent ? 'clickCellRenderer' : (enableStatusToggle ? 'checkboxCellRenderer' : undefined)
         };
       });
     }
+    let checkboxColumn;
+    if (enableCheckboxEvent) {
+        // Duplicate the column for 'id'
+        checkboxColumn = {
+          headerName: '',
+          field: 'id', 
+          filter: '',
+          cellRenderer: 'idCheckboxCellRenderer',
+          resizable: false,
+          width: 50,
+          maxWidth: 50, 
+          suppressMenu: true,
+      };
+      columnDefs.unshift(checkboxColumn);
+    }
+    
     const gridOptions = {
       columnDefs: columnDefs,
       defaultColDef: {
@@ -462,7 +483,8 @@ const cstyles = this.props.cstyles
       localeText: this.props.localeText,
       components: {
         clickCellRenderer: clickCellRenderer,
-        checkboxCellRenderer: checkboxCellRenderer
+        checkboxCellRenderer: checkboxCellRenderer,
+        idCheckboxCellRenderer: idCheckboxCellRenderer
       }
     };
 
