@@ -163,12 +163,12 @@ dmx.Component('ag-grid', {
         // Code for when the checkbox is checked
         this.set('id', idValue);
         this.set('fields', {"field": columnName, "data": value});
-        this.dispatchEvent('row_status_checked')
+        this.dispatchEvent('row_status_enabled')
       } else {
         // Code for when the checkbox is unchecked
         this.set('id', idValue);
         this.set('fields', {"field": columnName, "data": value});
-        this.dispatchEvent('row_status_unchecked')
+        this.dispatchEvent('row_status_disabled')
       }
     };
     function clickCellRenderer(params) {
@@ -543,8 +543,8 @@ const cstyles = this.props.cstyles
     row_clicked: Event,
     row_checkbox_checked: Event,
     row_checkbox_unchecked: Event,
-    row_status_checked: Event,
-    row_status_unchecked: Event
+    row_status_enabled: Event,
+    row_status_disabled: Event
   },
 
   render: function(node) {

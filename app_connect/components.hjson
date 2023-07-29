@@ -870,7 +870,7 @@
     {
       "name": "dmx-ag-grid-status-checked",
       "attributeStartsWith": "dmx-on",
-      "attribute": "row_status_checked",
+      "attribute": "row_status_enabled",
       "display": "fieldset",
       "title": "Status Enabled",
       "icon": "fa fa-lg fa-chevron-right",
@@ -887,7 +887,7 @@
         {
           "name": "rowStatusChecked",
           "attributeStartsWith": "dmx-on",
-          "attribute": "row_status_checked",
+          "attribute": "row_status_enabled",
           "isValue": true,
           "actionsPicker": true,
           "title": "Action:",
@@ -904,7 +904,7 @@
     {
       "name": "dmx-ag-grid-status-unchecked",
       "attributeStartsWith": "dmx-on",
-      "attribute": "row_status_unchecked",
+      "attribute": "row_status_disabled",
       "display": "fieldset",
       "title": "Status Disabled",
       "icon": "fa fa-lg fa-chevron-right",
@@ -921,7 +921,7 @@
         {
           "name": "rowStatusUnchecked",
           "attributeStartsWith": "dmx-on",
-          "attribute": "row_status_unchecked",
+          "attribute": "row_status_disabled",
           "isValue": true,
           "actionsPicker": true,
           "title": "Action:",
