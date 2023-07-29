@@ -144,20 +144,6 @@ dmx.Component('ag-grid', {
       this.set('id', idValue);
       this.dispatchEvent('cell_clicked')
     };
-    window.handleCheckboxClick = (event, columnName, value, idValue) => {
-      const isChecked = event.target.checked;
-      if (isChecked) {
-        // Code for when the checkbox is checked
-        this.set('id', idValue);
-        this.set('fields', {"field": columnName, "data": value});
-        this.dispatchEvent('row_checkbox_checked')
-      } else {
-        // Code for when the checkbox is unchecked
-        this.set('id', idValue);
-        this.set('fields', {"field": columnName, "data": value});
-        this.dispatchEvent('row_checkbox_unchecked')
-      }
-    };
     window.handleStatusToggle = (event, columnName, value, idValue) => {
       const isChecked = event.target.checked;
       if (isChecked) {
@@ -178,18 +164,6 @@ dmx.Component('ag-grid', {
       const dataType = detectDataType([params.value]);
       const value = formatValue(params.value, columnName, dataType, timezone);
       return `<div onclick="cellClickEvent('${columnName}', '${value}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
-    }
-    function idCheckboxCellRenderer(params) {
-      const idValue = params.data.id;
-      const columnName = params.colDef.field;
-      const dataType = detectDataType([params.value]);
-      const value = formatValue(params.value, columnName, dataType, timezone);
-      return `
-          <input 
-            type="checkbox" 
-            onclick="handleCheckboxClick(event, '${columnName}', '${value}', '${idValue}')"
-          />
-        `;
     }
 
     function checkboxCellRenderer(params) {
@@ -438,30 +412,13 @@ dmx.Component('ag-grid', {
         };
       });
     }
-    let checkboxColumn;
-    function headerCheckbox(params) {
-      const eHeaderCheckbox = document.createElement('input');
-      eHeaderCheckbox.type = 'checkbox';
-      eHeaderCheckbox.addEventListener('change', () => {
-        const columnName = params.colDef.field;
-        const value = params.value;
-    
-        params.api.forEachNode((node) => {
-          if (node.rowPinned) return; // Skip pinned rows
-          if (node.visible) {
-            const idValue = node.data.id;
-            cellClickEvent(columnName, value, idValue);
-            node.setSelected(eHeaderCheckbox.checked);
-          }
-        });
-      });
-    
-      const eLabel = document.createElement('label');
-      eLabel.appendChild(eHeaderCheckbox);
-      eLabel.appendChild(document.createTextNode('Select All'));
-    
-      return eLabel;
+    window.onRowClicked = (event) => {
+      const rowData = event.data;
+      this.set('data', rowData);
+      this.set('id', rowData.id);
+      this.dispatchEvent('row_clicked')
     }
+    let checkboxColumn;
     if (enableCheckboxEvent) {
         checkboxColumn = {
           headerCheckboxSelection: true,
@@ -469,20 +426,14 @@ dmx.Component('ag-grid', {
           headerName: '',
           field: 'id', 
           filter: '',
-          cellRenderer: 'idCheckboxCellRenderer',
+          checkboxSelection: true,
+          showDisabledCheckboxes: true,
           resizable: false,
           width: 50,
           maxWidth: 50, 
-          suppressMenu: true,
-          // headerComponent: 'headerCheckbox'
+          suppressMenu: true
       };
       columnDefs.unshift(checkboxColumn);
-    }
-    window.onRowClicked = (event) => {
-      const rowData = event.data;
-      this.set('data', rowData);
-      this.set('id', rowData.id);
-      this.dispatchEvent('row_clicked')
     }
     
     const gridOptions = {
@@ -518,13 +469,12 @@ dmx.Component('ag-grid', {
       localeText: this.props.localeText,
       components: {
         clickCellRenderer: clickCellRenderer,
-        checkboxCellRenderer: checkboxCellRenderer,
-        idCheckboxCellRenderer: idCheckboxCellRenderer,
-        headerCheckbox: headerCheckbox
+        checkboxCellRenderer: checkboxCellRenderer
       }
     };
 
     const gridDiv = document.getElementById(gridId+'-grid');
+    
 
     if (!gridDiv) {
       console.error(`Grid container element with ID '${gridId}' not found.`);
@@ -543,7 +493,20 @@ dmx.Component('ag-grid', {
     new agGrid.Grid(gridDiv, gridConfig);
     const gridElement = document.getElementById(gridId+'-grid');
     const gridContainer = gridElement.parentNode;
-
+    // Add an event listener to the grid
+    gridConfig.api.addEventListener('rowSelected', (event) => {
+      if (event.node && event.node.isSelected()) {
+        const rowData = event.node.data;
+        this.set('data', rowData);
+        this.set('id', rowData.id);
+        this.dispatchEvent('row_checkbox_checked');
+      } else {
+        const rowData = event.node.data;
+        this.set('data', rowData);
+        this.set('id', rowData.id);
+        this.dispatchEvent('row_checkbox_unchecked');
+      }
+    });
     if (!gridContainer) {
       console.error('Grid container not found.');
       return;
@@ -599,15 +562,15 @@ dmx.Component('ag-grid', {
 
   events: {
     row_clicked: Event,
+    cell_clicked: Event,
     row_checkbox_checked: Event,
     row_checkbox_unchecked: Event,
     row_status_enabled: Event,
-    row_status_disabled: Event
+    row_status_disabled: Event,
   },
 
   render: function(node) {
     if (this.$node) {
-      
       this.$parse();
     }
   },
