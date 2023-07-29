@@ -493,6 +493,8 @@ dmx.Component('ag-grid', {
       suppressClipboardPaste: this.props.suppressClipboardPaste,
       suppressScrollOnNewData: this.props.suppressScrollOnNewData,
       suppressPropertyNamesCheck: this.props.suppressPropertyNamesCheck,
+      suppressRowDeselection: this.props.suppressRowDeselection,
+      columnHoverHighlight: this.props.columnHoverHighlight,
       localeText: this.props.localeText,
       components: {
         clickCellRenderer: clickCellRenderer,

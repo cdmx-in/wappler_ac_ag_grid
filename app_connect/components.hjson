@@ -133,7 +133,7 @@
               "attribute": "dmx-bind:suppressRowDeselection",
               "title": "Supress Row Deselection",
               "type": "boolean",
-              "defaultValue": true,
+              "defaultValue": false,
               "help": "Specifies if rows can be deselected"
             },
             {
