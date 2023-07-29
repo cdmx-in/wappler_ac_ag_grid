@@ -1,7 +1,8 @@
 dmx.Component('ag-grid', {
   initialData: {
     id: null,
-    rowData: [],
+    data: {},
+    fields: {},
     column_defs: [],
     cstyles: null,
     cnames: null,
@@ -39,8 +40,7 @@ dmx.Component('ag-grid', {
     fixedHeaderOffset: 100,
     fixedTopOffset: 80,
     fixedHorizonatalScroll: false,
-    timezone: null,
-    fields: {}
+    timezone: null
   },
 
   attributes: {
@@ -85,6 +85,7 @@ dmx.Component('ag-grid', {
     fixedTopOffset: { type: Number, default: 80 },
     fixedHorizonatalScroll: { type: Boolean, default: false },
     timezone: {type: Text, default: '' },
+    cell_click_event: {type: Boolean, default: false },
     row_click_event: {type: Boolean, default: false },
     row_checkbox_event: {type: Boolean, default: false },
     row_status_event: {type: Boolean, default: false }
@@ -138,10 +139,10 @@ dmx.Component('ag-grid', {
         return blankOrNullValueFormatter(params);
       }
     }
-    window.clickEvent = (columnName, value, idValue) => {
+    window.cellClickEvent = (columnName, value, idValue) => {
       this.set('fields', {"field": columnName, "data": value});
       this.set('id', idValue);
-      this.dispatchEvent('row_clicked')
+      this.dispatchEvent('cell_clicked')
     };
     window.handleCheckboxClick = (event, columnName, value, idValue) => {
       const isChecked = event.target.checked;
@@ -176,7 +177,7 @@ dmx.Component('ag-grid', {
       const columnName = params.colDef.field;
       const dataType = detectDataType([params.value]);
       const value = formatValue(params.value, columnName, dataType, timezone);
-      return `<div onclick="clickEvent('${columnName}', '${value}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
+      return `<div onclick="cellClickEvent('${columnName}', '${value}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
     }
     function idCheckboxCellRenderer(params) {
       const idValue = params.data.id;
@@ -411,7 +412,8 @@ dmx.Component('ag-grid', {
           }
         cnames = this.props.cnames
         cwidths = this.props.cwidths
-        enableClickEvent = this.props.row_click_event;
+        enableRowClickEvent = this.props.row_click_event;
+        enableCellClickEvent = this.props.cell_click_event;
         if (cnames.hasOwnProperty(key)) {
         console.log(key)
         const cname = cnames[key]
@@ -432,14 +434,38 @@ dmx.Component('ag-grid', {
             minWidth: parseInt(cwidths[key].min_width),
             maxWidth: parseInt(cwidths[key].max_width),
           }),
-          cellRenderer: enableClickEvent ? 'clickCellRenderer' : (enableStatusToggle ? 'checkboxCellRenderer' : undefined)
+          cellRenderer: enableCellClickEvent ? 'clickCellRenderer' : (enableStatusToggle ? 'checkboxCellRenderer' : undefined)
         };
       });
     }
     let checkboxColumn;
+    function headerCheckbox(params) {
+      const eHeaderCheckbox = document.createElement('input');
+      eHeaderCheckbox.type = 'checkbox';
+      eHeaderCheckbox.addEventListener('change', () => {
+        const columnName = params.colDef.field;
+        const value = params.value;
+    
+        params.api.forEachNode((node) => {
+          if (node.rowPinned) return; // Skip pinned rows
+          if (node.visible) {
+            const idValue = node.data.id;
+            cellClickEvent(columnName, value, idValue);
+            node.setSelected(eHeaderCheckbox.checked);
+          }
+        });
+      });
+    
+      const eLabel = document.createElement('label');
+      eLabel.appendChild(eHeaderCheckbox);
+      eLabel.appendChild(document.createTextNode('Select All'));
+    
+      return eLabel;
+    }
     if (enableCheckboxEvent) {
-        // Duplicate the column for 'id'
         checkboxColumn = {
+          headerCheckboxSelection: true,
+          headerCheckboxSelectionFilteredOnly: false,
           headerName: '',
           field: 'id', 
           filter: '',
@@ -448,12 +474,21 @@ dmx.Component('ag-grid', {
           width: 50,
           maxWidth: 50, 
           suppressMenu: true,
+          // headerComponent: 'headerCheckbox'
       };
       columnDefs.unshift(checkboxColumn);
+    }
+    window.onRowClicked = (event) => {
+      const rowData = event.data;
+      this.set('data', rowData);
+      this.set('id', rowData.id);
+      this.dispatchEvent('row_clicked')
     }
     
     const gridOptions = {
       columnDefs: columnDefs,
+      onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
+      rowStyle: enableRowClickEvent ? { cursor: 'pointer' } : undefined,
       defaultColDef: {
         flex: 1,
         minWidth: this.props.minWidth,
@@ -484,7 +519,8 @@ dmx.Component('ag-grid', {
       components: {
         clickCellRenderer: clickCellRenderer,
         checkboxCellRenderer: checkboxCellRenderer,
-        idCheckboxCellRenderer: idCheckboxCellRenderer
+        idCheckboxCellRenderer: idCheckboxCellRenderer,
+        headerCheckbox: headerCheckbox
       }
     };
 

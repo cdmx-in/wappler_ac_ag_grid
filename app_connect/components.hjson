@@ -19,6 +19,11 @@
           "type": "number"
         },
         {
+          "name": "data",
+          "title": "Data",
+          "type": "object"
+        }
+        {
           "name": "fields",
           "title": "Fields",
           "type": "object"
@@ -357,7 +362,7 @@
               "title": "Row Click Events",
               "type": "boolean",
               "defaultValue": false,
-              "help": "This enables row click events which can then be used in Dynamic events => Grid Events => Row Clicked"
+              "help": "This enabled row click events which can then be used in Dynamic events => Grid Events => Row Clicked"
             },
             {
               "name": "rowCheckboxEvent",
@@ -373,7 +378,7 @@
               "title": "Enable Row Status Toggle",
               "type": "boolean",
               "defaultValue": false,
-              "help": "This enables row status events which can then be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked"
+              "help": "This enabled row status events which can then be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked"
             }
           ]
         },
