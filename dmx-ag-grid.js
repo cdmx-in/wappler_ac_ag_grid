@@ -115,30 +115,11 @@ dmx.Component('ag-grid', {
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
 
-
     this.$node.innerHTML = `<div id=${gridId}-grid class="${grid_theme}"></div>`;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
       return;
     }
-    // function formatValue(value, key, dataType, timezone) {
-    //   params = {"value":value}
-    //   if (dataType === 'number') {
-    //     if (/(amount|amt)$/.test(key)) {
-    //       return Number(value).toLocaleString("en-US", {
-    //         minimumFractionDigits: 2,
-    //         maximumFractionDigits: 2,
-    //       });
-    //     } else {
-    //       return blankOrNullValueFormatter(params);
-    //     }
-    //   } else if (dataType === 'date') {
-    //     return formatTime(params, timezone);
-    //   } 
-    //    else {
-    //     return blankOrNullValueFormatter(params);
-    //   }
-    // }
     window.cellClickEvent = (columnName, value, idValue) => {
       this.set('fields', {"field": columnName, "data": value});
       this.set('id', idValue);
@@ -606,11 +587,6 @@ dmx.Component('ag-grid', {
 
   update: function (props) {
     if (!dmx.equal(this.props.data, props.data)) {
-      this.set("id", {
-        status: 0,
-        message: 'tedt',
-        response: null
-    })
       this.refreshGrid();
     }
   },
