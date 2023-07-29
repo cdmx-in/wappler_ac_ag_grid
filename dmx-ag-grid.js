@@ -121,24 +121,24 @@ dmx.Component('ag-grid', {
       console.error('No row data provided.');
       return;
     }
-    function formatValue(value, key, dataType, timezone) {
-      params = {"value":value}
-      if (dataType === 'number') {
-        if (/(amount|amt)$/.test(key)) {
-          return Number(value).toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          });
-        } else {
-          return blankOrNullValueFormatter(params);
-        }
-      } else if (dataType === 'date') {
-        return formatTime(params, timezone);
-      } 
-       else {
-        return blankOrNullValueFormatter(params);
-      }
-    }
+    // function formatValue(value, key, dataType, timezone) {
+    //   params = {"value":value}
+    //   if (dataType === 'number') {
+    //     if (/(amount|amt)$/.test(key)) {
+    //       return Number(value).toLocaleString("en-US", {
+    //         minimumFractionDigits: 2,
+    //         maximumFractionDigits: 2,
+    //       });
+    //     } else {
+    //       return blankOrNullValueFormatter(params);
+    //     }
+    //   } else if (dataType === 'date') {
+    //     return formatTime(params, timezone);
+    //   } 
+    //    else {
+    //     return blankOrNullValueFormatter(params);
+    //   }
+    // }
     window.cellClickEvent = (columnName, value, idValue) => {
       this.set('fields', {"field": columnName, "data": value});
       this.set('id', idValue);
@@ -169,10 +169,7 @@ dmx.Component('ag-grid', {
     function checkboxCellRenderer(params) {
       const idValue = params.data.id;
       const columnName = params.colDef.field;
-      const dataType = detectDataType([params.value]);
-      const value = formatValue(params.value, columnName, dataType, timezone);
-    
-      if (columnName == "status" && enableStatusToggle) {
+      const value = params.value;
         // Assuming `value` is a boolean representing the status
         const checked = value==true ? "checked" : "";
         return `
@@ -192,9 +189,6 @@ dmx.Component('ag-grid', {
             </span>
         </label>
         `;
-      } else {
-        return value;
-      }
     }
     
 
@@ -254,6 +248,25 @@ dmx.Component('ag-grid', {
         }
       }
     }
+    dateFilterParams = {
+        comparator: function (filterLocalDateAtMidnight, cellValue) {
+          var cellDate = new Date(cellValue);
+          var filterDate = new Date(filterLocalDateAtMidnight);
+
+          // Compare the date portion of the cell value with the filter value
+          var cellDateOnly = new Date(cellDate.getFullYear(), cellDate.getMonth(), cellDate.getDate());
+          var filterDateOnly = new Date(filterDate.getFullYear(), filterDate.getMonth(), filterDate.getDate());
+
+          if (cellDateOnly < filterDateOnly) {
+            return -1;
+          } else if (cellDateOnly > filterDateOnly) {
+            return 1;
+          } else {
+            return 0;
+          }
+        },
+        browserDatePicker: true,
+      }
     // Function to detect the data type based on the values
     function detectDataType(values) {
       let hasDate = false;
@@ -304,6 +317,8 @@ dmx.Component('ag-grid', {
         let valueGetter;
         let filterValueGetter;
         let valueFormatter;
+        let filterParams;
+        let minWidth;
 
 
         if (dataType === 'number') {
@@ -324,9 +339,13 @@ dmx.Component('ag-grid', {
         } else if (dataType === 'date') {
           filter = 'agDateColumnFilter';
           valueFormatter = (params) => formatTime(params, timezone);
+          filterParams = dateFilterParams;
+          minWidth = 200;
         } else {
           filter = 'agTextColumnFilter';
           valueFormatter = blankOrNullValueFormatter;
+          filterParams = undefined;
+          minWidth = undefined;
         }
         // Check if custom definition exists for the current field
         if (this.props.definitions && this.props.definitions[key]) {
@@ -389,26 +408,34 @@ dmx.Component('ag-grid', {
         enableRowClickEvent = this.props.row_click_event;
         enableCellClickEvent = this.props.cell_click_event;
         if (cnames.hasOwnProperty(key)) {
-        console.log(key)
         const cname = cnames[key]
         headerName = cname ? cname.custom_name : humanize(key);
         }
         else {
           headerName = humanize(key);
         }
+        if (key =='status' && enableStatusToggle) {
+          cellRenderer = 'checkboxCellRenderer';
+        }
+        else {
+          cellRenderer = undefined;
+        }
+
         return {
           headerName: headerName,
           field: key,
           filter: filter,
           valueFormatter: valueFormatter,
           valueGetter: valueGetter,
+          minWidth: minWidth,
           filterValueGetter: filterValueGetter,
+          filterParams: filterParams,
           cellStyle: applyCellStyle,
           ...(cwidths.hasOwnProperty(key) && {
             minWidth: parseInt(cwidths[key].min_width),
             maxWidth: parseInt(cwidths[key].max_width),
           }),
-          cellRenderer: enableCellClickEvent ? 'clickCellRenderer' : (enableStatusToggle ? 'checkboxCellRenderer' : undefined)
+          cellRenderer: cellRenderer
         };
       });
     }
