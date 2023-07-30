@@ -1046,6 +1046,74 @@
       "allowedOn": {
         "dmx-ag-grid": true
       }
+    },
+    {
+      "name": "dmx-ag-grid-edit-clicked",
+      "attributeStartsWith": "dmx-on",
+      "attribute": "row_action_edit",
+      "display": "fieldset",
+      "title": "Edit Clicked",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Events",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "rowActionEdit"
+      ],
+      "noChangeOnHide": true,
+      "type": "boolean",
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "rowActionEdit",
+          "attributeStartsWith": "dmx-on",
+          "attribute": "row_action_edit",
+          "isValue": true,
+          "actionsPicker": true,
+          "title": "Action:",
+          "type": "text",
+          "help": "Choose the action to execute.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-view-clicked",
+      "attributeStartsWith": "dmx-on",
+      "attribute": "row_action_view",
+      "display": "fieldset",
+      "title": "View Clicked",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Events",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "rowActionView"
+      ],
+      "noChangeOnHide": true,
+      "type": "boolean",
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "rowActionView",
+          "attributeStartsWith": "dmx-on",
+          "attribute": "row_action_view",
+          "isValue": true,
+          "actionsPicker": true,
+          "title": "Action:",
+          "type": "text",
+          "help": "Choose the action to execute.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
     }
   ],
   "static_events": []

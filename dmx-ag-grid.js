@@ -135,8 +135,6 @@ dmx.Component('ag-grid', {
 
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
-    console.log(this.props)
-
     this.$node.innerHTML = `<div id=${gridId}-grid class="${grid_theme}"></div>`;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
@@ -214,8 +212,12 @@ dmx.Component('ag-grid', {
           button.setAttribute('title', buttonConfig.tooltip);
           button.innerHTML = `<i class="${buttonConfig.icon}"></i> ${buttonConfig.action}`;
           container.appendChild(button);
+          button.addEventListener('click', function () {
+            if (typeof buttonConfig.onClick === 'function') {
+                buttonConfig.onClick(params.data);
+            }
+        });
       });
-  
       // Add spacing between buttons (margin-right)
       const buttonSpacing = '5px'; // You can adjust the spacing as needed
       const buttonsInContainer = container.querySelectorAll('button');
@@ -516,8 +518,7 @@ dmx.Component('ag-grid', {
                   onClick: (rowData) => {
                     this.set('data', rowData);
                     this.set('id', rowData.id);
-                    this.dispatchEvent('action_edit');
-                    console.log('Custom Action 1 clicked for row with ID:', rowData.id);
+                    this.dispatchEvent('row_action_edit');
                   },
                 },
                 {
@@ -528,8 +529,7 @@ dmx.Component('ag-grid', {
                   onClick: (rowData) => {
                     this.set('data', rowData);
                     this.set('id', rowData.id);
-                    this.dispatchEvent('action_view');
-                    console.log('Custom Action 2 clicked for row with ID:', rowData.id);
+                    this.dispatchEvent('row_action_view');
                   },
                 },
                 // Add more custom buttons as needed
@@ -675,8 +675,8 @@ dmx.Component('ag-grid', {
     row_checkbox_unchecked: Event,
     row_status_enabled: Event,
     row_status_disabled: Event,
-    action_edit: Event,
-    action_view: Event
+    row_action_edit: Event,
+    row_action_view: Event
   },
 
   render: function(node) {
