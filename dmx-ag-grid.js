@@ -2,45 +2,7 @@ dmx.Component('ag-grid', {
   initialData: {
     id: null,
     data: {},
-    fields: {},
-    column_defs: [],
-    cstyles: null,
-    cnames: null,
-    cwidths: null,
-    data_changes: null,
-    gridInstance: null,
-    domLayout: 'autoHeight',
-    enableCellTextSelection: true,
-    rowSelection: null,
-    suppressRowDeselection: null,
-    pagination: null,
-    paginationPageSize: null,
-    rowHeight: null,
-    headerHeight: null,
-    suppressRowClickSelection: null,
-    suppressMenuHide: null,
-    suppressMovableColumns: null,
-    enableCellExpressions: null,
-    animateRows: null,
-    suppressAggFuncInHeader: null,
-    suppressAggAtRootLevel: null,
-    suppressClipboardPaste: null,
-    suppressScrollOnNewData: null,
-    suppressPropertyNamesCheck: null,
-    localeText: null,
-    minWidth: 150,
-    resizable: true,
-    sortable: true,
-    filter: true,
-    floatingFilter: true,
-    columnHoverHighlight: true,
-    exportToCSV: true,
-    fixedHeader: false,
-    topbarClass: null,
-    fixedHeaderOffset: 100,
-    fixedTopOffset: 80,
-    fixedHorizonatalScroll: false,
-    timezone: null
+    fields: {}
   },
 
   attributes: {
@@ -111,31 +73,14 @@ dmx.Component('ag-grid', {
   },
 
   refreshGrid: function () {
-    const gridId = this.props.id;
+    const options = this.props
     const rowData = this.props.data;
-    const fixedHeader = this.props.fixedHeader;
-    const fixedHeaderOffset = this.props.fixedHeaderOffset;
-    const topbarClass = this.props.topbarClass;
-    const fixedTopOffset = this.props.fixedTopOffset;
     const timezone = this.props.timezone || false;
     const dataChanges = this.props.data_changes;
-    const grid_theme = this.props.grid_theme;
-    const enableCheckboxEvent = this.props.row_checkbox_event;
-    const enableStatusToggle = this.props.row_status_event;
-    const enableActions = this.props.enable_actions;
-    const pin_actions = this.props.pin_actions;
-    const edit_action_title = this.props.edit_action_title;
-    const edit_action_btn_class = this.props.edit_action_btn_class;
-    const edit_action_icon_class = this.props.edit_action_icon_class;
-    const view_action_title = this.props.view_action_title;
-    const view_action_btn_class = this.props.view_action_btn_class;
-    const view_action_icon_class = this.props.view_action_icon_class;
-    const edit_action_tooltip = this.props.edit_action_tooltip;
-    const view_action_tooltip = this.props.view_action_tooltip;
 
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
-    this.$node.innerHTML = `<div id=${gridId}-grid class="${grid_theme}"></div>`;
+    this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
       return;
@@ -162,8 +107,7 @@ dmx.Component('ag-grid', {
     function clickCellRenderer(params) {
       const idValue = params.data.id;
       const columnName = params.colDef.field;
-      const dataType = detectDataType([params.value]);
-      const value = formatValue(params.value, columnName, dataType, timezone);
+      const value = params.value
       return `<div onclick="cellClickEvent('${columnName}', '${value}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
     }
 
@@ -451,7 +395,7 @@ dmx.Component('ag-grid', {
         else {
           headerName = humanize(key);
         }
-        if (key =='status' && enableStatusToggle) {
+        if (key =='status' && options.row_status_event) {
           cellRenderer = 'checkboxCellRenderer';
           filter = null;
         }
@@ -484,7 +428,7 @@ dmx.Component('ag-grid', {
       this.dispatchEvent('row_clicked')
     }
     let checkboxColumn;
-    if (enableCheckboxEvent) {
+    if (options.row_checkbox_event) {
         checkboxColumn = {
           headerCheckboxSelection: true,
           headerCheckboxSelectionFilteredOnly: false,
@@ -500,21 +444,21 @@ dmx.Component('ag-grid', {
       };
       columnDefs.unshift(checkboxColumn);
     }
-    if (enableActions) {
+    if (options.enable_actions) {
           actionsColumn = {
             headerName: 'Actions',
             field: 'action',
             filter: null,
             cellRenderer: actionsRenderer,
-            pinned: pin_actions,
+            pinned: options.pin_actions,
             cellRendererParams: {
               // Custom button configurations
               buttons: [
                 {
-                  action: edit_action_title,
-                  classNames: edit_action_btn_class,
-                  tooltip: edit_action_tooltip,
-                  icon: edit_action_icon_class,
+                  action: options.edit_action_title,
+                  classNames: options.edit_action_btn_class,
+                  tooltip: options.edit_action_tooltip,
+                  icon: options.edit_action_icon_class,
                   onClick: (rowData) => {
                     this.set('data', rowData);
                     this.set('id', rowData.id);
@@ -522,10 +466,10 @@ dmx.Component('ag-grid', {
                   },
                 },
                 {
-                  action: view_action_title,
-                  classNames: view_action_btn_class,
-                  tooltip: view_action_tooltip,
-                  icon: view_action_icon_class,
+                  action: options.view_action_title,
+                  classNames: options.view_action_btn_class,
+                  tooltip: options.view_action_tooltip,
+                  icon: options.view_action_icon_class,
                   onClick: (rowData) => {
                     this.set('data', rowData);
                     this.set('id', rowData.id);
@@ -579,11 +523,11 @@ dmx.Component('ag-grid', {
       }
     };
 
-    const gridDiv = document.getElementById(gridId+'-grid');
+    const gridDiv = document.getElementById(options.id+'-grid');
     
 
     if (!gridDiv) {
-      console.error(`Grid container element with ID '${gridId}' not found.`);
+      console.error(`Grid container element with ID '${options.id}' not found.`);
       return;
     }
 
@@ -597,10 +541,10 @@ dmx.Component('ag-grid', {
     };
     // Create ag-Grid instance
     new agGrid.Grid(gridDiv, gridConfig);
-    const gridElement = document.getElementById(gridId+'-grid');
+    const gridElement = document.getElementById(options.id+'-grid');
     const gridContainer = gridElement.parentNode;
     // Add an event listener to the grid
-    if (enableCheckboxEvent) {
+    if (options.row_checkbox_event) {
       gridConfig.api.addEventListener('rowSelected', (event) => {
         if (event.node && event.node.isSelected()) {
           const rowData = event.node.data;
@@ -619,12 +563,12 @@ dmx.Component('ag-grid', {
       console.error('Grid container not found.');
       return;
     }
-    if (fixedHeader) {
+    if (options.fixedHeader) {
       window.addEventListener('scroll', function () {
         const header = document.querySelector('.ag-header');
-        const topbar = document.querySelector('.' + topbarClass);
-        const topbarHeight = (topbar ? topbar.getBoundingClientRect().height : 0) + fixedTopOffset;
-        const headerPos = (topbar ? topbar.getBoundingClientRect().bottom : 0) + fixedHeaderOffset;
+        const topbar = document.querySelector('.' + options.topbarClass);
+        const topbarHeight = (topbar ? topbar.getBoundingClientRect().height : 0) + options.fixedTopOffset;
+        const headerPos = (topbar ? topbar.getBoundingClientRect().bottom : 0) + options.fixedHeaderOffset;
 
         if (window.pageYOffset > headerPos) {
           header.style.position = 'fixed';
