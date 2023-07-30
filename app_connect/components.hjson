@@ -667,6 +667,104 @@
               ]
             }
           ]
+        },
+        {
+          "group": "📒 Configure Actions Column",
+          "variables": [
+            {
+              "name": "action_column",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "action_column",
+              "title": "Configure Actions",
+              "type": "boolean",
+              "display": "fieldset",
+              "show": [
+                "enableActions",
+                "editActionTitle",
+                "editActionTooltip",
+                "editActionBtnClass",
+                "editActionIconClass",
+                "viewActionTitle",
+                "viewActionTooltip",
+                "viewActionBtnClass",
+                "viewActionIconClass"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Configure Actions for the buttons in Actions Column"
+              "children": [
+                {
+                  "name": "help",
+                  "type": "static",
+                  "help": "Configure Actions for the buttons"
+                },
+                {
+                  "name": "enableActions",
+                  "attribute": "dmx-bind:enable_actions",
+                  "title": "Enable Actions",
+                  "type": "boolean",
+                  "defaultValue": false,
+                  "help": "Enable Actions"
+                },
+                {
+                  "name": "editActionTitle",
+                  "attribute": "edit_action_title",
+                  "title": "Edit Action Button Title",
+                  "type": "text",
+                  "defaultValue": ''
+                },
+                {
+                  "name": "editActionTooltip",
+                  "attribute": "edit_action_tooltip",
+                  "title": "Edit Action Button Tooltip",
+                  "type": "text",
+                  "defaultValue": ''
+                },
+                {
+                  "name": "editActionBtnClass",
+                  "attribute": "edit_action_btn_class",
+                  "title": "Edit Action Button Class",
+                  "type": "text",
+                  "defaultValue": 'btn-primary btn-xs'
+                },
+                {
+                  "name": "editActionIconClass",
+                  "attribute": "edit_action_icon_class",
+                  "title": "Edit Action IconClass",
+                  "type": "text",
+                  "defaultValue": 'fas fa-pencil-alt'
+                },
+                {
+                  "name": "viewActionTitle",
+                  "attribute": "view_action_title",
+                  "title": "View Action Button Title",
+                  "type": "text",
+                  "defaultValue": ''
+                },
+                {
+                  "name": "viewActionTooltip",
+                  "attribute": "view_action_tooltip",
+                  "title": "View Action Button Tooltip",
+                  "type": "text",
+                  "defaultValue": ''
+                },
+                {
+                  "name": "viewActionBtnClass",
+                  "attribute": "view_action_btn_class",
+                  "title": "View Action Button Class",
+                  "type": "text",
+                  "defaultValue": 'btn-info btn-xs'
+                },
+                {
+                  "name": "viewActionIconClass",
+                  "attribute": "edit_action_icon_class",
+                  "title": "View Action IconClass",
+                  "type": "text",
+                  "defaultValue": 'fas fa-eye'
+                }
+              ]
+            }
+          ]
         }
 
       ],

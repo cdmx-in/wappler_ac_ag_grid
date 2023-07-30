@@ -88,7 +88,17 @@ dmx.Component('ag-grid', {
     cell_click_event: {type: Boolean, default: false },
     row_click_event: {type: Boolean, default: false },
     row_checkbox_event: {type: Boolean, default: false },
-    row_status_event: {type: Boolean, default: false }
+    row_status_event: {type: Boolean, default: false },
+    enable_actions: {type: Boolean, default: false },
+    pin_actions: {type: String, default: 'right' },
+    edit_action_title: {type: String, default: '' },
+    edit_action_tooltip: {type: String, default: 'Edit' },
+    view_action_title: {type: String, default: '' },
+    view_action_tooltip: {type: String, default: 'View' },
+    edit_action_icon_class: {type: String, default: 'fas fa-pencil-alt' },
+    edit_action_btn_class: {type: String, default: 'btn-primary btn-xs' },
+    view_action_icon_class: {type: String, default: 'fas fa-eye' },
+    view_action_btn_class: {type: String, default: 'btn-info btn-xs' },
     
   },
 
@@ -112,8 +122,20 @@ dmx.Component('ag-grid', {
     const grid_theme = this.props.grid_theme;
     const enableCheckboxEvent = this.props.row_checkbox_event;
     const enableStatusToggle = this.props.row_status_event;
+    const enableActions = this.props.enable_actions;
+    const pin_actions = this.props.pin_actions;
+    const edit_action_title = this.props.edit_action_title;
+    const edit_action_btn_class = this.props.edit_action_btn_class;
+    const edit_action_icon_class = this.props.edit_action_icon_class;
+    const view_action_title = this.props.view_action_title;
+    const view_action_btn_class = this.props.view_action_btn_class;
+    const view_action_icon_class = this.props.view_action_icon_class;
+    const edit_action_tooltip = this.props.edit_action_tooltip;
+    const view_action_tooltip = this.props.view_action_tooltip;
+
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
+    console.log(this.props)
 
     this.$node.innerHTML = `<div id=${gridId}-grid class="${grid_theme}"></div>`;
     if (!rowData || rowData.length === 0) {
@@ -171,6 +193,38 @@ dmx.Component('ag-grid', {
         </label>
         `;
     }
+    function actionsRenderer(params) {
+      // Default button configurations (Edit and View)
+      const defaultButtons = [
+          { action: 'Edit', classNames: 'btn-primary btn-xs', tooltip: 'Edit', icon: 'fas fa-pencil-alt' },
+          { action: 'View', classNames: 'btn-info btn-xs', tooltip: 'View', icon: 'fas fa-eye' },
+      ];
+      // User-defined button configurations (if any)
+      const buttons = params.buttons || defaultButtons;
+  
+      // Create a new container element to hold the buttons
+      const container = document.createElement('div');
+  
+      buttons.forEach((buttonConfig) => {
+          const button = document.createElement('button');
+          button.classList.add('btn');
+          const classNames = buttonConfig.classNames.split(' ');
+          classNames.forEach((className) => button.classList.add(className));
+          button.setAttribute('data-toggle', 'tooltip');
+          button.setAttribute('title', buttonConfig.tooltip);
+          button.innerHTML = `<i class="${buttonConfig.icon}"></i> ${buttonConfig.action}`;
+          container.appendChild(button);
+      });
+  
+      // Add spacing between buttons (margin-right)
+      const buttonSpacing = '5px'; // You can adjust the spacing as needed
+      const buttonsInContainer = container.querySelectorAll('button');
+      for (let i = 0; i < buttonsInContainer.length - 1; i++) {
+          buttonsInContainer[i].style.marginRight = buttonSpacing;
+      }
+  
+      return container;
+  }
     
 
     function humanize(str) {
@@ -397,6 +451,7 @@ dmx.Component('ag-grid', {
         }
         if (key =='status' && enableStatusToggle) {
           cellRenderer = 'checkboxCellRenderer';
+          filter = null;
         }
         else {
           cellRenderer = undefined;
@@ -443,7 +498,47 @@ dmx.Component('ag-grid', {
       };
       columnDefs.unshift(checkboxColumn);
     }
-    
+    if (enableActions) {
+          actionsColumn = {
+            headerName: 'Actions',
+            field: 'action',
+            filter: null,
+            cellRenderer: actionsRenderer,
+            pinned: pin_actions,
+            cellRendererParams: {
+              // Custom button configurations
+              buttons: [
+                {
+                  action: edit_action_title,
+                  classNames: edit_action_btn_class,
+                  tooltip: edit_action_tooltip,
+                  icon: edit_action_icon_class,
+                  onClick: (rowData) => {
+                    this.set('data', rowData);
+                    this.set('id', rowData.id);
+                    this.dispatchEvent('action_edit');
+                    console.log('Custom Action 1 clicked for row with ID:', rowData.id);
+                  },
+                },
+                {
+                  action: view_action_title,
+                  classNames: view_action_btn_class,
+                  tooltip: view_action_tooltip,
+                  icon: view_action_icon_class,
+                  onClick: (rowData) => {
+                    this.set('data', rowData);
+                    this.set('id', rowData.id);
+                    this.dispatchEvent('action_view');
+                    console.log('Custom Action 2 clicked for row with ID:', rowData.id);
+                  },
+                },
+                // Add more custom buttons as needed
+              ],
+            },
+          }
+        columnDefs.push(actionsColumn);
+      }
+        
     const gridOptions = {
       columnDefs: columnDefs,
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
@@ -479,7 +574,8 @@ dmx.Component('ag-grid', {
       localeText: this.props.localeText,
       components: {
         clickCellRenderer: clickCellRenderer,
-        checkboxCellRenderer: checkboxCellRenderer
+        checkboxCellRenderer: checkboxCellRenderer,
+        actionsRenderer: actionsRenderer
       }
     };
 
@@ -504,19 +600,21 @@ dmx.Component('ag-grid', {
     const gridElement = document.getElementById(gridId+'-grid');
     const gridContainer = gridElement.parentNode;
     // Add an event listener to the grid
-    gridConfig.api.addEventListener('rowSelected', (event) => {
-      if (event.node && event.node.isSelected()) {
-        const rowData = event.node.data;
-        this.set('data', rowData);
-        this.set('id', rowData.id);
-        this.dispatchEvent('row_checkbox_checked');
-      } else {
-        const rowData = event.node.data;
-        this.set('data', rowData);
-        this.set('id', rowData.id);
-        this.dispatchEvent('row_checkbox_unchecked');
-      }
-    });
+    if (enableCheckboxEvent) {
+      gridConfig.api.addEventListener('rowSelected', (event) => {
+        if (event.node && event.node.isSelected()) {
+          const rowData = event.node.data;
+          this.set('data', rowData);
+          this.set('id', rowData.id);
+          this.dispatchEvent('row_checkbox_checked');
+        } else {
+          const rowData = event.node.data;
+          this.set('data', rowData);
+          this.set('id', rowData.id);
+          this.dispatchEvent('row_checkbox_unchecked');
+        }
+      });
+  }
     if (!gridContainer) {
       console.error('Grid container not found.');
       return;
@@ -577,6 +675,8 @@ dmx.Component('ag-grid', {
     row_checkbox_unchecked: Event,
     row_status_enabled: Event,
     row_status_disabled: Event,
+    action_edit: Event,
+    action_view: Event
   },
 
   render: function(node) {
