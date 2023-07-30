@@ -118,6 +118,7 @@ dmx.Component('ag-grid', {
         // Assuming `value` is a boolean representing the status
         const checked = value==true ? "checked" : "";
         return `
+        <div class="col pt-2 pb-1 ps-1 pe-1 d-flex justify-content-center">
           <label class="switch switch-success">
             <input 
               type="checkbox" class="switch-input"
@@ -133,6 +134,7 @@ dmx.Component('ag-grid', {
                 <i class="bx bx-x"></i>
             </span>
         </label>
+        </div>
         `;
     }
     function actionsRenderer(params) {
