@@ -69,6 +69,9 @@ dmx.Component('ag-grid', {
       this.set('rowData', rowData);
       this.set('columnDefs', columnDefs);
       this.refreshGrid();
+    },
+    reloadGrid: function () {
+      this.refreshGrid()
     }
   },
 
@@ -586,8 +589,36 @@ dmx.Component('ag-grid', {
 
     // Create the export button
     if (exportToCSV) {
+      const existingExportButton = document.getElementById('exportButton');
+      // If it already exists, just exit the function
+      if (existingExportButton) {
+        return;
+      }
       const exportButton = document.createElement('button');
-      exportButton.innerText = 'Export to CSV';
+      exportButton.id = 'exportButton'; 
+
+        // Add the icon
+      const icon = document.createElement('i');
+      icon.classList.add('fas', 'fa-file-csv'); // Use the Font Awesome icon class here
+      exportButton.appendChild(icon);
+
+      // Add the button text
+      const buttonText = document.createElement('span');
+      buttonText.innerText = ' Export to CSV';
+      exportButton.appendChild(buttonText);
+      // Add some fancy styles to the button
+      exportButton.style.backgroundColor = '#4CAF50';
+      exportButton.style.border = 'none';
+      exportButton.style.color = 'white';
+      exportButton.style.padding = '5px 10px';
+      exportButton.style.textAlign = 'center';
+      exportButton.style.textDecoration = 'none';
+      exportButton.style.display = 'inline-block';
+      exportButton.style.fontSize = '14px'; 
+      exportButton.style.borderRadius = '5px';
+      exportButton.style.cursor = 'pointer';
+      exportButton.style.marginBottom = '10px';
+      
       exportButton.addEventListener('click', () => {
         const params = {
           fileName: 'export.csv', // Set the desired file name here
@@ -606,12 +637,11 @@ dmx.Component('ag-grid', {
         };
         gridConfig.api.exportDataAsCsv(params);
       });
-
       // Append the export button to the grid container
       gridContainer.parentNode.insertBefore(exportButton, gridContainer);
-
       exportButton.style.marginBottom = '10px';
     }
+    
   },
 
   events: {
