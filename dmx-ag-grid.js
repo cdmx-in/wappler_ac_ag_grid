@@ -286,7 +286,7 @@ dmx.Component('ag-grid', {
     function getValueGetter(key, dataChanges) {
       return function (params) {
         const value = params.data[key];
-        const matchingChange = dataChanges.find((change) => change.field === key && change.value === String(originalValue));
+        const matchingChange = dataChanges.find((change) => change.field === key && change.value === String(value));
         if (matchingChange) {
           return matchingChange.new_value;
         }

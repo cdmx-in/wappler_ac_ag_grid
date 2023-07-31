@@ -16,3 +16,4 @@ This Custom Module provides the below features:
 13. Row Click Event Handling
 14. Options to enable checkboxes for IDs for bulk select Operations
 15. Options to enable Toggle Sliders for status fields
+16. Added Action Buttons feature
