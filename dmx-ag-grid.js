@@ -2,6 +2,7 @@ dmx.Component('ag-grid', {
   initialData: {
     id: null,
     data: {},
+    count: Number,
     fields: {}
   },
 
@@ -512,6 +513,7 @@ dmx.Component('ag-grid', {
         
     const gridOptions = {
       columnDefs: columnDefs,
+      noRowsOverlayComponent: '<div>No Records Found.</div>',
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
       rowStyle: enableRowClickEvent ? { cursor: 'pointer' } : undefined,
       defaultColDef: {
@@ -684,6 +686,7 @@ dmx.Component('ag-grid', {
   },
 
   update: function (props) {
+    this.set('count', this.props.data.length);
     if (!dmx.equal(this.props.data, props.data)) {
       this.refreshGrid();
     }

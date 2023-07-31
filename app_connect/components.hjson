@@ -22,7 +22,12 @@
           "name": "data",
           "title": "Data",
           "type": "object"
-        }
+        },
+        {
+          "name": "count",
+          "title": "Count",
+          "type": "number"
+        },
         {
           "name": "fields",
           "title": "Fields",
@@ -560,7 +565,6 @@
                   "attribute": "dmx-bind:cnames",
                   "title": "Header Names",
                   "type": "grid",
-                  "dataBindings": true,
                   "key": "field",
                   "jsonFormat": true,
                   "encloseBT": true,
@@ -579,6 +583,7 @@
                       field: "custom_name",
                       caption: "Name",
                       size: "20%",
+                      dataBindings: true,
                       editable: {
                         type: "text"
                       },
