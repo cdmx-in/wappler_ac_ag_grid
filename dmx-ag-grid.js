@@ -33,6 +33,7 @@ dmx.Component('ag-grid', {
     suppressClipboardPaste: { type: Boolean, default: false },
     suppressScrollOnNewData: { type: Boolean, default: false },
     suppressPropertyNamesCheck: { type: Boolean, default: false },
+    hide_id_field: { type: Boolean, default: false },
     localeText: { default: null }, 
     minWidth: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
@@ -53,8 +54,10 @@ dmx.Component('ag-grid', {
     row_status_event: {type: Boolean, default: false },
     enable_actions: {type: Boolean, default: false },
     pin_actions: {type: String, default: 'right' },
+    edit_action_btn: { type: Boolean, default: false },
     edit_action_title: {type: String, default: '' },
     edit_action_tooltip: {type: String, default: 'Edit' },
+    view_action_btn: { type: Boolean, default: false },
     view_action_title: {type: String, default: '' },
     view_action_tooltip: {type: String, default: 'View' },
     edit_action_icon_class: {type: String, default: 'fas fa-pencil-alt' },
@@ -72,6 +75,7 @@ dmx.Component('ag-grid', {
     },
     reloadGrid: function () {
       this.refreshGrid()
+      console.log('reloadGrid');
     }
   },
 
@@ -305,6 +309,7 @@ dmx.Component('ag-grid', {
         let valueFormatter;
         let filterParams;
         let minWidth;
+        let hide;
 
 
         if (dataType === 'number') {
@@ -407,6 +412,12 @@ dmx.Component('ag-grid', {
         else {
           cellRenderer = undefined;
         }
+        if (options.hide_id_field && key == 'id') {
+          hide = true;
+        }
+        else {
+          hide = undefined;
+        }
 
         return {
           headerName: headerName,
@@ -415,6 +426,7 @@ dmx.Component('ag-grid', {
           valueFormatter: valueFormatter,
           valueGetter: valueGetter,
           minWidth: minWidth,
+          hide: hide,
           filterValueGetter: filterValueGetter,
           filterParams: filterParams,
           cellStyle: applyCellStyle,
@@ -450,43 +462,47 @@ dmx.Component('ag-grid', {
       columnDefs.unshift(checkboxColumn);
     }
     if (options.enable_actions) {
-          actionsColumn = {
-            headerName: 'Actions',
-            field: 'action',
-            filter: null,
-            cellRenderer: actionsRenderer,
-            pinned: options.pin_actions,
-            cellRendererParams: {
-              // Custom button configurations
-              buttons: [
-                {
-                  action: options.edit_action_title,
-                  classNames: options.edit_action_btn_class,
-                  tooltip: options.edit_action_tooltip,
-                  icon: options.edit_action_icon_class,
-                  onClick: (rowData) => {
-                    this.set('data', rowData);
-                    this.set('id', rowData.id);
-                    this.dispatchEvent('row_action_edit');
-                  },
-                },
-                {
-                  action: options.view_action_title,
-                  classNames: options.view_action_btn_class,
-                  tooltip: options.view_action_tooltip,
-                  icon: options.view_action_icon_class,
-                  onClick: (rowData) => {
-                    this.set('data', rowData);
-                    this.set('id', rowData.id);
-                    this.dispatchEvent('row_action_view');
-                  },
-                },
-                // Add more custom buttons as needed
-              ],
-            },
-          }
-        columnDefs.push(actionsColumn);
+      actionsColumn = {
+        headerName: 'Actions',
+        field: 'action',
+        filter: null,
+        cellRenderer: actionsRenderer,
+        pinned: options.pin_actions,
+        cellRendererParams: {
+          buttons: [],
+        },
+      };
+    
+      if (options.edit_action_btn) {
+        actionsColumn.cellRendererParams.buttons.push({
+          action: options.edit_action_title,
+          classNames: options.edit_action_btn_class,
+          tooltip: options.edit_action_tooltip,
+          icon: options.edit_action_icon_class,
+          onClick: (rowData) => {
+            this.set('data', rowData);
+            this.set('id', rowData.id);
+            this.dispatchEvent('row_action_edit');
+          },
+        });
       }
+    
+      if (options.view_action_btn) {
+        actionsColumn.cellRendererParams.buttons.push({
+          action: options.view_action_title,
+          classNames: options.view_action_btn_class,
+          tooltip: options.view_action_tooltip,
+          icon: options.view_action_icon_class,
+          onClick: (rowData) => {
+            this.set('data', rowData);
+            this.set('id', rowData.id);
+            this.dispatchEvent('row_action_view');
+          },
+        });
+      }
+    
+      columnDefs.push(actionsColumn);
+    }
         
     const gridOptions = {
       columnDefs: columnDefs,

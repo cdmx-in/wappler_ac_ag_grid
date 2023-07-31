@@ -361,6 +361,14 @@
               "help": "Disables checking for duplicate property names"
             },
             {
+              "name": "hideIdField",
+              "attribute": "dmx-bind:hide_id_field",
+              "title": "Hide ID Field",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Hides the ID Field in Grid"
+            },
+            {
               "name": "localeText",
               "attribute": "localeText",
               "title": "Locale Text",
@@ -680,10 +688,12 @@
               "display": "fieldset",
               "show": [
                 "enableActions",
+                "editActionBtn",
                 "editActionTitle",
                 "editActionTooltip",
                 "editActionBtnClass",
                 "editActionIconClass",
+                "viewActionBtn",
                 "viewActionTitle",
                 "viewActionTooltip",
                 "viewActionBtnClass",
@@ -705,6 +715,13 @@
                   "type": "boolean",
                   "defaultValue": false,
                   "help": "Enable Actions"
+                },
+                {
+                  "name": "editActionBtn",
+                  "attribute": "dmx-bind:edit_action_btn",
+                  "title": "Edit Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
                 },
                 {
                   "name": "editActionTitle",
@@ -733,6 +750,13 @@
                   "title": "Edit Action IconClass",
                   "type": "text",
                   "defaultValue": 'fas fa-pencil-alt'
+                },
+                {
+                  "name": "viewActionBtn",
+                  "attribute": "dmx-bind:view_action_btn",
+                  "title": "View Action Button",
+                  "type": "boolean",
+                  "defaultValue": ''
                 },
                 {
                   "name": "viewActionTitle",
