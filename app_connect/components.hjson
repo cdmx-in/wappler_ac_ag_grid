@@ -407,8 +407,6 @@
           "variables": [
             {
               "name": "cstyles",
-              "attributeStartsWith": "dmx-bind",
-              "attribute": "cstyles",
               "title": "Configure Colors",
               "type": "boolean",
               "display": "fieldset",
@@ -430,7 +428,6 @@
                   "title": "Colors",
                   "type": "grid",
                   "dataBindings": true,
-                  "key": "field",
                   "jsonFormat": true,
                   "encloseBT": true,
                   "jsonBT": true,
@@ -479,8 +476,6 @@
           "variables": [
             {
               "name": "data_changes",
-              "attributeStartsWith": "dmx-bind",
-              "attribute": "data_changes",
               "title": "Configure Fields",
               "type": "boolean",
               "display": "fieldset",
@@ -502,7 +497,6 @@
                   "title": "Fields Data",
                   "type": "grid",
                   "dataBindings": true,
-                  "key": "field",
                   "jsonFormat": true,
                   "encloseBT": true,
                   "jsonBT": true,
@@ -546,8 +540,6 @@
           "variables": [
             {
               "name": "cnames",
-              "attributeStartsWith": "dmx-bind",
-              "attribute": "cnames",
               "title": "Configure Header Names",
               "type": "boolean",
               "display": "fieldset",
@@ -609,8 +601,6 @@
           "variables": [
             {
               "name": "cwidths",
-              "attributeStartsWith": "dmx-bind",
-              "attribute": "cwidths",
               "title": "Configure Custom Widths",
               "type": "boolean",
               "display": "fieldset",

@@ -1,6 +1,6 @@
 {
     "name": "@cdmx/wappler_ag_grid",
-    "version": "0.2.5",
+    "version": "0.2.6",
     "type": "module",
     "description": "App Connect module for AG Grid Table Generation",
     "license": "MIT",

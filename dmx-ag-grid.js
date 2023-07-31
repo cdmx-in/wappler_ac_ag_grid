@@ -10,10 +10,10 @@ dmx.Component('ag-grid', {
     rowData: { type: Array, default: [] },
     grid_theme: { type: String, default: 'ag-theme-alpine' },
     column_defs: { type: Array, default: [] },
-    cstyles: { type: Object, default: {} },
+    cstyles: { type: Array, default: [] },
     cnames: { type: Object, default: {} },
     cwidths: { type: Object, default: {} },
-    data_changes: { type: Object, default: {} },
+    data_changes: { type: Array, default: [] },
     data: { type: Array, default: [] },
     domLayout: { default: 'autoHeight' },
     enableCellTextSelection: { type: Boolean, default: true },
@@ -284,11 +284,11 @@ dmx.Component('ag-grid', {
       }
     }
     function getValueGetter(key, dataChanges) {
-      return function(params) {
-        let value = params.data[key];
-        if (dataChanges.hasOwnProperty(key)) {
-          const change = dataChanges[key];
-          value = change.new_value;
+      return function (params) {
+        const value = params.data[key];
+        const matchingChange = dataChanges.find((change) => change.field === key && change.value === String(originalValue));
+        if (matchingChange) {
+          return matchingChange.new_value;
         }
         return value;
       };
@@ -383,16 +383,22 @@ dmx.Component('ag-grid', {
         const cstyles = this.props.cstyles
         // Check if custom color exists for the current field and condition
         function applyCellStyle(params) {
-            const field = params.colDef.field.toString();
-            if (cstyles.hasOwnProperty(field)) {
-              const condition = cstyles[field].condition;
-              const customColor = cstyles[field].customColor;
-              const [left, operator, right] = extractConditionParts(condition);
-              if (params.data.hasOwnProperty(field) && evaluateCondition(params.data[left], operator, right)) {
-                return { color: customColor };
-              }
+          const field = params.colDef.field.toString();
+          const styles = cstyles.filter((cs) => cs.field === field);
+        
+          for (const style of styles) {
+            const condition = style.condition;
+            const customColor = style.customColor;
+            const [left, operator, right] = extractConditionParts(condition);
+            if (
+              params.data.hasOwnProperty(left) && 
+              evaluateCondition(params.data[left], operator, right) 
+            ) {
+              return { color: customColor }; 
             }
-            return null;
+          }
+        
+          return null;
           }
         cnames = this.props.cnames
         cwidths = this.props.cwidths
