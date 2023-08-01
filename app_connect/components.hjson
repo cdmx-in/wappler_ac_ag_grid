@@ -71,6 +71,18 @@
               {title: 'Base', value: 'ag-grid'}
               ],
               "help": "Select a theme for the grid"
+            },
+            {
+              "name": "locale_text",
+              "attribute": "locale_text",
+              "title": "Locale",
+              "type": "droplist",
+              "defaultValue": 'EN',
+              "values": [
+              {title: 'English', value: 'EN'},
+              {title: 'Hebrew', value: 'HE'}
+              ],
+              "help": "Select locale for the Grid, Currently Supproted Hebrew (HE) and English (EN) locale"
             }
           ]
         },
@@ -124,6 +136,14 @@
               "type": "boolean",
               "defaultValue": true,
               "help": "Specifies if Export to CSV to be enabled"
+            },
+            {
+              "name": "enableRtl",
+              "attribute": "dmx-bind:enable_rtl",
+              "title": "Enable RTL",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Enabled Right to Left, used for Hebrew and Arabic"
             },
             {
               "name": "columnHoverHighlight",
@@ -374,14 +394,6 @@
               "help": "Hides the ID Field in Grid"
             },
             {
-              "name": "localeText",
-              "attribute": "localeText",
-              "title": "Locale Text",
-              "type": "object",
-              "defaultValue": {},
-              "help": "Localization strings for the grid"
-            },
-            {
               "name": "rowClickEvent",
               "attribute": "dmx-bind:row_click_event",
               "title": "Row Click Events",
@@ -477,7 +489,7 @@
           ]
         },
         {
-          "group": "📒 Data Advanced Manipulation",
+          "group": "📒 Advanced Data Manipulation",
           "variables": [
             {
               "name": "data_binded_changes",
@@ -632,6 +644,7 @@
                   "type": "grid",
                   "key": "field",
                   "jsonFormat": true,
+                  "dataBindings": true,
                   "encloseBT": true,
                   "jsonBT": true,
                   "initDisplay": "none",
@@ -650,7 +663,7 @@
                       size: "20%",
                       dataBindings: true,
                       editable: {
-                        type: "text"
+                        type: "datapicker"
                       },
                       help: "Identity, Name,etc"
                     }
@@ -889,6 +902,10 @@
         {
           "src": "dmx-ag-grid.js",
           "dst": "js/dmx-ag-grid.js"
+        },
+        {
+          "src": "he.js",
+          "dst": "js/locale/he.js"
         }
       ],
       "linkFiles": [
@@ -899,6 +916,11 @@
         },
         {
           "src": "js/dmx-ag-grid.js",
+          "type": "js",
+          "defer": true
+        },
+        {
+          "src": "js/locale/he.js",
           "type": "js",
           "defer": true
         },
@@ -928,7 +950,7 @@
       "name": "dmx-ag-grid-value",
       "attributeStartsWith": "dmx-bind",
       "attribute": "column_defs",
-      "title": "Configs",
+      "title": "Column Definitions",
       "type": "boolean",
       "display": "fieldset",
       "icon": "fa fa-lg fa-chevron-right",
@@ -936,13 +958,13 @@
       "groupIcon": "fa fa-lg fa-cubes",
       "defaultValue": false,
       "show": [
-        "valueValue"
+        "setValue"
       ],
       "noChangeOnHide": true,
       "groupEnabler": true,
       "children": [
         {
-          "name": "valueValue",
+          "name": "setValue",
           "attributeStartsWith": "dmx-bind",
           "attribute": "ColumnDefs",
           "isValue": true,
@@ -951,6 +973,40 @@
           "type": "text",
           "help": "Edit Column Definitions.",
           "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-locale",
+      "attributeStartsWith": "dmx-bind",
+      "attribute": "locale_text",
+      "title": "Locale",
+      "type": "boolean",
+      "display": "fieldset",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Config",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "localeText"
+      ],
+      "noChangeOnHide": true,
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "localeText",
+          "attributeStartsWith": "dmx-bind",
+          "attribute": "locale_text",
+          "isValue": true,
+          "dataBindings": true,
+          "title": "Locale:",
+          "type": "text",
+          "help": "Locale.",
+          "defaultValue": "EN",
           "initDisplay": "none"
         }
       ],

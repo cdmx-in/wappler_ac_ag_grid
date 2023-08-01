@@ -35,7 +35,8 @@ dmx.Component('ag-grid', {
     suppressScrollOnNewData: { type: Boolean, default: false },
     suppressPropertyNamesCheck: { type: Boolean, default: false },
     hide_id_field: { type: Boolean, default: false },
-    localeText: { default: null }, 
+    enable_rtl: { type: Boolean, default: false },
+    locale_text: { type: Text, default: null },
     minWidth: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
     resizable: { type: Boolean, default: true },
@@ -85,7 +86,6 @@ dmx.Component('ag-grid', {
     const options = this.props
     const rowData = this.props.data;
     const timezone = this.props.timezone || false;
-
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
     this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
@@ -341,6 +341,7 @@ dmx.Component('ag-grid', {
         let filterParams;
         let minWidth;
         let hide;
+        
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
           if (/(amount|amt)$/.test(key)) {
@@ -436,7 +437,7 @@ dmx.Component('ag-grid', {
         enableCellClickEvent = this.props.cell_click_event;
         if (cnames.hasOwnProperty(key)) {
         const cname = cnames[key]
-        headerName = cname ? cname.custom_name : humanize(key);
+        headerName = cname ? cname.custom_name : humanize(key);         
         }
         else {
           headerName = humanize(key);
@@ -539,9 +540,14 @@ dmx.Component('ag-grid', {
     
       columnDefs.push(actionsColumn);
     }
-        
+    let localeText;
+    if (options.locale_text == 'HE') {
+      localeText = AG_GRID_LOCALE_HE
+    }
     const gridOptions = {
       columnDefs: columnDefs,
+      localeText: localeText,
+      enableRtl: options.enable_rtl,
       noRowsOverlayComponent: '<div>No Records Found.</div>',
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
       rowStyle: enableRowClickEvent ? { cursor: 'pointer' } : undefined,
@@ -573,7 +579,6 @@ dmx.Component('ag-grid', {
       suppressPropertyNamesCheck: this.props.suppressPropertyNamesCheck,
       suppressRowDeselection: this.props.suppressRowDeselection,
       columnHoverHighlight: this.props.columnHoverHighlight,
-      localeText: this.props.localeText,
       components: {
         clickCellRenderer: clickCellRenderer,
         checkboxCellRenderer: checkboxCellRenderer,
@@ -690,6 +695,7 @@ dmx.Component('ag-grid', {
         };
         gridConfig.api.exportDataAsCsv(params);
       });
+      
       // Append the export button to the grid container
       gridContainer.parentNode.insertBefore(exportButton, gridContainer);
       exportButton.style.marginBottom = '10px';
