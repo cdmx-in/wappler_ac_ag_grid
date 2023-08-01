@@ -512,7 +512,7 @@
                     },
                     {
                       "field": "data_source",
-                      "caption": "Value",
+                      "caption": "Data",
                       "size": "5%",
                       "editable": {
                         "type": "datapicker"
