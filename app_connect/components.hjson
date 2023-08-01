@@ -455,11 +455,11 @@
                       }
                     },
                     {
-                      field: "customColor",
-                      caption: "Color",
-                      size: "20%",
-                      editable: {
-                        type: "text"
+                      "field": "customColor",
+                      "caption": "Color",
+                      "size": "20%",
+                      "editable": {
+                        "type": "text"
                       },
                       help: "Example: '#FF0000' or 'red'"
                     }
@@ -470,6 +470,76 @@
                     "field": "",
                     "condition": "",
                     "customColor": ""
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "group": "📒 Data Advanced Manipulation",
+          "variables": [
+            {
+              "name": "data_binded_changes",
+              "title": "Configure Fields",
+              "type": "boolean",
+              "display": "fieldset",
+              "show": [
+                "dataBindedChanges"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Add custom values for the field data based on value, ex: field: status, value: false, new_value: Disabled"
+              "children": [
+                {
+                  "name": "dataBindedChanges",
+                  "attribute": "dmx-bind:data_binded_changes",
+                  "title": "Fields Data",
+                  "type": "grid",
+                  "dataBindings": true,
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "size": "5%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "data_source",
+                      "caption": "Value",
+                      "size": "5%",
+                      "editable": {
+                        "type": "datapicker"
+                      }
+                    },
+                    {
+                      "field": "property",
+                      "caption": "Property",
+                      "size": "5%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "output",
+                      "caption": "Output",
+                      "size": "5%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "data_source": "",
+                    "property": "",
+                    "output": ""
                   }
                 }
               ]
@@ -491,11 +561,6 @@
               "groupEnabler": true,
               "help": "Add custom values for the field data based on value, ex: field: status, value: false, new_value: Disabled"
               "children": [
-                {
-                  "name": "help",
-                  "type": "static",
-                  "help": "Add custom values for the field data based on value, ex: field: status, value: false, new_value: Disabled"
-                },
                 {
                   "name": "dataChanges",
                   "attribute": "dmx-bind:data_changes",

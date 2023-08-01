@@ -65,6 +65,7 @@ dmx.Component('ag-grid', {
     edit_action_btn_class: {type: String, default: 'btn-primary btn-xs' },
     view_action_icon_class: {type: String, default: 'fas fa-eye' },
     view_action_btn_class: {type: String, default: 'btn-info btn-xs' },
+    data_binded_changes: {type: Array, default: [] }
     
   },
 
@@ -84,7 +85,6 @@ dmx.Component('ag-grid', {
     const options = this.props
     const rowData = this.props.data;
     const timezone = this.props.timezone || false;
-    const dataChanges = this.props.data_changes;
 
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
@@ -284,13 +284,43 @@ dmx.Component('ag-grid', {
         return 'text';
       }
     }
-    function getValueGetter(key, dataChanges) {
+    createCombinedValueGetter = (key, dataChanges, dataBindedChanges) => {
+      const keyLookup = {};
+    
+      dataBindedChanges.forEach(change => {
+        if (!keyLookup[change.field]) {
+          const data_source = change.data_source;
+          const property = change.property;
+          const output = change.output;
+          let dataArray;
+          this.$addBinding(data_source, (function (e) {
+            dataArray = e;
+          }));
+          keyLookup[change.field] = { dataArray, property, output };
+        }
+      });
+    
       return function (params) {
         const value = params.data[key];
-        const matchingChange = dataChanges.find((change) => change.field === key && change.value === String(value));
+    
+        // Check if there's a matching change in dataChanges
+        const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
         if (matchingChange) {
           return matchingChange.new_value;
         }
+    
+        // Check if there's a matching change in dataBindedChanges
+        const matchingKeyData = keyLookup[key];
+        if (matchingKeyData) {
+          const { dataArray, property, output } = matchingKeyData;
+          const matchingItem = dataArray.find(item => item[property] === value);
+    
+          if (matchingItem) {
+            return matchingItem[output];
+          }
+        }
+    
+        // Return the original value if no matching changes were found
         return value;
       };
     }
@@ -311,8 +341,6 @@ dmx.Component('ag-grid', {
         let filterParams;
         let minWidth;
         let hide;
-
-
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
           if (/(amount|amt)$/.test(key)) {
@@ -350,7 +378,8 @@ dmx.Component('ag-grid', {
           }
         }
         else {
-          valueGetter = getValueGetter(key, dataChanges);
+          // valueGetter = getValueGetter(key, dataChanges);
+          valueGetter = createCombinedValueGetter(key, options.data_changes, options.data_binded_changes);
         }
         function extractConditionParts(condition) {
           const parts = condition.match(/(.+?)(===|==|!=|>|<|>=|<=)(.+)/);
