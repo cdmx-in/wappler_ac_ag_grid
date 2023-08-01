@@ -1013,6 +1013,40 @@
       "allowedOn": {
         "dmx-ag-grid": true
       }
+    },
+    {
+      "name": "dmx-ag-grid-rtl",
+      "attributeStartsWith": "dmx-bind",
+      "attribute": "enable_rtl",
+      "title": "Enable RTL",
+      "type": "boolean",
+      "display": "fieldset",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Config",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "enableRtl"
+      ],
+      "noChangeOnHide": true,
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "enableRtl",
+          "attributeStartsWith": "dmx-bind",
+          "attribute": "enable_rtl",
+          "isValue": true,
+          "dataBindings": true,
+          "title": "RTL:",
+          "type": "text",
+          "help": "Locale.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
     }
   ],
   "events": [
