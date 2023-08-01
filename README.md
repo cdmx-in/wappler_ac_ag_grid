@@ -17,3 +17,4 @@ This Custom Module provides the below features:
 14. Options to enable checkboxes for IDs for bulk select Operations
 15. Options to enable Toggle Sliders for status fields
 16. Added Action Buttons feature
+17. Advanced Data Manipulation using Arrays and SC bindings
