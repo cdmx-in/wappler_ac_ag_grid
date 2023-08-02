@@ -91,7 +91,7 @@
           "variables": [
             {
               "name": "minWidth",
-              "attribute": "minWidth",
+              "attribute": "min_width",
               "title": "Minimum Width",
               "type": "number",
               "defaultValue": 150,
@@ -123,7 +123,7 @@
             },
             {
               "name": "floatingFilter",
-              "attribute": "dmx-bind:floatingFilter",
+              "attribute": "dmx-bind:floating_filter",
               "title": "Floating Filter",
               "type": "boolean",
               "defaultValue": true,
@@ -131,7 +131,7 @@
             },
             {
               "name": "exportToCSV",
-              "attribute": "dmx-bind:exportToCSV",
+              "attribute": "dmx-bind:export_to_csv",
               "title": "CSV Export",
               "type": "boolean",
               "defaultValue": true,
@@ -147,7 +147,7 @@
             },
             {
               "name": "columnHoverHighlight",
-              "attribute": "dmx-bind:columnHoverHighlight",
+              "attribute": "dmx-bind:column_hover_highlight",
               "title": "Column Hover Highlight",
               "type": "boolean",
               "defaultValue": true,
@@ -155,7 +155,7 @@
             },
             {
               "name": "suppressRowDeselection",
-              "attribute": "dmx-bind:suppressRowDeselection",
+              "attribute": "dmx-bind:suppress_row_deselection",
               "title": "Supress Row Deselection",
               "type": "boolean",
               "defaultValue": false,
@@ -247,7 +247,7 @@
             },
             {
               "name": "fixedHeader",
-              "attribute": "dmx-bind:fixedHeader",
+              "attribute": "dmx-bind:fixed_header",
               "title": "Sticky Header",
               "type": "boolean",
               "display": "fieldset",
@@ -262,7 +262,7 @@
               "children": [
                 {
                   "name": "fixedHeaderOffset",
-                  "attribute": "fixedHeaderOffset",
+                  "attribute": "fixed_header_offset",
                   "title": "Header Offset",
                   "type": "number",
                   "initDisplay": "none",
@@ -271,7 +271,7 @@
                 },
                 {
                   "name": "topbarClass",
-                  "attribute": "topbarClass",
+                  "attribute": "topbar_class",
                   "title": "Topbar Class",
                   "type": "text",
                   "initDisplay": "none",
@@ -280,7 +280,7 @@
                 },
                 {
                   "name": "fixedTopOffset",
-                  "attribute": "fixedTopOffset",
+                  "attribute": "fixed_top_offset",
                   "title": "Topbar Offset",
                   "type": "number",
                   "initDisplay": "none",
@@ -307,7 +307,7 @@
             },
             {
               "name": "suppressRowClickSelection",
-              "attribute": "dmx-bind:suppressRowClickSelection",
+              "attribute": "dmx-bind:suppress_row_click_selection",
               "title": "Suppress Row Click Selection",
               "type": "boolean",
               "defaultValue": false,
@@ -315,7 +315,7 @@
             },
             {
               "name": "suppressMenuHide",
-              "attribute": "dmx-bind:suppressMenuHide",
+              "attribute": "dmx-bind:suppress_menu_hide",
               "title": "Suppress Menu Hide",
               "type": "boolean",
               "defaultValue": false,
@@ -323,7 +323,7 @@
             },
             {
               "name": "suppressMovableColumns",
-              "attribute": "dmx-bind:suppressMovableColumns",
+              "attribute": "dmx-bind:suppress_movable_columns",
               "title": "Suppress Movable Columns",
               "type": "boolean",
               "defaultValue": false,
@@ -331,7 +331,7 @@
             },
             {
               "name": "enableCellExpressions",
-              "attribute": "dmx-bind:enableCellExpressions",
+              "attribute": "dmx-bind:enable_cell_expressions",
               "title": "Enable Cell Expressions",
               "type": "boolean",
               "defaultValue": false,
@@ -339,7 +339,7 @@
             },
             {
               "name": "animateRows",
-              "attribute": "dmx-bind:animateRows",
+              "attribute": "dmx-bind:animate_rows",
               "title": "Animate Rows",
               "type": "boolean",
               "defaultValue": false,
@@ -347,7 +347,7 @@
             },
             {
               "name": "suppressAggFuncInHeader",
-              "attribute": "dmx-bind:suppressAggFuncInHeader",
+              "attribute": "dmx-bind:suppress_agg_func_in_header",
               "title": "Suppress Aggregation Function in Header",
               "type": "boolean",
               "defaultValue": false,
@@ -355,7 +355,7 @@
             },
             {
               "name": "suppressAggAtRootLevel",
-              "attribute": "dmx-bind:suppressAggAtRootLevel",
+              "attribute": "dmx-bind:suppress_agg_at_root_level",
               "title": "Suppress Aggregation at Root Level",
               "type": "boolean",
               "defaultValue": false,
@@ -363,7 +363,7 @@
             },
             {
               "name": "suppressClipboardPaste",
-              "attribute": "dmx-bind:suppressClipboardPaste",
+              "attribute": "dmx-bind:suppress_clipboard_paste",
               "title": "Suppress Clipboard Paste",
               "type": "boolean",
               "defaultValue": false,
@@ -371,7 +371,7 @@
             },
             {
               "name": "suppressScrollOnNewData",
-              "attribute": "dmx-bind:suppressScrollOnNewData",
+              "attribute": "dmx-bind:suppress_scroll_on_new_data",
               "title": "Suppress Scroll on New Data",
               "type": "boolean",
               "defaultValue": false,
@@ -379,7 +379,7 @@
             },
             {
               "name": "suppressPropertyNamesCheck",
-              "attribute": "dmx-bind:suppressPropertyNamesCheck",
+              "attribute": "dmx-bind:suppress_property_names_check",
               "title": "Suppress Property Names Check",
               "type": "boolean",
               "defaultValue": false,

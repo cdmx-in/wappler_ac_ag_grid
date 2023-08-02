@@ -8,7 +8,6 @@ dmx.Component('ag-grid', {
 
   attributes: {
     id: { default: null },
-    rowData: { type: Array, default: [] },
     grid_theme: { type: String, default: 'ag-theme-alpine' },
     column_defs: { type: Array, default: [] },
     cstyles: { type: Array, default: [] },
@@ -16,39 +15,39 @@ dmx.Component('ag-grid', {
     cwidths: { type: Object, default: {} },
     data_changes: { type: Array, default: [] },
     data: { type: Array, default: [] },
-    domLayout: { default: 'autoHeight' },
-    enableCellTextSelection: { type: Boolean, default: true },
-    rowSelection: { type: String, default: 'single' },
-    suppressRowDeselection: { type: Boolean, default: false },
+    dom_layout: { type: String, default: 'autoHeight' },
+    enable_cell_text_selection: { type: Boolean, default: true },
+    row_selection: { type: String, default: 'single' },
+    suppress_row_deselection: { type: Boolean, default: false },
     pagination: { type: Boolean, default: true },
     pagination_page_size: { type: Number, default: 20 },
     row_height: { type: Number, default: null },
     header_height: { type: Number, default: null },
-    suppressRowClickSelection: { type: Boolean, default: false },
-    suppressMenuHide: { type: Boolean, default: false },
-    suppressMovableColumns: { type: Boolean, default: false },
-    enableCellExpressions: { type: Boolean, default: false },
-    animateRows: { type: Boolean, default: false },
-    suppressAggFuncInHeader: { type: Boolean, default: false },
-    suppressAggAtRootLevel: { type: Boolean, default: false },
-    suppressClipboardPaste: { type: Boolean, default: false },
-    suppressScrollOnNewData: { type: Boolean, default: false },
-    suppressPropertyNamesCheck: { type: Boolean, default: false },
+    suppress_row_click_selection: { type: Boolean, default: false },
+    suppress_menu_hide: { type: Boolean, default: false },
+    suppress_movable_columns: { type: Boolean, default: false },
+    enable_cell_expressions: { type: Boolean, default: false },
+    animate_rows: { type: Boolean, default: false },
+    suppress_agg_func_in_header: { type: Boolean, default: false },
+    suppress_agg_at_root_level: { type: Boolean, default: false },
+    suppress_clipboard_paste: { type: Boolean, default: false },
+    suppress_scroll_on_new_data: { type: Boolean, default: false },
+    suppress_property_names_check: { type: Boolean, default: false },
     hide_id_field: { type: Boolean, default: false },
     enable_rtl: { type: Boolean, default: false },
     locale_text: { type: Text, default: null },
-    minWidth: { type: Number, default: 150 },
+    min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
     resizable: { type: Boolean, default: true },
     filter: { type: Boolean, default: true },
-    floatingFilter: { type: Boolean, default: true },
-    columnHoverHighlight: { type: Boolean, default: true },
-    exportToCSV: { type: Boolean, default: true },
-    fixedHeader: { type: Boolean, default: false },
-    topbarClass: { type: Text, default: 'topbar' },
-    fixedHeaderOffset: { type: Number, default: 100 },
-    fixedTopOffset: { type: Number, default: 80 },
-    fixedHorizonatalScroll: { type: Boolean, default: false },
+    floating_filter: { type: Boolean, default: true },
+    column_hover_highlight: { type: Boolean, default: true },
+    export_to_csv: { type: Boolean, default: true },
+    fixed_header: { type: Boolean, default: false },
+    topbar_class: { type: Text, default: 'topbar' },
+    fixed_header_offset: { type: Number, default: 100 },
+    fixed_top_offset: { type: Number, default: 80 },
+    fixed_horizonatal_scroll: { type: Boolean, default: false },
     timezone: {type: Text, default: '' },
     cell_click_event: {type: Boolean, default: false },
     row_click_event: {type: Boolean, default: false },
@@ -67,7 +66,6 @@ dmx.Component('ag-grid', {
     view_action_icon_class: {type: String, default: 'fas fa-eye' },
     view_action_btn_class: {type: String, default: 'btn-info btn-xs' },
     data_binded_changes: {type: Array, default: [] }
-    
   },
 
   methods: {
@@ -92,7 +90,7 @@ dmx.Component('ag-grid', {
     const enableCellClickEvent = this.props.cell_click_event;
     let localeText;
     let columnDefs = [];
-    let exportToCSV = this.props.exportToCSV;
+    let exportToCSV = this.props.export_to_csv;
     this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
@@ -554,32 +552,32 @@ dmx.Component('ag-grid', {
       rowStyle: enableRowClickEvent ? { cursor: 'pointer' } : undefined,
       defaultColDef: {
         flex: 1,
-        minWidth: this.props.minWidth,
+        minWidth: this.props.min_width,
         resizable: this.props.resizable,
         filter: this.props.filter,
         sortable: this.props.sortable,
-        floatingFilter: this.props.floatingFilter
+        floatingFilter: this.props.floating_filter
       },
-      domLayout: 'autoHeight',
+      domLayout: this.props.dom_layout,
       enableCellTextSelection: true,
-      rowSelection: this.props.rowSelection,
-      suppressRowDeselection: this.props.suppressRowDeselection,
+      rowSelection: this.props.row_selection,
+      suppressRowDeselection: this.props.suppress_row_deselection,
       pagination: this.props.pagination,
       paginationPageSize: this.props.pagination_page_size,
       rowHeight: this.props.row_height,
       headerHeight: this.props.header_height,
-      suppressRowClickSelection: this.props.suppressRowClickSelection,
-      suppressMenuHide: this.props.suppressMenuHide,
-      suppressMovableColumns: this.props.suppressMovableColumns,
-      enableCellExpressions: this.props.enableCellExpressions,
-      animateRows: this.props.animateRows,
-      suppressAggFuncInHeader: this.props.suppressAggFuncInHeader,
-      suppressAggAtRootLevel: this.props.suppressAggAtRootLevel,
-      suppressClipboardPaste: this.props.suppressClipboardPaste,
-      suppressScrollOnNewData: this.props.suppressScrollOnNewData,
-      suppressPropertyNamesCheck: this.props.suppressPropertyNamesCheck,
-      suppressRowDeselection: this.props.suppressRowDeselection,
-      columnHoverHighlight: this.props.columnHoverHighlight,
+      suppressRowClickSelection: this.props.suppress_row_click_selection,
+      suppressMenuHide: this.props.suppress_menu_hide,
+      suppressMovableColumns: this.props.suppress_movable_columns,
+      enableCellExpressions: this.props.enable_cell_expressions,
+      animateRows: this.props.animate_rows,
+      suppressAggFuncInHeader: this.props.suppress_agg_func_in_header,
+      suppressAggAtRootLevel: this.props.suppress_agg_at_root_level,
+      suppressClipboardPaste: this.props.suppress_clipboard_paste,
+      suppressScrollOnNewData: this.props.suppress_scroll_on_new_data,
+      suppressPropertyNamesCheck: this.props.suppress_property_names_check,
+      suppressRowDeselection: this.props.suppress_row_deselection,
+      columnHoverHighlight: this.props.column_hover_highlight,
       components: {
         clickCellRenderer: clickCellRenderer,
         checkboxCellRenderer: checkboxCellRenderer,
@@ -627,10 +625,10 @@ dmx.Component('ag-grid', {
       console.error('Grid container not found.');
       return;
     }
-    if (options.fixedHeader) {
+    if (options.fixed_header) {
       window.addEventListener('scroll', function () {
         const header = document.querySelector('.ag-header');
-        const topbar = document.querySelector('.' + options.topbarClass);
+        const topbar = document.querySelector('.' + options.topbar_class);
         const topbarHeight = (topbar ? topbar.getBoundingClientRect().height : 0) + options.fixedTopOffset;
         const headerPos = (topbar ? topbar.getBoundingClientRect().bottom : 0) + options.fixedHeaderOffset;
 
