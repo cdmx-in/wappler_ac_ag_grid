@@ -179,10 +179,10 @@
             },
             {
               "name": "rowSelection",
-              "attribute": "rowSelection",
+              "attribute": "row_selection",
               "title": "Row Selection",
               "type": "droplist",
-              "defaultValue": 'single',
+              "defaultValue": 'multiple',
               "values": [
               {title: 'Single', value: 'single'},
               {title: 'Muliple', value: 'multiple'}

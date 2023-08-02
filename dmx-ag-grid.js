@@ -18,7 +18,7 @@ dmx.Component('ag-grid', {
     data: { type: Array, default: [] },
     dom_layout: { type: String, default: 'autoHeight' },
     enable_cell_text_selection: { type: Boolean, default: true },
-    row_selection: { type: String, default: 'single' },
+    row_selection: { type: String, default: 'multiple' },
     suppress_row_deselection: { type: Boolean, default: false },
     pagination: { type: Boolean, default: true },
     pagination_page_size: { type: Number, default: 20 },
@@ -638,7 +638,6 @@ dmx.Component('ag-grid', {
         actionsRenderer: actionsRenderer
       }
     };
-
     const gridDiv = document.getElementById(options.id+'-grid');
     
 
