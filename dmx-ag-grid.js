@@ -13,6 +13,7 @@ dmx.Component('ag-grid', {
     cstyles: { type: Array, default: [] },
     cnames: { type: Object, default: {} },
     cwidths: { type: Object, default: {} },
+    ctypes: { type: Array, default: [] },
     data_changes: { type: Array, default: [] },
     data: { type: Array, default: [] },
     dom_layout: { type: String, default: 'autoHeight' },
@@ -87,6 +88,7 @@ dmx.Component('ag-grid', {
     const timezone = this.props.timezone || false;
     const cnames = this.props.cnames
     const cwidths = this.props.cwidths
+    const ctypes = this.props.ctypes
     const enableRowClickEvent = this.props.row_click_event;
     const enableCellClickEvent = this.props.cell_click_event;
     let localeText;
@@ -263,6 +265,10 @@ dmx.Component('ag-grid', {
         browserDatePicker: true,
       }
     // Function to detect the data type based on the values
+    function getCustomDataTypes(key) {
+      const matchingType = ctypes.find((ct) => ct.field === key);
+      return matchingType ? matchingType.type : null;
+    }
     function detectDataType(values) {
       let hasDate = false;
       let hasNumber = false;
@@ -375,7 +381,7 @@ dmx.Component('ag-grid', {
         // Assuming rowData is an array of objects
         const values = rowData.map(row => row[key]);
         const nonNullValues = values.filter(value => value !== null);
-        const dataType = detectDataType(nonNullValues);
+        const dataType = (ctypes.length>0 ? getCustomDataTypes(key) : detectDataType(nonNullValues));
         let filter;
         let valueGetter;
         let filterValueGetter;

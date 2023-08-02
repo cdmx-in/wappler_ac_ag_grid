@@ -420,12 +420,78 @@
           ]
         },
         {
+          "group": "📒 Data Type Overrides",
+          "variables": [
+            {
+              "name": "ctypes",
+              "title": "Configure Type Overrides",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "ctypes",
+              "type": "boolean",
+              "defaultValue": false,
+              "icon": "fa fa-lg fa-database",
+              "groupIcon": "fa fa-lg fa-exchange",
+              "display": "fieldset",
+              "show": [
+                "typeOverrides"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "This allows you to override the auto-detected datatypes"
+              "children": [
+                {
+                  "name": "typeOverrides",
+                  "attribute": "dmx-bind:ctypes",
+                  "title": "Type Overrides",
+                  "type": "grid",
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "defaultValue": [],
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "size": "20%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "type",
+                      "caption": "Type",
+                      "size": "35%",
+                      "editable": {
+                        "type": "list", 
+                        "items": [
+                          {id: 'number', text: 'number'},
+                          {id: 'text', text: 'text'},
+                          {id: 'date', text: 'date'}
+                        ]
+                      }
+                    },
+                  ],
+                  "newRecord": {
+                    "name": "",
+                    "field": "",
+                    "type": ""
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Style Formatting",
           "variables": [
             {
               "name": "cstyles",
               "title": "Configure Colors",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "cstyles",
               "type": "boolean",
+              "defaultValue": false,
               "display": "fieldset",
               "show": [
                 "listColors"
@@ -434,11 +500,6 @@
               "groupEnabler": true,
               "help": "Add custom colors to column data based on condition, ex: field: status, condition: status==false, Color: red"
               "children": [
-                {
-                  "name": "help",
-                  "type": "static",
-                  "help": "Add custom colors for the fields"
-                },
                 {
                   "name": "listColors",
                   "attribute": "dmx-bind:cstyles",
@@ -494,7 +555,10 @@
             {
               "name": "data_binded_changes",
               "title": "Configure Fields",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "data_binded_changes",
               "type": "boolean",
+              "defaultValue": false,
               "display": "fieldset",
               "show": [
                 "dataBindedChanges"
@@ -564,7 +628,10 @@
             {
               "name": "data_changes",
               "title": "Configure Fields",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "data_changes",
               "type": "boolean",
+              "defaultValue": false,
               "display": "fieldset",
               "show": [
                 "dataChanges"
@@ -623,7 +690,10 @@
             {
               "name": "cnames",
               "title": "Configure Header Names",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "cnames",
               "type": "boolean",
+              "defaultValue": false,
               "display": "fieldset",
               "show": [
                 "listCustomNames"
@@ -632,11 +702,6 @@
               "groupEnabler": true,
               "help": "Add custom headers to column"
               "children": [
-                {
-                  "name": "help",
-                  "type": "static",
-                  "help": "Add custom headers to column"
-                },
                 {
                   "name": "listCustomNames",
                   "attribute": "dmx-bind:cnames",
@@ -685,7 +750,10 @@
             {
               "name": "cwidths",
               "title": "Configure Custom Widths",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "cwidths",
               "type": "boolean",
+              "defaultValue": false,
               "display": "fieldset",
               "show": [
                 "listCustomWidths",
@@ -694,11 +762,6 @@
               "groupEnabler": true,
               "help": "Add custom widths for the field"
               "children": [
-                {
-                  "name": "help",
-                  "type": "static",
-                  "help": "Add custom widths for the field"
-                },
                 {
                   "name": "listCustomWidths",
                   "attribute": "dmx-bind:cwidths",
@@ -776,11 +839,6 @@
               "groupEnabler": true,
               "help": "Configure Actions for the buttons in Actions Column"
               "children": [
-                {
-                  "name": "help",
-                  "type": "static",
-                  "help": "Configure Actions for the buttons"
-                },
                 {
                   "name": "enableActions",
                   "attribute": "dmx-bind:enable_actions",
