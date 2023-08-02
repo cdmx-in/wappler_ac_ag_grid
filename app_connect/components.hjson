@@ -171,7 +171,7 @@
             },
             {
               "name": "paginationPageSize",
-              "attribute": "paginationPageSize",
+              "attribute": "pagination_page_size",
               "title": "Pagination Page Size",
               "type": "number",
               "defaultValue": 20,
@@ -291,7 +291,7 @@
             },
             {
               "name": "rowHeight",
-              "attribute": "rowHeight",
+              "attribute": "row_height",
               "title": "Row Height",
               "type": "number",
               "defaultValue": 25,
@@ -299,7 +299,7 @@
             },
             {
               "name": "headerHeight",
-              "attribute": "headerHeight",
+              "attribute": "header_height",
               "title": "Header Height",
               "type": "number",
               "defaultValue": 30,
@@ -972,6 +972,40 @@
           "title": "Column Definitions:",
           "type": "text",
           "help": "Edit Column Definitions.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-pagination-page-size",
+      "attributeStartsWith": "dmx-bind",
+      "attribute": "pagination_page_size",
+      "title": "Pagination Page Size",
+      "type": "boolean",
+      "display": "fieldset",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Config",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "paginationPageSize"
+      ],
+      "noChangeOnHide": true,
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "paginationPageSize",
+          "attributeStartsWith": "dmx-bind",
+          "attribute": "pagination_page_size",
+          "isValue": true,
+          "dataBindings": true,
+          "title": "Pagination Page Size:",
+          "type": "text",
+          "help": "Pagination Page Size.",
           "defaultValue": "",
           "initDisplay": "none"
         }

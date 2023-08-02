@@ -21,9 +21,9 @@ dmx.Component('ag-grid', {
     rowSelection: { type: String, default: 'single' },
     suppressRowDeselection: { type: Boolean, default: false },
     pagination: { type: Boolean, default: true },
-    paginationPageSize: { default: 20 },
-    rowHeight: { type: Number, default: null },
-    headerHeight: { type: Number, default: null },
+    pagination_page_size: { type: Number, default: 20 },
+    row_height: { type: Number, default: null },
+    header_height: { type: Number, default: null },
     suppressRowClickSelection: { type: Boolean, default: false },
     suppressMenuHide: { type: Boolean, default: false },
     suppressMovableColumns: { type: Boolean, default: false },
@@ -86,6 +86,11 @@ dmx.Component('ag-grid', {
     const options = this.props
     const rowData = this.props.data;
     const timezone = this.props.timezone || false;
+    const cnames = this.props.cnames
+    const cwidths = this.props.cwidths
+    const enableRowClickEvent = this.props.row_click_event;
+    const enableCellClickEvent = this.props.cell_click_event;
+    let localeText;
     let columnDefs = [];
     let exportToCSV = this.props.exportToCSV;
     this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
@@ -431,10 +436,7 @@ dmx.Component('ag-grid', {
         
           return null;
           }
-        cnames = this.props.cnames
-        cwidths = this.props.cwidths
-        enableRowClickEvent = this.props.row_click_event;
-        enableCellClickEvent = this.props.cell_click_event;
+
         if (cnames.hasOwnProperty(key)) {
         const cname = cnames[key]
         headerName = cname ? cname.custom_name : humanize(key);         
@@ -540,7 +542,6 @@ dmx.Component('ag-grid', {
     
       columnDefs.push(actionsColumn);
     }
-    let localeText;
     if (options.locale_text == 'HE') {
       localeText = AG_GRID_LOCALE_HE
     }
@@ -564,9 +565,9 @@ dmx.Component('ag-grid', {
       rowSelection: this.props.rowSelection,
       suppressRowDeselection: this.props.suppressRowDeselection,
       pagination: this.props.pagination,
-      paginationPageSize: this.props.paginationPageSize,
-      rowHeight: this.props.rowHeight,
-      headerHeight: this.props.headerHeight,
+      paginationPageSize: this.props.pagination_page_size,
+      rowHeight: this.props.row_height,
+      headerHeight: this.props.header_height,
       suppressRowClickSelection: this.props.suppressRowClickSelection,
       suppressMenuHide: this.props.suppressMenuHide,
       suppressMovableColumns: this.props.suppressMovableColumns,
