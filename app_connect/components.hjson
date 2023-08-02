@@ -813,6 +813,43 @@
           ]
         },
         {
+          "group": "📒 Hide Fields and Filters",
+          "variables": [
+            {
+              "name": "hide_components",
+              "title": "Hide Components",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "cwidths",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": [
+                "hideFields",
+                "hideFilters",
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "hide components such as filters and fields"
+              "children": [
+                {
+                  "name": "hideFields",
+                  "attribute": "hide_fields",
+                  "title": "Hide Fields",
+                  "type": "text",
+                  "initDisplay": "none"
+                },
+                {
+                  "name": "hideFilters",
+                  "attribute": "hide_filters",
+                  "title": "Hide Filters",
+                  "type": "text",
+                  "initDisplay": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Configure Actions Column",
           "variables": [
             {

@@ -66,7 +66,9 @@ dmx.Component('ag-grid', {
     edit_action_btn_class: {type: String, default: 'btn-primary btn-xs' },
     view_action_icon_class: {type: String, default: 'fas fa-eye' },
     view_action_btn_class: {type: String, default: 'btn-info btn-xs' },
-    data_binded_changes: {type: Array, default: [] }
+    data_binded_changes: {type: Array, default: [] },
+    hide_fields: {type: Array, default: [] },
+    hide_filters: {type: Array, default: [] }
   },
 
   methods: {
@@ -492,10 +494,16 @@ dmx.Component('ag-grid', {
           cellRenderer = 'checkboxCellRenderer';
           filter = null;
         }
+        else if (options.hide_filters && options.hide_filters.includes(key)) {
+          filter = null;
+        }
         else {
           cellRenderer = undefined;
         }
         if (options.hide_id_field && key == 'id') {
+          hide = true;
+        }
+        else if (options.hide_fields && options.hide_fields.includes(key)) {
           hide = true;
         }
         else {
