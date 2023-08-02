@@ -75,8 +75,9 @@ dmx.Component('ag-grid', {
       this.refreshGrid();
     },
     reloadGrid: function () {
-      this.refreshGrid()
-      console.log('reloadGrid');
+      dmx.nextTick(function() {
+        this.refreshGrid();
+      }, this);
     }
   },
 
