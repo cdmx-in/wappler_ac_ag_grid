@@ -328,6 +328,44 @@ dmx.Component('ag-grid', {
         return value;
       };
     }
+    createCombinedFilterValueGetter = (key, dataChanges, dataBindedChanges) => {
+      const keyLookup = {};
+    
+      dataBindedChanges.forEach(change => {
+        if (!keyLookup[change.field]) {
+          const data_source = change.data_source;
+          const property = change.property;
+          const output = change.output;
+          let dataArray;
+          this.$addBinding(data_source, (function (e) {
+            dataArray = e;
+          }));
+          keyLookup[change.field] = { dataArray, property, output };
+        }
+      });
+    
+      return function (params) {
+        const value = params.data[key];
+    
+        // Check if there's a matching change in dataChanges
+        const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
+        if (matchingChange) {
+          return matchingChange.new_value;
+        }
+        // Check if there's a matching change in dataBindedChanges
+        const matchingKeyData = keyLookup[key];
+        if (matchingKeyData) {
+          const { dataArray, property, output } = matchingKeyData;
+          const matchingItem = dataArray.find(item => item[property] === value);
+    
+          if (matchingItem) {
+            return matchingItem[output];
+          }
+        }
+        // Return the original value if no matching changes were found
+        return value;
+      };
+    };
     if (Array.isArray(this.props.column_defs) && this.props.column_defs.length > 0) {
       columnDefs = this.props.column_defs;
     } else {
@@ -385,6 +423,7 @@ dmx.Component('ag-grid', {
         else {
           // valueGetter = getValueGetter(key, dataChanges);
           valueGetter = createCombinedValueGetter(key, options.data_changes, options.data_binded_changes);
+          filterValueGetter = createCombinedFilterValueGetter(key, options.data_changes, options.data_binded_changes);
         }
         function extractConditionParts(condition) {
           const parts = condition.match(/(.+?)(===|==|!=|>|<|>=|<=)(.+)/);
