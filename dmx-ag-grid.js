@@ -81,6 +81,12 @@ dmx.Component('ag-grid', {
       dmx.nextTick(function() {
         this.refreshGrid();
       }, this);
+    },
+    updateGrid: function () {
+      dmx.nextTick(function() {
+        console.log(this.data.gridInstance)
+        // this.updateGrid();
+      }, this);
     }
   },
 
@@ -96,6 +102,7 @@ dmx.Component('ag-grid', {
     let localeText;
     let columnDefs = [];
     let exportToCSV = this.props.export_to_csv;
+    let gridInstance = null; 
     this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
@@ -646,8 +653,9 @@ dmx.Component('ag-grid', {
       return;
     }
 
-    if (this.props.gridInstance) {
-      this.props.gridInstance.destroy(); // Destroy the previous grid instance if it exists
+    if (gridInstance) {
+        gridInstance.destroy();
+        gridInstance = null;
     }
     const gridConfig = {
       columnDefs: columnDefs,
@@ -655,7 +663,7 @@ dmx.Component('ag-grid', {
       ...gridOptions
     };
     // Create ag-Grid instance
-    new agGrid.Grid(gridDiv, gridConfig);
+    gridInstance = new agGrid.Grid(gridDiv, gridConfig);
     const gridElement = document.getElementById(options.id+'-grid');
     const gridContainer = gridElement.parentNode;
     // Add an event listener to the grid
@@ -752,6 +760,7 @@ dmx.Component('ag-grid', {
       gridContainer.parentNode.insertBefore(exportButton, gridContainer);
       exportButton.style.marginBottom = '10px';
     }
+    return gridInstance;
     
   },
 
@@ -775,7 +784,8 @@ dmx.Component('ag-grid', {
   update: function (props) {
     this.set('count', this.props.data.length);
     if (!dmx.equal(this.props.data, props.data)) {
-      this.refreshGrid();
+      let gridInstance = this.refreshGrid();
+      this.set('gridInstance', gridInstance);
     }
   },
 });

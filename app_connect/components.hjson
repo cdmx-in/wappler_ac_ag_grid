@@ -970,6 +970,15 @@
           help: 'Reload the AG Grid',
           properties : []
         },
+        {
+          addTitle: 'Update Grid',
+          title : 'Update Grid',
+          name : 'updateGrid',
+          icon : 'fa fa-lg fa-play',
+          state : 'opened',
+          help: 'Update the AG Grid',
+          properties : []
+        }
       ],
       "children": [],
       "allowed_children": {},
