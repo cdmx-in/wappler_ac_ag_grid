@@ -58,6 +58,14 @@
               "required": true,
               "help": "Enter Data Source"
             },
+            { 
+            "name": "gridNoLoad", 
+            "hasAttribute": "noload", 
+            "title": "No Auto Load", 
+            "type": "boolean", 
+            "defaultValue": "", 
+            "initValue": true
+            },
             {
               "name": "grid_theme",
               "attribute": "grid_theme",
@@ -962,21 +970,21 @@
       ],
       actionsScheme: [
         {
-          addTitle: 'Reload Grid',
-          title : 'Reload Grid',
-          name : 'reloadGrid',
+          addTitle: 'Load',
+          title : 'Load',
+          name : 'loadGrid',
           icon : 'fa fa-lg fa-play',
           state : 'opened',
-          help: 'Reload the AG Grid',
+          help: 'Load the AG Grid',
           properties : []
         },
         {
-          addTitle: 'Update Grid',
-          title : 'Update Grid',
-          name : 'updateGrid',
-          icon : 'fa fa-lg fa-play',
+          addTitle: 'Reload',
+          title : 'Reload',
+          name : 'reloadGrid',
+          icon : 'fa fa-lg fa-sync',
           state : 'opened',
-          help: 'Update the AG Grid',
+          help: 'Reload the AG Grid',
           properties : []
         }
       ],

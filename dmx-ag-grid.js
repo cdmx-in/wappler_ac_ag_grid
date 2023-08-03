@@ -8,6 +8,7 @@ dmx.Component('ag-grid', {
 
   attributes: {
     id: { default: null },
+    noload: { type: Boolean, default: false },
     grid_theme: { type: String, default: 'ag-theme-alpine' },
     column_defs: { type: Array, default: [] },
     cstyles: { type: Array, default: [] },
@@ -82,10 +83,9 @@ dmx.Component('ag-grid', {
         this.refreshGrid();
       }, this);
     },
-    updateGrid: function () {
+    loadGrid: function () {
       dmx.nextTick(function() {
-        console.log(this.data.gridInstance)
-        // this.updateGrid();
+        this.refreshGrid();
       }, this);
     }
   },
@@ -783,7 +783,7 @@ dmx.Component('ag-grid', {
 
   update: function (props) {
     this.set('count', this.props.data.length);
-    if (!dmx.equal(this.props.data, props.data)) {
+    if (!dmx.equal(this.props.data, props.data) && !this.props.noload) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
     }
