@@ -38,6 +38,7 @@ dmx.Component('ag-grid', {
     hide_id_field: { type: Boolean, default: false },
     enable_rtl: { type: Boolean, default: false },
     locale_text: { type: Text, default: null },
+    date_locale: { type: Text, default: 'en-IN' },
     min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
     resizable: { type: Boolean, default: true },
@@ -60,16 +61,22 @@ dmx.Component('ag-grid', {
     edit_action_btn: { type: Boolean, default: false },
     edit_action_title: {type: String, default: '' },
     edit_action_tooltip: {type: String, default: 'Edit' },
+    edit_action_icon_class: {type: String, default: 'fas fa-pencil-alt' },
+    edit_action_btn_class: {type: String, default: 'btn-primary btn-xs' },
     view_action_btn: { type: Boolean, default: false },
     view_action_title: {type: String, default: '' },
     view_action_tooltip: {type: String, default: 'View' },
-    edit_action_icon_class: {type: String, default: 'fas fa-pencil-alt' },
-    edit_action_btn_class: {type: String, default: 'btn-primary btn-xs' },
     view_action_icon_class: {type: String, default: 'fas fa-eye' },
     view_action_btn_class: {type: String, default: 'btn-info btn-xs' },
+    delete_action_btn: { type: Boolean, default: false },
+    delete_action_title: {type: String, default: '' },
+    delete_action_tooltip: {type: String, default: 'Delete' },
+    delete_action_icon_class: {type: String, default: 'fas fa-trash' },
+    delete_action_btn_class: {type: String, default: 'btn-danger btn-xs' },
     data_binded_changes: {type: Array, default: [] },
     hide_fields: {type: Array, default: [] },
-    hide_filters: {type: Array, default: [] }
+    hide_filters: {type: Array, default: [] },
+    hide_sort: {type: Array, default: [] }
   },
 
   methods: {
@@ -97,8 +104,8 @@ dmx.Component('ag-grid', {
     const cnames = this.props.cnames
     const cwidths = this.props.cwidths
     const ctypes = this.props.ctypes
-    const enableRowClickEvent = this.props.row_click_event;
-    const enableCellClickEvent = this.props.cell_click_event;
+    const enableRowClickEvent = this.props.row_click_event && !this.props.row_action_edit  && !this.props.row_action_view && !this.props.row_checkbox_event;
+    const enableCellClickEvent = this.props.row_click_event && (this.props.row_action_edit  || this.props.row_action_view || this.props.row_checkbox_event); 
     let localeText;
     let columnDefs = [];
     let exportToCSV = this.props.export_to_csv;
@@ -133,6 +140,17 @@ dmx.Component('ag-grid', {
       const value = params.value
       return `<div onclick="cellClickEvent('${columnName}', '${value}', '${idValue}')" style="cursor: pointer;">${value}</div>`;
     }
+    onCellClicked = (event) => {
+      const rowData = event.data;
+      const columnId = event.column.colId
+      const excludedColIds = ['checkboxColumn', 'actionsColumn', 'statusColumn'];
+      if (excludedColIds.includes(columnId)) {
+        return;
+      }
+      this.set('data', rowData);
+      this.set('id', rowData.id);
+      this.dispatchEvent('row_clicked')
+    }
 
     function checkboxCellRenderer(params) {
       const idValue = params.data.id;
@@ -163,8 +181,9 @@ dmx.Component('ag-grid', {
     function actionsRenderer(params) {
       // Default button configurations (Edit and View)
       const defaultButtons = [
-          { action: 'Edit', classNames: 'btn-primary btn-xs', tooltip: 'Edit', icon: 'fas fa-pencil-alt' },
-          { action: 'View', classNames: 'btn-info btn-xs', tooltip: 'View', icon: 'fas fa-eye' },
+        { action: 'Edit', classNames: 'btn-primary btn-xs', tooltip: 'Edit', icon: 'fas fa-pencil-alt' },
+        { action: 'View', classNames: 'btn-info btn-xs', tooltip: 'View', icon: 'fas fa-eye' },
+        { action: 'Delete', classNames: 'btn-danger btn-xs', tooltip: 'Delete', icon: 'fas fa-trash' },
       ];
       // User-defined button configurations (if any)
       const buttons = params.buttons || defaultButtons;
@@ -209,8 +228,10 @@ dmx.Component('ag-grid', {
         .replace(/_id$/, '')
         .replace(/_/g, ' ')
         .trim();
+      let words = str.split(' ');
+      words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1));
 
-      return str.charAt(0).toUpperCase() + str.substr(1);
+      return words.join(' ');
     }
 
     function blankOrNullValueFormatter(params) {
@@ -240,7 +261,7 @@ dmx.Component('ag-grid', {
             hour12: true,
             timeZone: timezone
           };
-          return date.toLocaleString('en-IN', options).toUpperCase();
+          return date.toLocaleString(options.date_locale, options).toUpperCase();
         } else {
           const options = {
             day: '2-digit',
@@ -250,7 +271,7 @@ dmx.Component('ag-grid', {
             minute: 'numeric',
             hour12: true
           };
-          return date.toLocaleString('en-IN', options).toUpperCase();
+          return date.toLocaleString(options.date_locale, options).toUpperCase();
         }
       }
     }
@@ -398,6 +419,7 @@ dmx.Component('ag-grid', {
         let filterParams;
         let minWidth;
         let hide;
+        let colId;
         
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
@@ -436,7 +458,6 @@ dmx.Component('ag-grid', {
           }
         }
         else {
-          // valueGetter = getValueGetter(key, dataChanges);
           valueGetter = createCombinedValueGetter(key, options.data_changes, options.data_binded_changes);
           filterValueGetter = createCombinedFilterValueGetter(key, options.data_changes, options.data_binded_changes);
         }
@@ -499,6 +520,7 @@ dmx.Component('ag-grid', {
         }
         if (key =='status' && options.row_status_event) {
           cellRenderer = 'checkboxCellRenderer';
+          colId = 'statusColumn';
           filter = null;
         }
         else if (options.hide_filters && options.hide_filters.includes(key)) {
@@ -506,6 +528,13 @@ dmx.Component('ag-grid', {
         }
         else {
           cellRenderer = undefined;
+          colId = undefined;
+        }
+        if (options.hide_sort && options.hide_sort.includes(key)) {
+          sortable = false;
+        }
+        else {
+          sortable = true;
         }
         if (options.hide_id_field && key == 'id') {
           hide = true;
@@ -525,6 +554,7 @@ dmx.Component('ag-grid', {
           valueGetter: valueGetter,
           minWidth: minWidth,
           hide: hide,
+          sortable: sortable,
           filterValueGetter: filterValueGetter,
           filterParams: filterParams,
           cellStyle: applyCellStyle,
@@ -537,6 +567,7 @@ dmx.Component('ag-grid', {
       });
     }
     window.onRowClicked = (event) => {
+      console.log(event)
       const rowData = event.data;
       this.set('data', rowData);
       this.set('id', rowData.id);
@@ -548,6 +579,7 @@ dmx.Component('ag-grid', {
           headerCheckboxSelection: true,
           headerCheckboxSelectionFilteredOnly: false,
           headerName: '',
+          colId: 'checkboxColumn',
           field: 'id', 
           filter: '',
           checkboxSelection: true,
@@ -563,6 +595,7 @@ dmx.Component('ag-grid', {
       actionsColumn = {
         headerName: 'Actions',
         field: 'action',
+        colId: 'actionsColumn',
         filter: null,
         cellRenderer: actionsRenderer,
         pinned: options.pin_actions,
@@ -598,6 +631,19 @@ dmx.Component('ag-grid', {
           },
         });
       }
+      if (options.delete_action_btn) {
+        actionsColumn.cellRendererParams.buttons.push({
+          action: options.delete_action_title,
+          classNames: options.delete_action_btn_class,
+          tooltip: options.delete_action_tooltip,
+          icon: options.delete_action_icon_class,
+          onClick: (rowData) => {
+            this.set('data', rowData);
+            this.set('id', rowData.id);
+            this.dispatchEvent('row_action_delete');
+          },
+        });
+      }
     
       columnDefs.push(actionsColumn);
     }
@@ -610,7 +656,8 @@ dmx.Component('ag-grid', {
       enableRtl: options.enable_rtl,
       noRowsOverlayComponent: '<div>No Records Found.</div>',
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
-      rowStyle: enableRowClickEvent ? { cursor: 'pointer' } : undefined,
+      onCellClicked: enableCellClickEvent ? onCellClicked : undefined,
+      rowStyle: enableRowClickEvent || enableCellClickEvent ? { cursor: 'pointer' } : undefined,
       defaultColDef: {
         flex: 1,
         minWidth: this.props.min_width,
@@ -772,7 +819,8 @@ dmx.Component('ag-grid', {
     row_status_enabled: Event,
     row_status_disabled: Event,
     row_action_edit: Event,
-    row_action_view: Event
+    row_action_view: Event,
+    row_action_delete: Event
   },
 
   render: function(node) {

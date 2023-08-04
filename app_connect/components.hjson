@@ -834,6 +834,7 @@
               "show": [
                 "hideFields",
                 "hideFilters",
+                "hideSort",
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -850,6 +851,13 @@
                   "name": "hideFilters",
                   "attribute": "hide_filters",
                   "title": "Hide Filters",
+                  "type": "text",
+                  "initDisplay": "none"
+                },
+                {
+                  "name": "hideSort",
+                  "attribute": "hide_sort",
+                  "title": "Hide Sort Filters",
                   "type": "text",
                   "initDisplay": "none"
                 }
@@ -878,7 +886,12 @@
                 "viewActionTitle",
                 "viewActionTooltip",
                 "viewActionBtnClass",
-                "viewActionIconClass"
+                "viewActionIconClass",
+                "deleteActionBtn",
+                "deleteActionTitle",
+                "deleteActionTooltip",
+                "deleteActionBtnClass",
+                "deleteActionIconClass"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -923,7 +936,7 @@
                 {
                   "name": "editActionIconClass",
                   "attribute": "edit_action_icon_class",
-                  "title": "Edit Action IconClass",
+                  "title": "Edit Action Icon Class",
                   "type": "text",
                   "defaultValue": 'fas fa-pencil-alt'
                 },
@@ -957,10 +970,45 @@
                 },
                 {
                   "name": "viewActionIconClass",
-                  "attribute": "edit_action_icon_class",
+                  "attribute": "view_action_icon_class",
                   "title": "View Action IconClass",
                   "type": "text",
                   "defaultValue": 'fas fa-eye'
+                },
+                {
+                  "name": "deleteActionBtn",
+                  "attribute": "dmx-bind:delete_action_btn",
+                  "title": "Delete Action Button",
+                  "type": "boolean",
+                  "defaultValue": ''
+                },
+                {
+                  "name": "deleteActionTitle",
+                  "attribute": "delete_action_title",
+                  "title": "Delete Action Button Title",
+                  "type": "text",
+                  "defaultValue": ''
+                },
+                {
+                  "name": "deleteActionTooltip",
+                  "attribute": "delete_action_tooltip",
+                  "title": "Delete Action Button Tooltip",
+                  "type": "text",
+                  "defaultValue": ''
+                },
+                {
+                  "name": "deleteActionBtnClass",
+                  "attribute": "delete_action_btn_class",
+                  "title": "Delete Action Button Class",
+                  "type": "text",
+                  "defaultValue": 'btn-danger btn-xs'
+                },
+                {
+                  "name": "deleteActionIconClass",
+                  "attribute": "delete_action_icon_class",
+                  "title": "Delete Action Icon Class",
+                  "type": "text",
+                  "defaultValue": 'fas fa-trash'
                 }
               ]
             }
@@ -1422,6 +1470,40 @@
           "name": "rowActionView",
           "attributeStartsWith": "dmx-on",
           "attribute": "row_action_view",
+          "isValue": true,
+          "actionsPicker": true,
+          "title": "Action:",
+          "type": "text",
+          "help": "Choose the action to execute.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-delete-clicked",
+      "attributeStartsWith": "dmx-on",
+      "attribute": "row_action_delete",
+      "display": "fieldset",
+      "title": "Delete Clicked",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Events",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "rowActionDelete"
+      ],
+      "noChangeOnHide": true,
+      "type": "boolean",
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "rowActionDelete",
+          "attributeStartsWith": "dmx-on",
+          "attribute": "row_action_delete",
           "isValue": true,
           "actionsPicker": true,
           "title": "Action:",
