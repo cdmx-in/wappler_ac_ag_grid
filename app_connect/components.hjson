@@ -254,6 +254,14 @@
               "help": "Timezone for Date Fields"
             },
             {
+              "name": "dateFormat",
+              "attribute": "date_format",
+              "title": "Date Format",
+              "type": "text",
+              "defaultValue": "dd/MM/yyyy HH:mm A",
+              "help": "Date Format"
+            },
+            {
               "name": "fixedHeader",
               "attribute": "dmx-bind:fixed_header",
               "title": "Sticky Header",

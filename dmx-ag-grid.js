@@ -37,8 +37,9 @@ dmx.Component('ag-grid', {
     suppress_property_names_check: { type: Boolean, default: false },
     hide_id_field: { type: Boolean, default: false },
     enable_rtl: { type: Boolean, default: false },
-    locale_text: { type: Text, default: null },
-    date_locale: { type: Text, default: 'en-IN' },
+    locale_text: { type: String, default: null },
+    date_locale: { type: String, default: 'en-IN' },
+    date_format: { type: String, default: 'dd/MM/yyyy HH:mm A' },
     min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
     resizable: { type: Boolean, default: true },
@@ -245,35 +246,92 @@ dmx.Component('ag-grid', {
 
       return params.value;
     }
-
-    function formatTime(params, timezone) {
-      if (params.value == null) {
-        return '-';
-      } else {
-        const date = new Date(params.value);
-        if (timezone) {
-          const options = {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-            timeZone: timezone
-          };
-          return date.toLocaleString(options.date_locale, options).toUpperCase();
-        } else {
-          const options = {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-          };
-          return date.toLocaleString(options.date_locale, options).toUpperCase();
-        }
+    function formatDate(timestamp) {
+      const format = options.date_format
+      const localDate = new Date(timestamp);
+    
+      const y = localDate.getFullYear();
+      const n = localDate.getMonth();
+      const d = localDate.getDate();
+      const w = localDate.getDay();
+      const h = localDate.getHours();
+      const m = localDate.getMinutes();
+      const s = localDate.getSeconds();
+    
+      function pad(num, length) {
+        return ('0000' + num).slice(-length);
       }
+    
+      return format.replace(/([yMdHhmsaAv])(\1+)?/g, part => {
+        switch (part) {
+          case 'yyyy':
+            return pad(y, 4);
+          case 'yy':
+            return pad(y, 2);
+          case 'y':
+            return y;
+          case 'MMMM':
+            return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][n];
+          case 'MMM':
+            return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][n];
+          case 'MM':
+            return pad(n + 1, 2);
+          case 'M':
+            return n + 1;
+          case 'dddd':
+            return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][w];
+          case 'ddd':
+            return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][w];
+          case 'dd':
+            return pad(d, 2);
+          case 'd':
+            return d;
+          case 'HH':
+            return pad(h, 2);
+          case 'H':
+            return h;
+          case 'hh':
+            return pad((h % 12) || 12, 2);
+          case 'h':
+            return (h % 12) || 12;
+          case 'mm':
+            return pad(m, 2);
+          case 'm':
+            return m;
+          case 'ss':
+            return pad(s, 2);
+          case 's':
+            return s;
+          case 'a':
+            return h < 12 ? 'am' : 'pm';
+          case 'A':
+            return h < 12 ? 'AM' : 'PM';
+          default:
+            return part; // Return unchanged for unknown format parts
+        }
+      });
+    }
+    
+    function formatTime(params, timezone) {
+      const date = new Date(params.value);
+      if (!timezone) {
+        timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      }
+      const options = {
+        timeZone: timezone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: false,
+      };
+    
+      const formatter = new Intl.DateTimeFormat(undefined, options);
+      const formattedDateTime = formatter.format(date);
+      return formatDate(formattedDateTime)
+
     }
     dateFilterParams = {
         comparator: function (filterLocalDateAtMidnight, cellValue) {
@@ -567,7 +625,6 @@ dmx.Component('ag-grid', {
       });
     }
     window.onRowClicked = (event) => {
-      console.log(event)
       const rowData = event.data;
       this.set('data', rowData);
       this.set('id', rowData.id);
@@ -785,9 +842,20 @@ dmx.Component('ag-grid', {
       exportButton.style.marginBottom = '10px';
       
       exportButton.addEventListener('click', () => {
+        const excludedColumnIds = ['checkboxColumn', 'actionsColumn']; 
+        // Extracting fields and colIds from columnDefs
+        const fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
+          field: column.field,
+          colId: column.colId,
+        }));
+        // Filtering out fields based on excludedColumnIds
+        const fieldsToExport = fieldsAndColIds.filter(
+          (column) => !excludedColumnIds.includes(column.colId)
+        ).map((column) => column.field);
         const params = {
           fileName: 'export.csv', // Set the desired file name here
           allColumns: true,
+          columnKeys: fieldsToExport,
           processCellCallback: function (params) {
             const columnDef = params.column.getColDef();
             const valueFormatter = columnDef.valueFormatter;
