@@ -258,7 +258,7 @@
               "attribute": "date_format",
               "title": "Date Format",
               "type": "text",
-              "defaultValue": "dd/MM/yyyy HH:mm A",
+              "defaultValue": "dd/MM/yyyy hh:mm A",
               "help": "Date Format"
             },
             {

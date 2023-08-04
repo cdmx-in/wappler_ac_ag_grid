@@ -39,7 +39,7 @@ dmx.Component('ag-grid', {
     enable_rtl: { type: Boolean, default: false },
     locale_text: { type: String, default: null },
     date_locale: { type: String, default: 'en-IN' },
-    date_format: { type: String, default: 'dd/MM/yyyy HH:mm A' },
+    date_format: { type: String, default: 'dd/MM/yyyy hh:mm A' },
     min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
     resizable: { type: Boolean, default: true },
