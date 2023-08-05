@@ -216,8 +216,6 @@ dmx.Component('ag-grid', {
   
       return container;
   }
-    
-
     function humanize(str) {
       if (str == null) return str;
 
@@ -654,6 +652,7 @@ dmx.Component('ag-grid', {
         field: 'action',
         colId: 'actionsColumn',
         filter: null,
+        sortable: false,
         cellRenderer: actionsRenderer,
         pinned: options.pin_actions,
         cellRendererParams: {
