@@ -518,12 +518,26 @@ dmx.Component('ag-grid', {
           filterValueGetter = createCombinedFilterValueGetter(key, options.data_changes, options.data_binded_changes);
         }
         function extractConditionParts(condition) {
-          const parts = condition.match(/(.+?)(===|==|!=|>|<|>=|<=)(.+)/);
-          if (parts) {
-            const [, left, operator, right] = parts;
-            return [left.trim(), operator.trim(), right.trim()];
+          const operators = ['===', '==', '!=', '>', '<', '>=', '<='];
+          let operator;
+          let left;
+          let right;
+        
+          for (const op of operators) {
+            if (condition.includes(op)) {
+              operator = op;
+              const parts = condition.split(op).map(part => part.trim());
+              left = parts[0];
+              right = parts.slice(1).join(op).trim();
+              break;
+            }
           }
-          return [];
+        
+          if (!operator) {
+            throw new Error('Invalid operator in the condition.');
+          }
+        
+          return [left, operator, right];
         }
         
         function evaluateCondition(left, operator, right) {
@@ -555,17 +569,24 @@ dmx.Component('ag-grid', {
           for (const style of styles) {
             const condition = style.condition;
             const customColor = style.customColor;
+            const font = style.font || 'normal';
+            const area = style.area || 'text'; 
             const [left, operator, right] = extractConditionParts(condition);
+            
             if (
-              params.data.hasOwnProperty(left) && 
-              evaluateCondition(params.data[left], operator, right) 
+              params.data.hasOwnProperty(left) &&
+              evaluateCondition(params.data[left], operator, right)
             ) {
-              return { color: customColor }; 
+              if (area === 'text') {
+                return { color: customColor, fontStyle: font };
+              } else if (area === 'cell') {
+                return { backgroundColor: customColor, fontStyle: font };
+              }
             }
           }
         
           return null;
-          }
+        }
 
         if (cnames.hasOwnProperty(key)) {
         const cname = cnames[key]

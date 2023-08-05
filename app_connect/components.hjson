@@ -503,7 +503,7 @@
           "variables": [
             {
               "name": "cstyles",
-              "title": "Configure Colors",
+              "title": "Configure Colors and Fonts",
               "attributeStartsWith": "dmx-bind",
               "attribute": "cstyles",
               "type": "boolean",
@@ -551,14 +551,39 @@
                         "type": "text"
                       },
                       help: "Example: '#FF0000' or 'red'"
+                    },
+                    {
+                      "field": "area",
+                      "caption": "Area",
+                      "size": "20%",
+                      "editable": {
+                        "type": "list", 
+                        "items": [
+                          {id: 'text', text: 'text'},
+                          {id: 'cell', text: 'cell'}
+                        ]
+                      }
+                    },
+                    {
+                      "field": "font",
+                      "caption": "Font",
+                      "size": "20%",
+                      "editable": {
+                        "type": "list", 
+                        "items": [
+                          {id: 'normal', text: 'normal'},
+                          {id: 'italic', text: 'italic'},
+                          {id: 'bold', text: 'bold'}
+                        ]
+                      }
                     }
                   ],
                   "newRecord": {
-                    "name": "",
-                    "value": "",
                     "field": "",
                     "condition": "",
-                    "customColor": ""
+                    "customColor": "",
+                    "area": "text",
+                    "font": "normal"
                   }
                 }
               ]
