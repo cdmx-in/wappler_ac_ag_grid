@@ -650,13 +650,26 @@
                       "editable": {
                         "type": "text"
                       }
+                    },
+                    {
+                      "field": "area",
+                      "caption": "Area",
+                      "size": "5%",
+                      "editable": {
+                        "type": "list", 
+                        "items": [
+                          {id: 'cell', text: 'cell'},
+                          {id: 'tooltip', text: 'tooltip'}
+                        ]
+                      }
                     }
                   ],
                   "newRecord": {
                     "field": "",
                     "data_source": "",
                     "property": "",
-                    "output": ""
+                    "output": "",
+                    "area": "cell"
                   }
                 }
               ]
@@ -712,13 +725,25 @@
                       editable: {
                         type: "text"
                       }
+                    },
+                    {
+                      "field": "area",
+                      "caption": "Area",
+                      "size": "5%",
+                      "editable": {
+                        "type": "list", 
+                        "items": [
+                          {id: 'cell', text: 'cell'},
+                          {id: 'tooltip', text: 'tooltip'}
+                        ]
+                      }
                     }
                   ],
                   "newRecord": {
-                    "name": "",
-                    "value": "",
                     "field": "",
-                    "new_value": ""
+                    "value": "",
+                    "new_value": "",
+                    "area": "cell"
                   }
                 }
               ]

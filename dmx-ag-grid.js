@@ -388,11 +388,12 @@ dmx.Component('ag-grid', {
           const data_source = change.data_source;
           const property = change.property;
           const output = change.output;
+          const area = change.area;
           let dataArray;
           this.$addBinding(data_source, (function (e) {
             dataArray = e;
           }));
-          keyLookup[change.field] = { dataArray, property, output };
+          keyLookup[change.field] = { dataArray, property, output, area };
         }
       });
     
@@ -401,23 +402,65 @@ dmx.Component('ag-grid', {
     
         // Check if there's a matching change in dataChanges
         const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
-        if (matchingChange) {
+        if (matchingChange && matchingChange.area === 'tooltip' ) {
           return matchingChange.new_value;
         }
     
         // Check if there's a matching change in dataBindedChanges
         const matchingKeyData = keyLookup[key];
         if (matchingKeyData) {
-          const { dataArray, property, output } = matchingKeyData;
+          const { dataArray, property, output, area } = matchingKeyData;
           const matchingItem = dataArray.find(item => item[property] === value);
     
-          if (matchingItem) {
+          if (matchingItem && area === 'cell') {
             return matchingItem[output];
           }
         }
     
         // Return the original value if no matching changes were found
         return value;
+      };
+    }
+    createCombinedTooltipValueGetter = (key, dataChanges, dataBindedChanges) => {
+      const keyLookup = {};
+    
+      dataBindedChanges.forEach(change => {
+        if (!keyLookup[change.field]) {
+          const data_source = change.data_source;
+          const property = change.property;
+          const output = change.output;
+          const area = change.area;
+          let dataArray;
+          this.$addBinding(data_source, (function (e) {
+            dataArray = e;
+          }));
+          keyLookup[change.field] = { dataArray, property, output, area };
+        }
+      });
+    
+      return function (params) {
+        const value = params.data[key];
+        
+    
+        // Check if there's a matching change in dataChanges
+        const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
+        if (matchingChange && matchingChange.area === 'tooltip' ) {
+          return matchingChange.new_value;
+        }
+    
+        // Check if there's a matching change in dataBindedChanges
+        const matchingKeyData = keyLookup[key];
+        if (matchingKeyData) {
+          const { dataArray, property, output, area } = matchingKeyData;
+          const matchingItem = dataArray.find(item => item[property] === value);
+          
+    
+          if (matchingItem && area === 'tooltip') {
+            return matchingItem[output];
+          }
+        }
+        // Return the original value if no matching changes were found
+        return undefined;
       };
     }
     createCombinedFilterValueGetter = (key, dataChanges, dataBindedChanges) => {
@@ -516,8 +559,10 @@ dmx.Component('ag-grid', {
         else {
           valueGetter = createCombinedValueGetter(key, options.data_changes, options.data_binded_changes);
           filterValueGetter = createCombinedFilterValueGetter(key, options.data_changes, options.data_binded_changes);
+          tooltipValueGetter = createCombinedTooltipValueGetter(key, options.data_changes, options.data_binded_changes);
         }
         function extractConditionParts(condition) {
+          
           const operators = ['===', '==', '!=', '>', '<', '>=', '<='];
           let operator;
           let left;
@@ -634,6 +679,7 @@ dmx.Component('ag-grid', {
           sortable: sortable,
           filterValueGetter: filterValueGetter,
           filterParams: filterParams,
+          tooltipValueGetter: tooltipValueGetter,
           cellStyle: applyCellStyle,
           ...(cwidths.hasOwnProperty(key) && {
             minWidth: parseInt(cwidths[key].min_width),
