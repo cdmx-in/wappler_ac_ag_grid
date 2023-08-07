@@ -7,12 +7,11 @@ The AG Grid module allows you to create a flexible and customizable data grid wi
 
 1. **ID**: Unique ID for the grid. (Required)
 2. **Data Source**: Data source for the grid. Enter the data source to populate the grid. (Required)
-3. **No Auto Load**: Set to true to disable auto-load of the grid. (Default: true)
+3. **No Auto Load**: Set to true to disable auto-load of the grid. (Default: false)
 4. **Theme**: Select a theme for the grid.
-   - "Alpine"
+   - "Alpine" (Default)
    - "Balham"
    - "Material"
-   - "Base" (Default)
 5. **Locale**: Select the locale for the grid. Currently supported locales: English (EN) and Hebrew (HE). (Default: EN)
 
 ## AG Grid Options
@@ -30,7 +29,7 @@ The AG Grid module allows you to create a flexible and customizable data grid wi
 17. **Row Selection**: Row Selection (single or multiple).
    - "Single"
    - "Multiple" (Default)
-18. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list.
+18. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list. (Default: Local)
 19. **Date Format**: Date Format for displaying date values. (Default: "dd/MM/yyyy hh:mm A")
 20. **Sticky Header**: Enable sticky header. Optionally specify the header offset and topbar class.
    - Header Offset: Specifies offset from the top of the viewport area (Optional). (Default: 100)
