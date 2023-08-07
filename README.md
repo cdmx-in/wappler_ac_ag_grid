@@ -58,8 +58,8 @@ The AG Grid module allows you to create a flexible and customizable data grid wi
 The Data Type Overrides feature allows you to configure type overrides for specific attributes in the data. This allows you to override the auto-detected data types.
 This grid allows you to define custom type overrides for specific fields in the data. The grid has the following columns:
 
-1. **Field**: The field name for which you want to override the data type. (Editable: text)
-2. **Type**: The new data type you want to assign to the field. Choose from "number," "text," or "date." (Editable: list)
+1. **Field**: The field name for which you want to override the data type. 
+2. **Type**: The new data type you want to assign to the field. Choose from "number," "text," or "date." 
 
 ---
 
@@ -68,11 +68,11 @@ This grid allows you to define custom type overrides for specific fields in the 
 The Style Formatting feature allows you to configure custom colors and fonts for column data based on certain conditions.
 This grid allows you to define custom color and font settings based on specific conditions. The grid has the following columns:
 
-1. **Field**: The field name for which you want to apply the custom color and font settings. (Editable: text)
-2. **Condition**: The condition to check for applying the custom color and font settings. (Editable: text)
-3. **Color**: The custom color to apply when the condition is met. Enter the color in HEX format (e.g., "#FF0000") or use named colors (e.g., "red"). (Editable: text)
-4. **Area**: Choose where to apply the color: "text" (cell text) or "cell" (cell background). (Editable: list)
-5. **Font**: Choose the font style: "normal," "italic," or "bold." (Editable: list)
+1. **Field**: The field name for which you want to apply the custom color and font settings. (eg. first_name or status)
+2. **Condition**: The condition to check for applying the custom color and font settings. (eg. status=false or name=K den)
+3. **Color**: The custom color to apply when the condition is met. Enter the color in HEX format (e.g., "#FF0000") or use named colors (e.g., "red"). 
+4. **Area**: Choose where to apply the color: "text" (cell text) or "cell" (cell background).
+5. **Font**: Choose the font style: "normal," "italic," or "bold."
 ---
 
 # Tooltip Settings
@@ -82,8 +82,8 @@ The Tooltip Settings feature allows you to configure custom tooltips for specifi
 To set a custom tooltip text, enter the desired text for the tooltip in the field.
 This grid allows you to configure custom tooltips for specific fields. The grid has the following columns:
 
-1. **Field**: The field name for which you want to set a custom tooltip. (Editable: text)
-2. **Tooltip**: Choose whether to enable ("yes") or disable ("no") the tooltip for the field. (Editable: list)
+1. **Field**: The field name for which you want to set a custom tooltip. 
+2. **Tooltip**: Choose whether to enable ("yes") or disable ("no") the tooltip for the field. 
 ---
 
 # Advanced Data Manipulation
@@ -91,11 +91,11 @@ This grid allows you to configure custom tooltips for specific fields. The grid 
 The Advanced Data Manipulation feature allows you to add custom values to the field data based on specific conditions.
 This grid allows you to define custom data changes for specific fields. The grid has the following columns:
 
-1. **Field**: The field name for which you want to apply the custom data changes. (Editable: text)
-2. **Data**: The new data source or value to be used for the field. (Editable: date picker)
-3. **Property**: The property within the data source to use as the new value for the field. (Editable: text)
-4. **Output**: The output value for the field. (Editable: text)
-5. **Area**: Choose where to apply the data changes: "cell" (cell text) or "tooltip" (tooltip text). (Editable: list)
+1. **Field**: The field name for which you want to apply the custom data changes. (field name)
+2. **Data**: The new data source or value to be used for the field. (Eg. SC data source array or JSON Data source)
+3. **Property**: The property within the data source to use as the new value for the field. (Input parameter array)
+4. **Output**: The output value for the field. (Output parameter, similar to where clause)
+5. **Area**: Choose where to apply the data changes: "cell" (cell text) or "tooltip" (tooltip text).
 
 
 ---
@@ -105,17 +105,17 @@ This grid allows you to define custom data changes for specific fields. The grid
 The Data Manipulation feature allows you to add custom values to the field data based on specific conditions.
 This grid allows you to define custom data changes for specific fields. The grid has the following columns:
 
-1. **Field**: The field name for which you want to apply the custom data changes. (Editable: text)
-2. **Value**: The value to be replaced in the field data. (Editable: text)
-3. **New Value**: The new value to replace the original value in the field data. (Editable: text)
-4. **Area**: Choose where to apply the data changes: "cell" (cell text) or "tooltip" (tooltip text). (Editable: list)
+1. **Field**: The field name for which you want to apply the custom data changes. 
+2. **Value**: The value to be replaced in the field data. 
+3. **New Value**: The new value to replace the original value in the field data. 
+4. **Area**: Choose where to apply the data changes: "cell" (cell text) or "tooltip" (tooltip text). 
 
 ---
 **Configure Header Names**
 This grid allows you to define custom header names for specific columns. The grid has the following columns:
 
-1. **Field**: The field name for which you want to set a custom header name. (Editable: text)
-2. **Name**: The custom header name to be displayed for the column. (Editable: date picker)
+1. **Field**: The field name for which you want to set a custom header name. 
+2. **Name**: The custom header name to be displayed for the column.
 
 Please note that these changes will only take effect when the `cnames` attribute is set to `true`.
 
@@ -128,9 +128,9 @@ The Custom Widths feature allows you to configure custom column widths for colum
 **Configure Custom Widths**
 This grid allows you to define custom column widths for specific columns. The grid has the following columns:
 
-1. **Field**: The field name for which you want to set a custom column width. (Editable: text)
-2. **Min Width**: The minimum width for the column. (Editable: text)
-3. **Max Width**: The maximum width for the column. (Editable: text)
+1. **Field**: The field name for which you want to set a custom column width. 
+2. **Min Width**: The minimum width for the column. 
+3. **Max Width**: The maximum width for the column. 
 
 # Hide Fields and Filters
 
@@ -205,4 +205,3 @@ Specify the CSS class for styling the icon of the Delete Action button.
 The AG Grid module is licensed under the MIT License. Please refer to the license file for more details.
 
 For any issues or further assistance, please contact our support team.
-
