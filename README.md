@@ -7,12 +7,12 @@ The AG Grid module allows you to create a flexible and customizable data grid wi
 
 1. **ID**: Unique ID for the grid. (Required)
 2. **Data Source**: Data source for the grid. Enter the data source to populate the grid. (Required)
-3. **No Auto Load**: Set to true to disable auto-load of the grid. (Default: true)
+3. **No Auto Load**: Set to true to disable auto-load of the grid. (Default: false)
 4. **Theme**: Select a theme for the grid.
-   - "Alpine"
+   - "Alpine" (Default)
    - "Balham"
    - "Material"
-   - "Base" (Default)
+   - "Base" 
 5. **Locale**: Select the locale for the grid. Currently supported locales: English (EN) and Hebrew (HE). (Default: EN)
 
 ## AG Grid Options
