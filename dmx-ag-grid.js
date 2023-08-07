@@ -402,7 +402,7 @@ dmx.Component('ag-grid', {
     
         // Check if there's a matching change in dataChanges
         const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
-        if (matchingChange && matchingChange.area === 'tooltip' ) {
+        if (matchingChange && matchingChange.area === 'cell' ) {
           return matchingChange.new_value;
         }
     

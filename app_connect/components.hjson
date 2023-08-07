@@ -729,7 +729,6 @@
                     {
                       "field": "area",
                       "caption": "Area",
-                      "size": "5%",
                       "editable": {
                         "type": "list", 
                         "items": [
