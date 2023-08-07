@@ -11,6 +11,8 @@ dmx.Component('ag-grid', {
     noload: { type: Boolean, default: false },
     grid_theme: { type: String, default: 'ag-theme-alpine' },
     column_defs: { type: Array, default: [] },
+    tooltip_config: { type: Array, default: [] },
+    custom_tooltip: { type: String, default: null },
     cstyles: { type: Array, default: [] },
     cnames: { type: Object, default: {} },
     cwidths: { type: Object, default: {} },
@@ -423,7 +425,6 @@ dmx.Component('ag-grid', {
     }
     createCombinedTooltipValueGetter = (key, dataChanges, dataBindedChanges) => {
       const keyLookup = {};
-    
       dataBindedChanges.forEach(change => {
         if (!keyLookup[change.field]) {
           const data_source = change.data_source;
@@ -453,14 +454,23 @@ dmx.Component('ag-grid', {
         if (matchingKeyData) {
           const { dataArray, property, output, area } = matchingKeyData;
           const matchingItem = dataArray.find(item => item[property] === value);
-          
-    
           if (matchingItem && area === 'tooltip') {
             return matchingItem[output];
           }
         }
-        // Return the original value if no matching changes were found
-        return undefined;
+        if (options.custom_tooltip) {
+          return options.custom_tooltip;
+        }
+        else if (Array.isArray(options.tooltip_config)) {
+          for (const config of options.tooltip_config) {
+            if (config.field === key && config.tooltip === "yes") {
+              return value;
+            }
+          }
+        }
+        else {
+          return undefined;
+        }
       };
     }
     createCombinedFilterValueGetter = (key, dataChanges, dataBindedChanges) => {
@@ -560,6 +570,7 @@ dmx.Component('ag-grid', {
           valueGetter = createCombinedValueGetter(key, options.data_changes, options.data_binded_changes);
           filterValueGetter = createCombinedFilterValueGetter(key, options.data_changes, options.data_binded_changes);
           tooltipValueGetter = createCombinedTooltipValueGetter(key, options.data_changes, options.data_binded_changes);
+
         }
         function extractConditionParts(condition) {
           

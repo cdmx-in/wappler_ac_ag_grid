@@ -591,6 +591,72 @@
           ]
         },
         {
+          "group": "📒 Tooltip Settings",
+          "variables": [
+            {
+              "name": "customTooltip",
+              "attribute": "custom_tooltip",
+              "title": "Custom Tooltip Text",
+              "type": "text",
+              "help": "Specify custom tooltip text"
+            },
+            {
+              "name": "tooltipConfig",
+              "title": "Configure Field Tooltips",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "tooltip_config",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": [
+                "tooltipConfig"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Enable/Disable Tooltips for fields"
+              "children": [
+                {
+                  "name": "tooltipConfig",
+                  "attribute": "dmx-bind:tooltip_config",
+                  "title": "Tooltip Configs",
+                  "type": "grid",
+                  "dataBindings": true,
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "size": "20%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "tooltip",
+                      "caption": "Tooltip",
+                      "size": "20%",
+                      "editable": {
+                        "type": "list", 
+                        "items": [
+                          {id: 'yes', text: 'yes'},
+                          {id: 'no', text: 'no'}
+                        ]
+                      }
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "tooltip": "no"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Advanced Data Manipulation",
           "variables": [
             {
