@@ -1029,6 +1029,14 @@
                   "help": "Enable Actions"
                 },
                 {
+                  "name": "pingActions",
+                  "attribute": "dmx-bind:pin_actions",
+                  "title": "Pin Actions Column",
+                  "type": "boolean",
+                  "defaultValue": true,
+                  "help": "Pin Actions Column"
+                },
+                {
                   "name": "editActionBtn",
                   "attribute": "dmx-bind:edit_action_btn",
                   "title": "Edit Action Button",
