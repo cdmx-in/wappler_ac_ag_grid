@@ -29,7 +29,7 @@ The AG Grid module allows you to create a flexible and customizable data grid wi
 17. **Row Selection**: Row Selection (single or multiple).
    - "Single"
    - "Multiple" (Default)
-18. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list.
+18. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list. (Default: Local)
 19. **Date Format**: Date Format for displaying date values. (Default: "dd/MM/yyyy hh:mm A")
 20. **Sticky Header**: Enable sticky header. Optionally specify the header offset and topbar class.
    - Header Offset: Specifies offset from the top of the viewport area (Optional). (Default: 100)
