@@ -12,7 +12,6 @@ The AG Grid module allows you to create a flexible and customizable data grid wi
    - "Alpine" (Default)
    - "Balham"
    - "Material"
-   - "Base" 
 5. **Locale**: Select the locale for the grid. Currently supported locales: English (EN) and Hebrew (HE). (Default: EN)
 
 ## AG Grid Options
