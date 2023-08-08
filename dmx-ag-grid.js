@@ -53,8 +53,8 @@ dmx.Component('ag-grid', {
     topbar_class: { type: String, default: 'topbar' },
     fixed_header_offset: { type: Number, default: 100 },
     fixed_top_offset: { type: Number, default: 80 },
-    fixed_horizonatal_scroll: { type: Boolean, default: false },
-    fixed_horizonatal_scroll_width: { type: Number, default: 80 },
+    fixed_horizontal_scroll: { type: Boolean, default: false },
+    fixed_horizontal_scroll_width: { type: Number, default: 80 },
     timezone: {type: String, default: '' },
     cell_click_event: {type: Boolean, default: false },
     row_click_event: {type: Boolean, default: false },
@@ -889,11 +889,11 @@ dmx.Component('ag-grid', {
     const agGridElement = document.getElementById(gridId);
     function updateHoveringBarStyles() {
       const existingStyle = document.getElementById('hovering-bar-style');
-      if (options.fixed_horizonatal_scroll) {
+      if (options.fixed_horizontal_scroll) {
         // Create a new style element
         const styleElement = document.createElement('style');
         styleElement.id = 'hovering-bar-style';
-        const barWidthPercentage = options.fixed_horizonatal_scroll_width;
+        const barWidthPercentage = options.fixed_horizontal_scroll_width;
         const barWidth = `calc(${barWidthPercentage}vw - 10px)`; 
         // Add the styles for the hovering horizontal bottom bar
         styleElement.innerHTML = `

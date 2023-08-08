@@ -315,18 +315,18 @@
                   "help": "Specify topbar offset, Default: 80"
                 },
                 {
-                  "name": "fixedHorizonalScroll",
-                  "attribute": "dmx-bind:fixed_horizonatal_scroll",
-                  "title": "Fixed Horizonal Scroll",
+                  "name": "fixedHorizontalScroll",
+                  "attribute": "dmx-bind:fixed_horizontal_scroll",
+                  "title": "Fixed Horizontal Scroll",
                   "type": "boolean",
                   "initDisplay": "none",
                   "defaultValue": false,
                   "help": "Enables bottom fixed horizontal scroll"
                 },
                 {
-                  "name": "fixedHorizonalScrollWidth",
-                  "attribute": "dmx-bind:fixed_horizonatal_scroll_width",
-                  "title": "Fixed Horizonal Scroll Width",
+                  "name": "fixedHorizontalScrollWidth",
+                  "attribute": "dmx-bind:fixed_horizontal_scroll_width",
+                  "title": "Fixed Horizontal Scroll Width",
                   "type": "number",
                   "initDisplay": "none",
                   "defaultValue": 80,
