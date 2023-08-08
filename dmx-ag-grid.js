@@ -868,7 +868,6 @@ dmx.Component('ag-grid', {
       console.error('Grid container not found.');
       return;
     }
-    console.log(options.fixed_header)
     if (options.fixed_header) {
       window.addEventListener('scroll', function () {
         const header = document.querySelector('.ag-header');
