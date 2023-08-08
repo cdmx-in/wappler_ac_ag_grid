@@ -54,6 +54,7 @@ dmx.Component('ag-grid', {
     fixed_header_offset: { type: Number, default: 100 },
     fixed_top_offset: { type: Number, default: 80 },
     fixed_horizonatal_scroll: { type: Boolean, default: false },
+    fixed_horizonatal_scroll_width: { type: Number, default: 80 },
     timezone: {type: Text, default: '' },
     cell_click_event: {type: Boolean, default: false },
     row_click_event: {type: Boolean, default: false },
@@ -107,8 +108,8 @@ dmx.Component('ag-grid', {
     const cnames = this.props.cnames
     const cwidths = this.props.cwidths
     const ctypes = this.props.ctypes
-    const enableRowClickEvent = this.props.row_click_event && !this.props.row_action_edit  && !this.props.row_action_view && !this.props.row_checkbox_event;
-    const enableCellClickEvent = this.props.row_click_event && (this.props.row_action_edit  || this.props.row_action_view || this.props.row_checkbox_event); 
+    const enableRowClickEvent = this.props.row_click_event && !this.props.enable_actions && !this.props.row_checkbox_event;
+    const enableCellClickEvent = this.props.row_click_event && (this.props.enable_actions || this.props.row_checkbox_event); 
     let localeText;
     let columnDefs = [];
     let exportToCSV = this.props.export_to_csv;
@@ -867,13 +868,13 @@ dmx.Component('ag-grid', {
       console.error('Grid container not found.');
       return;
     }
+    console.log(options.fixed_header)
     if (options.fixed_header) {
       window.addEventListener('scroll', function () {
         const header = document.querySelector('.ag-header');
         const topbar = document.querySelector('.' + options.topbar_class);
-        const topbarHeight = (topbar ? topbar.getBoundingClientRect().height : 0) + options.fixedTopOffset;
-        const headerPos = (topbar ? topbar.getBoundingClientRect().bottom : 0) + options.fixedHeaderOffset;
-
+        const topbarHeight = (topbar ? topbar.getBoundingClientRect().height : 0) + options.fixed_top_offset;
+        const headerPos = (topbar ? topbar.getBoundingClientRect().bottom : 0) + options.fixed_header_offset;
         if (window.pageYOffset > headerPos) {
           header.style.position = 'fixed';
           header.style.top = `${topbarHeight}px`;
@@ -885,6 +886,36 @@ dmx.Component('ag-grid', {
         }
       });
     }
+    const gridId = `${options.id}-grid`;
+    const agGridElement = document.getElementById(gridId);
+    function updateHoveringBarStyles() {
+      const existingStyle = document.getElementById('hovering-bar-style');
+      if (options.fixed_horizonatal_scroll) {
+        // Create a new style element
+        const styleElement = document.createElement('style');
+        styleElement.id = 'hovering-bar-style';
+        const barWidthPercentage = options.fixed_horizonatal_scroll_width;
+        const barWidth = `calc(${barWidthPercentage}vw - 10px)`; 
+        // Add the styles for the hovering horizontal bottom bar
+        styleElement.innerHTML = `
+          .ag-body-horizontal-scroll {
+            width: ${barWidth};
+            position: fixed;
+            bottom: 0;
+          }
+        `;
+        if (existingStyle) {
+          existingStyle.parentNode.replaceChild(styleElement, existingStyle);
+        } else {
+          document.head.appendChild(styleElement);
+        }
+      } else if (existingStyle) {
+        // Remove the style element if it exists
+        existingStyle.parentNode.removeChild(existingStyle);
+      }
+    }
+    updateHoveringBarStyles();
+    window.addEventListener('resize', updateHoveringBarStyles);
 
     // Create the export button
     if (exportToCSV) {

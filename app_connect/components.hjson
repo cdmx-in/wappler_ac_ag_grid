@@ -263,19 +263,30 @@
             },
             {
               "name": "fixedHeader",
-              "attribute": "dmx-bind:fixed_header",
-              "title": "Sticky Header",
+              "title": "Sticky Header and Horizonal Scrollbar",
               "type": "boolean",
               "display": "fieldset",
               "noChangeOnHide": true,
               "groupEnabler": true,
               "defaultValue": false,
               "show": [
+                "enableFixedHeader",
                 "fixedHeaderOffset",
                 "topbarClass",
-                "fixedTopOffset"
+                "fixedTopOffset",
+                "fixedHorizonalScroll",
+                "fixedHorizonalScrollWidth"
               ],
               "children": [
+                {
+                  "name": "enableFixedHeader",
+                  "attribute": "dmx-bind:fixed_header",
+                  "title": "Fixed Header",
+                  "type": "boolean",
+                  "initDisplay": "none",
+                  "defaultValue": false,
+                  "help": "Enables Sticky header"
+                },
                 {
                   "name": "fixedHeaderOffset",
                   "attribute": "fixed_header_offset",
@@ -302,6 +313,24 @@
                   "initDisplay": "none",
                   "defaultValue": 80,
                   "help": "Specify topbar offset, Default: 80"
+                },
+                {
+                  "name": "fixedHorizonalScroll",
+                  "attribute": "dmx-bind:fixed_horizonatal_scroll",
+                  "title": "Fixed Horizonal Scroll",
+                  "type": "boolean",
+                  "initDisplay": "none",
+                  "defaultValue": false,
+                  "help": "Enables bottom fixed horizontal scroll"
+                },
+                {
+                  "name": "fixedHorizonalScrollWidth",
+                  "attribute": "dmx-bind:fixed_horizonatal_scroll_width",
+                  "title": "Fixed Horizonal Scroll Width",
+                  "type": "number",
+                  "initDisplay": "none",
+                  "defaultValue": 80,
+                  "help": "Fixed horizontal scroll width percentage (Default: 80%)"
                 }
               ]
             },
