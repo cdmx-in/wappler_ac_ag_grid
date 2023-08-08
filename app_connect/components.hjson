@@ -263,7 +263,7 @@
             },
             {
               "name": "fixedHeader",
-              "title": "Sticky Header and Horizonal Scrollbar",
+              "title": "Sticky Header and Horizontal Scrollbar",
               "type": "boolean",
               "display": "fieldset",
               "noChangeOnHide": true,
