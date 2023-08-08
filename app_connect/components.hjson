@@ -1018,6 +1018,33 @@
           ]
         },
         {
+          "group": "📒 Amount Fields",
+          "variables": [
+            {
+              "name": "amount_fields",
+              "title": "Amount Fields Config",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": [
+                "amountFields"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Configure amount fields to have comma-seperation implemented"
+              "children": [
+                {
+                  "name": "amountFields",
+                  "attribute": "amount_fields",
+                  "title": "Amount Fields",
+                  "type": "text",
+                  "initDisplay": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Configure Actions Column",
           "variables": [
             {
@@ -1029,6 +1056,7 @@
               "display": "fieldset",
               "show": [
                 "enableActions",
+                "pinActions",
                 "editActionBtn",
                 "editActionTitle",
                 "editActionTooltip",
@@ -1058,7 +1086,7 @@
                   "help": "Enable Actions"
                 },
                 {
-                  "name": "pingActions",
+                  "name": "pinActions",
                   "attribute": "dmx-bind:pin_actions",
                   "title": "Pin Actions Column",
                   "type": "boolean",

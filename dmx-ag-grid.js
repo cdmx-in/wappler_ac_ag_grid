@@ -42,6 +42,7 @@ dmx.Component('ag-grid', {
     locale_text: { type: String, default: null },
     date_locale: { type: String, default: 'en-IN' },
     date_format: { type: String, default: 'dd/MM/yyyy hh:mm A' },
+    amount_fields: { type: Array, default: [] },
     min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
     resizable: { type: Boolean, default: true },
@@ -533,7 +534,7 @@ dmx.Component('ag-grid', {
         
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
-          if (/(amount|amt)$/.test(key)) {
+          if (options.amount_fields && options.amount_fields.includes(key)) {
             valueFormatter = function (params) {
               if (params.value != null) {
                 return Number(params.value).toLocaleString("en-US", {
