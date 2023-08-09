@@ -38,6 +38,7 @@ dmx.Component('ag-grid', {
     suppress_scroll_on_new_data: { type: Boolean, default: false },
     suppress_property_names_check: { type: Boolean, default: false },
     hide_id_field: { type: Boolean, default: false },
+    numeric_column_align: { type: Boolean, default: false },
     enable_rtl: { type: Boolean, default: false },
     locale_text: { type: String, default: null },
     date_locale: { type: String, default: 'en-IN' },
@@ -537,9 +538,12 @@ dmx.Component('ag-grid', {
         let minWidth;
         let hide;
         let colId;
-        
+
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
+          if (options.numeric_column_align){
+            type = 'numericColumn';
+          }
           if (options.amount_fields && options.amount_fields.includes(key)) {
             valueFormatter = function (params) {
               if (params.value != null) {
@@ -695,6 +699,7 @@ dmx.Component('ag-grid', {
           valueGetter: valueGetter,
           minWidth: minWidth,
           hide: hide,
+          type: type,
           sortable: sortable,
           filterValueGetter: filterValueGetter,
           filterParams: filterParams,

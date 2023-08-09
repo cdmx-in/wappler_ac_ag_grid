@@ -439,6 +439,14 @@
               "help": "Hides the ID Field in Grid"
             },
             {
+              "name": "numericColumnAlign",
+              "attribute": "dmx-bind:numeric_column_align",
+              "title": "Right Align Numeric Columns",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Align numeric columns to the right."
+            },
+            {
               "name": "rowClickEvent",
               "attribute": "dmx-bind:row_click_event",
               "title": "Row Click Events",
