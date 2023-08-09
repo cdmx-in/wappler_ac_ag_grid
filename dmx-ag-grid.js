@@ -82,7 +82,10 @@ dmx.Component('ag-grid', {
     data_binded_changes: {type: Array, default: [] },
     hide_fields: {type: Array, default: [] },
     hide_filters: {type: Array, default: [] },
-    hide_sort: {type: Array, default: [] }
+    hide_sort: {type: Array, default: [] },
+    compact_view: { type: Boolean, default: false },
+    compact_view_grid_size: { type: Number, default: 3 },
+    compact_view_item_height: { type: Number, default: 20 }
   },
 
   methods: {
@@ -859,6 +862,10 @@ dmx.Component('ag-grid', {
     // Create ag-Grid instance
     gridInstance = new agGrid.Grid(gridDiv, gridConfig);
     const gridElement = document.getElementById(options.id+'-grid');
+    if (options.compact_view) {
+      gridElement.style.setProperty('--ag-grid-size', `${options.compact_view_grid_size}`+'px');
+      gridElement.style.setProperty('--ag-list-item-height', `${options.compact_view_item_height}`+'px');
+    }
     const gridContainer = gridElement.parentNode;
     // Add an event listener to the grid
     if (options.row_checkbox_event) {

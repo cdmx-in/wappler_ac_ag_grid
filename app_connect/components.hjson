@@ -1053,6 +1053,52 @@
           ]
         },
         {
+          "group": "📒 Compact View",
+          "variables": [
+            {
+              "name": "compact_view",
+              "title": "Compact View Config",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": [
+                "compactView",
+                "compactViewGridSize",
+                "compactViewItemHeight"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Configure amount fields to have comma-seperation implemented"
+              "children": [
+                {
+                  "name": "compactView",
+                  "attribute": "dmx-bind:compact_view",
+                  "title": "Compact View",
+                  "type": "boolean",
+                  "defaultValue": false,
+                  "initDisplay": "none"
+                },
+                {
+                  "name": "compactViewGridSize",
+                  "attribute": "compact_view_grid_size",
+                  "title": "Grid Size",
+                  "type": "number",
+                  "defaultValue": 3,
+                  "initDisplay": "none"
+                },
+                {
+                  "name": "compactViewItemHeight",
+                  "attribute": "compact_view_item_height",
+                  "title": "Grid Item Height",
+                  "type": "number",
+                  "defaultValue": 20,
+                  "initDisplay": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Configure Actions Column",
           "variables": [
             {
