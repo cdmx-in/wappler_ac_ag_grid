@@ -420,6 +420,10 @@ dmx.Component('ag-grid', {
             return matchingItem[output];
           }
         }
+        if (options.amount_fields && options.amount_fields.includes(key)) {
+          console.log(parseFloat(value))
+              return parseFloat(value)
+        }
     
         // Return the original value if no matching changes were found
         return value;
@@ -508,6 +512,9 @@ dmx.Component('ag-grid', {
           if (matchingItem) {
             return matchingItem[output];
           }
+        }
+        if (options.amount_fields && options.amount_fields.includes(key)) {
+              return parseFloat(value)
         }
         // Return the original value if no matching changes were found
         return value;
