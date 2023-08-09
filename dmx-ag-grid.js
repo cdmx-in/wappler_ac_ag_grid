@@ -421,7 +421,6 @@ dmx.Component('ag-grid', {
           }
         }
         if (options.amount_fields && options.amount_fields.includes(key)) {
-          console.log(parseFloat(value))
               return parseFloat(value)
         }
     
