@@ -96,13 +96,45 @@ dmx.Component('ag-grid', {
     },
     reloadGrid: function () {
       dmx.nextTick(function() {
-        this.refreshGrid();
+        this.transactionUpdate();
       }, this);
     },
     loadGrid: function () {
       dmx.nextTick(function() {
-        this.refreshGrid();
+      let gridInstance = this.refreshGrid();
+      this.set('gridInstance', gridInstance);
       }, this);
+    }
+  },
+
+  transactionUpdate: function () {
+    // const oldRowData = this.get('oldData');
+    const gridInstance = this.get('gridInstance');
+    const oldRowData = gridInstance.gridOptions.api.getModel().rowsToDisplay.map(row => row.data);
+    const newRowData = this.props.data;
+    let transaction;
+  
+    if (oldRowData && oldRowData.length > 0) {
+        const addedRows = newRowData.filter(newRow => !oldRowData.some(oldRow => newRow.id === oldRow.id));
+        const removedRows = oldRowData.filter(oldRow => !newRowData.some(newRow => oldRow.id === newRow.id));
+        const updatedRows = newRowData.filter(newRow => {
+          const oldRow = oldRowData.find(old => old.id === newRow.id);
+          return oldRow && JSON.stringify(oldRow) !== JSON.stringify(newRow);
+        });
+  
+        // Apply transactional updates to AG Grid
+        transaction = {
+          add: addedRows,
+          remove: removedRows,
+          update: updatedRows,
+        };
+      }
+      
+    if (gridInstance && gridInstance.gridOptions && transaction) {
+      gridInstance.gridOptions.api.applyTransaction(transaction);
+      gridInstance.gridOptions.api.refreshCells();
+    } else {
+      console.error('AG Grid instance or transaction not found.');
     }
   },
 
@@ -540,6 +572,7 @@ dmx.Component('ag-grid', {
         let filterParams;
         let minWidth;
         let hide;
+        let type;
         let colId;
 
         if (dataType === 'number') {
