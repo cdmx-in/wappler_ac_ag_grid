@@ -148,8 +148,32 @@ Enter the names of fields you want to hide separated by commas. The specified fi
 Enter the names of filters you want to hide separated by commas. The specified filters will be hidden from the view.
 
 **Hide Sort Filters**
-Enter the names of sort filters you want to hide separated by commas. The specified sort filters will be hidden from the view.
+Enter the names of the sort filters you want to hide separated by commas. The specified sort filters will be hidden from the view.
 
+---
+
+# Amount Fields
+The amount fields configuration consists of the following parameters:
+
+- **Amount Fields** (Type: checkbox, Default: false)
+  - Enable or disable the comma-separation for amount fields.
+
+- **Amount Fields** (Type: textbox, Default: null)
+  - Define the fields where the comma-separation and float parsing need to be applied.
+---
+
+# Compact View
+The compact view configuration consists of the following parameters:
+
+- **Compact View** (Type: checkbox, Default: false)
+  - Enable or disable the compact view for the grid.
+
+- **Grid Size** (Type: number, Default: 3)
+  - Specify the grid size for the compact view. This determines the number of columns in each row.
+
+- **Grid Item Height** (Type: number, Default: 20)
+  - Set the height of each item in the compact view.
+ 
 ---
 
 # Configure Actions Column
@@ -201,6 +225,17 @@ Specify the tooltip text for the Delete Action button.
 **Delete Action Button Class**
 Specify the CSS class for styling the Delete Action button.
 Specify the CSS class for styling the icon of the Delete Action button.
+
+# Action Attributes
+
+**Load**
+- Mainly to be used in conjunction with "No Auto Load" enabled so that you can load only when certain conditions are met.
+- Use Case: Used when you're awaiting the population of specific elements or data before loading the grid. It's also useful for refreshing the grid intentionally.
+
+**Reload** (Beta)
+- To be used in conjunction with "No Auto Load" being enabled
+- This performs a transactional update of the client-side data in the grid after comparing the existing and updated datasets
+- To use this: Enable "No Auto Load", On Edit or update actions, perform an SC load, On Success of SC load perform the AG Grid Module Reload Action.
 
 ## License
 
