@@ -233,7 +233,7 @@ Specify the CSS class for styling the icon of the Delete Action button.
 - Use Case: Used when you're awaiting the population of specific elements or data before loading the grid. It's also useful for refreshing the grid intentionally.
 
 **Reload** (Beta)
-- To be used in conjunction with "No Auto Load" being enabled
+- To be used in conjunction with "No Auto Load" enabled
 - This performs a transactional update of the client-side data in the grid after comparing the existing and updated datasets
 - To use this: Enable "No Auto Load", On Edit or update actions, perform an SC load, On Success of SC load perform the AG Grid Module Reload Action.
 
