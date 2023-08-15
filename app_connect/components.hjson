@@ -264,6 +264,7 @@
             {
               "name": "fixedHeader",
               "title": "Sticky Header and Horizontal Scrollbar",
+              "attribute": "f_header",
               "type": "boolean",
               "display": "fieldset",
               "noChangeOnHide": true,
@@ -791,7 +792,8 @@
               "defaultValue": false,
               "display": "fieldset",
               "show": [
-                "dataChanges"
+                "dataChanges",
+                "amountFields"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -847,6 +849,13 @@
                     "new_value": "",
                     "area": "cell"
                   }
+                },
+                {
+                  "name": "amountFields",
+                  "attribute": "amount_fields",
+                  "title": "Amount Fields",
+                  "type": "text",
+                  "initDisplay": "none"
                 }
               ]
             }
@@ -994,7 +1003,7 @@
               "show": [
                 "hideFields",
                 "hideFilters",
-                "hideSort",
+                "hideSort"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -1026,38 +1035,12 @@
           ]
         },
         {
-          "group": "📒 Amount Fields",
-          "variables": [
-            {
-              "name": "amount_fields",
-              "title": "Amount Fields Config",
-              "type": "boolean",
-              "defaultValue": false,
-              "display": "fieldset",
-              "show": [
-                "amountFields"
-              ],
-              "noChangeOnHide": true,
-              "groupEnabler": true,
-              "help": "Configure amount fields to have comma-seperation implemented"
-              "children": [
-                {
-                  "name": "amountFields",
-                  "attribute": "amount_fields",
-                  "title": "Amount Fields",
-                  "type": "text",
-                  "initDisplay": "none"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "group": "📒 Compact View",
           "variables": [
             {
               "name": "compact_view",
               "title": "Compact View Config",
+              "attribute": "compact_views",
               "type": "boolean",
               "defaultValue": false,
               "display": "fieldset",
@@ -1104,6 +1087,7 @@
             {
               "name": "groupConfig",
               "title": "Configure Column Groups",
+              "attribute": "group_configs",
               "type": "boolean",
               "defaultValue": false,
               "display": "fieldset",
@@ -1165,7 +1149,6 @@
           "variables": [
             {
               "name": "action_column",
-              "attributeStartsWith": "dmx-bind",
               "attribute": "action_column",
               "title": "Configure Actions",
               "type": "boolean",
@@ -1338,6 +1321,15 @@
           state : 'opened',
           help: 'Reload the AG Grid',
           properties : []
+        },
+        {
+          addTitle: 'Export',
+          title: 'Export',
+          name: 'exportGrid',
+          icon: 'fa fa-lg fa-download',
+          state: 'opened',
+          help: 'Export AG Grid Data to CSV',
+          properties: []
         }
       ],
       "children": [],

@@ -43,7 +43,7 @@ dmx.Component('ag-grid', {
     locale_text: { type: String, default: null },
     date_locale: { type: String, default: 'en-IN' },
     date_format: { type: String, default: 'dd/MM/yyyy hh:mm A' },
-    amount_fields: { type: Array, default: [] },
+    amount_fields: { type: String, default: null },
     min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
     resizable: { type: Boolean, default: true },
@@ -80,9 +80,9 @@ dmx.Component('ag-grid', {
     delete_action_icon_class: {type: String, default: 'fas fa-trash' },
     delete_action_btn_class: {type: String, default: 'btn-danger btn-xs' },
     data_binded_changes: {type: Array, default: [] },
-    hide_fields: {type: Array, default: [] },
-    hide_filters: {type: Array, default: [] },
-    hide_sort: {type: Array, default: [] },
+    hide_fields: {type: String, default: null },
+    hide_filters: {type: String, default: null },
+    hide_sort: {type: String, default: null },
     compact_view: { type: Boolean, default: false },
     compact_view_grid_size: { type: Number, default: 3 },
     compact_view_item_height: { type: Number, default: 20 },
@@ -104,6 +104,15 @@ dmx.Component('ag-grid', {
       dmx.nextTick(function() {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
+      }, this);
+    },
+    exportGrid: function () {
+      dmx.nextTick(function() {
+        if (typeof exportGridData === 'function') {
+          exportGridData();
+        } else {
+          console.error('Grid not loaded to perform export');
+        }
       }, this);
     }
   },
@@ -458,8 +467,11 @@ dmx.Component('ag-grid', {
             return matchingItem[output];
           }
         }
-        if (options.amount_fields && options.amount_fields.includes(key)) {
-              return parseFloat(value)
+        if (options.amount_fields) {
+          const amountFieldsArray = options.amount_fields.split(',');
+          if (amountFieldsArray.includes(key)) {
+            return parseFloat(value);
+          }
         }
     
         // Return the original value if no matching changes were found
@@ -550,8 +562,11 @@ dmx.Component('ag-grid', {
             return matchingItem[output];
           }
         }
-        if (options.amount_fields && options.amount_fields.includes(key)) {
-              return parseFloat(value)
+        if (options.amount_fields) {
+          const amountFieldsArray = options.amount_fields.split(',');
+          if (amountFieldsArray.includes(key)) {
+            return parseFloat(value);
+          }
         }
         // Return the original value if no matching changes were found
         return value;
@@ -575,22 +590,26 @@ dmx.Component('ag-grid', {
         let hide;
         let type;
         let colId;
+        let sortable;
 
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
           if (options.numeric_column_align){
             type = 'numericColumn';
           }
-          if (options.amount_fields && options.amount_fields.includes(key)) {
-            valueFormatter = function (params) {
-              if (params.value != null) {
-                return Number(params.value).toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                });
-              }
-              return '-';
-            };
+          if (options.amount_fields) {
+            const amountFieldsArray = options.amount_fields.split(',');
+            if (amountFieldsArray.includes(key)) {
+              valueFormatter = function (params) {
+                if (params.value != null) {
+                  return Number(params.value).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  });
+                }
+                return '-';
+              };
+            }
           } else {
             valueFormatter = blankOrNullValueFormatter;
           }
@@ -705,15 +724,22 @@ dmx.Component('ag-grid', {
           colId = 'statusColumn';
           filter = null;
         }
-        else if (options.hide_filters && options.hide_filters.includes(key)) {
-          filter = null;
+        else if (options.hide_filters) {
+          const hideFiltersArray = options.hide_filters.split(',');
+        
+          if (hideFiltersArray.includes(key)) {
+            filter = null;
+          }
         }
         else {
           cellRenderer = undefined;
           colId = undefined;
         }
-        if (options.hide_sort && options.hide_sort.includes(key)) {
-          sortable = false;
+        if (options.hide_sort) {
+          const hideSortArray = options.hide_sort.split(',');
+          if (hideSortArray.includes(key)) {
+            sortable = false;
+          }
         }
         else {
           sortable = true;
@@ -721,8 +747,12 @@ dmx.Component('ag-grid', {
         if (options.hide_id_field && key == 'id') {
           hide = true;
         }
-        else if (options.hide_fields && options.hide_fields.includes(key)) {
-          hide = true;
+        else if (options.hide_fields) {
+          const hideFieldsArray = options.hide_fields.split(',');
+        
+          if (hideFieldsArray.includes(key)) {
+            hide = true;
+          }
         }
         else {
           hide = undefined;
@@ -989,6 +1019,37 @@ dmx.Component('ag-grid', {
     updateHoveringBarStyles();
     window.addEventListener('resize', updateHoveringBarStyles);
 
+    //CSV Export Function
+    exportGridData = () => {
+      const excludedColumnIds = ['checkboxColumn', 'actionsColumn']; 
+      // Extracting fields and colIds from columnDefs
+      const fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
+        field: column.field,
+        colId: column.colId,
+      }));
+      // Filtering out fields based on excludedColumnIds
+      const fieldsToExport = fieldsAndColIds.filter(
+        (column) => !excludedColumnIds.includes(column.colId)
+      ).map((column) => column.field);
+      const params = {
+        fileName: 'export.csv', // Set the desired file name here
+        allColumns: true,
+        columnKeys: fieldsToExport,
+        processCellCallback: function (params) {
+          const columnDef = params.column.getColDef();
+          const valueFormatter = columnDef.valueFormatter;
+          if (valueFormatter && typeof valueFormatter === "function") {
+            const formattedValue = valueFormatter(params);
+            if (formattedValue !== null && formattedValue !== undefined) {
+              return formattedValue;
+            }
+          }
+          return params.value;
+        },
+      };
+      gridConfig.api.exportDataAsCsv(params);
+    };
+
     // Create the export button
     if (exportToCSV) {
       const existingExportButton = document.getElementById('exportButton');
@@ -1020,37 +1081,10 @@ dmx.Component('ag-grid', {
       exportButton.style.borderRadius = '5px';
       exportButton.style.cursor = 'pointer';
       exportButton.style.marginBottom = '10px';
-      
+
       exportButton.addEventListener('click', () => {
-        const excludedColumnIds = ['checkboxColumn', 'actionsColumn']; 
-        // Extracting fields and colIds from columnDefs
-        const fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
-          field: column.field,
-          colId: column.colId,
-        }));
-        // Filtering out fields based on excludedColumnIds
-        const fieldsToExport = fieldsAndColIds.filter(
-          (column) => !excludedColumnIds.includes(column.colId)
-        ).map((column) => column.field);
-        const params = {
-          fileName: 'export.csv', // Set the desired file name here
-          allColumns: true,
-          columnKeys: fieldsToExport,
-          processCellCallback: function (params) {
-            const columnDef = params.column.getColDef();
-            const valueFormatter = columnDef.valueFormatter;
-            if (valueFormatter && typeof valueFormatter === "function") {
-              const formattedValue = valueFormatter(params);
-              if (formattedValue !== null && formattedValue !== undefined) {
-                return formattedValue;
-              }
-            }
-            return params.value;
-          },
-        };
-        gridConfig.api.exportDataAsCsv(params);
-      });
-      
+        exportGridData()
+      })
       // Append the export button to the grid container
       gridContainer.parentNode.insertBefore(exportButton, gridContainer);
       exportButton.style.marginBottom = '10px';
