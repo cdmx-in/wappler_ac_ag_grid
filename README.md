@@ -116,13 +116,13 @@ This grid allows you to define custom data changes for specific fields. The grid
 - Define the fields where the comma-separation and float parsing need to be applied.
   
 ---
+# Custom Headers
+
 **Configure Header Names**
 This grid allows you to define custom header names for specific columns. The grid has the following columns:
 
 1. **Field**: The field name for which you want to set a custom header name. 
 2. **Name**: The custom header name to be displayed for the column.
-
-Please note that these changes will only take effect when the `cnames` attribute is set to `true`.
 
 ---
 
