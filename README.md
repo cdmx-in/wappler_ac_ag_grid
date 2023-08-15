@@ -112,6 +112,9 @@ This grid allows you to define custom data changes for specific fields. The grid
 3. **New Value**: The new value to replace the original value in the field data. 
 4. **Area**: Choose where to apply the data changes: "cell" (cell text) or "tooltip" (tooltip text). 
 
+**Amount Fields** (Type: textbox, Default: null)
+- Define the fields where the comma-separation and float parsing need to be applied.
+  
 ---
 **Configure Header Names**
 This grid allows you to define custom header names for specific columns. The grid has the following columns:
@@ -152,16 +155,6 @@ Enter the names of the sort filters you want to hide separated by commas. The sp
 
 ---
 
-# Amount Fields
-The amount fields configuration consists of the following parameters:
-
-- **Amount Fields** (Type: checkbox, Default: false)
-  - Enable or disable the comma-separation for amount fields.
-
-- **Amount Fields** (Type: textbox, Default: null)
-  - Define the fields where the comma-separation and float parsing need to be applied.
----
-
 # Compact View
 The compact view configuration consists of the following parameters:
 
@@ -173,7 +166,24 @@ The compact view configuration consists of the following parameters:
 
 - **Grid Item Height** (Type: number, Default: 20)
   - Set the height of each item in the compact view.
- 
+---
+# Column Groups
+
+This feature allows you to organize and group columns for a more structured presentation of data. Instead of using the built-in top left corner button, you can opt for a separate Export button that triggers the action to download data as a CSV file.
+
+## Group Configuration
+This option enables column grouping functionality.
+
+### Group Configurations
+
+This option allows you separate fields into different groups. 
+Each configuration includes:
+- **Group Name**: Assign a name to the group for easy identification.
+- **Start Field**: Specify the starting field of the group.
+- **End Field**: Define the ending field of the group.
+
+These configurations help you create organized and logical groupings of columns for your data presentation needs.
+
 ---
 
 # Configure Actions Column
@@ -236,6 +246,10 @@ Specify the CSS class for styling the icon of the Delete Action button.
 - To be used in conjunction with "No Auto Load" enabled
 - This performs a transactional update of the client-side data in the grid after comparing the existing and updated datasets
 - To use this: Enable "No Auto Load", On Edit or update actions, perform an SC load, On Success of SC load perform the AG Grid Module Reload Action.
+
+**Export**
+- To be used if you wish to use a separate Export button instead of using the inbuilt top left-cornered Export button.
+- Trigger this action to call Export Data to CSV download action.
 
 ## License
 
