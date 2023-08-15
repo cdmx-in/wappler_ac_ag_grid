@@ -1099,6 +1099,68 @@
           ]
         },
         {
+          "group": "📒 Column Groups",
+          "variables": [
+            {
+              "name": "groupConfig",
+              "title": "Configure Column Groups",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": [
+                "listGroupConfig",
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Apply Column grouping"
+              "children": [
+                {
+                  "name": "listGroupConfig",
+                  "attribute": "dmx-bind:group_config",
+                  "title": "Group Config",
+                  "type": "grid",
+                  "dataBindings": true,
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "name",
+                      "caption": "Group Name",
+                      "size": "25%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      field: "start_field",
+                      caption: "Start Field",
+                      size: "25%",
+                      editable: {
+                        type: "text"
+                      }
+                    },
+                    {
+                      field: "end_field",
+                      caption: "Start Field",
+                      size: "25%",
+                      editable: {
+                        type: "text"
+                      }
+                    }
+                  ],
+                  "newRecord": {
+                    "name": "",
+                    "start_field": "",
+                    "end_field": ""
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Configure Actions Column",
           "variables": [
             {

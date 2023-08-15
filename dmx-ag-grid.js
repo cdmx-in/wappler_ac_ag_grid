@@ -85,7 +85,8 @@ dmx.Component('ag-grid', {
     hide_sort: {type: Array, default: [] },
     compact_view: { type: Boolean, default: false },
     compact_view_grid_size: { type: Number, default: 3 },
-    compact_view_item_height: { type: Number, default: 20 }
+    compact_view_item_height: { type: Number, default: 20 },
+    group_config: { type: Array, default: [] }
   },
 
   methods: {
@@ -149,6 +150,7 @@ dmx.Component('ag-grid', {
     const enableCellClickEvent = this.props.row_click_event && (this.props.enable_actions || this.props.row_checkbox_event); 
     let localeText;
     let columnDefs = [];
+    let groupedColumnDefs = [];
     let exportToCSV = this.props.export_to_csv;
     let gridInstance = null; 
     this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
@@ -559,7 +561,6 @@ dmx.Component('ag-grid', {
       columnDefs = this.props.column_defs;
     } else {
       const firstRow = rowData[0];
-
       columnDefs = Object.keys(firstRow).map(key => {
         // Assuming rowData is an array of objects
         const values = rowData.map(row => row[key]);
@@ -726,7 +727,6 @@ dmx.Component('ag-grid', {
         else {
           hide = undefined;
         }
-
         return {
           headerName: headerName,
           field: key,
@@ -748,6 +748,27 @@ dmx.Component('ag-grid', {
           cellRenderer: cellRenderer
         };
       });
+      if (options.group_config && options.group_config.length > 0) {
+        groupedColumnDefs = options.group_config.map(group => {
+          const startFieldIndex = columnDefs.findIndex(colDef => colDef.field === group.start_field);
+          const endFieldIndex = columnDefs.findIndex(colDef => colDef.field === group.end_field);
+      
+          if (startFieldIndex === -1 || endFieldIndex === -1 || startFieldIndex > endFieldIndex) {
+              return null;
+          }
+      
+          const groupColumns = columnDefs.slice(startFieldIndex, endFieldIndex + 1)
+              .map(col => ({
+                  ...col,
+                  columnGroupShow: 'open'
+              }));
+      
+          return {
+              headerName: group.name,
+              children: groupColumns
+          };
+      }).filter(group => group !== null);
+    }
     }
     window.onRowClicked = (event) => {
       const rowData = event.data;
@@ -834,7 +855,7 @@ dmx.Component('ag-grid', {
       localeText = AG_GRID_LOCALE_HE
     }
     const gridOptions = {
-      columnDefs: columnDefs,
+      columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
       localeText: localeText,
       enableRtl: options.enable_rtl,
       noRowsOverlayComponent: '<div>No Records Found.</div>',
