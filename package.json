@@ -1,6 +1,6 @@
 {
     "name": "@cdmx/wappler_ag_grid",
-    "version": "0.6.4",
+    "version": "0.6.5",
     "type": "module",
     "description": "App Connect module for AG Grid Table Generation",
     "license": "MIT",
@@ -13,6 +13,9 @@
         "app-connect",
         "ag-grid"
     ],
+    "dependencies": {
+        "ag-grid-community": "^30.0.6"
+    },
     "scripts": {
         "build": "rollup --config",
         "publish-dry-run": "npm publish ./dist --access public --dry-run"
