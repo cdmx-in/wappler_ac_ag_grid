@@ -32,6 +32,8 @@ dmx.Component('ag-grid', {
     suppress_movable_columns: { type: Boolean, default: false },
     enable_cell_expressions: { type: Boolean, default: false },
     animate_rows: { type: Boolean, default: false },
+    always_show_horizontal_scroll: { type: Boolean, default: true },
+    always_show_vertical_scroll: { type: Boolean, default: false },
     suppress_agg_func_in_header: { type: Boolean, default: false },
     suppress_agg_at_root_level: { type: Boolean, default: false },
     suppress_clipboard_paste: { type: Boolean, default: false },
@@ -1016,10 +1018,33 @@ dmx.Component('ag-grid', {
     exportGridData = () => {
       const excludedColumnIds = ['checkboxColumn', 'actionsColumn']; 
       // Extracting fields and colIds from columnDefs
-      const fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
-        field: column.field,
-        colId: column.colId,
-      }));
+      let fieldsAndColIds;
+      if (options.group_config) {
+        // Helper function to traverse grouped column structure
+        const traverseColumns = (columns) => {
+          const fieldsAndColIds = [];
+          columns.forEach((column) => {
+            if (column.children) {
+              fieldsAndColIds.push(...traverseColumns(column.children));
+            } else {
+              fieldsAndColIds.push({
+                field: column.field,
+                colId: column.colId,
+              });
+            }
+          });
+          return fieldsAndColIds;
+        };
+
+        // Traverse columnDefs to gather fields and colIds
+        fieldsAndColIds = traverseColumns(gridConfig.columnDefs);
+            
+          } else {
+            fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
+              field: column.field,
+              colId: column.colId,
+            }));
+          }
       // Filtering out fields based on excludedColumnIds
       const fieldsToExport = fieldsAndColIds.filter(
         (column) => !excludedColumnIds.includes(column.colId)
