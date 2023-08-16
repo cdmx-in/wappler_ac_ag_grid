@@ -362,26 +362,18 @@ dmx.Component('ag-grid', {
     }
     
     function formatTime(params, timezone) {
-      const date = new Date(params.value);
-      if (!timezone) {
-        timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const date = new Date(params.value)
+      if (timezone) {
+        const options = {
+          timeZone: timezone,
+        };
+        
+        const convertedTimestamp = date.toLocaleString('en-US', options);
+        dateTimezone = new Date(convertedTimestamp).getTime();
+        return formatDate(dateTimezone)
+      } else {
+        return formatDate(date);
       }
-      const options = {
-        timeZone: timezone,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: false,
-      };
-    
-      const formatter = new Intl.DateTimeFormat(undefined, options);
-      // const formattedDateTime = formatter.format(date);
-      const formattedDateTime = date.toISOString()
-      return formatDate(formattedDateTime)
-
     }
     dateFilterParams = {
         comparator: function (filterLocalDateAtMidnight, cellValue) {
