@@ -378,7 +378,8 @@ dmx.Component('ag-grid', {
       };
     
       const formatter = new Intl.DateTimeFormat(undefined, options);
-      const formattedDateTime = formatter.format(date);
+      // const formattedDateTime = formatter.format(date);
+      const formattedDateTime = date.toISOString()
       return formatDate(formattedDateTime)
 
     }
