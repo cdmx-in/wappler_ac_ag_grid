@@ -362,19 +362,23 @@ dmx.Component('ag-grid', {
         }
       });
     }
-    
     function formatTime(params, timezone) {
-      const date = new Date(params.value)
-      if (timezone) {
-        const options = {
-          timeZone: timezone,
-        };
-        
-        const convertedTimestamp = date.toLocaleString('en-US', options);
-        dateTimezone = new Date(convertedTimestamp).getTime();
-        return formatDate(dateTimezone)
-      } else {
-        return formatDate(date);
+      if (params.value) {
+        const date = new Date(params.value)
+        if (timezone) {
+          const options = {
+            timeZone: timezone,
+          };
+
+          const convertedTimestamp = date.toLocaleString('en-US', options);
+          dateTimezone = new Date(convertedTimestamp).getTime();
+          return formatDate(dateTimezone)
+        } else {
+          return formatDate(date);
+        }
+      }
+      else {
+        return '-'
       }
     }
     dateFilterParams = {
