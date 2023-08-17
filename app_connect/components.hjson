@@ -275,8 +275,8 @@
                 "fixedHeaderOffset",
                 "topbarClass",
                 "fixedTopOffset",
-                "fixedHorizonalScroll",
-                "fixedHorizonalScrollWidth"
+                "fixedHorizontalScroll",
+                "fixedHorizontalScrollWidth"
               ],
               "children": [
                 {
@@ -287,6 +287,15 @@
                   "initDisplay": "none",
                   "defaultValue": false,
                   "help": "Enables Sticky header"
+                },
+                {
+                  "name": "fixedHorizontalScroll",
+                  "attribute": "dmx-bind:fixed_horizontal_scroll",
+                  "title": "Fixed Horizontal Scroll",
+                  "type": "boolean",
+                  "initDisplay": "none",
+                  "defaultValue": false,
+                  "help": "Enables bottom fixed horizontal scroll"
                 },
                 {
                   "name": "fixedHeaderOffset",
@@ -314,15 +323,6 @@
                   "initDisplay": "none",
                   "defaultValue": 80,
                   "help": "Specify topbar offset, Default: 80"
-                },
-                {
-                  "name": "fixedHorizontalScroll",
-                  "attribute": "dmx-bind:fixed_horizontal_scroll",
-                  "title": "Fixed Horizontal Scroll",
-                  "type": "boolean",
-                  "initDisplay": "none",
-                  "defaultValue": false,
-                  "help": "Enables bottom fixed horizontal scroll"
                 },
                 {
                   "name": "fixedHorizontalScrollWidth",
@@ -568,7 +568,6 @@
                     {
                       "field": "field",
                       "caption": "Field",
-                      "size": "20%",
                       "editable": {
                         "type": "text"
                       }
@@ -576,7 +575,6 @@
                     {
                       "field": "condition",
                       "caption": "Condition",
-                      "size": "35%",
                       "editable": {
                         "type": "text"
                       }
@@ -584,7 +582,6 @@
                     {
                       "field": "customColor",
                       "caption": "Color",
-                      "size": "20%",
                       "editable": {
                         "type": "text"
                       },
@@ -593,7 +590,6 @@
                     {
                       "field": "area",
                       "caption": "Area",
-                      "size": "20%",
                       "editable": {
                         "type": "list", 
                         "items": [
@@ -605,7 +601,6 @@
                     {
                       "field": "font",
                       "caption": "Font",
-                      "size": "20%",
                       "editable": {
                         "type": "list", 
                         "items": [
