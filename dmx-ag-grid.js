@@ -413,9 +413,9 @@ dmx.Component('ag-grid', {
       for (const value of values) {
         if (value === null || value === undefined || value === '') {
           hasText = true;
-        } else if (!isNaN(Number(value))) {
+        } else if (!isNaN(Number(value)) && !(typeof value === "string")) {
           hasNumber = true;
-        } else if (!isNaN(Date.parse(value))) {
+        } else if (moment(value, moment.ISO_8601, true).isValid()) {
           hasDate = true;
         } else {
           hasText = true;
