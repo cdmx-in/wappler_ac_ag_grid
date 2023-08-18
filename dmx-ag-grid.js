@@ -701,7 +701,7 @@ dmx.Component('ag-grid', {
               evaluateCondition(params.data[left], operator, right)
             ) {
               if (area === 'text') {
-                return { color: customColor, fontStyle: font };
+                return { color: customColor, fontStyle: font, fontWeight: (font==='bold'?'bold':null) };
               } else if (area === 'cell') {
                 return { backgroundColor: customColor, fontStyle: font };
               }
