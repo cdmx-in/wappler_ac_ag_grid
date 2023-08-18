@@ -1,4 +1,4 @@
-﻿Maintained by: Roney Dsilva
+#### Developed and Maintained by: Roney Dsilva
 # AG Grid Module Documentation
 
 The AG Grid module allows you to create a flexible and customizable data grid with various options and properties. Below, you'll find the list of properties and options available for configuring the AG Grid module:
