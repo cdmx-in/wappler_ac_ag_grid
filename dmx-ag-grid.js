@@ -411,7 +411,7 @@ dmx.Component('ag-grid', {
       let hasText = false;
 
       for (const value of values) {
-        if (value === null || value === undefined || value === '') {
+        if (value === null || value === undefined || value === '' || typeof value === "boolean") {
           hasText = true;
         } else if (!isNaN(Number(value)) && !(typeof value === "string")) {
           hasNumber = true;
