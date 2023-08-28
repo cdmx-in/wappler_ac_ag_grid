@@ -340,7 +340,7 @@
               "attribute": "row_height",
               "title": "Row Height",
               "type": "number",
-              "defaultValue": 25,
+              "defaultValue": null,
               "help": "Height of each row in pixels"
             },
             {
@@ -348,7 +348,7 @@
               "attribute": "header_height",
               "title": "Header Height",
               "type": "number",
-              "defaultValue": 30,
+              "defaultValue": null,
               "help": "Height of the header row in pixels"
             },
             {
@@ -1046,7 +1046,7 @@
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
-              "help": "Configure amount fields to have comma-seperation implemented"
+              "help": "Configure Compact View for the grid"
               "children": [
                 {
                   "name": "compactView",
@@ -1062,7 +1062,8 @@
                   "title": "Grid Size",
                   "type": "number",
                   "defaultValue": 3,
-                  "initDisplay": "none"
+                  "initDisplay": "none",
+                  "help": "Configure padding and spacing for the grid, value in pixels" 
                 },
                 {
                   "name": "compactViewItemHeight",
@@ -1070,7 +1071,8 @@
                   "title": "Grid Item Height",
                   "type": "number",
                   "defaultValue": 20,
-                  "initDisplay": "none"
+                  "initDisplay": "none",
+                  "help": "Controls the height of items in UI scrolling lists such as the columns in the columns tool panel below, value in pixels"
                 }
               ]
             }
