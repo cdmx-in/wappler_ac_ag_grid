@@ -1,4 +1,4 @@
-#### Developed and Maintained by: Roney Dsilva
+﻿#### Developed and Maintained by: Roney Dsilva
 # AG Grid Module Documentation
 
 The AG Grid module allows you to create a flexible and customizable data grid with various options and properties. Below, you'll find the list of properties and options available for configuring the AG Grid module:
@@ -195,6 +195,9 @@ This will display the "Configure Actions" options for the buttons in the Actions
 **Pin Actions Column**
 This will keep the Actions Column fixed when scrolling horizontally.
 
+**Actions Column Position**
+This will set the position of the Actions Column.(Default: Right)
+
 **Edit Action Button**
 This will display the "Edit Action Button" options.
 
@@ -235,6 +238,68 @@ Specify the tooltip text for the Delete Action button.
 **Delete Action Button Class**
 Specify the CSS class for styling the Delete Action button.
 Specify the CSS class for styling the icon of the Delete Action button.
+
+# Custom Action Buttons
+
+**Button1 Class**
+Specify the CSS class for Button 1.
+
+**Button1 Tooltip**
+Specify the tooltip text for Button 1.
+
+**Button2 Class**
+Specify the CSS class for Button 2.
+
+**Button2 Tooltip**
+Specify the tooltip text for Button 2.
+
+**Button3 Class**
+Specify the CSS class for Button 3.
+
+**Button3 Tooltip**
+Specify the tooltip text for Button 3.
+
+**Button4 Class**
+Specify the CSS class for Button 4.
+
+**Button4 Tooltip**
+Specify the tooltip text for Button 4.
+
+**Button5 Class**
+Specify the CSS class for Button 5.
+
+**Button5 Tooltip**
+Specify the tooltip text for Button 5.
+
+**Button6 Class**
+Specify the CSS class for Button 6.
+
+**Button6 Tooltip**
+Specify the tooltip text for Button 6.
+
+**Button7 Class**
+Specify the CSS class for Button 7.
+
+**Button7 Tooltip**
+Specify the tooltip text for Button 7.
+
+**Button8 Class**
+Specify the CSS class for Button 8.
+
+**Button8 Tooltip**
+Specify the tooltip text for Button 8.
+
+**Button9 Class**
+Specify the CSS class for Button 9.
+
+**Button9 Tooltip**
+Specify the tooltip text for Button 9.
+
+**Button10 Class**
+Specify the CSS class for Button 10.
+
+**Button10 Tooltip**
+Specify the tooltip text for Button 10.
 
 # Action Attributes
 

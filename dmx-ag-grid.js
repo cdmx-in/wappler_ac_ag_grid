@@ -82,6 +82,57 @@ dmx.Component('ag-grid', {
     delete_action_tooltip: {type: String, default: 'Delete' },
     delete_action_icon_class: {type: String, default: 'fas fa-trash' },
     delete_action_btn_class: {type: String, default: 'btn-danger btn-xs' },
+    enable_custom_action_btns: { type: Boolean, default: false },
+    button1_action_btn: { type: "Boolean", default: false },
+    button1_action_title: { type: "String", default: "" },
+    button1_action_tooltip: { type: "String", default: "" },
+    button1_action_icon_class: { type: "String", default: "fas fa-wrench" },
+    button1_action_btn_class: { type: "String", default: "btn-primary btn-xs" },
+    button2_action_btn: { type: "Boolean", default: false },
+    button2_action_title: { type: "String", default: "" },
+    button2_action_tooltip: { type: "String", default: "" },
+    button2_action_icon_class: { type: "String", default: "fas fa-search-plus" },
+    button2_action_btn_class: { type: "String", default: "btn-info btn-xs" },
+    button3_action_btn: { type: "Boolean", default: false },
+    button3_action_title: { type: "String", default: "" },
+    button3_action_tooltip: { type: "String", default: "" },
+    button3_action_icon_class: { type: "String", default: "fas fa-check-circle" },
+    button3_action_btn_class: { type: "String", default: "btn-success btn-xs" },
+    button4_action_btn: { type: "Boolean", default: false },
+    button4_action_title: { type: "String", default: "" },
+    button4_action_tooltip: { type: "String", default: "" },
+    button4_action_icon_class: { type: "String", default: "fas fa-exclamation-triangle" },
+    button4_action_btn_class: { type: "String", default: "btn-warning btn-xs" },
+    button5_action_btn: { type: "Boolean", default: false },
+    button5_action_title: { type: "String", default: "" },
+    button5_action_tooltip: { type: "String", default: "Edit" },
+    button5_action_icon_class: { type: "String", default: "fas fa-times-circle" },
+    button5_action_btn_class: { type: "String", default: "btn-danger btn-xs" },
+    button6_action_btn: { type: "Boolean", default: false },
+    button6_action_title: { type: "String", default: "" },
+    button6_action_tooltip: { type: "String", default: "" },
+    button6_action_icon_class: { type: "String", default: "fas fa-link" },
+    button6_action_btn_class: { type: "String", default: "btn-secondary btn-xs" },
+    button7_action_btn: { type: "Boolean", default: false },
+    button7_action_title: { type: "String", default: "" },
+    button7_action_tooltip: { type: "String", default: "" },
+    button7_action_icon_class: { type: "String", default: "fas fa-download" },
+    button7_action_btn_class: { type: "String", default: "btn-primary btn-xm" },
+    button8_action_btn: { type: "Boolean", default: false },
+    button8_action_title: { type: "String", default: "" },
+    button8_action_tooltip: { type: "String", default: "" },
+    button8_action_icon_class: { type: "String", default: "fas fa-file-pdf" },
+    button8_action_btn_class: { type: "String", default: "btn-info btn-xs" },
+    button9_action_btn: { type: "Boolean", default: false },
+    button9_action_title: { type: "String", default: "" },
+    button9_action_tooltip: { type: "String", default: "" },
+    button9_action_icon_class: { type: "String", default: "fas fa-star" },
+    button9_action_btn_class: { type: "String", default: "btn-success btn-xs" },
+    button10_action_btn: { type: "Boolean", default: false },
+    button10_action_title: { type: "String", default: "" },
+    button10_action_tooltip: { type: "String", default: "" },
+    button10_action_icon_class: { type: "String", default: "fas fa-trash-alt" },
+    button10_action_btn_class: { type: "String", default: "btn-danger btn-xs" },
     data_binded_changes: {type: Array, default: [] },
     hide_fields: {type: String, default: null },
     hide_filters: {type: String, default: null },
@@ -234,15 +285,24 @@ dmx.Component('ag-grid', {
         `;
     }
     function actionsRenderer(params) {
-      // Default button configurations (Edit and View)
+      // Default button configurations (Edit, View and Delete)
       const defaultButtons = [
         { action: 'Edit', classNames: 'btn-primary btn-xs', tooltip: 'Edit', icon: 'fas fa-pencil-alt' },
         { action: 'View', classNames: 'btn-info btn-xs', tooltip: 'View', icon: 'fas fa-eye' },
         { action: 'Delete', classNames: 'btn-danger btn-xs', tooltip: 'Delete', icon: 'fas fa-trash' },
+        { action: 'Button1', classNames: 'btn-primary btn-xs', tooltip: 'Button1', icon: 'fas fa-wrench' },
+        { action: 'Button2', classNames: 'btn-info btn-xs', tooltip: 'Button2', icon: 'fas fa-search-plus' },
+        { action: 'Button3', classNames: 'btn-success btn-xs', tooltip: 'Button3', icon: 'fas fa-check-circle' },
+        { action: 'Button4', classNames: 'btn-warning btn-xs', tooltip: 'Button4', icon: 'fas fa-exclamation-triangle' },
+        { action: 'Button5', classNames: 'btn-danger btn-xs', tooltip: 'Button5', icon: 'fas fa-times-circle' },
+        { action: 'Button6', classNames: 'btn-secondary btn-xs', tooltip: 'Button6', icon: 'fas fa-link' },
+        { action: 'Button7', classNames: 'btn-primary btn-sm', tooltip: 'Button7', icon: 'fas fa-download' },
+        { action: 'Button8', classNames: 'btn-info btn-sm', tooltip: 'Button8', icon: 'fas fa-file-pdf' },
+        { action: 'Button9', classNames: 'btn-success btn-sm', tooltip: 'Button9', icon: 'fas fa-star' },
+        { action: 'Button10', classNames: 'btn-danger btn-sm', tooltip: 'Button10', icon: 'fas fa-trash-alt' }
       ];
       // User-defined button configurations (if any)
       const buttons = params.buttons || defaultButtons;
-  
       // Create a new container element to hold the buttons
       const container = document.createElement('div');
   
@@ -865,19 +925,29 @@ dmx.Component('ag-grid', {
           },
         });
       }
-      if (options.delete_action_btn) {
-        actionsColumn.cellRendererParams.buttons.push({
-          action: options.delete_action_title,
-          classNames: options.delete_action_btn_class,
-          tooltip: options.delete_action_tooltip,
-          icon: options.delete_action_icon_class,
-          onClick: (rowData) => {
-            this.set('data', rowData);
-            this.set('id', rowData.id);
-            this.dispatchEvent('row_action_delete');
-          },
-        });
-      }
+      if (options.enable_custom_action_btns) {
+        for (let i = 1; i <= 10; i++) {
+          const buttonActionKey = `button${i}_action_btn`;
+          const buttonTitleKey = `button${i}_action_title`;
+          const buttonClassKey = `button${i}_action_btn_class`;
+          const buttonTooltipKey = `button${i}_action_tooltip`;
+          const buttonIconClassKey = `button${i}_action_icon_class`;
+        
+          if (options[buttonActionKey]) {
+            actionsColumn.cellRendererParams.buttons.push({
+              action: options[buttonTitleKey],
+              classNames: options[buttonClassKey],
+              tooltip: options[buttonTooltipKey],
+              icon: options[buttonIconClassKey],
+              onClick: (rowData) => {
+                this.set('data', rowData);
+                this.set('id', rowData.id);
+                this.dispatchEvent(`row_action_button${i}`);
+              },
+            });
+          }
+        }
+    }
       options.actions_column_position=='right' ? columnDefs.push(actionsColumn):columnDefs.unshift(actionsColumn);
     }
     if (options.locale_text == 'HE') {
@@ -1124,9 +1194,19 @@ dmx.Component('ag-grid', {
     row_status_disabled: Event,
     row_action_edit: Event,
     row_action_view: Event,
-    row_action_delete: Event
+    row_action_delete: Event,
+    row_action_button1: Event,
+    row_action_button2: Event,
+    row_action_button3: Event,
+    row_action_button4: Event,
+    row_action_button5: Event,
+    row_action_button6: Event,
+    row_action_button7: Event,
+    row_action_button8: Event,
+    row_action_button9: Event,
+    row_action_button10: Event
   },
-
+  
   render: function(node) {
     if (this.$node) {
       this.$parse();
