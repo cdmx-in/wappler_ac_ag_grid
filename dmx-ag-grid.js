@@ -65,7 +65,8 @@ dmx.Component('ag-grid', {
     row_checkbox_event: {type: Boolean, default: false },
     row_status_event: {type: Boolean, default: false },
     enable_actions: {type: Boolean, default: false },
-    pin_actions: {type: String, default: 'right' },
+    actions_column_position: {type: String, default: 'right' },
+    pin_actions: { type: Boolean, default: true },
     edit_action_btn: { type: Boolean, default: false },
     edit_action_title: {type: String, default: '' },
     edit_action_tooltip: {type: String, default: 'Edit' },
@@ -831,7 +832,7 @@ dmx.Component('ag-grid', {
         filter: null,
         sortable: false,
         cellRenderer: actionsRenderer,
-        pinned: options.pin_actions,
+        pinned: (options.pin_actions ? options.actions_column_position: undefined),
         cellRendererParams: {
           buttons: [],
         },
@@ -877,8 +878,7 @@ dmx.Component('ag-grid', {
           },
         });
       }
-    
-      columnDefs.push(actionsColumn);
+      options.actions_column_position=='right' ? columnDefs.push(actionsColumn):columnDefs.unshift(actionsColumn);
     }
     if (options.locale_text == 'HE') {
       localeText = AG_GRID_LOCALE_HE

@@ -1154,6 +1154,7 @@
               "show": [
                 "enableActions",
                 "pinActions",
+                "ActionsColumnPosition",
                 "editActionBtn",
                 "editActionTitle",
                 "editActionTooltip",
@@ -1189,6 +1190,18 @@
                   "type": "boolean",
                   "defaultValue": true,
                   "help": "Pin Actions Column"
+                },
+                {
+                  "name": "ActionsColumnPosition",
+                  "attribute": "actions_column_position",
+                  "title": "Actions Column Position",
+                  "type": "droplist",
+                  "defaultValue": 'right',
+                  "values": [
+                  {title: 'Right', value: 'right'},
+                  {title: 'Left', value: 'left'}
+                  ],
+                  "help": "Actions Column Position"
                 },
                 {
                   "name": "editActionBtn",
