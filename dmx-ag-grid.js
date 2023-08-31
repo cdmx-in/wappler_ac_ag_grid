@@ -351,11 +351,16 @@ dmx.Component('ag-grid', {
       if (params.value == null) {
         return "-";
       }
-
       if (typeof params.value === "string") {
         return params.value.trim() === "" ? "-" : params.value;
       }
-
+      if (typeof params.value === "object") {
+        try {
+          return JSON.stringify(params.value);
+        } catch (error) {
+          return "Object cannot be stringified";
+        }
+      }
       return params.value;
     }
     function formatDate(timestamp) {
