@@ -140,7 +140,9 @@ dmx.Component('ag-grid', {
     compact_view: { type: Boolean, default: false },
     compact_view_grid_size: { type: Number, default: 3 },
     compact_view_item_height: { type: Number, default: 20 },
-    group_config: { type: Array, default: [] }
+    group_config: { type: Array, default: [] },
+    columns_to_count: { type: String, default: null },
+    columns_to_sum: { type: String, default: null }
   },
 
   methods: {
@@ -1000,6 +1002,42 @@ dmx.Component('ag-grid', {
         actionsRenderer: actionsRenderer
       }
     };
+    const totalRow = function (api, columnsToSum, columnsToCount) {
+      if (!columnsToSum && !columnsToCount) {
+        return;
+      }
+      let rowData = [];
+      api.forEachNodeAfterFilter(node => {
+        rowData.push({ "data": node.data, "index": node.childIndex });
+      });
+      let result = [{}];
+    
+      if (columnsToSum) {
+        // Initialize and calculate sum columns
+        columnsToSum.forEach(function (col) {
+          result[0][col] = 0;
+          rowData.forEach(function (line) {
+            if (line.index < rowData.length) {
+              result[0][col] += parseFloat(line.data[col]) || line.data[col];
+            }
+          });
+        });
+      }
+    
+      if (columnsToCount) {
+        // Initialize and calculate count columns
+        columnsToCount.forEach(function (col) {
+          result[0][col] = 0;
+          rowData.forEach(function (line) {
+            if (line.index < rowData.length) {
+              result[0][col]++;
+            }
+          });
+        });
+      }
+      api.setPinnedBottomRowData(result);
+    }
+
     const gridDiv = document.getElementById(options.id+'-grid');
     
 
@@ -1017,6 +1055,21 @@ dmx.Component('ag-grid', {
       rowData: rowData,
       ...gridOptions
     };
+    // Conditionally add event listeners based on whether columnsToSum or columnsToCount are defined
+    if ((options.columns_to_sum && options.columns_to_sum.split(',').length > 0) || (options.columns_to_count && options.columns_to_count.split(',').length > 0)) {
+      let columnsToSum = options.columns_to_sum ? options.columns_to_sum.split(',') : [];
+      let columnsToCount = options.columns_to_count ? options.columns_to_count.split(',') : [];
+
+      gridConfig.onFilterChanged = function (e) {
+        totalRow(e.api, columnsToSum, columnsToCount);
+      };
+      gridConfig.onFirstDataRendered = function (e) {
+        totalRow(e.api, columnsToSum, columnsToCount);
+      };
+      gridConfig.postSortRows = function (e) {
+        totalRow(e.api, columnsToSum, columnsToCount);
+      };
+    }
     // Create ag-Grid instance
     gridInstance = new agGrid.Grid(gridDiv, gridConfig);
     const gridElement = document.getElementById(options.id+'-grid');

@@ -1142,6 +1142,42 @@
           ]
         },
         {
+          "group": "📒 Total Row Footer",
+          "variables": [
+            {
+              "name": "totalRowFooter",
+              "title": "Total Row Footer",
+              "attribute": "total_row_footer",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": [
+                "columnsToCount",
+                "columnsToSum"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Define the Columns to Count and Sum in the Footer row"
+              "children": [
+                {
+                 "name": "columnsToCount",
+                  "attribute": "columns_to_count",
+                  "title": "Columns To Count",
+                  "type": "text",
+                  "initDisplay": "none"
+                },
+                {
+                  "name": "columnsToSum",
+                  "attribute": "columns_to_sum",
+                  "title": "Columns To Sum",
+                  "type": "text",
+                  "initDisplay": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Configure Actions Column",
           "variables": [
             {

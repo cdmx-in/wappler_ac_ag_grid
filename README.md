@@ -186,6 +186,16 @@ These configurations help you create organized and logical groupings of columns 
 
 ---
 
+### Total Row Footer
+
+The "Total Row Footer" feature allows you to define and display a footer row in a grid or table that shows the totals and counts of specified columns. This can be helpful for summarizing data in your grid and providing users with a quick overview of important statistics.
+
+Configuration includes:
+- **Columns To Count**: Specify the columns you want to count in the footer row. Separate column names with commas.
+- **Columns To Sum**: Specify the columns you want to calculate the sum of in the footer row. Separate column names with commas.
+
+---
+
 # Configure Actions Column
 The Configure Actions Column feature allows you to configure actions for the buttons in the Actions Column.
 
