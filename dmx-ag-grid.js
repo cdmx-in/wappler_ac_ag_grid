@@ -142,6 +142,7 @@ dmx.Component('ag-grid', {
     compact_view_item_height: { type: Number, default: 20 },
     group_config: { type: Array, default: [] },
     columns_to_count: { type: String, default: null },
+    column_value_match_count: { type: String, default: null },
     columns_to_sum: { type: String, default: null }
   },
 
@@ -1002,7 +1003,7 @@ dmx.Component('ag-grid', {
         actionsRenderer: actionsRenderer
       }
     };
-    const totalRow = function (api, columnsToSum, columnsToCount) {
+    const totalRow = function (api, columnsToSum, columnsToCount, columnValueMatchCount) {
       if (!columnsToSum && !columnsToCount) {
         return;
       }
@@ -1025,16 +1026,38 @@ dmx.Component('ag-grid', {
       }
     
       if (columnsToCount) {
+        if (columnValueMatchCount) {
+          // Count unique entries for a specific column
+          columnsToCount.forEach(function (col) {
+            result[0][col] = 0;
+            rowData.forEach(function (line) {
+              if (line.index < rowData.length) {
+                const value = line.data[col];
+                if (value == columnValueMatchCount) {
+                  result[0][col]++;
+                }
+              }
+            });
+          });
+        }
+        else {
         // Initialize and calculate count columns
         columnsToCount.forEach(function (col) {
           result[0][col] = 0;
+          let uniqueValues = new Set();
           rowData.forEach(function (line) {
             if (line.index < rowData.length) {
-              result[0][col]++;
+              const value = line.data[col];
+              if (!uniqueValues.has(value)) {
+                uniqueValues.add(value);
+                result[0][col]++;
+              }
             }
           });
+          result[0][col + '_unique_count'] = uniqueValues.size;
         });
       }
+    }
       api.setPinnedBottomRowData(result);
     }
 
@@ -1059,15 +1082,16 @@ dmx.Component('ag-grid', {
     if ((options.columns_to_sum && options.columns_to_sum.split(',').length > 0) || (options.columns_to_count && options.columns_to_count.split(',').length > 0)) {
       let columnsToSum = options.columns_to_sum ? options.columns_to_sum.split(',') : [];
       let columnsToCount = options.columns_to_count ? options.columns_to_count.split(',') : [];
+      let columnValueMatchCount = options.column_value_match_count
 
       gridConfig.onFilterChanged = function (e) {
-        totalRow(e.api, columnsToSum, columnsToCount);
+        totalRow(e.api, columnsToSum, columnsToCount, columnValueMatchCount);
       };
       gridConfig.onFirstDataRendered = function (e) {
-        totalRow(e.api, columnsToSum, columnsToCount);
+        totalRow(e.api, columnsToSum, columnsToCount, columnValueMatchCount);
       };
       gridConfig.postSortRows = function (e) {
-        totalRow(e.api, columnsToSum, columnsToCount);
+        totalRow(e.api, columnsToSum, columnsToCount,columnValueMatchCount);
       };
     }
     // Create ag-Grid instance

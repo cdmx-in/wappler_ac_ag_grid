@@ -1153,6 +1153,7 @@
               "display": "fieldset",
               "show": [
                 "columnsToCount",
+                "columnValueMatchCount",
                 "columnsToSum"
               ],
               "noChangeOnHide": true,
@@ -1163,6 +1164,13 @@
                  "name": "columnsToCount",
                   "attribute": "columns_to_count",
                   "title": "Columns To Count",
+                  "type": "text",
+                  "initDisplay": "none"
+                },
+                {
+                 "name": "columnValueMatchCount",
+                  "attribute": "column_value_match_count",
+                  "title": "Unique Value To Count",
                   "type": "text",
                   "initDisplay": "none"
                 },
