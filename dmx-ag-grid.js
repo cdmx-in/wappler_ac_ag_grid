@@ -141,8 +141,7 @@ dmx.Component('ag-grid', {
     compact_view_grid_size: { type: Number, default: 3 },
     compact_view_item_height: { type: Number, default: 20 },
     group_config: { type: Array, default: [] },
-    columns_to_count: { type: String, default: null },
-    column_value_match_count: { type: String, default: null },
+    columns_to_count: { type: Array, default: [] },
     columns_to_sum: { type: String, default: null }
   },
 
@@ -1003,7 +1002,7 @@ dmx.Component('ag-grid', {
         actionsRenderer: actionsRenderer
       }
     };
-    const totalRow = function (api, columnsToSum, columnsToCount, columnValueMatchCount) {
+    const totalRow = function (api, columnsToSum, columnsToCount) {
       if (!columnsToSum && !columnsToCount) {
         return;
       }
@@ -1026,38 +1025,26 @@ dmx.Component('ag-grid', {
       }
     
       if (columnsToCount) {
-        if (columnValueMatchCount) {
-          // Count unique entries for a specific column
-          columnsToCount.forEach(function (col) {
-            result[0][col] = 0;
-            rowData.forEach(function (line) {
-              if (line.index < rowData.length) {
-                const value = line.data[col];
-                if (value == columnValueMatchCount) {
-                  result[0][col]++;
-                }
-              }
-            });
-          });
-        }
-        else {
-        // Initialize and calculate count columns
-        columnsToCount.forEach(function (col) {
+        columnsToCount.forEach(function (colObj) {
+          const col = colObj.field;
+          const uniqueValuesToCount = colObj.unique_values.split(',');
+      
           result[0][col] = 0;
           let uniqueValues = new Set();
+      
           rowData.forEach(function (line) {
             if (line.index < rowData.length) {
               const value = line.data[col];
-              if (!uniqueValues.has(value)) {
+              if (uniqueValuesToCount.includes(value) && !uniqueValues.has(value)) {
                 uniqueValues.add(value);
                 result[0][col]++;
               }
             }
           });
+      
           result[0][col + '_unique_count'] = uniqueValues.size;
         });
       }
-    }
       api.setPinnedBottomRowData(result);
     }
 
@@ -1079,19 +1066,18 @@ dmx.Component('ag-grid', {
       ...gridOptions
     };
     // Conditionally add event listeners based on whether columnsToSum or columnsToCount are defined
-    if ((options.columns_to_sum && options.columns_to_sum.split(',').length > 0) || (options.columns_to_count && options.columns_to_count.split(',').length > 0)) {
+    if ((options.columns_to_sum && options.columns_to_sum.split(',').length > 0) || (options.columns_to_count.length > 0)) {
       let columnsToSum = options.columns_to_sum ? options.columns_to_sum.split(',') : [];
-      let columnsToCount = options.columns_to_count ? options.columns_to_count.split(',') : [];
-      let columnValueMatchCount = options.column_value_match_count
+      let columnsToCount = options.columns_to_count;
 
       gridConfig.onFilterChanged = function (e) {
-        totalRow(e.api, columnsToSum, columnsToCount, columnValueMatchCount);
+        totalRow(e.api, columnsToSum, columnsToCount);
       };
       gridConfig.onFirstDataRendered = function (e) {
-        totalRow(e.api, columnsToSum, columnsToCount, columnValueMatchCount);
+        totalRow(e.api, columnsToSum, columnsToCount);
       };
       gridConfig.postSortRows = function (e) {
-        totalRow(e.api, columnsToSum, columnsToCount,columnValueMatchCount);
+        totalRow(e.api, columnsToSum, columnsToCount);
       };
     }
     // Create ag-Grid instance

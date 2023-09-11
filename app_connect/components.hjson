@@ -1153,26 +1153,41 @@
               "display": "fieldset",
               "show": [
                 "columnsToCount",
-                "columnValueMatchCount",
                 "columnsToSum"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
               "help": "Define the Columns to Count and Sum in the Footer row"
               "children": [
-                {
-                 "name": "columnsToCount",
-                  "attribute": "columns_to_count",
-                  "title": "Columns To Count",
-                  "type": "text",
-                  "initDisplay": "none"
-                },
-                {
-                 "name": "columnValueMatchCount",
-                  "attribute": "column_value_match_count",
-                  "title": "Unique Value To Count",
-                  "type": "text",
-                  "initDisplay": "none"
+                    {
+                      "name": "columnsToCount",
+                      "attribute": "columns_to_count",
+                      "title": "Columns to Count",
+                      "type": "grid",
+                      "jsonFormat": true,
+                      "encloseBT": true,
+                      "jsonBT": true,
+                      "initDisplay": "none",
+                      "columns": [
+                        {
+                          "field": "field",
+                          "caption": "Field",
+                          "editable": {
+                            "type": "text"
+                          }
+                        },
+                        {
+                          field: "unique_values",
+                          caption: "Unique Values",
+                          editable: {
+                            type: "text"
+                          }
+                        }
+                      ],
+                      "newRecord": {
+                        "field": "",
+                        "unique_values": ""
+                      }
                 },
                 {
                   "name": "columnsToSum",
