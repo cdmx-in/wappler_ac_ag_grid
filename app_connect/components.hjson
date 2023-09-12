@@ -1281,14 +1281,14 @@
                   "attribute": "edit_action_tooltip",
                   "title": "Edit Action Button Tooltip",
                   "type": "text",
-                  "defaultValue": ''
+                  "defaultValue": 'Edit'
                 },
                 {
                   "name": "editActionBtnClass",
                   "attribute": "edit_action_btn_class",
                   "title": "Edit Action Button Class",
                   "type": "text",
-                  "defaultValue": 'btn-primary btn-xs'
+                  "defaultValue": 'btn-primary btn-xs m-1'
                 },
                 {
                   "name": "editActionIconClass",
@@ -1316,14 +1316,14 @@
                   "attribute": "view_action_tooltip",
                   "title": "View Action Button Tooltip",
                   "type": "text",
-                  "defaultValue": ''
+                  "defaultValue": 'View'
                 },
                 {
                   "name": "viewActionBtnClass",
                   "attribute": "view_action_btn_class",
                   "title": "View Action Button Class",
                   "type": "text",
-                  "defaultValue": 'btn-info btn-xs'
+                  "defaultValue": 'btn-info btn-xs m-1'
                 },
                 {
                   "name": "viewActionIconClass",
@@ -1351,14 +1351,14 @@
                   "attribute": "delete_action_tooltip",
                   "title": "Delete Action Button Tooltip",
                   "type": "text",
-                  "defaultValue": ''
+                  "defaultValue": 'Delete'
                 },
                 {
                   "name": "deleteActionBtnClass",
                   "attribute": "delete_action_btn_class",
                   "title": "Delete Action Button Class",
                   "type": "text",
-                  "defaultValue": 'btn-danger btn-xs'
+                  "defaultValue": 'btn-danger btn-xs m-1'
                 },
                 {
                   "name": "deleteActionIconClass",
@@ -1467,7 +1467,7 @@
                   "attribute": "button1_action_btn_class",
                   "title": "Button1 Class",
                   "type": "text",
-                  "defaultValue": "btn-primary btn-xs"
+                  "defaultValue": "btn-primary btn-xs m-1"
                 },
                 {
                   "name": "button1ActionIconClass",
@@ -1502,7 +1502,7 @@
                   "attribute": "button2_action_btn_class",
                   "title": "Button2 Class",
                   "type": "text",
-                  "defaultValue": "btn-info btn-xs"
+                  "defaultValue": "btn-info btn-xs m-1"
                 },
                 {
                   "name": "button2ActionIconClass",
@@ -1537,7 +1537,7 @@
                   "attribute": "button3_action_btn_class",
                   "title": "Button3 Class",
                   "type": "text",
-                  "defaultValue": "btn-success btn-xs"
+                  "defaultValue": "btn-success btn-xs m-1"
                 },
                 {
                   "name": "button3ActionIconClass",
@@ -1572,7 +1572,7 @@
                   "attribute": "button4_action_btn_class",
                   "title": "Button4 Class",
                   "type": "text",
-                  "defaultValue": "btn-warning btn-xs"
+                  "defaultValue": "btn-warning btn-xs m-1"
                 },
                 {
                   "name": "button4ActionIconClass",
@@ -1607,7 +1607,7 @@
                   "attribute": "button5_action_btn_class",
                   "title": "Button5 Class",
                   "type": "text",
-                  "defaultValue": "btn-danger btn-xs"
+                  "defaultValue": "btn-danger btn-xs m-1"
                 },
                 {
                   "name": "button5ActionIconClass",
@@ -1642,7 +1642,7 @@
                   "attribute": "button6_action_btn_class",
                   "title": "Button6 Class",
                   "type": "text",
-                  "defaultValue": "btn-secondary btn-xs"
+                  "defaultValue": "btn-secondary btn-xs m-1"
                 },
                 {
                   "name": "button6ActionIconClass",
@@ -1677,7 +1677,7 @@
                   "attribute": "button7_action_btn_class",
                   "title": "Button7 Class",
                   "type": "text",
-                  "defaultValue": "btn-primary btn-xs"
+                  "defaultValue": "btn-primary btn-xs m-1"
                 },
                 {
                   "name": "button7ActionIconClass",
@@ -1712,7 +1712,7 @@
                   "attribute": "button8_action_btn_class",
                   "title": "Button8 Class",
                   "type": "text",
-                  "defaultValue": "btn-info btn-xs"
+                  "defaultValue": "btn-info btn-xs m-1"
                 },
                 {
                   "name": "button8ActionIconClass",
@@ -1747,7 +1747,7 @@
                   "attribute": "button9_action_btn_class",
                   "title": "Button9 Class",
                   "type": "text",
-                  "defaultValue": "btn-success btn-xs"
+                  "defaultValue": "btn-success btn-xs m-1"
                 },
                 {
                   "name": "button9ActionIconClass",
@@ -1782,7 +1782,7 @@
                   "attribute": "button10_action_btn_class",
                   "title": "Button10 Class",
                   "type": "text",
-                  "defaultValue": "btn-danger btn-xs"
+                  "defaultValue": "btn-danger btn-xs m-1"
                 },
                 {
                   "name": "button10ActionIconClass",
