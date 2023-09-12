@@ -170,6 +170,22 @@ dmx.Component('ag-grid', {
           console.error('Grid not loaded to perform export');
         }
       }, this);
+    },
+    saveColumnState: function () {
+      dmx.nextTick(function() {
+        if (typeof saveColumnStateToStorage === 'function') {
+          saveColumnStateToStorage();
+        } else {
+          console.error('Grid not loaded to perform saveColumnState');
+        }
+      }, this);
+    },
+    resetColumnState: function () {
+      dmx.nextTick(function() {
+        localStorage.removeItem('columnState');
+        let gridInstance = this.refreshGrid();
+        this.set('gridInstance', gridInstance);
+      }, this);
     }
   },
 
@@ -1061,6 +1077,24 @@ dmx.Component('ag-grid', {
         gridInstance = null;
     }
     const gridConfig = {
+      onGridReady: function (params) {
+        const columnApi = params.columnApi;
+        saveColumnStateToStorage = () => {
+          const columnState = columnApi.getColumnState();
+          localStorage.setItem('columnState', JSON.stringify(columnState));
+        }
+        function restoreColumnState() {
+          const savedColumnState = JSON.parse(localStorage.getItem('columnState'));
+          if (savedColumnState) {
+            columnApi.applyColumnState({
+              state: savedColumnState,
+              applyOrder: true,
+              applyVisibility: true,
+            });
+          }
+        }
+        restoreColumnState();
+      },
       columnDefs: columnDefs,
       rowData: rowData,
       ...gridOptions

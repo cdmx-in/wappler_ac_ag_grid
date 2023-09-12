@@ -1825,6 +1825,24 @@
           state: 'opened',
           help: 'Export AG Grid Data to CSV',
           properties: []
+        },
+        {
+          addTitle: 'SaveColumnState',
+          title: 'Save Column State',
+          name: 'saveColumnState',
+          icon: 'fa fa-lg fa-save',
+          state: 'opened',
+          help: 'Save Column State to Browser Local Storage',
+          properties: []
+        },
+        {
+          addTitle: 'ResetColumnState',
+          title: 'Reset Column State',
+          name: 'resetColumnState',
+          icon: 'fa fa-lg fa-undo',
+          state: 'opened',
+          help: 'Save Column State to Browser Local Storage',
+          properties: []
         }
       ],
       "children": [],

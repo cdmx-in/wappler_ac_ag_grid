@@ -326,6 +326,14 @@ Specify the tooltip text for Button 10.
 - To be used if you wish to use a separate Export button instead of using the inbuilt top left-cornered Export button.
 - Trigger this action to call Export Data to CSV download action.
 
+**Save Column State**
+- This action allows you to save the current state of the grid's columns, including their visibility and order, to the browser's local storage.
+- It is useful when you want to remember and restore a specific column configuration for the grid.
+
+**Reset Column State**
+- This action enables you to reset the grid's column state to default state.
+- It is useful when you want to revert the column configuration to a default configuration.
+
 ## License
 
 The AG Grid module is licensed under the MIT License. Please refer to the license file for more details.
