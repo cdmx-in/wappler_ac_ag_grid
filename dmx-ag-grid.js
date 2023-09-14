@@ -3,7 +3,8 @@ dmx.Component('ag-grid', {
     id: null,
     data: {},
     count: Number,
-    fields: {}
+    fields: {},
+    fileData: []
   },
 
   attributes: {
@@ -186,6 +187,13 @@ dmx.Component('ag-grid', {
         let gridInstance = this.refreshGrid();
         this.set('gridInstance', gridInstance);
       }, this);
+    },
+    importFileData: function () {
+      this.parseFileData();
+      dmx.nextTick(function() {
+        let gridInstance = this.refreshGrid();
+        this.set('gridInstance', gridInstance);
+      }, this);
     }
   },
 
@@ -219,7 +227,40 @@ dmx.Component('ag-grid', {
       console.error('AG Grid instance or transaction not found.');
     }
   },
+  parseFileData: async function (options) {
+    const parseCSV = (csvData) => {
+      return new Promise((resolve, reject) => {
+        Papa.parse(csvData, {
+          header: true,
+          dynamicTyping: true,
+          complete: function (results) {
+            resolve(results.data);
+          },
+          error: function (error) {
+            reject(error.message);
+          }
+        });
+      });
+    };
+      const fileInput = document.getElementById('csv-file');
+      const file = fileInput.files[0];
+      if (!file) {
+        console.error('Please select a CSV file.');
+        return;
+      }
 
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const csvData = e.target.result;
+        try {
+          const parsedData = await parseCSV(csvData);
+          this.set('fileData', parsedData);
+        } catch (error) {
+          console.error('Error parsing CSV:', error);
+        }
+      };
+      reader.readAsText(file);
+  },
   refreshGrid: function () {
     const options = this.props
     const rowData = this.props.data;
