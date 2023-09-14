@@ -76,6 +76,7 @@
               {title: 'Alpine', value: 'ag-theme-alpine'},
               {title: 'Balham', value: 'ag-theme-balham'},
               {title: 'Material', value: 'ag-theme-material'},
+              {title: 'Custom', value: 'ag-theme-alpine ag-theme-custom'},
               {title: 'Base', value: 'ag-grid'}
               ],
               "help": "Select a theme for the grid"
@@ -1865,6 +1866,10 @@
           "dst": "css/ag-theme-material.css"
         },
         {
+          "src": "ag-theme-custom.css",
+          "dst": "css/ag-theme-custom.css"
+        },
+        {
           "src": "switch-toggle-slider.css",
           "dst": "css/switch-toggle-slider.css"
         },
@@ -1903,6 +1908,10 @@
         },
         {
           "src": "css/ag-theme-material.css",
+          "type": "css"
+        },
+        {
+          "src": "css/ag-theme-custom.css",
           "type": "css"
         },
         {

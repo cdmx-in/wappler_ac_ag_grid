@@ -1,0 +1,79 @@
+.ag-theme-custom.ag-theme-alpine {
+  --ag-odd-row-background-color: blue; /* Background color for odd rows */
+  --ag-alpine-active-color: red; /* Active color for Alpine theme */
+  --ag-data-color: #333; /* Color of text in grid cells */
+  --ag-header-foreground-color: rgb(12, 10, 10); /* Color of text and icons in the header */
+  --ag-header-background-color: rgb(226, 226, 219); /* Background color for all headers */
+  --ag-tooltip-background-color: #f6f8f1; /* Background color for tooltips */
+  --ag-disabled-foreground-color: gray; /* Color of disabled elements */
+  --ag-subheader-background-color: lightgray; /* Background color for second level headings */
+  --ag-subheader-toolbar-background-color: #ccc; /* Background color for toolbars under subheadings */
+  --ag-control-panel-background-color: #f5f5f5; /* Background for UI control areas */
+  --ag-side-button-selected-background-color: #007acc; /* Background for active side panel tab */
+  --ag-selected-row-background-color: #e6f7ff; /* Background color of selected rows */
+  --ag-odd-row-background-color: #f9f9f9; /* Background color applied to every other row */
+  --ag-modal-overlay-background-color: rgba(0, 0, 0, 0.5); /* Overlay background color */
+  --ag-row-hover-color: #e0e0e0; /* Background color when hovering over rows */
+  --ag-column-hover-color: #f0f0f0; /* Background color when hovering over columns */
+  --ag-range-selection-border-color: #007acc; /* Color around selected cell ranges */
+  --ag-range-selection-background-color: rgba(0, 122, 204, 0.2); /* Background color of selected cell ranges */
+  --ag-range-selection-background-color-2: rgba(0, 122, 204, 0.4); /* Background when 2 selected ranges overlap */
+  --ag-range-selection-background-color-3: rgba(0, 122, 204, 0.6); /* Background when 3 selected ranges overlap */
+  --ag-range-selection-background-color-4: rgba(0, 122, 204, 0.8); /* Background when 4+ selected ranges overlap */
+  --ag-range-selection-highlight-color: #007acc; /* Background color when copying/pasting ranges */
+  --ag-selected-tab-underline-color: #007acc; /* Color of the border under selected tabs */
+  /* --ag-borders: solid 1px grey; /* Enable borders around most UI elements */
+  /* --ag-border-color: #ccc; /* Color for border around major UI components */
+  /* --ag-borders-critical: solid 1px #ff6347; /* Enable borders critical to UX */
+  /* --ag-borders-secondary: solid 1px #eee; /* Draw decorative borders separating UI elements */
+  /* --ag-secondary-border-color: #eee; /* Color for decorative borders */
+  /* --ag-row-border-style: solid; /* Default border style for grid rows */
+  /* --ag-row-border-width: 1px; /* Thickness of the border between grid rows */
+  /* --ag-row-border-color: #ccc; /* Color of the border between grid rows
+  /* --ag-cell-horizontal-border: solid transparent; /* Default border for cells */
+  /* --ag-input-focus-border-color: #007acc; /* Border color around focused inputs */
+  /* --ag-checkbox-background-color: white; /* Background of checkboxes */
+  /* --ag-checkbox-border-radius: 3px; /* Border radius for checkboxes */
+  /* --ag-checkbox-checked-color: #007acc; /* Color of checked checkbox icon */
+  /* --ag-checkbox-unchecked-color: #ccc; /* Color of unchecked checkbox icon */
+  /* --ag-checkbox-indeterminate-color: #007acc; /* Color of indeterminate checkbox icon */
+  /* --ag-input-border-color: #ccc; /* Border color around inputs */
+  /* --ag-input-border-color-invalid: #ff6347; /* Border color around invalid inputs */
+  /* --ag-chip-background-color: #007acc; /* Background color for column drag indicator */
+  /* --ag-borders-input: solid 1px #ccc; /* Borders around inputs */
+  /* --ag-borders-input-invalid: solid 2px #ff6347; /* Borders around invalid inputs */
+  /* --ag-toggle-button-border-width: 1px; /* Thickness of the toggle button border */
+  /* --ag-toggle-button-on-border-color: #007acc; /* Border color of the toggle button in the 'on' state */
+  /* --ag-toggle-button-off-border-color: #ccc; /* Border color of the toggle button in the 'off' state */
+  /* --ag-toggle-button-on-background-color: #007acc; /* Background color of the toggle button in the 'on' state */
+  /* --ag-toggle-button-off-background-color: #ccc; /* Background color of the toggle button in the 'off' state */
+  /* --ag-toggle-button-switch-background-color: white; /* Background color of the toggle button switch */
+  /* --ag-toggle-button-switch-border-color: #ccc; /* Border color of the toggle button switch */
+  /* --ag-toggle-button-width: 40px; /* Width of the toggle button */
+  /* --ag-toggle-button-height: 20px; /* Height of the toggle button */
+  /* --ag-grid-size: 8px; /* Grid size for spacing */
+  /* --ag-icon-size: 16px; /* Size of icons */
+  /* --ag-widget-container-horizontal-padding: 8px; /* Horizontal padding for widget containers */
+  /* --ag-widget-container-vertical-padding: 8px; /* Vertical padding for widget containers */
+  /* --ag-widget-horizontal-spacing: 8px; /* Horizontal spacing between widgets */
+  /* --ag-widget-vertical-spacing: 8px; /* Vertical spacing between widgets */
+  /* --ag-cell-horizontal-padding: 8px; /* Horizontal padding for grid cells */
+  /* --ag-cell-widget-spacing: 4px; /* Horizontal spacing between widgets inside cells */
+  /* --ag-row-height: 32px; /* Height of grid rows */
+  /* --ag-header-height: 40px; /* Height of header rows */
+  /* --ag-list-item-height: 24px; /* Height of items in lists */
+  /* --ag-header-column-separator-display: block; /* Display header column separator */
+  /* --ag-header-column-separator-height: 100%; /* Height of header column separator */
+  /* --ag-header-column-separator-width: 1px; /* Width of header column separator */
+  /* --ag-header-column-separator-color: #ccc; /* Color of header column separator */
+  /* --ag-header-column-resize-handle-display: block; /* Display header column resize handle */
+  /* --ag-header-column-resize-handle-height: 100%; /* Height of header resize handle */
+  /* --ag-header-column-resize-handle-width: 10px; /* Width of header resize handle */
+  /* --ag-header-column-resize-handle-color: grey; /* Color of header resize handle */
+  /* --ag-font-family: 'Helvetica Neue', sans-serif; /* Font family for text */
+  /* --ag-font-size: 14px; /* Default font size */
+  /* --ag-icon-font-family: 'ag-Grid'; /* Icon font used by the grid */
+  /* --ag-card-radius: 4px; /* Border radius for cards */
+  /* --ag-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for cards */
+  /* --ag-popup-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Shadow for popups */
+}

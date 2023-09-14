@@ -12,7 +12,14 @@ The AG Grid module allows you to create a flexible and customizable data grid wi
    - "Alpine" (Default)
    - "Balham"
    - "Material"
+   - "Custom"
 5. **Locale**: Select the locale for the grid. Currently supported locales: English (EN) and Hebrew (HE). (Default: EN)
+
+**Note for Custom Theme:**
+When you select the "Custom" theme option, you have the flexibility to define your own unique styling for the ag-Grid components.
+This option allows you to customize the look and feel of the grid to match the design requirements of you pages and layouts.
+You can override the default styles provided by ag-Grid with your own CSS rules by targeting the specific CSS variables and classes used by the grid.
+The overrides for the "Custom" theme can be applied in the ag-theme-custom.css file located in the public/css folder. This file serves as a centralized place for customizing the grid's appearance.
 
 ## AG Grid Options
 1. **Minimum Width**: The minimum width of the column. (Default: 150)
