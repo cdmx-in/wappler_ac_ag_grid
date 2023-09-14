@@ -37,6 +37,11 @@
           "name": "fileData",
           "title": "fileData",
           "type": "array"
+        },
+        {
+          "name": "selectedRows",
+          "title": "selectedRows",
+          "type": "array"
         }
       ],
       "outputType": "object",
@@ -1853,9 +1858,29 @@
           addTitle: 'importFileData',
           title: 'Import File Data',
           name: 'importFileData',
-          icon: 'fa fa-lg fa-undo',
+          icon: 'fa fa-lg fa-file-import',
           state: 'opened',
           help: 'Import File Data to Grid',
+          properties: [
+            {
+              group: 'Properties',
+              variables: [
+                {
+                  name: '1', optionName: '1', title: 'File Field ID', type: 'text',
+                  dataBindings: true, defaultValue: 'csvfile', required: true,
+                  help: 'Field ID of the file to import'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          addTitle: 'fetchSelectedRows',
+          title: 'Get Selected Rows',
+          name: 'getSelectedRows',
+          icon: 'fas fa-lg fa-table',
+          state: 'opened',
+          help: 'Get Selected Rows',
           properties: []
         }
       ],
@@ -1869,6 +1894,10 @@
         {
           "src": "../../../node_modules/papaparse/papaparse.js",
           "dst": "js/papaparse.js"
+        },
+        {
+          "src": "../../../node_modules/exceljs/dist/exceljs.min.js",
+          "dst": "js/exceljs.min.js"
         },
         {
           "src": "../../../node_modules/ag-grid-community/styles/ag-theme-alpine.css",
@@ -1907,6 +1936,11 @@
         },
         {
           "src": "js/papaparse.js",
+          "type": "js",
+          "defer": true
+        },
+        {
+          "src": "js/exceljs.min.js",
           "type": "js",
           "defer": true
         },

@@ -4,7 +4,8 @@ dmx.Component('ag-grid', {
     data: {},
     count: Number,
     fields: {},
-    fileData: []
+    fileData: [],
+    selectedRows: []
   },
 
   attributes: {
@@ -188,12 +189,11 @@ dmx.Component('ag-grid', {
         this.set('gridInstance', gridInstance);
       }, this);
     },
-    importFileData: function () {
-      this.parseFileData();
-      dmx.nextTick(function() {
-        let gridInstance = this.refreshGrid();
-        this.set('gridInstance', gridInstance);
-      }, this);
+    importFileData: async function (fieldId) {
+      await this.parseFileData(fieldId);
+    },
+    getSelectedRows: function () {
+      exportSelectedRows();
     }
   },
 
@@ -227,7 +227,7 @@ dmx.Component('ag-grid', {
       console.error('AG Grid instance or transaction not found.');
     }
   },
-  parseFileData: async function (options) {
+  parseFileData: async function (fieldId) {
     const parseCSV = (csvData) => {
       return new Promise((resolve, reject) => {
         Papa.parse(csvData, {
@@ -242,24 +242,69 @@ dmx.Component('ag-grid', {
         });
       });
     };
-      const fileInput = document.getElementById('csv-file');
-      const file = fileInput.files[0];
-      if (!file) {
-        console.error('Please select a CSV file.');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const csvData = e.target.result;
-        try {
-          const parsedData = await parseCSV(csvData);
-          this.set('fileData', parsedData);
-        } catch (error) {
-          console.error('Error parsing CSV:', error);
+  
+    const parseExcel = (excelData) => {
+      return new Promise((resolve, reject) => {
+        const workbook = new ExcelJS.Workbook();
+        workbook.xlsx.load(excelData)
+          .then(() => {
+            const worksheet = workbook.getWorksheet(1);
+            const data = [];
+            const headers = [];
+  
+            worksheet.eachRow((row, rowNumber) => {
+              if (rowNumber === 1) {
+                row.eachCell((cell) => {
+                  headers.push(cell.value);
+                });
+              } else {
+                const rowData = {};
+                row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                  rowData[headers[colNumber - 1]] = cell.value;
+                });
+                data.push(rowData);
+              }
+            });
+  
+            resolve(data);
+          })
+          .catch((error) => {
+            reject(error.message);
+          });
+      });
+    };
+  
+    const fileInput = document.getElementById(fieldId);
+    const file = fileInput.files[0];
+  
+    if (!file) {
+      console.error('Please select a file.');
+      return;
+    }
+  
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const fileData = e.target.result;
+  
+      try {
+        let parsedData;
+        // Detect the file type based on the file extension or other criteria
+        if (file.name.endsWith('.csv')) {
+          parsedData = await parseCSV(fileData);
+        } else if (file.name.endsWith('.xlsx') || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+          parsedData = await parseExcel(fileData);
+        } else {
+          console.error('Unsupported file type. Please select a CSV or Excel file.');
+          return;
         }
-      };
-      reader.readAsText(file);
+  
+        this.set('fileData', parsedData);
+      } catch (error) {
+        console.error('Error parsing file:', error);
+      }
+    };
+  
+    reader.readAsBinaryString(file);
   },
   refreshGrid: function () {
     const options = this.props
@@ -1200,8 +1245,10 @@ dmx.Component('ag-grid', {
         }
       });
     }
-    const gridId = `${options.id}-grid`;
-    const agGridElement = document.getElementById(gridId);
+    exportSelectedRows = () => {
+      const selectedRows = gridConfig.api.getSelectedRows();
+      this.set('selectedRows', selectedRows);
+    }
     function updateHoveringBarStyles() {
       const existingStyle = document.getElementById('hovering-bar-style');
       if (options.fixed_horizontal_scroll) {

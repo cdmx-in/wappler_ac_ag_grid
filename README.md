@@ -341,6 +341,16 @@ Specify the tooltip text for Button 10.
 - This action enables you to reset the grid's column state to default state.
 - It is useful when you want to revert the column configuration to a default configuration.
 
+**Import File Data**
+- The "Import File Data" action allows to import data from CSV and XLSX files into the AG Grid. This action simplifies the process of populating the grid with external data sources.
+- Key Features:
+  - File Type Support: Currently, this feature supports two common file types - CSV (Comma-Separated Values) and XLSX (Microsoft Excel).
+  - File Field ID: Users must specify the "File Field ID," 
+
+**Get Selected Rows**
+- The "Get Selected Rows" feature is designed to retrieve selected rows.
+- This variable named "selectedRows", holds the selected data for access from other modules.
+
 ## License
 
 The AG Grid module is licensed under the MIT License. Please refer to the license file for more details.
