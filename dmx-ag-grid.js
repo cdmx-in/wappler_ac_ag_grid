@@ -193,6 +193,9 @@ dmx.Component('ag-grid', {
         this.set('gridInstance', gridInstance);
       }, this);
     },
+    pinColumns: function (fieldId) {
+      pinColumnToLeft(fieldId);
+    },
     importFileData: async function (fieldId) {
       await this.parseFileData(fieldId);
     },
@@ -1177,6 +1180,16 @@ dmx.Component('ag-grid', {
     const gridConfig = {
       onGridReady: function (params) {
         const columnApi = params.columnApi;
+        pinColumnToLeft = (fieldToPin) => {
+          const columnState = columnApi.getColumnState();
+          const columnIndex = columnState.findIndex(column => column.colId === fieldToPin);
+          if (columnIndex !== -1) {
+            for (let i = 0; i <= columnIndex; i++) {
+              columnState[i].pinned = 'left';
+            }
+            columnApi.applyColumnState({ state: columnState });
+          }
+        }
         saveColumnStateToStorage = () => {
           const columnState = columnApi.getColumnState();
           const pageId = getPageId();
@@ -1349,23 +1362,19 @@ dmx.Component('ag-grid', {
     // Create the export button
     if (exportToCSV) {
       const existingExportButton = document.getElementById('exportButton');
-      // If it already exists, just exit the function
       if (existingExportButton) {
         return;
       }
       const exportButton = document.createElement('button');
       exportButton.id = 'exportButton'; 
-
-        // Add the icon
       const icon = document.createElement('i');
-      icon.classList.add('fas', 'fa-file-csv'); // Use the Font Awesome icon class here
+      icon.classList.add('fas', 'fa-file-csv');
       exportButton.appendChild(icon);
 
       // Add the button text
       const buttonText = document.createElement('span');
       buttonText.innerText = ' Export to CSV';
       exportButton.appendChild(buttonText);
-      // Add some fancy styles to the button
       exportButton.style.backgroundColor = '#4CAF50';
       exportButton.style.border = 'none';
       exportButton.style.color = 'white';

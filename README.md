@@ -341,6 +341,10 @@ Specify the tooltip text for Button 10.
 - This action enables you to reset the grid's column state to default state.
 - It is useful when you want to revert the column configuration to a default configuration.
 
+**Pin Columns to Left**
+- This action allows you to pin one or more columns to the left side of the grid.
+- It is useful when you want to freeze specific columns in place for easy reference, even as you scroll horizontally.
+
 **Import File Data**
 - The "Import File Data" action allows to import data from CSV and XLSX files into the AG Grid. This action simplifies the process of populating the grid with external data sources.
 - Key Features:

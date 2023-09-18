@@ -1851,8 +1851,28 @@
           name: 'resetColumnState',
           icon: 'fa fa-lg fa-undo',
           state: 'opened',
-          help: 'Save Column State to Browser Local Storage',
+          help: 'Reset Column State stored in Browser Local Storage',
           properties: []
+        },
+        {
+          addTitle: 'pinColumnsState',
+          title: 'Pin Columns',
+          name: 'pinColumns',
+          icon: 'fa fa-lg fa-thumbtack',
+          state: 'opened',
+          help: 'Pin Columns to Left',
+          properties: [
+            {
+              group: 'Properties',
+              variables: [
+                {
+                  name: '1', optionName: '1', title: 'Column Name', type: 'text',
+                  dataBindings: true, defaultValue: '', required: true,
+                  help: 'Column Name to Pin to the Left'
+                }
+              ]
+            }
+          ]
         },
         {
           addTitle: 'importFileData',
