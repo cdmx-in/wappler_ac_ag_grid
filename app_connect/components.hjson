@@ -1867,7 +1867,7 @@
               variables: [
                 {
                   name: '1', optionName: '1', title: 'File Field ID', type: 'text',
-                  dataBindings: true, defaultValue: 'csvfile', required: true,
+                  dataBindings: true, defaultValue: '"csvfile"', required: true,
                   help: 'Field ID of the file to import'
                 }
               ]

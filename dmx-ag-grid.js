@@ -178,13 +178,17 @@ dmx.Component('ag-grid', {
         if (typeof saveColumnStateToStorage === 'function') {
           saveColumnStateToStorage();
         } else {
-          console.error('Grid not loaded to perform saveColumnState');
+          console.error('Grid not loaded to perform save column state');
         }
       }, this);
     },
     resetColumnState: function () {
       dmx.nextTick(function() {
-        localStorage.removeItem('columnState');
+        const idValue = this.$node.querySelector('dmx-ag-grid > div')?.getAttribute('id') ?? 'Grid not found';
+        const currentPageUrl = window.location.origin + window.location.pathname;
+        const uniqueId = `${currentPageUrl}_${idValue}`;
+        console.log(uniqueId)
+        localStorage.removeItem(`columnState_${uniqueId}`);
         let gridInstance = this.refreshGrid();
         this.set('gridInstance', gridInstance);
       }, this);
@@ -275,13 +279,15 @@ dmx.Component('ag-grid', {
     };
   
     const fileInput = document.getElementById(fieldId);
+    if (!fileInput) {
+      console.error('Field having field Id: '+fieldId+' not found.');
+      return;
+    }
     const file = fileInput.files[0];
-  
     if (!file) {
       console.error('Please select a file.');
       return;
     }
-  
     const reader = new FileReader();
     reader.onload = async (e) => {
       const fileData = e.target.result;
@@ -1154,7 +1160,7 @@ dmx.Component('ag-grid', {
     
 
     if (!gridDiv) {
-      console.error(`Grid container element with ID '${options.id}' not found.`);
+      console.error(`Grid container element with ID '${options.id}'-grid not found.`);
       return;
     }
 
@@ -1162,15 +1168,23 @@ dmx.Component('ag-grid', {
         gridInstance.destroy();
         gridInstance = null;
     }
+    const getPageId = () => {
+      const currentPageUrl = window.location.origin + window.location.pathname;
+      const optionsId = options.id+'-grid';
+      const uniqueId = `${currentPageUrl}_${optionsId}`;
+      return uniqueId;
+    };
     const gridConfig = {
       onGridReady: function (params) {
         const columnApi = params.columnApi;
         saveColumnStateToStorage = () => {
           const columnState = columnApi.getColumnState();
-          localStorage.setItem('columnState', JSON.stringify(columnState));
+          const pageId = getPageId();
+          localStorage.setItem(`columnState_${pageId}`, JSON.stringify(columnState));    
         }
         function restoreColumnState() {
-          const savedColumnState = JSON.parse(localStorage.getItem('columnState'));
+          const pageId = getPageId();
+          const savedColumnState = JSON.parse(localStorage.getItem(`columnState_${pageId}`));
           if (savedColumnState) {
             columnApi.applyColumnState({
               state: savedColumnState,
