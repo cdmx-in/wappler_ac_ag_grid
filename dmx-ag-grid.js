@@ -62,6 +62,7 @@ dmx.Component('ag-grid', {
     fixed_horizontal_scroll: { type: Boolean, default: false },
     fixed_horizontal_scroll_width: { type: Number, default: 80 },
     fixed_footer: { type: Boolean, default: false },
+    fixed_footer_bottom_padding: { type: Number, default: 10 },
     timezone: {type: String, default: '' },
     cell_click_event: {type: Boolean, default: false },
     row_click_event: {type: Boolean, default: false },
@@ -1277,12 +1278,16 @@ dmx.Component('ag-grid', {
       window.addEventListener('scroll', function () {
         if (gridDiv.scrollTop >= (gridDiv.scrollHeight - gridDiv.clientHeight)) {
           const footerRow = document.querySelector('.ag-row-pinned');
+          const footerRowDiv = document.querySelector('.ag-floating-bottom.ag-selectable');
           if (footerRow) {
             footerRow.classList.remove('ag-row-pinned');
             footerRow.classList.add('ag-row-even');
             footerRow.style.position = 'fixed';
-            footerRow.style.bottom = '10px';
-            footerRow.style.paddingBottom = '27px'
+            footerRow.style.bottom = options.fixed_footer_bottom_padding+'px';
+            footerRow.style.borderTop = '1px solid #ccc';
+            footerRow.style.borderBottom = '1px solid #ccc';
+            footerRowDiv.style.height = '0px';
+            footerRowDiv.style.minHeight = '0px';
           }
           const bottomViewport = document.querySelector('.ag-floating-bottom-viewport');
           if (bottomViewport) {
