@@ -61,6 +61,7 @@ dmx.Component('ag-grid', {
     fixed_top_offset: { type: Number, default: 80 },
     fixed_horizontal_scroll: { type: Boolean, default: false },
     fixed_horizontal_scroll_width: { type: Number, default: 80 },
+    fixed_footer: { type: Boolean, default: false },
     timezone: {type: String, default: '' },
     cell_click_event: {type: Boolean, default: false },
     row_click_event: {type: Boolean, default: false },
@@ -1216,7 +1217,7 @@ dmx.Component('ag-grid', {
     if ((options.columns_to_sum && options.columns_to_sum.split(',').length > 0) || (options.columns_to_count.length > 0)) {
       let columnsToSum = options.columns_to_sum ? options.columns_to_sum.split(',') : [];
       let columnsToCount = options.columns_to_count;
-
+      
       gridConfig.onFilterChanged = function (e) {
         totalRow(e.api, columnsToSum, columnsToCount);
       };
@@ -1269,6 +1270,30 @@ dmx.Component('ag-grid', {
         } else {
           header.style.position = 'static';
           document.body.style.marginBottom = '0'; // Reset the margin
+        }
+      });
+    }
+    if (options.fixed_footer) {
+      window.addEventListener('scroll', function () {
+        if (gridDiv.scrollTop >= (gridDiv.scrollHeight - gridDiv.clientHeight)) {
+          const footerRow = document.querySelector('.ag-row-pinned');
+          if (footerRow) {
+            footerRow.classList.remove('ag-row-pinned');
+            footerRow.classList.add('ag-row-even');
+            footerRow.style.position = 'fixed';
+            footerRow.style.bottom = '10px';
+            footerRow.style.paddingBottom = '27px'
+          }
+          const bottomViewport = document.querySelector('.ag-floating-bottom-viewport');
+          if (bottomViewport) {
+            bottomViewport.style.position = 'fixed';
+            bottomViewport.style.bottom = '0';
+          }
+        } else {
+          const footerRow = document.querySelector('.fixed-footer-row');
+          if (footerRow) {
+            footerRow.classList.add('ag-row-pinned'); 
+          }
         }
       });
     }

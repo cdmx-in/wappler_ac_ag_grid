@@ -1163,7 +1163,8 @@
               "display": "fieldset",
               "show": [
                 "columnsToCount",
-                "columnsToSum"
+                "columnsToSum",
+                "enableFixedFooter"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -1205,7 +1206,16 @@
                   "title": "Columns To Sum",
                   "type": "text",
                   "initDisplay": "none"
-                }
+                },
+                {
+                  "name": "enableFixedFooter",
+                  "attribute": "dmx-bind:fixed_footer",
+                  "title": "Fixed Footer",
+                  "type": "boolean",
+                  "initDisplay": "none",
+                  "defaultValue": false,
+                  "help": "Enables Fixed Total Row Footer"
+                },
               ]
             }
           ]

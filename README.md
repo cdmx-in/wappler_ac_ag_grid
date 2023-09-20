@@ -200,6 +200,7 @@ The "Total Row Footer" feature allows you to define and display a footer row in 
 Configuration includes:
 - **Columns To Count**: Specify the columns you want to count in the footer row. Separate column names with commas.
 - **Columns To Sum**: Specify the columns you want to calculate the sum of in the footer row. Separate column names with commas.
+- **Fixed Footer**: Enables fixed footer totals row. (Default: false)
 
 ---
 
