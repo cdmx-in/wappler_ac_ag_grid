@@ -2057,9 +2057,43 @@
           "attribute": "pagination_page_size",
           "isValue": true,
           "dataBindings": true,
-          "title": "Pagination Page Size:",
+          "title": "Pagination Page Size",
           "type": "text",
           "help": "Pagination Page Size.",
+          "defaultValue": "",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-floating-filter",
+      "attributeStartsWith": "dmx-bind",
+      "attribute": "floating_filter",
+      "title": "Floating Filter",
+      "type": "boolean",
+      "display": "fieldset",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Config",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "floatingFilters"
+      ],
+      "noChangeOnHide": true,
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "floatingFilters",
+          "attributeStartsWith": "dmx-bind",
+          "attribute": "floating_filter",
+          "isValue": true,
+          "dataBindings": true,
+          "title": "Floating Filter",
+          "type": "text",
+          "help": "Show/Hide FLoating Filters",
           "defaultValue": "",
           "initDisplay": "none"
         }

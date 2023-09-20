@@ -1081,11 +1081,11 @@ dmx.Component('ag-grid', {
       rowStyle: enableRowClickEvent || enableCellClickEvent ? { cursor: 'pointer' } : undefined,
       defaultColDef: {
         flex: 1,
-        minWidth: this.props.min_width,
-        resizable: this.props.resizable,
-        filter: this.props.filter,
-        sortable: this.props.sortable,
-        floatingFilter: this.props.floating_filter
+        minWidth: options.min_width,
+        resizable: options.resizable,
+        filter: options.filter,
+        sortable: options.sortable,
+        floatingFilter: options.floating_filter
       },
       domLayout: this.props.dom_layout,
       enableCellTextSelection: true,
@@ -1261,7 +1261,7 @@ dmx.Component('ag-grid', {
         const topbar = document.querySelector('.' + options.topbar_class);
         const topbarHeight = (topbar ? topbar.getBoundingClientRect().height : 0) + options.fixed_top_offset;
         const headerPos = (topbar ? topbar.getBoundingClientRect().bottom : 0) + options.fixed_header_offset;
-        if (window.pageYOffset > headerPos) {
+        if (window.scrollY > headerPos) {
           header.style.position = 'fixed';
           header.style.top = `${topbarHeight}px`;
           header.style.zIndex = '1';
