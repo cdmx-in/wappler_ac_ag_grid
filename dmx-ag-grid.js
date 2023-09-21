@@ -189,7 +189,6 @@ dmx.Component('ag-grid', {
         const idValue = this.$node.querySelector('dmx-ag-grid > div')?.getAttribute('id') ?? 'Grid not found';
         const currentPageUrl = window.location.origin + window.location.pathname;
         const uniqueId = `${currentPageUrl}_${idValue}`;
-        console.log(uniqueId)
         localStorage.removeItem(`columnState_${uniqueId}`);
         let gridInstance = this.refreshGrid();
         this.set('gridInstance', gridInstance);
@@ -199,7 +198,6 @@ dmx.Component('ag-grid', {
       pinColumnToLeft(fieldId);
     },
     hideColumns: function (fieldId) {
-      console.log(fieldId)
       hideColumn(fieldId);
     },
     importFileData: async function (fieldId) {
