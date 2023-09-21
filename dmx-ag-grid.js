@@ -993,7 +993,7 @@ dmx.Component('ag-grid', {
           headerCheckboxSelectionFilteredOnly: false,
           headerName: '',
           colId: 'checkboxColumn',
-          field: 'id', 
+          field: null, 
           filter: '',
           checkboxSelection: true,
           showDisabledCheckboxes: true,
