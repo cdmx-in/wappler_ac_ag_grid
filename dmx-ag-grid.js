@@ -198,6 +198,10 @@ dmx.Component('ag-grid', {
     pinColumns: function (fieldId) {
       pinColumnToLeft(fieldId);
     },
+    hideColumns: function (fieldId) {
+      console.log(fieldId)
+      hideColumn(fieldId);
+    },
     importFileData: async function (fieldId) {
       await this.parseFileData(fieldId);
     },
@@ -993,7 +997,7 @@ dmx.Component('ag-grid', {
           headerCheckboxSelectionFilteredOnly: false,
           headerName: '',
           colId: 'checkboxColumn',
-          field: null, 
+          field: null,
           filter: '',
           checkboxSelection: true,
           showDisabledCheckboxes: true,
@@ -1182,6 +1186,9 @@ dmx.Component('ag-grid', {
     const gridConfig = {
       onGridReady: function (params) {
         const columnApi = params.columnApi;
+        hideColumn = (fieldToHide) => {
+          columnApi.setColumnsVisible([fieldToHide], false);
+        }
         pinColumnToLeft = (fieldToPin) => {
           const columnState = columnApi.getColumnState();
           const columnIndex = columnState.findIndex(column => column.colId === fieldToPin);

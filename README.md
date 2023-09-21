@@ -346,6 +346,9 @@ Specify the tooltip text for Button 10.
 - This action allows you to pin one or more columns to the left side of the grid.
 - It is useful when you want to freeze specific columns in place for easy reference, even as you scroll horizontally.
 
+**Hide Columns**
+- The "Hide Columns" feature allows you to selectively hide one or more columns.
+
 **Import File Data**
 - The "Import File Data" action allows to import data from CSV and XLSX files into the AG Grid. This action simplifies the process of populating the grid with external data sources.
 - Key Features:

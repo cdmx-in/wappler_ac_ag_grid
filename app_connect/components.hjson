@@ -1896,6 +1896,26 @@
           ]
         },
         {
+          addTitle: 'hideColumnsInGrid',
+          title: 'Hide Columns',
+          name: 'hideColumns',
+          icon: 'fa fa-lg fa-eye-slash',
+          state: 'opened',
+          help: 'Hide Columns',
+          properties: [
+            {
+              group: 'Properties',
+              variables: [
+                {
+                  name: '1', optionName: '1', title: 'Column Name', type: 'text',
+                  dataBindings: true, defaultValue: '', required: true,
+                  help: 'Hide Columns'
+                }
+              ]
+            }
+          ]
+        },
+        {
           addTitle: 'importFileData',
           title: 'Import File Data',
           name: 'importFileData',
