@@ -1232,6 +1232,74 @@
           ]
         },
         {
+          "group": "📒 Set Filters",
+          "variables": [
+            {
+              "name": "setFilters",
+              "title": "Set Filters",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "set_filters",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": ["listCustomFilters"],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Allows setting filters for columns",
+              "children": [
+                {
+                  "name": "listCustomFilters",
+                  "attribute": "dmx-bind:cfilters",
+                  "title": "Custom Filters",
+                  "type": "grid",
+                  "jsonFormat": true,
+                  "dataBindings": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "type",
+                      "caption": "Filter Type",
+                      "editable": {
+                        "type": "list",
+                        "items": [
+                          {"id": "startsWith", "text": "Starts With"},
+                          {"id": "lessThan", "text": "Less Than"},
+                          {"id": "dateFrom", "text": "Date From"},
+                          {"id": "greaterThan", "text": "Greater Than"},
+                          {"id": "equals", "text": "Equals"},
+                          {"id": "contains", "text": "Contains"}
+                        ]
+                      }
+                      "help": "Filter type: startsWith, lessThan, dateFrom, etc."
+                    },
+                    {
+                      "field": "filter",
+                      "caption": "Filter Value",
+                      "editable": {
+                        "type": "text"
+                      }
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "type": "Contains",
+                    "filter": ""
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Configure Actions Column",
           "variables": [
             {
@@ -2075,6 +2143,38 @@
         "dmx-ag-grid": true
       }
     },
+    {
+        "name": "dmx-ag-grid-cfilters",
+        "attributeStartsWith": "dmx-bind",
+        "attribute": "cfilters",
+        "title": "Custom Filters",
+        "type": "boolean",
+        "display": "fieldset",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Grid Config",
+        "groupIcon": "fa fa-lg fa-cubes",
+        "defaultValue": false,
+        "show": ["setCustomFilters"],
+        "noChangeOnHide": true,
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "setCustomFilters",
+            "attributeStartsWith": "dmx-bind",
+            "attribute": "cfilters",
+            "isValue": true,
+            "dataBindings": true,
+            "title": "Custom Filters:",
+            "type": "text",
+            "help": "Edit Custom Filters.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
     {
       "name": "dmx-ag-grid-pagination-page-size",
       "attributeStartsWith": "dmx-bind",

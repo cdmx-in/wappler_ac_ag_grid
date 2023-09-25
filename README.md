@@ -204,6 +204,19 @@ Configuration includes:
 
 ---
 
+### Set Filters
+
+The "Set Filters" feature allows you to enable the setting of filters for columns in a user interface. This feature allows to preset filters when the grid is rendered.
+
+Configuration includes:
+- **Set Filters**: Toggle to enable or disable the feature. When enabled, users can set filters for columns. (Default: false)
+- **Custom Filters**: A grid that allows you to define custom filters.
+  - **Field**: The column name to filter.
+  - **Filter Type**: The type of filter to apply, options available are: "Starts With," "Less Than," "Date From," "Greater Than," "Equals," and "Contains."
+  - **Filter Value**: The Value/Filter to be applied.
+
+---
+
 # Configure Actions Column
 The Configure Actions Column feature allows you to configure actions for the buttons in the Actions Column.
 

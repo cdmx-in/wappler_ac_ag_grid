@@ -19,6 +19,7 @@ dmx.Component('ag-grid', {
     cnames: { type: Object, default: {} },
     cwidths: { type: Object, default: {} },
     ctypes: { type: Array, default: [] },
+    cfilters: { type: Array, default: [] },
     data_changes: { type: Array, default: [] },
     data: { type: Array, default: [] },
     dom_layout: { type: String, default: 'autoHeight' },
@@ -1236,6 +1237,20 @@ dmx.Component('ag-grid', {
     }
     // Create ag-Grid instance
     gridInstance = new agGrid.Grid(gridDiv, gridConfig);
+
+    if (options.cfilters && options.cfilters.length > 0) {
+    var filterModel = {};
+    const customFilters = options.cfilters
+    customFilters.forEach(function (customFilter) {
+      filterModel[customFilter.field] = {
+        type: customFilter.type,
+        filter: customFilter.filter
+      };
+    });
+    gridInstance.gridOptions.api.setFilterModel(filterModel);
+    gridInstance.gridOptions.api.onFilterChanged();
+    }
+
     const gridElement = document.getElementById(options.id+'-grid');
     if (options.compact_view) {
       gridElement.style.setProperty('--ag-grid-size', `${options.compact_view_grid_size}`+'px');
