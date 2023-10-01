@@ -2041,6 +2041,10 @@
           "dst": "css/ag-theme-material.css"
         },
         {
+          "src": "../../../node_modules/moment/min/moment.min.js",
+          "dst": "js/moment.min.js"
+        },
+        {
           "src": "ag-theme-custom.css",
           "dst": "css/ag-theme-custom.css"
         },
@@ -2075,6 +2079,11 @@
         },
         {
           "src": "js/dmx-ag-grid.js",
+          "type": "js",
+          "defer": true
+        },
+        {
+          "src": "js/moment.min.js",
           "type": "js",
           "defer": true
         },
