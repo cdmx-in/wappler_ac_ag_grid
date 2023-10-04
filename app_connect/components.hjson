@@ -362,6 +362,22 @@
               "help": "Height of the header row in pixels"
             },
             {
+              "name": "wrapHeaderText",
+              "attribute": "dmx-bind:wrap_header_text",
+              "title": "Wrap Header Text",
+              "type": "boolean",
+              "defaultValue": true,
+              "help": "This will cause long headers to wrap."
+            },
+            {
+              "name": "autoHeaderHeight",
+              "attribute": "dmx-bind:auto_header_height",
+              "title": "Auto Header Height",
+              "type": "boolean",
+              "defaultValue": true,
+              "help": "The column header height is automatically set based on the content of the header cells."
+            },
+            {
               "name": "suppressRowClickSelection",
               "attribute": "dmx-bind:suppress_row_click_selection",
               "title": "Suppress Row Click Selection",
