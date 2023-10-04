@@ -1287,12 +1287,25 @@ dmx.Component('ag-grid', {
           header.style.position = 'fixed';
           header.style.top = `${topbarHeight}px`;
           header.style.zIndex = '1';
-          document.body.style.marginBottom = `${header.offsetHeight}px`; // Add margin to the bottom of the page
+          document.body.style.marginBottom = `${header.offsetHeight}px`;
         } else {
           header.style.position = 'static';
           document.body.style.marginBottom = '0'; // Reset the margin
         }
       });
+      const agHeader = document.querySelector('.ag-header');
+      const agRootWrapper = document.querySelector('.ag-root-wrapper');
+
+      // Function to adjust the header width
+      function adjustHeaderWidth() {
+        if (agHeader && agRootWrapper) {
+          const rootWrapperWidth = agRootWrapper.clientWidth;
+          const newHeaderWidth = rootWrapperWidth * 1.0;
+          agHeader.style.width = `${newHeaderWidth}px`;
+        }
+      }
+      window.addEventListener('resize', adjustHeaderWidth);
+      adjustHeaderWidth();
     }
     if (options.fixed_footer) {
       window.addEventListener('scroll', function () {
@@ -1408,7 +1421,6 @@ dmx.Component('ag-grid', {
       };
       gridConfig.api.exportDataAsCsv(params);
     };
-
     // Create the export button
     if (exportToCSV) {
       const existingExportButton = document.getElementById('exportButton');
