@@ -378,6 +378,14 @@
               "help": "The column header height is automatically set based on the content of the header cells."
             },
             {
+              "name": "wrapText",
+              "attribute": "dmx-bind:wrap_text",
+              "title": "Wrap Text",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "This will cause long texts to wrap in the cells."
+            },
+            {
               "name": "suppressRowClickSelection",
               "attribute": "dmx-bind:suppress_row_click_selection",
               "title": "Suppress Row Click Selection",

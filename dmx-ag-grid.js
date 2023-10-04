@@ -22,6 +22,7 @@ dmx.Component('ag-grid', {
     cfilters: { type: Array, default: [] },
     wrap_header_text: { type: Boolean, default: true },
     auto_header_height: { type: Boolean, default: true },
+    wrap_text: { type: Boolean, default: false },
     data_changes: { type: Array, default: [] },
     data: { type: Array, default: [] },
     dom_layout: { type: String, default: 'autoHeight' },
@@ -1092,6 +1093,7 @@ dmx.Component('ag-grid', {
         resizable: options.resizable,
         wrapHeaderText: options.wrap_header_text,
         autoHeaderHeight: options.auto_header_height,
+        wrapText: options.wrap_text,
         filter: options.filter,
         sortable: options.sortable,
         floatingFilter: options.floating_filter
