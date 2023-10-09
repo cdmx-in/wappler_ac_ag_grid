@@ -24,6 +24,7 @@ dmx.Component('ag-grid', {
     auto_header_height: { type: Boolean, default: true },
     wrap_text: { type: Boolean, default: false },
     data_changes: { type: Array, default: [] },
+    display_data_changes: { type: Array, default: [] },
     data: { type: Array, default: [] },
     dom_layout: { type: String, default: 'autoHeight' },
     enable_cell_text_selection: { type: Boolean, default: true },
@@ -617,7 +618,7 @@ dmx.Component('ag-grid', {
         return 'text';
       }
     }
-    createCombinedValueGetter = (key, dataChanges, dataBindedChanges) => {
+    createCombinedValueGetter = (key, dataChanges, dataBindedChanges, displayDataChanges) => {
       const keyLookup = {};
     
       dataBindedChanges.forEach(change => {
@@ -636,6 +637,20 @@ dmx.Component('ag-grid', {
     
       return function (params) {
         const value = params.data[key];
+
+        if ((displayDataChanges.length > 0) && displayDataChanges.some(change => change.field === params.colDef.field)) {
+          const placeholderMap = Object.fromEntries(
+            Object.entries(params.data).map(([field, fieldValue]) => [`%${field}%`, fieldValue])
+          );
+          return displayDataChanges.reduce((cellData, change) => {
+            if (change.field === params.colDef.field) {
+              const placeholders = Object.keys(placeholderMap).join('|');
+              const regex = new RegExp(placeholders, 'g');
+              cellData = change.data.replace(regex, match => placeholderMap[match]);
+            }
+            return cellData;
+          }, value);
+        }
     
         // Check if there's a matching change in dataChanges
         const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
@@ -821,7 +836,7 @@ dmx.Component('ag-grid', {
           }
         }
         else {
-          valueGetter = createCombinedValueGetter(key, options.data_changes, options.data_binded_changes);
+          valueGetter = createCombinedValueGetter(key, options.data_changes, options.data_binded_changes, options.display_data_changes);
           filterValueGetter = createCombinedFilterValueGetter(key, options.data_changes, options.data_binded_changes);
           tooltipValueGetter = createCombinedTooltipValueGetter(key, options.data_changes, options.data_binded_changes);
 

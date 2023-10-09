@@ -61,9 +61,10 @@ The overrides for the "Custom" theme can be applied in the ag-theme-custom.css f
 29. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
 30. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
 31. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
-32. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
-33. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
-34. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+33. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
+34. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
+35. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+36. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 
 # Data Type Overrides
 
@@ -101,7 +102,7 @@ This grid allows you to configure custom tooltips for specific fields. The grid 
 # Advanced Data Manipulation
 
 The Advanced Data Manipulation feature allows you to add custom values to the field data based on specific conditions.
-This grid allows you to define custom data changes for specific fields. The grid has the following columns:
+This grid allows you to define custom data changes for specific fields. The grid has the following settings:
 
 1. **Field**: The field name for which you want to apply the custom data changes. (field name)
 2. **Data**: The new data source or value to be used for the field. (Eg. SC data source array or JSON Data source)
@@ -115,7 +116,7 @@ This grid allows you to define custom data changes for specific fields. The grid
 # Data Manipulation
 
 The Data Manipulation feature allows you to add custom values to the field data based on specific conditions.
-This grid allows you to define custom data changes for specific fields. The grid has the following columns:
+This grid allows you to define custom data changes for specific fields. The grid has the following settings:
 
 1. **Field**: The field name for which you want to apply the custom data changes. 
 2. **Value**: The value to be replaced in the field data. 
@@ -124,7 +125,17 @@ This grid allows you to define custom data changes for specific fields. The grid
 
 **Amount Fields** (Type: textbox, Default: null)
 - Define the fields where the comma-separation and float parsing need to be applied.
-  
+
+---
+
+# Display Data Manipulation
+
+The Display Data Manipulation feature allows you to add custom text, Combine fields data.
+The grid has the following settings:
+
+1. **Field**: The field name for which you want to apply the custom data changes. 
+2. **Data**: The value to be replaced in the field data ex: %first_name% %last_name%. 
+
 ---
 # Custom Headers
 

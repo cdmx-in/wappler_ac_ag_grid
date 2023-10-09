@@ -891,6 +891,59 @@
           ]
         },
         {
+          "group": "📒 Display Data Manipulation",
+          "variables": [
+            {
+              "name": "display_data_changes",
+              "title": "Configure Fields",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "display_data_changes",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": [
+                "displayDataChanges",
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Add custom values for Display, Combine columns and add custom text for display."
+              "children": [
+                {
+                  "name": "displayDataChanges",
+                  "attribute": "dmx-bind:display_data_changes",
+                  "title": "Fields Data",
+                  "type": "grid",
+                  "dataBindings": true,
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      field: "data",
+                      caption: "Data",
+                      editable: {
+                        type: "text"
+                      }
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "data": ""
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Custom Headers",
           "variables": [
             {
