@@ -338,6 +338,7 @@ dmx.Component('ag-grid', {
     let groupedColumnDefs = [];
     let exportToCSV = this.props.export_to_csv;
     let gridInstance = null; 
+    let cellRenderer;
     this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
