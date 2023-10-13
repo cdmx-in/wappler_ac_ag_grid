@@ -1075,10 +1075,10 @@
           "group": "📒 Hide Fields and Filters",
           "variables": [
             {
-              "name": "hide_components",
+              "name": "hideComponents",
               "title": "Hide Components",
               "attributeStartsWith": "dmx-bind",
-              "attribute": "cwidths",
+              "attribute": "hide_components",
               "type": "boolean",
               "defaultValue": false,
               "display": "fieldset",
