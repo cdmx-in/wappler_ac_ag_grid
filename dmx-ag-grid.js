@@ -1067,6 +1067,21 @@ dmx.Component('ag-grid', {
           },
         });
       }
+
+      if (options.delete_action_btn) {
+        actionsColumn.cellRendererParams.buttons.push({
+          action: options.delete_action_title,
+          classNames: options.delete_action_btn_class,
+          tooltip: options.delete_action_tooltip,
+          icon: options.delete_action_icon_class,
+          onClick: (rowData) => {
+            this.set('data', rowData);
+            this.set('id', rowData.id);
+            this.dispatchEvent('row_action_delete');
+          },
+        });
+      }
+      
       if (options.enable_custom_action_btns) {
         for (let i = 1; i <= 10; i++) {
           const buttonActionKey = `button${i}_action_btn`;
