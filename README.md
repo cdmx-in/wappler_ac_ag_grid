@@ -13,7 +13,7 @@ The AG Grid module allows you to create a flexible and customizable data grid wi
    - "Balham"
    - "Material"
    - "Custom"
-5. **Locale**: Select the locale for the grid. Currently supported locales: English (EN) and Hebrew (HE). (Default: EN)
+5. **Locale**: Select the locale for the grid. Currently supported locales: English (EN), Russian (RU) and Hebrew (HE). (Default: EN)
 
 **Note for Custom Theme:**
 When you select the "Custom" theme option, you have the flexibility to define your own unique styling for the ag-Grid components.

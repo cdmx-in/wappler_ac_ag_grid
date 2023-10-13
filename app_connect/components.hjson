@@ -98,9 +98,10 @@
               "defaultValue": 'EN',
               "values": [
               {title: 'English', value: 'EN'},
-              {title: 'Hebrew', value: 'HE'}
+              {title: 'Hebrew', value: 'HE'},
+              {title: 'Russian', value: 'RU'}
               ],
-              "help": "Select locale for the Grid, Currently Supproted Hebrew (HE) and English (EN) locale"
+              "help": "Select locale for the Grid, Currently Supproted Hebrew (HE), Russian (RU) and English (EN) locale"
             }
           ]
         },
@@ -2136,6 +2137,10 @@
         {
           "src": "he.js",
           "dst": "js/locale/he.js"
+        },
+        {
+          "src": "ru.js",
+          "dst": "js/locale/ru.js"
         }
       ],
       "linkFiles": [
@@ -2166,6 +2171,11 @@
         },
         {
           "src": "js/locale/he.js",
+          "type": "js",
+          "defer": true
+        },
+        {
+          "src": "js/locale/ru.js",
           "type": "js",
           "defer": true
         },
