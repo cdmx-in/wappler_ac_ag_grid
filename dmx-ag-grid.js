@@ -75,6 +75,8 @@ dmx.Component('ag-grid', {
     row_status_event: {type: Boolean, default: false },
     enable_actions: {type: Boolean, default: false },
     actions_column_position: {type: String, default: 'right' },
+    actions_column_min_width: {type: Number, default: 80 },
+    actions_column_max_width: {type: Number, default: null },
     pin_actions: { type: Boolean, default: true },
     edit_action_btn: { type: Boolean, default: false },
     edit_action_title: {type: String, default: '' },
@@ -1039,6 +1041,8 @@ dmx.Component('ag-grid', {
         filter: null,
         sortable: false,
         cellRenderer: actionsRenderer,
+        minWidth: options.actions_column_min_width,
+        maxWidth: options.actions_column_max_width,
         pinned: (options.pin_actions ? options.actions_column_position: undefined),
         cellRendererParams: {
           buttons: [],

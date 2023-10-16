@@ -1390,6 +1390,8 @@
                 "enableActions",
                 "pinActions",
                 "ActionsColumnPosition",
+                "ActionsColumnMinWidth",
+                "ActionsColumnMaxWidth",
                 "editActionBtn",
                 "editActionTitle",
                 "editActionTooltip",
@@ -1437,6 +1439,21 @@
                   {title: 'Left', value: 'left'}
                   ],
                   "help": "Actions Column Position"
+                },
+                {
+                  "name": "ActionsColumnMinWidth",
+                  "attribute": "actions_column_min_width",
+                  "title": "Column Min Width",
+                  "type": "number",
+                  "defaultValue": 80,
+                  "help": "Actions column min width in px"
+                },
+                {
+                  "name": "ActionsColumnMaxWidth",
+                  "attribute": "actions_column_max_width",
+                  "title": "Column Max Width",
+                  "type": "number",
+                  "help": "Actions column max width in px"
                 },
                 {
                   "name": "editActionBtn",

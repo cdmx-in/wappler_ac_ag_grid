@@ -245,6 +245,12 @@ This will keep the Actions Column fixed when scrolling horizontally.
 **Actions Column Position**
 This will set the position of the Actions Column.(Default: Right)
 
+**Actions Column Min Width**
+This will set the minimum width (px) for the Actions Column.(Default: 80)
+
+**Actions Column Max Width**
+This will set the maximum width (px) for the Actions Column.(Default: null)
+
 **Edit Action Button**
 This will display the "Edit Action Button" options.
 
