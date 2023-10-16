@@ -75,7 +75,7 @@ dmx.Component('ag-grid', {
     row_status_event: {type: Boolean, default: false },
     enable_actions: {type: Boolean, default: false },
     actions_column_position: {type: String, default: 'right' },
-    actions_column_min_width: {type: Number, default: 80 },
+    actions_column_min_width: {type: Number, default: null },
     actions_column_max_width: {type: Number, default: null },
     pin_actions: { type: Boolean, default: true },
     edit_action_btn: { type: Boolean, default: false },

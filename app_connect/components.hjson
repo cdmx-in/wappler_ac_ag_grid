@@ -1445,7 +1445,6 @@
                   "attribute": "actions_column_min_width",
                   "title": "Column Min Width",
                   "type": "number",
-                  "defaultValue": 80,
                   "help": "Actions column min width in px"
                 },
                 {
