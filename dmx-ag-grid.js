@@ -50,7 +50,7 @@ dmx.Component('ag-grid', {
     numeric_column_align: { type: Boolean, default: false },
     enable_rtl: { type: Boolean, default: false },
     locale_text: { type: String, default: null },
-    date_locale: { type: String, default: 'en-IN' },
+    date_locale: { type: String, default: 'en-US' },
     date_format: { type: String, default: 'dd/MM/yyyy hh:mm A' },
     amount_fields: { type: String, default: null },
     min_width: { type: Number, default: 150 },
@@ -385,6 +385,11 @@ dmx.Component('ag-grid', {
       const idValue = params.data.id;
       const columnName = params.colDef.field;
       const value = params.value;
+
+      if (params.node.rowPinned == 'bottom') {
+        // Render an empty cell for the footer row
+        return '-';
+      }
         // Assuming `value` is a boolean representing the status
         const checked = value==true ? "checked" : "";
         return `
@@ -559,7 +564,7 @@ dmx.Component('ag-grid', {
             timeZone: timezone,
           };
 
-          const convertedTimestamp = date.toLocaleString('en-US', options);
+          const convertedTimestamp = date.toLocaleString(options.date_locale, options);
           dateTimezone = new Date(convertedTimestamp).getTime();
           return formatDate(dateTimezone)
         } else {
@@ -804,7 +809,7 @@ dmx.Component('ag-grid', {
             if (amountFieldsArray.includes(key)) {
               valueFormatter = function (params) {
                 if (params.value != null) {
-                  return Number(params.value).toLocaleString("en-US", {
+                  return Number(params.value).toLocaleString(options.date_locale, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   });
@@ -1319,8 +1324,8 @@ dmx.Component('ag-grid', {
     }
     if (options.fixed_header) {
       window.addEventListener('scroll', function () {
-        const header = document.querySelector('.ag-header');
-        const topbar = document.querySelector('.' + options.topbar_class);
+        const header = gridElement.querySelector('.ag-header');
+        const topbar = gridElement.querySelector('.' + options.topbar_class);
         const topbarHeight = (topbar ? topbar.getBoundingClientRect().height : 0) + options.fixed_top_offset;
         const headerPos = (topbar ? topbar.getBoundingClientRect().bottom : 0) + options.fixed_header_offset;
         if (window.scrollY > headerPos) {
@@ -1333,8 +1338,8 @@ dmx.Component('ag-grid', {
           document.body.style.marginBottom = '0'; // Reset the margin
         }
       });
-      const agHeader = document.querySelector('.ag-header');
-      const agRootWrapper = document.querySelector('.ag-root-wrapper');
+      const agHeader = gridElement.querySelector('.ag-header');
+      const agRootWrapper = gridElement.querySelector('.ag-root-wrapper');
 
       // Function to adjust the header width
       function adjustHeaderWidth() {
@@ -1350,8 +1355,8 @@ dmx.Component('ag-grid', {
     if (options.fixed_footer) {
       window.addEventListener('scroll', function () {
         if (gridDiv.scrollTop >= (gridDiv.scrollHeight - gridDiv.clientHeight)) {
-          const footerRow = document.querySelector('.ag-row-pinned');
-          const footerRowDiv = document.querySelector('.ag-floating-bottom.ag-selectable');
+          const footerRow = gridElement.querySelector('.ag-row-pinned');
+          const footerRowDiv = gridElement.querySelector('.ag-floating-bottom.ag-selectable');
           if (footerRow) {
             footerRow.classList.remove('ag-row-pinned');
             footerRow.classList.add('ag-row-even');
@@ -1362,13 +1367,13 @@ dmx.Component('ag-grid', {
             footerRowDiv.style.height = '0px';
             footerRowDiv.style.minHeight = '0px';
           }
-          const bottomViewport = document.querySelector('.ag-floating-bottom-viewport');
+          const bottomViewport = gridElement.querySelector('.ag-floating-bottom-viewport');
           if (bottomViewport) {
             bottomViewport.style.position = 'fixed';
             bottomViewport.style.bottom = '0';
           }
         } else {
-          const footerRow = document.querySelector('.fixed-footer-row');
+          const footerRow = gridElement.querySelector('.fixed-footer-row');
           if (footerRow) {
             footerRow.classList.add('ag-row-pinned'); 
           }

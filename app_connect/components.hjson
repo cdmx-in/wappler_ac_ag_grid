@@ -1251,8 +1251,7 @@
               "children": [
                     {
                       "name": "columnsToCount",
-                      "attributeStartsWith": "dmx-bind",
-                      "attribute": "columns_to_count",
+                      "attribute": "dmx-bind:columns_to_count",
                       "title": "Columns to Count",
                       "type": "grid",
                       "jsonFormat": true,
@@ -1298,7 +1297,7 @@
                 },
                 {
                   "name": "fixedFooterBottomPadding",
-                  "attribute": "dmx-bind:fixed_footer_bottom_padding",
+                  "attribute": "fixed_footer_bottom_padding",
                   "title": "Fixed Footer Bottom Padding",
                   "type": "number",
                   "initDisplay": "none",
