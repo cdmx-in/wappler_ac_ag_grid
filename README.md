@@ -21,6 +21,8 @@ This option allows you to customize the look and feel of the grid to match the d
 You can override the default styles provided by ag-Grid with your own CSS rules by targeting the specific CSS variables and classes used by the grid.
 The overrides for the "Custom" theme can be applied in the ag-theme-custom.css file located in the public/css folder. This file serves as a centralized place for customizing the grid's appearance.
 
+To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-custom.css and include it in your layout file.
+
 ## AG Grid Options
 1. **Minimum Width**: The minimum width of the column. (Default: 150)
 2. **Resizable**: Specifies if the column can be resized. (Default: true)

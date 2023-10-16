@@ -2138,10 +2138,6 @@
           "dst": "js/moment.min.js"
         },
         {
-          "src": "ag-theme-custom.css",
-          "dst": "css/ag-theme-custom.css"
-        },
-        {
           "src": "switch-toggle-slider.css",
           "dst": "css/switch-toggle-slider.css"
         },
@@ -2204,10 +2200,6 @@
         },
         {
           "src": "css/ag-theme-material.css",
-          "type": "css"
-        },
-        {
-          "src": "css/ag-theme-custom.css",
           "type": "css"
         },
         {
