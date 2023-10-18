@@ -1161,6 +1161,13 @@ dmx.Component('ag-grid', {
       suppressPropertyNamesCheck: this.props.suppress_property_names_check,
       suppressRowDeselection: this.props.suppress_row_deselection,
       columnHoverHighlight: this.props.column_hover_highlight,
+      onGridSizeChanged: function(params) {
+        // This function is called whenever the grid's size changes
+        adjustHeaderWidth();
+        if (options.fixed_horizontal_scroll) {
+          updateHoveringBarStyles();
+        }
+      },
       components: {
         clickCellRenderer: clickCellRenderer,
         checkboxCellRenderer: checkboxCellRenderer,
@@ -1326,6 +1333,18 @@ dmx.Component('ag-grid', {
       console.error('Grid container not found.');
       return;
     }
+    const agHeader = gridElement.querySelector('.ag-header');
+    const agRootWrapper = gridElement.querySelector('.ag-root-wrapper');
+
+    // Function to adjust the header width
+    function adjustHeaderWidth() {
+      if (agHeader && agRootWrapper) {
+        const rootWrapperWidth = agRootWrapper.clientWidth;
+        const newHeaderWidth = rootWrapperWidth * 1.0;
+        agHeader.style.width = `${newHeaderWidth}px`;
+      }
+    }
+    adjustHeaderWidth();
     if (options.fixed_header) {
       window.addEventListener('scroll', function () {
         const header = gridElement.querySelector('.ag-header');
@@ -1342,19 +1361,6 @@ dmx.Component('ag-grid', {
           document.body.style.marginBottom = '0'; // Reset the margin
         }
       });
-      const agHeader = gridElement.querySelector('.ag-header');
-      const agRootWrapper = gridElement.querySelector('.ag-root-wrapper');
-
-      // Function to adjust the header width
-      function adjustHeaderWidth() {
-        if (agHeader && agRootWrapper) {
-          const rootWrapperWidth = agRootWrapper.clientWidth;
-          const newHeaderWidth = rootWrapperWidth * 1.0;
-          agHeader.style.width = `${newHeaderWidth}px`;
-        }
-      }
-      window.addEventListener('resize', adjustHeaderWidth);
-      adjustHeaderWidth();
     }
     if (options.fixed_footer) {
       window.addEventListener('scroll', function () {
@@ -1394,12 +1400,13 @@ dmx.Component('ag-grid', {
         // Create a new style element
         const styleElement = document.createElement('style');
         styleElement.id = 'hovering-bar-style';
-        const barWidthPercentage = options.fixed_horizontal_scroll_width;
-        const barWidth = `calc(${barWidthPercentage}vw - 10px)`; 
+        const agRootWrapper = gridElement.querySelector('.ag-root-wrapper');
+        const bodyHorizontalScrollElement = gridElement.querySelector('.ag-body-horizontal-scroll');
+        const rootWrapperWidth = agRootWrapper.clientWidth;
+        bodyHorizontalScrollElement.style.width = rootWrapperWidth + 'px';
         // Add the styles for the hovering horizontal bottom bar
         styleElement.innerHTML = `
           .ag-body-horizontal-scroll {
-            width: ${barWidth};
             position: fixed;
             bottom: 0;
           }
@@ -1415,7 +1422,6 @@ dmx.Component('ag-grid', {
       }
     }
     updateHoveringBarStyles();
-    window.addEventListener('resize', updateHoveringBarStyles);
 
     //CSV Export Function
     exportGridData = () => {
