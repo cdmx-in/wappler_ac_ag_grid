@@ -882,13 +882,13 @@ dmx.Component('ag-grid', {
             case '!=':
               return left.toString() != right.toString();
             case '>':
-              return left.toNumber() > right.toNumber();
+              return left.toString() > parseFloat(right);
             case '<':
-              return left.toNumber() < right.toNumber();
+              return left.toString() < parseFloat(right);
             case '>=':
-              return left.toNumber() >= right.toNumber();
+              return left.toString() >= parseFloat(right);
             case '<=':
-              return left.toNumber() <= right.toNumber();
+              return left.toString() <= parseFloat(right);
             default:
               return false;
           }
@@ -905,7 +905,6 @@ dmx.Component('ag-grid', {
             const font = style.font || 'normal';
             const area = style.area || 'text'; 
             const [left, operator, right] = extractConditionParts(condition);
-            
             if (
               params.data.hasOwnProperty(left) &&
               evaluateCondition(params.data[left], operator, right)
