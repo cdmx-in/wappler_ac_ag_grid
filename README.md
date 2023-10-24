@@ -253,6 +253,7 @@ This will set the minimum width (px) for the Actions Column.(Default: 80)
 **Actions Column Max Width**
 This will set the maximum width (px) for the Actions Column.(Default: null)
 
+
 **Edit Action Button**
 This will display the "Edit Action Button" options.
 
@@ -265,8 +266,11 @@ Specify the tooltip text for the Edit Action button.
 **Edit Action Button Class**
 Specify the CSS class for styling the Edit Action button.
 
-**Edit Action Icon Class**
+**Edit Action Button Icon Class**
 Specify the CSS class for styling the icon of the Edit Action button.
+
+**Edit Action Button Condition**
+Specify the condition to Show the Edit Action button, eg: code==TEST, or status==COMPLETED
 
 **View Action Button**
 This will display the "View Action Button" options.
@@ -280,10 +284,15 @@ Specify the tooltip text for the View Action button.
 **View Action Button Class**
 Specify the CSS class for styling the View Action button.
 
-**View Action Icon Class**
+**View Action Button Icon Class**
 Specify the CSS class for styling the icon of the View Action button.
 
+**View Action Button Condition**
+Specify the condition to Show the View Action button, eg: code==TEST, or status==COMPLETED
+
 **Delete Action Button**
+This will display the "Delete Action Button" options.
+
 **Delete Action Button Title**
 Specify the title for the Delete Action button.
 
@@ -292,7 +301,12 @@ Specify the tooltip text for the Delete Action button.
 
 **Delete Action Button Class**
 Specify the CSS class for styling the Delete Action button.
+
+**Delete Action Button Icon Class**
 Specify the CSS class for styling the icon of the Delete Action button.
+
+**Delete Action Button Condition**
+Specify the condition to Show the Delete Action button, eg: code==TEST, or status==COMPLETED
 
 # Custom Action Buttons
 

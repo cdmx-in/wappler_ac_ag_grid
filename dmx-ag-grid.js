@@ -83,16 +83,19 @@ dmx.Component('ag-grid', {
     edit_action_tooltip: {type: String, default: 'Edit' },
     edit_action_icon_class: {type: String, default: 'fas fa-pencil-alt' },
     edit_action_btn_class: {type: String, default: 'btn-primary btn-xs m-1' },
+    edit_action_btn_condition: {type: String, default: null },
     view_action_btn: { type: Boolean, default: false },
     view_action_title: {type: String, default: '' },
     view_action_tooltip: {type: String, default: 'View' },
     view_action_icon_class: {type: String, default: 'fas fa-eye' },
     view_action_btn_class: {type: String, default: 'btn-info btn-xs m-1' },
+    view_action_btn_condition: {type: String, default: null },
     delete_action_btn: { type: Boolean, default: false },
     delete_action_title: {type: String, default: '' },
     delete_action_tooltip: {type: String, default: 'Delete' },
     delete_action_icon_class: {type: String, default: 'fas fa-trash' },
     delete_action_btn_class: {type: String, default: 'btn-danger btn-xs m-1' },
+    delete_action_btn_condition: {type: String, default: null },
     enable_custom_action_btns: { type: Boolean, default: false },
     button1_action_btn: { type: "Boolean", default: false },
     button1_action_title: { type: "String", default: "" },
@@ -445,6 +448,15 @@ dmx.Component('ag-grid', {
           button.setAttribute('title', buttonConfig.tooltip);
           button.innerHTML = `<i class="${buttonConfig.icon}"></i> ${buttonConfig.action}`;
           container.appendChild(button);
+           // Check if the button should be hidden based on the condition string and row data
+          if (buttonConfig.condition) {
+            const [left, operator, right] = extractConditionParts(buttonConfig.condition);
+            
+            const isConditionMet = params.data.hasOwnProperty(left) && evaluateCondition(params.data[left], operator, right);
+            if (!isConditionMet) {
+              button.style.setProperty('display', 'none', 'important');
+            }
+          }
           button.addEventListener('click', function () {
             if (typeof buttonConfig.onClick === 'function') {
                 buttonConfig.onClick(params.data);
@@ -493,6 +505,52 @@ dmx.Component('ag-grid', {
       }
       return params.value;
     }
+
+    function extractConditionParts(condition) {
+          
+      const operators = ['===', '==', '!=', '>', '<', '>=', '<='];
+      let operator;
+      let left;
+      let right;
+    
+      for (const op of operators) {
+        if (condition.includes(op)) {
+          operator = op;
+          const parts = condition.split(op).map(part => part.trim());
+          left = parts[0];
+          right = parts.slice(1).join(op).trim();
+          break;
+        }
+      }
+    
+      if (!operator) {
+        throw new Error('Invalid operator in the condition.');
+      }
+    
+      return [left, operator, right];
+    }
+    
+    function evaluateCondition(left, operator, right) {
+      switch (operator) {
+        case '===':
+          return left.toString() === right.toString();
+        case '==':
+          return left.toString() == right.toString();
+        case '!=':
+          return left.toString() != right.toString();
+        case '>':
+          return left.toString() > parseFloat(right);
+        case '<':
+          return left.toString() < parseFloat(right);
+        case '>=':
+          return left.toString() >= parseFloat(right);
+        case '<=':
+          return left.toString() <= parseFloat(right);
+        default:
+          return false;
+      }
+    }
+    
     function formatDate(timestamp) {
       const format = options.date_format
       const localDate = new Date(timestamp);
@@ -849,50 +907,7 @@ dmx.Component('ag-grid', {
           tooltipValueGetter = createCombinedTooltipValueGetter(key, options.data_changes, options.data_binded_changes);
 
         }
-        function extractConditionParts(condition) {
-          
-          const operators = ['===', '==', '!=', '>', '<', '>=', '<='];
-          let operator;
-          let left;
-          let right;
         
-          for (const op of operators) {
-            if (condition.includes(op)) {
-              operator = op;
-              const parts = condition.split(op).map(part => part.trim());
-              left = parts[0];
-              right = parts.slice(1).join(op).trim();
-              break;
-            }
-          }
-        
-          if (!operator) {
-            throw new Error('Invalid operator in the condition.');
-          }
-        
-          return [left, operator, right];
-        }
-        
-        function evaluateCondition(left, operator, right) {
-          switch (operator) {
-            case '===':
-              return left.toString() === right.toString();
-            case '==':
-              return left.toString() == right.toString();
-            case '!=':
-              return left.toString() != right.toString();
-            case '>':
-              return left.toString() > parseFloat(right);
-            case '<':
-              return left.toString() < parseFloat(right);
-            case '>=':
-              return left.toString() >= parseFloat(right);
-            case '<=':
-              return left.toString() <= parseFloat(right);
-            default:
-              return false;
-          }
-        }
         const cstyles = this.props.cstyles
         // Check if custom color exists for the current field and condition
         function applyCellStyle(params) {
@@ -1059,6 +1074,7 @@ dmx.Component('ag-grid', {
             this.set('id', rowData.id);
             this.dispatchEvent('row_action_edit');
           },
+          condition: options.edit_action_btn_condition
         });
       }
     
@@ -1073,6 +1089,7 @@ dmx.Component('ag-grid', {
             this.set('id', rowData.id);
             this.dispatchEvent('row_action_view');
           },
+          condition: options.view_action_btn_condition
         });
       }
 
@@ -1087,6 +1104,7 @@ dmx.Component('ag-grid', {
             this.set('id', rowData.id);
             this.dispatchEvent('row_action_delete');
           },
+          condition: options.delete_action_btn_condition
         });
       }
       

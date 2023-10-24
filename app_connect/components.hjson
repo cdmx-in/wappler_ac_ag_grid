@@ -1490,6 +1490,12 @@
                   "defaultValue": 'fas fa-pencil-alt'
                 },
                 {
+                  "name": "editActionBtnCondition",
+                  "attribute": "edit_action_btn_condition",
+                  "title": "Edit Action Button Conditon",
+                  "type": "text"
+                },
+                {
                   "name": "viewActionBtn",
                   "attribute": "dmx-bind:view_action_btn",
                   "title": "View Action Button",
@@ -1525,6 +1531,12 @@
                   "defaultValue": 'fas fa-eye'
                 },
                 {
+                  "name": "viewActionBtnCondition",
+                  "attribute": "view_action_btn_condition",
+                  "title": "View Action Button Conditon",
+                  "type": "text"
+                },
+                {
                   "name": "deleteActionBtn",
                   "attribute": "dmx-bind:delete_action_btn",
                   "title": "Delete Action Button",
@@ -1558,6 +1570,12 @@
                   "title": "Delete Action Icon Class",
                   "type": "text",
                   "defaultValue": 'fas fa-trash'
+                },
+                {
+                  "name": "deleteActionBtnCondition",
+                  "attribute": "delete_action_btn_condition",
+                  "title": "Delete Action Button Conditon",
+                  "type": "text"
                 }
               ]
             },
