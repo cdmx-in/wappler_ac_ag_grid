@@ -102,51 +102,61 @@ dmx.Component('ag-grid', {
     button1_action_tooltip: { type: "String", default: "" },
     button1_action_icon_class: { type: "String", default: "fas fa-wrench" },
     button1_action_btn_class: { type: "String", default: "btn-primary btn-xs m-1" },
+    button1_action_btn_condition: {type: String, default: null },
     button2_action_btn: { type: "Boolean", default: false },
     button2_action_title: { type: "String", default: "" },
     button2_action_tooltip: { type: "String", default: "" },
     button2_action_icon_class: { type: "String", default: "fas fa-search-plus" },
     button2_action_btn_class: { type: "String", default: "btn-info btn-xs m-1" },
+    button2_action_btn_condition: {type: String, default: null },
     button3_action_btn: { type: "Boolean", default: false },
     button3_action_title: { type: "String", default: "" },
     button3_action_tooltip: { type: "String", default: "" },
     button3_action_icon_class: { type: "String", default: "fas fa-check-circle" },
     button3_action_btn_class: { type: "String", default: "btn-success btn-xs m-1" },
+    button3_action_btn_condition: {type: String, default: null },
     button4_action_btn: { type: "Boolean", default: false },
     button4_action_title: { type: "String", default: "" },
     button4_action_tooltip: { type: "String", default: "" },
     button4_action_icon_class: { type: "String", default: "fas fa-exclamation-triangle" },
     button4_action_btn_class: { type: "String", default: "btn-warning btn-xs m-1" },
+    button4_action_btn_condition: {type: String, default: null },
     button5_action_btn: { type: "Boolean", default: false },
     button5_action_title: { type: "String", default: "" },
     button5_action_tooltip: { type: "String", default: "Edit" },
     button5_action_icon_class: { type: "String", default: "fas fa-times-circle" },
     button5_action_btn_class: { type: "String", default: "btn-danger btn-xs m-1" },
+    button5_action_btn_condition: {type: String, default: null },
     button6_action_btn: { type: "Boolean", default: false },
     button6_action_title: { type: "String", default: "" },
     button6_action_tooltip: { type: "String", default: "" },
     button6_action_icon_class: { type: "String", default: "fas fa-link" },
     button6_action_btn_class: { type: "String", default: "btn-secondary btn-xs m-1" },
+    button6_action_btn_condition: {type: String, default: null },
     button7_action_btn: { type: "Boolean", default: false },
     button7_action_title: { type: "String", default: "" },
     button7_action_tooltip: { type: "String", default: "" },
     button7_action_icon_class: { type: "String", default: "fas fa-download" },
     button7_action_btn_class: { type: "String", default: "btn-primary btn-xm" },
+    button7_action_btn_condition: {type: String, default: null },
     button8_action_btn: { type: "Boolean", default: false },
     button8_action_title: { type: "String", default: "" },
     button8_action_tooltip: { type: "String", default: "" },
     button8_action_icon_class: { type: "String", default: "fas fa-file-pdf" },
     button8_action_btn_class: { type: "String", default: "btn-info btn-xs m-1" },
+    button8_action_btn_condition: {type: String, default: null },
     button9_action_btn: { type: "Boolean", default: false },
     button9_action_title: { type: "String", default: "" },
     button9_action_tooltip: { type: "String", default: "" },
     button9_action_icon_class: { type: "String", default: "fas fa-star" },
     button9_action_btn_class: { type: "String", default: "btn-success btn-xs m-1" },
+    button9_action_btn_condition: {type: String, default: null },
     button10_action_btn: { type: "Boolean", default: false },
     button10_action_title: { type: "String", default: "" },
     button10_action_tooltip: { type: "String", default: "" },
     button10_action_icon_class: { type: "String", default: "fas fa-trash-alt" },
     button10_action_btn_class: { type: "String", default: "btn-danger btn-xs m-1" },
+    button10_action_btn_condition: {type: String, default: null },
     data_binded_changes: {type: Array, default: [] },
     hide_fields: {type: String, default: null },
     hide_filters: {type: String, default: null },
@@ -1115,6 +1125,7 @@ dmx.Component('ag-grid', {
           const buttonClassKey = `button${i}_action_btn_class`;
           const buttonTooltipKey = `button${i}_action_tooltip`;
           const buttonIconClassKey = `button${i}_action_icon_class`;
+          const buttonConditionKey = `button${i}_action_btn_condition`; 
         
           if (options[buttonActionKey]) {
             actionsColumn.cellRendererParams.buttons.push({
@@ -1127,6 +1138,7 @@ dmx.Component('ag-grid', {
                 this.set('id', rowData.id);
                 this.dispatchEvent(`row_action_button${i}`);
               },
+              condition: options[buttonConditionKey]
             });
           }
         }

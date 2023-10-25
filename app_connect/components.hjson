@@ -1397,16 +1397,19 @@
                 "editActionTooltip",
                 "editActionBtnClass",
                 "editActionIconClass",
+                "editActionBtnCondition",
                 "viewActionBtn",
                 "viewActionTitle",
                 "viewActionTooltip",
                 "viewActionBtnClass",
                 "viewActionIconClass",
+                "viewActionBtnCondition",
                 "deleteActionBtn",
                 "deleteActionTitle",
                 "deleteActionTooltip",
                 "deleteActionBtnClass",
-                "deleteActionIconClass"
+                "deleteActionIconClass",
+                "deleteActionBtnCondition"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -1593,51 +1596,61 @@
                 "button1ActionTooltip",
                 "button1ActionBtnClass",
                 "button1ActionIconClass",
+                "button1ActionBtnCondition",
                 "button2ActionBtn",
                 "button2ActionTitle",
                 "button2ActionTooltip",
                 "button2ActionBtnClass",
                 "button2ActionIconClass",
+                "button2ActionBtnCondition",
                 "button3ActionBtn",
                 "button3ActionTitle",
                 "button3ActionTooltip",
                 "button3ActionBtnClass",
                 "button3ActionIconClass",
+                "button3ActionBtnCondition",
                 "button4ActionBtn",
                 "button4ActionTitle",
                 "button4ActionTooltip",
                 "button4ActionBtnClass",
                 "button4ActionIconClass",
+                "button4ActionBtnCondition",
                 "button5ActionBtn",
                 "button5ActionTitle",
                 "button5ActionTooltip",
                 "button5ActionBtnClass",
                 "button5ActionIconClass",
+                "button5ActionBtnCondition",
                 "button6ActionBtn",
                 "button6ActionTitle",
                 "button6ActionTooltip",
                 "button6ActionBtnClass",
                 "button6ActionIconClass",
+                "button6ActionBtnCondition",
                 "button7ActionBtn",
                 "button7ActionTitle",
                 "button7ActionTooltip",
                 "button7ActionBtnClass",
                 "button7ActionIconClass",
+                "button7ActionBtnCondition",
                 "button8ActionBtn",
                 "button8ActionTitle",
                 "button8ActionTooltip",
                 "button8ActionBtnClass",
                 "button8ActionIconClass",
+                "button8ActionBtnCondition",
                 "button9ActionBtn",
                 "button9ActionTitle",
                 "button9ActionTooltip",
                 "button9ActionBtnClass",
                 "button9ActionIconClass",
+                "button9ActionBtnCondition",
                 "button10ActionBtn",
                 "button10ActionTitle",
                 "button10ActionTooltip",
                 "button10ActionBtnClass",
-                "button10ActionIconClass"
+                "button10ActionIconClass",
+                "button10ActionBtnCondition"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -1687,6 +1700,12 @@
                   "defaultValue": "fas fa-wrench"
                 },
                 {
+                  "name": "button1ActionBtnCondition",
+                  "attribute": "button1_action_btn_condition",
+                  "title": "Button1 Conditon",
+                  "type": "text"
+                },
+                {
                   "name": "button2ActionBtn",
                   "attribute": "dmx-bind:button2_action_btn",
                   "title": "Button2 Action Button",
@@ -1720,6 +1739,12 @@
                   "title": "Button2 Icon Class",
                   "type": "text",
                   "defaultValue": "fas fa-search-plus"
+                },
+                {
+                  "name": "button2ActionBtnCondition",
+                  "attribute": "button2_action_btn_condition",
+                  "title": "Button2 Conditon",
+                  "type": "text"
                 },
                 {
                   "name": "button3ActionBtn",
@@ -1757,6 +1782,12 @@
                   "defaultValue": "fas fa-check-circle"
                 },
                 {
+                  "name": "button3ActionBtnCondition",
+                  "attribute": "button3_action_btn_condition",
+                  "title": "Button3 Conditon",
+                  "type": "text"
+                },
+                {
                   "name": "button4ActionBtn",
                   "attribute": "dmx-bind:button4_action_btn",
                   "title": "Button4 Action Button",
@@ -1790,6 +1821,12 @@
                   "title": "Button4 Icon Class",
                   "type": "text",
                   "defaultValue": "fas fa-exclamation-triangle"
+                },
+                {
+                  "name": "button4ActionBtnCondition",
+                  "attribute": "button4_action_btn_condition",
+                  "title": "Button4 Conditon",
+                  "type": "text"
                 },
                 {
                   "name": "button5ActionBtn",
@@ -1827,6 +1864,12 @@
                   "defaultValue": "fas fa-times-circle"
                 },
                 {
+                  "name": "button5ActionBtnCondition",
+                  "attribute": "button5_action_btn_condition",
+                  "title": "Button5 Conditon",
+                  "type": "text"
+                },
+                {
                   "name": "button6ActionBtn",
                   "attribute": "dmx-bind:button6_action_btn",
                   "title": "Button6 Action Button",
@@ -1860,6 +1903,12 @@
                   "title": "Button6 Icon Class",
                   "type": "text",
                   "defaultValue": "fas fa-link"
+                },
+                {
+                  "name": "button6ActionBtnCondition",
+                  "attribute": "button6_action_btn_condition",
+                  "title": "Button6 Conditon",
+                  "type": "text"
                 },
                 {
                   "name": "button7ActionBtn",
@@ -1897,6 +1946,12 @@
                   "defaultValue": "fas fa-download"
                 },
                 {
+                  "name": "button7ActionBtnCondition",
+                  "attribute": "button7_action_btn_condition",
+                  "title": "Button7 Conditon",
+                  "type": "text"
+                },
+                {
                   "name": "button8ActionBtn",
                   "attribute": "dmx-bind:button8_action_btn",
                   "title": "Button8 Action Button",
@@ -1930,6 +1985,12 @@
                   "title": "Button8 Icon Class",
                   "type": "text",
                   "defaultValue": "fas fa-file-pdf"
+                },
+                {
+                  "name": "button8ActionBtnCondition",
+                  "attribute": "button8_action_btn_condition",
+                  "title": "Button8 Conditon",
+                  "type": "text"
                 },
                 {
                   "name": "button9ActionBtn",
@@ -1967,6 +2028,12 @@
                   "defaultValue": "fas fa-star"
                 },
                 {
+                  "name": "button9ActionBtnCondition",
+                  "attribute": "button9_action_btn_condition",
+                  "title": "Button9 Conditon",
+                  "type": "text"
+                },
+                {
                   "name": "button10ActionBtn",
                   "attribute": "dmx-bind:button10_action_btn",
                   "title": "Button10 Action Button",
@@ -2000,6 +2067,12 @@
                   "title": "Button10 Icon Class",
                   "type": "text",
                   "defaultValue": "fas fa-trash-alt"
+                },
+                {
+                  "name": "button10ActionBtnCondition",
+                  "attribute": "button10_action_btn_condition",
+                  "title": "Button10 Conditon",
+                  "type": "text"
                 }
 
               ]
