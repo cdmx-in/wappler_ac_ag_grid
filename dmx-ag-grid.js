@@ -60,6 +60,7 @@ dmx.Component('ag-grid', {
     floating_filter: { type: Boolean, default: true },
     column_hover_highlight: { type: Boolean, default: true },
     export_to_csv: { type: Boolean, default: true },
+    export_csv_filename: { type: String, default: 'export.csv' },
     fixed_header: { type: Boolean, default: false },
     topbar_class: { type: String, default: 'topbar' },
     fixed_header_offset: { type: Number, default: 100 },
@@ -1488,7 +1489,7 @@ dmx.Component('ag-grid', {
         (column) => !excludedColumnIds.includes(column.colId)
       ).map((column) => column.field);
       const params = {
-        fileName: 'export.csv', // Set the desired file name here
+        fileName: options.export_csv_filename,
         allColumns: true,
         columnKeys: fieldsToExport,
         processCellCallback: function (params) {

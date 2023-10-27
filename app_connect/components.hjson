@@ -2504,6 +2504,40 @@
       "allowedOn": {
         "dmx-ag-grid": true
       }
+    },
+    {
+      "name": "dmx-ag-grid-export-filename",
+      "attributeStartsWith": "dmx-bind",
+      "attribute": "export_csv_filename",
+      "title": "Export CSV Filename",
+      "type": "boolean",
+      "display": "fieldset",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Config",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "exportCsvFilename"
+      ],
+      "noChangeOnHide": true,
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "exportCsvFilename",
+          "attributeStartsWith": "dmx-bind",
+          "attribute": "export_csv_filename",
+          "isValue": true,
+          "dataBindings": true,
+          "title": "CSV Filename",
+          "type": "text",
+          "help": "Export CSV filename.",
+          "defaultValue": "export.csv",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
     }
   ],
   "events": [
