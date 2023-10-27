@@ -73,6 +73,7 @@ dmx.Component('ag-grid', {
     timezone: {type: String, default: '' },
     cell_click_event: {type: Boolean, default: false },
     row_click_event: {type: Boolean, default: false },
+    row_double_click_event: {type: Boolean, default: false },
     row_checkbox_event: {type: Boolean, default: false },
     row_status_event: {type: Boolean, default: false },
     enable_actions: {type: Boolean, default: false },
@@ -349,7 +350,9 @@ dmx.Component('ag-grid', {
     const cwidths = this.props.cwidths
     const ctypes = this.props.ctypes
     const enableRowClickEvent = this.props.row_click_event && !this.props.enable_actions && !this.props.row_checkbox_event;
-    const enableCellClickEvent = this.props.row_click_event && (this.props.enable_actions || this.props.row_checkbox_event); 
+    const enableRowDoubleClickEvent = this.props.row_double_click_event && !this.props.enable_actions && !this.props.row_checkbox_event;
+    const enableCellClickEvent = this.props.row_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
+    const enableCellDoubleClickEvent = this.props.row_double_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
     let localeText;
     let columnDefs = [];
     let groupedColumnDefs = [];
@@ -396,6 +399,17 @@ dmx.Component('ag-grid', {
       this.set('data', rowData);
       this.set('id', rowData.id);
       this.dispatchEvent('row_clicked')
+    }
+    onCellDoubleClicked = (event) => {
+      const rowData = event.data;
+      const columnId = event.column.colId
+      const excludedColIds = ['checkboxColumn', 'actionsColumn', 'statusColumn'];
+      if (excludedColIds.includes(columnId)) {
+        return;
+      }
+      this.set('data', rowData);
+      this.set('id', rowData.id);
+      this.dispatchEvent('row_double_clicked')
     }
 
     function checkboxCellRenderer(params) {
@@ -1060,6 +1074,12 @@ dmx.Component('ag-grid', {
       this.set('id', rowData.id);
       this.dispatchEvent('row_clicked')
     }
+    window.onRowDoubleClicked = (event) => {
+      const rowData = event.data;
+      this.set('data', rowData);
+      this.set('id', rowData.id);
+      this.dispatchEvent('row_double_clicked')
+    }
     let checkboxColumn;
     if (options.row_checkbox_event) {
         checkboxColumn = {
@@ -1178,8 +1198,10 @@ dmx.Component('ag-grid', {
       enableRtl: options.enable_rtl,
       noRowsOverlayComponent: '<div>No Records Found.</div>',
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
+      onRowDoubleClicked: enableRowDoubleClickEvent ? onRowDoubleClicked : undefined,
       onCellClicked: enableCellClickEvent ? onCellClicked : undefined,
-      rowStyle: enableRowClickEvent || enableCellClickEvent ? { cursor: 'pointer' } : undefined,
+      onCellDoubleClicked: enableCellDoubleClickEvent ? onCellDoubleClicked : undefined,
+      rowStyle: enableRowClickEvent || enableCellClickEvent || enableRowDoubleClickEvent || enableCellDoubleClickEvent  ? { cursor: 'pointer' } : undefined,
       defaultColDef: {
         flex: 1,
         minWidth: options.min_width,
@@ -1567,6 +1589,7 @@ dmx.Component('ag-grid', {
 
   events: {
     row_clicked: Event,
+    row_double_clicked: Event,
     cell_clicked: Event,
     row_checkbox_checked: Event,
     row_checkbox_unchecked: Event,

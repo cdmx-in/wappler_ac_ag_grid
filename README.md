@@ -65,8 +65,9 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
 31. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
 33. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
 34. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
-35. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
-36. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+35. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
+36. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+37. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 
 # Data Type Overrides
 
