@@ -25,6 +25,7 @@ dmx.Component('ag-grid', {
     wrap_text: { type: Boolean, default: false },
     data_changes: { type: Array, default: [] },
     display_data_changes: { type: Array, default: [] },
+    js_data_changes: { type: Array, default: [] },
     data: { type: Array, default: [] },
     dom_layout: { type: String, default: 'autoHeight' },
     enable_cell_text_selection: { type: Boolean, default: true },
@@ -728,7 +729,7 @@ dmx.Component('ag-grid', {
             return cellData;
           }, value);
         }
-    
+
         // Check if there's a matching change in dataChanges
         const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
         if (matchingChange && matchingChange.area === 'cell' ) {
@@ -953,6 +954,27 @@ dmx.Component('ag-grid', {
         else {
           headerName = humanize(key);
         }
+        
+        if (options.js_data_changes.length > 0 && Array.isArray(options.js_data_changes)) {
+            // Check if there's a matching change in jsDataChanges
+            const matchingJsChange = options.js_data_changes.find(change => change.field === key);
+            if (matchingJsChange) {
+              cellRenderer = function (params) {
+              if (typeof window[matchingJsChange.function] === 'function') {
+                  const cellValue = window[matchingJsChange.function](params.data); 
+                  return cellValue;
+                }
+            }
+          }
+          else {
+            cellRenderer = undefined;
+            colId = undefined;
+          }
+        }
+        else {
+          cellRenderer = undefined;
+          colId = undefined;
+        }
         if (key =='status' && options.row_status_event) {
           cellRenderer = 'checkboxCellRenderer';
           colId = 'statusColumn';
@@ -965,10 +987,8 @@ dmx.Component('ag-grid', {
             filter = null;
           }
         }
-        else {
-          cellRenderer = undefined;
-          colId = undefined;
-        }
+        
+        
         if (options.hide_sort) {
           const hideSortArray = options.hide_sort.split(',');
           if (hideSortArray.includes(key)) {

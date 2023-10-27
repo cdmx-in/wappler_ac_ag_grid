@@ -135,8 +135,25 @@ This grid allows you to define custom data changes for specific fields. The grid
 The Display Data Manipulation feature allows you to add custom text, Combine fields data.
 The grid has the following settings:
 
+**Using Field Data**
+
 1. **Field**: The field name for which you want to apply the custom data changes. 
 2. **Data**: The value to be replaced in the field data ex: %first_name% %last_name%. 
+
+**Using JS Function**
+
+1. **Field**: The field name for which you want to apply the custom data changes. 
+2. **Function**: Create a JavaScript function that defines the custom rendering logic. In your HTML or script section, define the JS function. 
+ex: jsChanges. 
+
+<script>
+  function jsChanges(data) {
+    const html = `
+      <div style="color: red; line-height: 2;">${data.code}</div>
+      <div style="color: green; line-height: 2;">This is a new line in green.</div>`;
+    return html;
+  }
+</script>
 
 ---
 # Custom Headers

@@ -904,6 +904,7 @@
               "display": "fieldset",
               "show": [
                 "displayDataChanges",
+                "jsDataChanges"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -912,7 +913,7 @@
                 {
                   "name": "displayDataChanges",
                   "attribute": "dmx-bind:display_data_changes",
-                  "title": "Fields Data",
+                  "title": "Using Field Data",
                   "type": "grid",
                   "dataBindings": true,
                   "jsonFormat": true,
@@ -938,6 +939,37 @@
                   "newRecord": {
                     "field": "",
                     "data": ""
+                  }
+                },
+                {
+                  "name": "jsDataChanges",
+                  "attribute": "dmx-bind:js_data_changes",
+                  "title": "Using JS Function",
+                  "type": "grid",
+                  "dataBindings": true,
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      field: "function",
+                      caption: "Function",
+                      editable: {
+                        type: "text"
+                      }
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "function": ""
                   }
                 }
               ]
