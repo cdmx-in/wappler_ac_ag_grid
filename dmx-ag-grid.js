@@ -464,14 +464,21 @@ dmx.Component('ag-grid', {
       const buttons = params.buttons || defaultButtons;
       // Create a new container element to hold the buttons
       const container = document.createElement('div');
-  
+      
       buttons.forEach((buttonConfig) => {
           const button = document.createElement('button');
           button.classList.add('btn');
           const classNames = buttonConfig.classNames.split(' ');
           classNames.forEach((className) => button.classList.add(className));
           button.setAttribute('data-toggle', 'tooltip');
-          button.setAttribute('title', buttonConfig.tooltip);
+          // Call a function to get the dynamic tooltip content
+          if (buttonConfig.tooltip.endsWith('()')) {
+            const tooltipFunction = buttonConfig.tooltip.slice(0, -2); // Remove the trailing '()'
+            const tooltipText = window[tooltipFunction](params.data)
+            button.setAttribute('title', tooltipText);
+          } else {
+            button.setAttribute('title', buttonConfig.tooltip);
+          }
           button.innerHTML = `<i class="${buttonConfig.icon}"></i> ${buttonConfig.action}`;
           container.appendChild(button);
            // Check if the button should be hidden based on the condition string and row data

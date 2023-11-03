@@ -259,6 +259,9 @@ The Configure Actions Column feature allows you to configure actions for the but
 **Enable Actions**
 This will display the "Configure Actions" options for the buttons in the Actions Column.
 
+Note: Button Tooltip Supports Calling a function, just define a function and add the function name in the Tooltip e.g. getEditTooltip().
+In the function the variable for the row data will be available as the first attribute e.g. getEditTooltip(data), then data holds the values of the row.
+
 **Pin Actions Column**
 This will keep the Actions Column fixed when scrolling horizontally.
 
@@ -288,7 +291,7 @@ Specify the CSS class for styling the Edit Action button.
 Specify the CSS class for styling the icon of the Edit Action button.
 
 **Edit Action Button Condition**
-Specify the condition to Show the Edit Action button, eg: code==TEST, or status==COMPLETED
+Specify the condition to Show the Edit Action button, eg: code==TEST, or status==COMPLETED||status==FINISHED or status==COMPLETED&&user_status==true
 
 **View Action Button**
 This will display the "View Action Button" options.
@@ -306,7 +309,7 @@ Specify the CSS class for styling the View Action button.
 Specify the CSS class for styling the icon of the View Action button.
 
 **View Action Button Condition**
-Specify the condition to Show the View Action button, eg: code==TEST, or status==COMPLETED
+Specify the condition to Show the View Action button, eg: code==TEST, or status==COMPLETED||status==FINISHED or status==COMPLETED&&user_status==true
 
 **Delete Action Button**
 This will display the "Delete Action Button" options.
@@ -324,69 +327,29 @@ Specify the CSS class for styling the Delete Action button.
 Specify the CSS class for styling the icon of the Delete Action button.
 
 **Delete Action Button Condition**
-Specify the condition to Show the Delete Action button, eg: code==TEST, or status==COMPLETED
+Specify the condition to Show the Delete Action button, eg: code==TEST, or status==COMPLETED||status==FINISHED or status==COMPLETED&&user_status==true
 
 # Custom Action Buttons
 
-**Button1 Class**
-Specify the CSS class for Button 1.
+**Buttons 1-10**
 
-**Button1 Tooltip**
-Specify the tooltip text for Button 1.
+**Button[i] Action Button**
+This will display the "Button[i] Action Button" options.
 
-**Button2 Class**
-Specify the CSS class for Button 2.
+**Button[i] Action Button Title**
+Specify the title for the Button[i] Action button.
 
-**Button2 Tooltip**
-Specify the tooltip text for Button 2.
+**Button[i] Action Button Tooltip**
+Specify the tooltip text for the Button[i] Action button.
 
-**Button3 Class**
-Specify the CSS class for Button 3.
+**Button[i] Action Button Class**
+Specify the CSS class for styling the Button[i] Action button.
 
-**Button3 Tooltip**
-Specify the tooltip text for Button 3.
+**Button[i] Action Button Icon Class**
+Specify the CSS class for styling the icon of the Button[i] Action button.
 
-**Button4 Class**
-Specify the CSS class for Button 4.
-
-**Button4 Tooltip**
-Specify the tooltip text for Button 4.
-
-**Button5 Class**
-Specify the CSS class for Button 5.
-
-**Button5 Tooltip**
-Specify the tooltip text for Button 5.
-
-**Button6 Class**
-Specify the CSS class for Button 6.
-
-**Button6 Tooltip**
-Specify the tooltip text for Button 6.
-
-**Button7 Class**
-Specify the CSS class for Button 7.
-
-**Button7 Tooltip**
-Specify the tooltip text for Button 7.
-
-**Button8 Class**
-Specify the CSS class for Button 8.
-
-**Button8 Tooltip**
-Specify the tooltip text for Button 8.
-
-**Button9 Class**
-Specify the CSS class for Button 9.
-
-**Button9 Tooltip**
-Specify the tooltip text for Button 9.
-
-**Button10 Class**
-Specify the CSS class for Button 10.
-
-**Button10 Tooltip**
-Specify the tooltip text for Button 10.
+**Button[i] Action Button Condition**
+Specify the condition to Show the Button[i] Action button, eg: code==TEST, or status==COMPLETED||status==FINISHED or status==COMPLETED&&user_status==true
 
 # Action Attributes
 
