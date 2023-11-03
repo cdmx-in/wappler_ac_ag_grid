@@ -476,9 +476,8 @@ dmx.Component('ag-grid', {
           container.appendChild(button);
            // Check if the button should be hidden based on the condition string and row data
           if (buttonConfig.condition) {
-            const [left, operator, right] = extractConditionParts(buttonConfig.condition);
-            
-            const isConditionMet = params.data.hasOwnProperty(left) && evaluateCondition(params.data[left], operator, right);
+            const conditions = buttonConfig.condition.split(/(\|\||&&)/);
+            const isConditionMet = evaluateConditions(conditions, params);
             if (!isConditionMet) {
               button.style.setProperty('display', 'none', 'important');
             }
@@ -554,6 +553,30 @@ dmx.Component('ag-grid', {
       }
     
       return [left, operator, right];
+    }
+    function evaluateConditions(conditions, params) {
+      let results = [];
+      let operators = [];
+      for (let i = 0; i < conditions.length; i++) {
+          const part = conditions[i].trim();
+          if (part === '||' || part === '&&') {
+              operators.push(part);
+          } else {
+              const [left, operator, right] = extractConditionParts(part);
+              const result = evaluateCondition(params.data[left], operator, right);
+              results.push(result);
+          }
+      }
+      let finalResult = results[0];
+      
+      for (let i = 0; i < operators.length; i++) {
+          if (operators[i] === '||') {
+              finalResult = finalResult || results[i + 1];
+          } else if (operators[i] === '&&') {
+              finalResult = finalResult && results[i + 1];
+          }
+      }
+      return finalResult;
     }
     
     function evaluateCondition(left, operator, right) {
