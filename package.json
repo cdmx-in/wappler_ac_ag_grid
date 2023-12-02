@@ -1,6 +1,6 @@
 {
     "name": "@cdmx/wappler_ag_grid",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "type": "module",
     "description": "App Connect module for AG Grid Table Generation.",
     "license": "MIT",
@@ -14,7 +14,7 @@
         "ag-grid"
     ],
     "dependencies": {
-        "ag-grid-community": "30.2.x",
+        "ag-grid-community": "31.0.x",
         "exceljs": "4.3.x",
         "moment": "2.29.x",
         "papaparse": "5.4.x"

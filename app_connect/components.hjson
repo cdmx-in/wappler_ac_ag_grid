@@ -85,10 +85,19 @@
               {title: 'Alpine', value: 'ag-theme-alpine'},
               {title: 'Balham', value: 'ag-theme-balham'},
               {title: 'Material', value: 'ag-theme-material'},
+              {title: 'Quartz', value: 'ag-theme-quartz'},
               {title: 'Custom', value: 'ag-theme-alpine ag-theme-custom'},
               {title: 'Base', value: 'ag-grid'}
               ],
               "help": "Select a theme for the grid"
+            },
+            {
+              "name": "dark_mode",
+              "attribute": "dmx-bind:dark_mode",
+              "title": "Dark Mode",
+              "type": "boolean",
+              "defaultValue": true,
+              "help": "Enables dark mode"
             },
             {
               "name": "locale_text",
@@ -2265,6 +2274,10 @@
           "dst": "css/ag-theme-material.css"
         },
         {
+          "src": "../../../node_modules/ag-grid-community/styles/ag-theme-quartz.css",
+          "dst": "css/ag-theme-quartz.css"
+        },
+        {
           "src": "../../../node_modules/moment/min/moment.min.js",
           "dst": "js/moment.min.js"
         },
@@ -2331,6 +2344,10 @@
         },
         {
           "src": "css/ag-theme-material.css",
+          "type": "css"
+        },
+        {
+          "src": "css/ag-theme-quartz.css",
           "type": "css"
         },
         {

@@ -5,13 +5,19 @@ dmx.Component('ag-grid', {
     count: Number,
     fields: {},
     fileData: [],
-    selectedRows: []
+    selectedRows: [],
+    state: {
+      gridReady: !1,
+      firstDataRendered: !1,
+      rowDataUpdated: !1
+    }
   },
 
   attributes: {
     id: { default: null },
     noload: { type: Boolean, default: false },
     grid_theme: { type: String, default: 'ag-theme-alpine' },
+    dark_mode: { type: Boolean, default: false},
     column_defs: { type: Array, default: [] },
     tooltip_config: { type: Array, default: [] },
     custom_tooltip: { type: String, default: null },
@@ -359,7 +365,8 @@ dmx.Component('ag-grid', {
     let exportToCSV = this.props.export_to_csv;
     let gridInstance = null; 
     let cellRenderer;
-    this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
+    const gridThemeClass = options.dark_mode ? `${options.grid_theme}-dark` : options.grid_theme;
+    this.$node.innerHTML = `<div id=${options.id}-grid class="${gridThemeClass}"></div>`;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
       return;
