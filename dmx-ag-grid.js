@@ -38,6 +38,8 @@ dmx.Component('ag-grid', {
     row_selection: { type: String, default: 'multiple' },
     suppress_row_deselection: { type: Boolean, default: false },
     pagination: { type: Boolean, default: true },
+    pagination_auto_page_size: { type: Boolean, default: false },
+    pagination_page_size_selector: { type: Array, default: [20,50,100] },
     pagination_page_size: { type: Number, default: 20 },
     row_height: { type: Number, default: null },
     header_height: { type: Number, default: null },
@@ -1255,7 +1257,9 @@ dmx.Component('ag-grid', {
       rowSelection: this.props.row_selection,
       suppressRowDeselection: this.props.suppress_row_deselection,
       pagination: this.props.pagination,
+      paginationAutoPageSize: this.props.pagination_auto_page_size,
       paginationPageSize: this.props.pagination_page_size,
+      paginationPageSizeSelector: options.pagination_page_size_selector,
       rowHeight: this.props.row_height,
       headerHeight: this.props.header_height,
       suppressRowClickSelection: this.props.suppress_row_click_selection,
@@ -1264,12 +1268,20 @@ dmx.Component('ag-grid', {
       enableCellExpressions: this.props.enable_cell_expressions,
       animateRows: this.props.animate_rows,
       suppressAggFuncInHeader: this.props.suppress_agg_func_in_header,
-      suppressAggAtRootLevel: this.props.suppress_agg_at_root_level,
       suppressClipboardPaste: this.props.suppress_clipboard_paste,
       suppressScrollOnNewData: this.props.suppress_scroll_on_new_data,
       suppressPropertyNamesCheck: this.props.suppress_property_names_check,
       suppressRowDeselection: this.props.suppress_row_deselection,
       columnHoverHighlight: this.props.column_hover_highlight,
+      onGridReady: () => {
+        this.set("state", { gridReady: true });
+      },
+      onFirstDataRendered: () => {
+        this.set("state", { firstDataRendered: true });
+      },
+      onRowDataUpdated: (event) => {
+        this.set("state", { rowDataUpdated: true });
+      },
       onGridSizeChanged: function(params) {
         // This function is called whenever the grid's size changes
         adjustHeaderWidth();
@@ -1401,7 +1413,7 @@ dmx.Component('ag-grid', {
       };
     }
     // Create ag-Grid instance
-    gridInstance = new agGrid.Grid(gridDiv, gridConfig);
+    gridInstance = agGrid.createGrid(gridDiv, gridConfig);
 
     if (options.cfilters && options.cfilters.length > 0) {
     var filterModel = {};
@@ -1656,6 +1668,10 @@ dmx.Component('ag-grid', {
   update: function (props) {
     this.set('count', this.props.data.length);
     if (!dmx.equal(this.props.data, props.data) && !this.props.noload) {
+      let gridInstance = this.refreshGrid();
+      this.set('gridInstance', gridInstance);
+    }
+    if (!dmx.equal(this.props.dark_mode, props.dark_mode)) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
     }

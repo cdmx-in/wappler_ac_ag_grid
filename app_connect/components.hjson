@@ -24,6 +24,16 @@
           "type": "object"
         },
         {
+          "name": "state",
+          "title": "state",
+          "type": "object",
+          sub: [
+              {name: "gridReady", type: "boolean"},
+              {name: "firstDataRendered", type: "boolean"},
+              {name: "rowDataUpdated", type: "boolean"}
+          ]
+        },
+        {
           "name": "count",
           "title": "Count",
           "type": "number"
@@ -96,7 +106,7 @@
               "attribute": "dmx-bind:dark_mode",
               "title": "Dark Mode",
               "type": "boolean",
-              "defaultValue": true,
+              "defaultValue": false,
               "help": "Enables dark mode"
             },
             {
@@ -196,6 +206,22 @@
               "type": "boolean",
               "defaultValue": true,
               "help": "Enables pagination"
+            },
+            {
+              "name": "paginationAutoPageSize",
+              "attribute": "pagination_auto_page_size",
+              "title": "Auto Pagination",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Built-in pagination size as per page size."
+            },
+            {
+              "name": "paginationPageSizeSelector",
+              "attribute": "dmx-bind:pagination_page_size_selector",
+              "title": "Pagination Size Selectors",
+              "type": "text",
+              "defaultValue": "[20,50,100]",
+              "help": "Allowed selectors for for page size."
             },
             {
               "name": "paginationPageSize",
@@ -442,14 +468,6 @@
               "type": "boolean",
               "defaultValue": false,
               "help": "Hides the aggregation function in column headers"
-            },
-            {
-              "name": "suppressAggAtRootLevel",
-              "attribute": "dmx-bind:suppress_agg_at_root_level",
-              "title": "Suppress Aggregation at Root Level",
-              "type": "boolean",
-              "defaultValue": false,
-              "help": "Disables aggregation at the root level"
             },
             {
               "name": "suppressClipboardPaste",
@@ -2589,6 +2607,39 @@
           "type": "text",
           "help": "Export CSV filename.",
           "defaultValue": "export.csv",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-dark-mode",
+      "attributeStartsWith": "dmx-bind",
+      "attribute": "dark_mode",
+      "title": "Dark Mode",
+      "type": "boolean",
+      "display": "fieldset",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Config",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "darkMode"
+      ],
+      "noChangeOnHide": true,
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "darkMode",
+          "attributeStartsWith": "dmx-bind",
+          "attribute": "dark_mode",
+          "isValue": true,
+          "dataBindings": true,
+          "title": "Dark Mode",
+          "type": "text",
+          "help": "Enables dark mode.",
           "initDisplay": "none"
         }
       ],

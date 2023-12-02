@@ -13,7 +13,8 @@ The AG Grid module allows you to create a flexible and customizable data grid wi
    - "Balham"
    - "Material"
    - "Custom"
-5. **Locale**: Select the locale for the grid. Currently supported locales: English (EN), Russian (RU) and Hebrew (HE). (Default: EN)
+5. **Dark Mode** (Default: false)
+6. **Locale**: Select the locale for the grid. Currently supported locales: English (EN), Russian (RU) and Hebrew (HE). (Default: EN)
 
 **Note for Custom Theme:**
 When you select the "Custom" theme option, you have the flexibility to define your own unique styling for the ag-Grid components.
@@ -34,40 +35,41 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
 8. **Column Hover Highlight**: Specifies column hover highlighting. (Default: true)
 9. **Suppress Row Deselection**: Specifies if rows can be deselected. (Default: false)
 10. **Pagination**: Enables pagination. (Default: true)
-11. **Pagination Page Size**: Number of rows to show per page. (Default: 20)
-12. **Row Selection**: Row Selection (single or multiple).
+11. **Auto Pagination**: Enables automatic pagination. (Default: false)
+12. **Pagination Size Selectors**: Allowed selectors for for page size. (Default: [20,50,100] ).
+13. **Pagination Page Size**: Number of rows to show per page. (Default: 20)
+14. **Row Selection**: Row Selection (single or multiple).
    - "Single"
    - "Multiple" (Default)
-13. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list. (Default: Local)
-14. **Date Format**: Date Format for displaying date values. (Default: "dd/MM/yyyy hh:mm A")
-15. **Sticky Header and Horizontal Scrollbar**:  Optionally specify the header offset and topbar class.
+15. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list. (Default: Local)
+16. **Date Format**: Date Format for displaying date values. (Default: "dd/MM/yyyy hh:mm A")
+17. **Sticky Header and Horizontal Scrollbar**:  Optionally specify the header offset and topbar class.
    - Fixed Header: Enables sticky header. (Default: false)
    - Header Offset: Specifies offset from the top of the viewport area (Optional). (Default: 100)
    - Topbar Class: Specify class, e.g., "topbar", to measure the offset from (Optional). (Default: "topbar")
    - Topbar Offset: Specify topbar offset (Default: 80)
    - Fixed Horizontal Scroll: Enables Hovering horizontal scrollbar which stays at the bottom all the time. (Default: false)
    - Fixed Horizontal Scroll Width: Fixed horizontal scroll width percentage. (Default: 80%)
-16. **Row Height**: Height of each row in pixels. (Default: 25)
-17. **Header Height**: Height of the header row in pixels. (Default: 30)
-18. **Wrap Header Text**: This will cause long headers to wrap. (Default: true)
-19. **Auto Header Height**: The column header height is automatically set based on the content of the header cells. (Default: true)
-20. **Wrap Text**: This will cause long texts to wrap in the cells. (Default: false)
-21. **Suppress Row Click Selection**: Disables row selection on row click. (Default: false)
-22. **Suppress Menu Hide**: Prevents hiding the column menu. (Default: false)
-23. **Suppress Movable Columns**: Disables moving columns. (Default: false)
-24. **Enable Cell Expressions**: Enables expressions in cell values. (Default: false)
-25. **Animate Rows**: Enables row animation on data changes. (Default: false)
-26. **Suppress Aggregation Function in Header**: Hides the aggregation function in column headers. (Default: false)
-27. **Suppress Aggregation at Root Level**: Disables aggregation at the root level. (Default: false)
-28. **Suppress Clipboard Paste**: Disables pasting data from the clipboard. (Default: false)
-29. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
-30. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
-31. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
-33. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
-34. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
-35. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
-36. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
-37. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+18. **Row Height**: Height of each row in pixels. (Default: 25)
+19. **Header Height**: Height of the header row in pixels. (Default: 30)
+20. **Wrap Header Text**: This will cause long headers to wrap. (Default: true)
+21. **Auto Header Height**: The column header height is automatically set based on the content of the header cells. (Default: true)
+23. **Wrap Text**: This will cause long texts to wrap in the cells. (Default: false)
+24. **Suppress Row Click Selection**: Disables row selection on row click. (Default: false)
+25. **Suppress Menu Hide**: Prevents hiding the column menu. (Default: false)
+26. **Suppress Movable Columns**: Disables moving columns. (Default: false)
+27. **Enable Cell Expressions**: Enables expressions in cell values. (Default: false)
+28. **Animate Rows**: Enables row animation on data changes. (Default: false)
+29. **Suppress Aggregation Function in Header**: Hides the aggregation function in column headers. (Default: false)
+30. **Suppress Clipboard Paste**: Disables pasting data from the clipboard. (Default: false)
+31. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
+32. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
+33. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
+34. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
+35. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
+36. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
+37. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+38. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 
 # Data Type Overrides
 
