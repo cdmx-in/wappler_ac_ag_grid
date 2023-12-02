@@ -136,6 +136,8 @@ This grid allows you to define custom data changes for specific fields. The grid
 
 **Amount Fields** (Type: textbox, Default: null)
 - Define the fields where the comma-separation and float parsing need to be applied.
+**Amount Field Precision** (Type: number, Default: 2)
+- Define the precision to be used for currency fields.
 
 ---
 

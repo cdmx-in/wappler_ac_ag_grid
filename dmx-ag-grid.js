@@ -243,7 +243,7 @@ dmx.Component('ag-grid', {
   transactionUpdate: function () {
     // const oldRowData = this.get('oldData');
     const gridInstance = this.get('gridInstance');
-    const oldRowData = gridInstance.gridOptions.api.getModel().rowsToDisplay.map(row => row.data);
+    const oldRowData = gridInstance.getModel().rowsToDisplay.map(row => row.data);
     const newRowData = this.props.data;
     let transaction;
   
@@ -264,8 +264,8 @@ dmx.Component('ag-grid', {
       }
       
     if (gridInstance && gridInstance.gridOptions && transaction) {
-      gridInstance.gridOptions.api.applyTransaction(transaction);
-      gridInstance.gridOptions.api.refreshCells();
+      gridInstance.applyTransaction(transaction);
+      gridInstance.refreshCells();
     } else {
       console.error('AG Grid instance or transaction not found.');
     }
@@ -1322,10 +1322,10 @@ dmx.Component('ag-grid', {
         columnsToCount.forEach(function (colObj) {
           const col = colObj.field;
           const uniqueValuesToCount = colObj.unique_values.split(',');
-      
+    
           result[0][col] = 0;
           let uniqueValues = new Set();
-      
+    
           rowData.forEach(function (line) {
             if (line.index < rowData.length) {
               const value = line.data[col];
@@ -1335,11 +1335,11 @@ dmx.Component('ag-grid', {
               }
             }
           });
-      
+    
           result[0][col + '_unique_count'] = uniqueValues.size;
         });
       }
-      api.setPinnedBottomRowData(result);
+      api.setGridOption('pinnedBottomRowData', result);
     }
 
     const gridDiv = document.getElementById(options.id+'-grid');
@@ -1425,8 +1425,8 @@ dmx.Component('ag-grid', {
         filter: customFilter.filter
       };
     });
-    gridInstance.gridOptions.api.setFilterModel(filterModel);
-    gridInstance.gridOptions.api.onFilterChanged();
+    gridInstance.setFilterModel(filterModel);
+    gridInstance.onFilterChanged();
     }
 
     const gridElement = document.getElementById(options.id+'-grid');
@@ -1437,7 +1437,7 @@ dmx.Component('ag-grid', {
     const gridContainer = gridElement.parentNode;
     // Add an event listener to the grid
     if (options.row_checkbox_event) {
-      gridConfig.api.addEventListener('rowSelected', (event) => {
+      gridInstance.addEventListener('rowSelected', (event) => {
         if (event.node && event.node.isSelected()) {
           const rowData = event.node.data;
           this.set('data', rowData);
@@ -1513,7 +1513,7 @@ dmx.Component('ag-grid', {
       });
     }
     exportSelectedRows = () => {
-      const selectedRows = gridConfig.api.getSelectedRows();
+      const selectedRows = gridInstance.getSelectedRows();
       this.set('selectedRows', selectedRows);
     }
     function updateHoveringBarStyles() {
@@ -1596,7 +1596,7 @@ dmx.Component('ag-grid', {
           return params.value;
         },
       };
-      gridConfig.api.exportDataAsCsv(params);
+      gridInstance.exportDataAsCsv(params);
     };
     // Create the export button
     if (exportToCSV) {
