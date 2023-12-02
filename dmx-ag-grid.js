@@ -62,6 +62,7 @@ dmx.Component('ag-grid', {
     date_locale: { type: String, default: 'en-US' },
     date_format: { type: String, default: 'dd/MM/yyyy hh:mm A' },
     amount_fields: { type: String, default: null },
+    amount_field_precision: { type: Number, default: 2 },
     min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
     resizable: { type: Boolean, default: true },
@@ -935,8 +936,8 @@ dmx.Component('ag-grid', {
               valueFormatter = function (params) {
                 if (params.value != null) {
                   return Number(params.value).toLocaleString(options.date_locale, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
+                    minimumFractionDigits: options.amount_field_precision,
+                    maximumFractionDigits: options.amount_field_precision
                   });
                 }
                 return '-';

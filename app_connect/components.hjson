@@ -858,7 +858,8 @@
               "display": "fieldset",
               "show": [
                 "dataChanges",
-                "amountFields"
+                "amountFields",
+                "amountFieldsPrecision"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -920,7 +921,17 @@
                   "attribute": "amount_fields",
                   "title": "Amount Fields",
                   "type": "text",
+                  "initDisplay": "none",
+                  "help": "Fields (numeric/float data fields) where you desire currency formatting to be applied."
+                },
+                {
+                  "name": "amountFieldsPrecision",
+                  "attribute": "amount_field_precision",
+                  "title": "Amount Field Precision",
+                  "type": "number",
+                  "defaultValue": 2,
                   "initDisplay": "none"
+                  "help": "Setting precision digits after the decimal"
                 }
               ]
             }
