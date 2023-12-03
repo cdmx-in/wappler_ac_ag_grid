@@ -369,15 +369,6 @@
                   "initDisplay": "none",
                   "defaultValue": 80,
                   "help": "Specify topbar offset, Default: 80"
-                },
-                {
-                  "name": "fixedHorizontalScrollWidth",
-                  "attribute": "dmx-bind:fixed_horizontal_scroll_width",
-                  "title": "Fixed Horizontal Scroll Width",
-                  "type": "number",
-                  "initDisplay": "none",
-                  "defaultValue": 80,
-                  "help": "Fixed horizontal scroll width percentage (Default: 80%)"
                 }
               ]
             },

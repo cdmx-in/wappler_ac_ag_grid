@@ -76,7 +76,6 @@ dmx.Component('ag-grid', {
     fixed_header_offset: { type: Number, default: 100 },
     fixed_top_offset: { type: Number, default: 80 },
     fixed_horizontal_scroll: { type: Boolean, default: false },
-    fixed_horizontal_scroll_width: { type: Number, default: 80 },
     fixed_footer: { type: Boolean, default: false },
     fixed_footer_bottom_padding: { type: Number, default: 10 },
     timezone: {type: String, default: '' },
