@@ -242,7 +242,14 @@ dmx.Component('ag-grid', {
   transactionUpdate: function () {
     // const oldRowData = this.get('oldData');
     const gridInstance = this.get('gridInstance');
-    const oldRowData = gridInstance.getModel().rowsToDisplay.map(row => row.data);
+    //const oldRowData = gridInstance.getModel().rowsToDisplay.map(row => row.data);
+      // Retrieve old row data from the grid instance directly
+    const oldRowData = [];
+    gridInstance.forEachNode(node => {
+      if (node.data) {
+        oldRowData.push(node.data);
+      }
+    });
     const newRowData = this.props.data;
     let transaction;
   
@@ -261,8 +268,7 @@ dmx.Component('ag-grid', {
           update: updatedRows,
         };
       }
-      
-    if (gridInstance && gridInstance.gridOptions && transaction) {
+    if (gridInstance && transaction) {
       gridInstance.applyTransaction(transaction);
       gridInstance.refreshCells();
     } else {
@@ -1281,7 +1287,38 @@ dmx.Component('ag-grid', {
       suppressPropertyNamesCheck: this.props.suppress_property_names_check,
       suppressRowDeselection: this.props.suppress_row_deselection,
       columnHoverHighlight: this.props.column_hover_highlight,
-      onGridReady: () => {
+      onGridReady: (params) => {
+        const columnApi = params.columnApi.api;
+        hideColumn = (fieldToHide) => {
+          columnApi.setColumnsVisible([fieldToHide], false);
+        }
+        pinColumnToLeft = (fieldToPin) => {
+          const columnState = columnApi.getColumnState();
+          const columnIndex = columnState.findIndex(column => column.colId === fieldToPin);
+          if (columnIndex !== -1) {
+            for (let i = 0; i <= columnIndex; i++) {
+              columnState[i].pinned = 'left';
+            }
+            columnApi.applyColumnState({ state: columnState });
+          }
+        }
+        saveColumnStateToStorage = () => {
+          const columnState = columnApi.getColumnState();
+          const pageId = getPageId();
+          localStorage.setItem(`columnState_${pageId}`, JSON.stringify(columnState));    
+        }
+        function restoreColumnState() {
+          const pageId = getPageId();
+          const savedColumnState = JSON.parse(localStorage.getItem(`columnState_${pageId}`));
+          if (savedColumnState) {
+            columnApi.applyColumnState({
+              state: savedColumnState,
+              applyOrder: true,
+              applyVisibility: true,
+            });
+          }
+        }
+        restoreColumnState();
         this.set("state", { gridReady: true });
       },
       onFirstDataRendered: () => {
@@ -1371,39 +1408,6 @@ dmx.Component('ag-grid', {
       return uniqueId;
     };
     const gridConfig = {
-      onGridReady: function (params) {
-        const columnApi = params.columnApi;
-        hideColumn = (fieldToHide) => {
-          columnApi.setColumnsVisible([fieldToHide], false);
-        }
-        pinColumnToLeft = (fieldToPin) => {
-          const columnState = columnApi.getColumnState();
-          const columnIndex = columnState.findIndex(column => column.colId === fieldToPin);
-          if (columnIndex !== -1) {
-            for (let i = 0; i <= columnIndex; i++) {
-              columnState[i].pinned = 'left';
-            }
-            columnApi.applyColumnState({ state: columnState });
-          }
-        }
-        saveColumnStateToStorage = () => {
-          const columnState = columnApi.getColumnState();
-          const pageId = getPageId();
-          localStorage.setItem(`columnState_${pageId}`, JSON.stringify(columnState));    
-        }
-        function restoreColumnState() {
-          const pageId = getPageId();
-          const savedColumnState = JSON.parse(localStorage.getItem(`columnState_${pageId}`));
-          if (savedColumnState) {
-            columnApi.applyColumnState({
-              state: savedColumnState,
-              applyOrder: true,
-              applyVisibility: true,
-            });
-          }
-        }
-        restoreColumnState();
-      },
       columnDefs: columnDefs,
       rowData: rowData,
       ...gridOptions
