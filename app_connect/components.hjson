@@ -218,7 +218,7 @@
             {
               "name": "paginationPageSizeSelector",
               "attribute": "dmx-bind:pagination_page_size_selector",
-              "title": "Pagination Size Selectors",
+              "title": "Page Limit Selectors",
               "type": "text",
               "defaultValue": "[20,50,100]",
               "help": "Allowed selectors for for page size."
@@ -226,7 +226,7 @@
             {
               "name": "paginationPageSize",
               "attribute": "pagination_page_size",
-              "title": "Pagination Page Size",
+              "title": "Page Limit",
               "type": "number",
               "defaultValue": 20,
               "help": "Number of rows to show per page"

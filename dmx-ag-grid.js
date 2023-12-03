@@ -422,6 +422,14 @@ dmx.Component('ag-grid', {
       this.dispatchEvent('row_double_clicked')
     }
 
+    function actionsRendererForPinnedBottom(params) {
+      if (params.node && params.node.rowPinned === 'bottom') {
+        return ''; // Render an empty string for bottom pinned row
+      } else {
+        return actionsRenderer(params);
+      }
+    }
+
     function checkboxCellRenderer(params) {
       const idValue = params.data.id;
       const columnName = params.colDef.field;
@@ -1145,7 +1153,7 @@ dmx.Component('ag-grid', {
         colId: 'actionsColumn',
         filter: null,
         sortable: false,
-        cellRenderer: actionsRenderer,
+        cellRenderer: actionsRendererForPinnedBottom,
         minWidth: options.actions_column_min_width,
         maxWidth: options.actions_column_max_width,
         pinned: (options.pin_actions ? options.actions_column_position: undefined),
@@ -1322,20 +1330,23 @@ dmx.Component('ag-grid', {
         columnsToCount.forEach(function (colObj) {
           const col = colObj.field;
           const uniqueValuesToCount = colObj.unique_values.split(',');
-    
+          
           result[0][col] = 0;
           let uniqueValues = new Set();
-    
+          
           rowData.forEach(function (line) {
             if (line.index < rowData.length) {
               const value = line.data[col];
-              if (uniqueValuesToCount.includes(value) && !uniqueValues.has(value)) {
+              if (!isNaN(value) && uniqueValuesToCount.includes(value.toString()) && !uniqueValues.has(value)) {
+                uniqueValues.add(value);
+                result[0][col]++;
+              } else if (typeof value === 'string' && uniqueValuesToCount.includes(value) && !uniqueValues.has(value)) {
                 uniqueValues.add(value);
                 result[0][col]++;
               }
             }
           });
-    
+          
           result[0][col + '_unique_count'] = uniqueValues.size;
         });
       }
