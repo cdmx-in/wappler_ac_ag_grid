@@ -42,8 +42,8 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
 9. **Suppress Row Deselection**: Specifies if rows can be deselected. (Default: false)
 10. **Pagination**: Enables pagination. (Default: true)
 11. **Auto Pagination**: Enables automatic pagination. (Default: false)
-12. **Page Size Selectors**: Allowed selectors for for page size. (Default: [20,50,100] ).
-13. **Pagination Page Size**: Number of rows to show per page. (Default: 20)
+12. **Page Limit Selectors**: Allowed selectors for for page size. (Default: [20,50,100] ).
+13. **Page Limit**: Number of rows to show per page. (Default: 20)
 14. **Row Selection**: Row Selection (single or multiple).
    - "Single"
    - "Multiple" (Default)
