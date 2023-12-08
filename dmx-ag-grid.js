@@ -1431,17 +1431,17 @@ dmx.Component('ag-grid', {
     gridInstance = agGrid.createGrid(gridDiv, gridConfig);
 
     if (options.cfilters && options.cfilters.length > 0) {
-    var filterModel = {};
-    const customFilters = options.cfilters
-    customFilters.forEach(function (customFilter) {
-      filterModel[customFilter.field] = {
-        type: customFilter.type,
-        filter: customFilter.filter
-      };
-    });
-    gridInstance.setFilterModel(filterModel);
-    gridInstance.onFilterChanged();
-    }
+        var filterModel = {};
+        const customFilters = options.cfilters
+        customFilters.forEach(function (customFilter) {
+          filterModel[customFilter.field] = {
+            type: customFilter.type,
+            filter: customFilter.filter
+          };
+        });
+        gridInstance.setFilterModel(filterModel);
+        gridInstance.onFilterChanged();
+      }
 
     const gridElement = document.getElementById(options.id+'-grid');
     if (options.compact_view) {
@@ -1689,6 +1689,21 @@ dmx.Component('ag-grid', {
     if (!dmx.equal(this.props.dark_mode, props.dark_mode)) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
+    }
+    if (!dmx.equal(this.props.cfilters, props.cfilters)){
+      let gridInstance = this.get('gridInstance');
+      if (this.props.cfilters && this.props.cfilters.length > 0) {
+        var filterModel = {};
+        const customFilters = this.props.cfilters;
+        customFilters.forEach(function (customFilter) {
+          filterModel[customFilter.field] = {
+            type: customFilter.type,
+            filter: customFilter.filter,
+          };
+        });
+        gridInstance.setFilterModel(filterModel);
+        gridInstance.onFilterChanged();
+      }
     }
   },
 });
