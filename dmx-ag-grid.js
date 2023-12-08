@@ -1692,7 +1692,7 @@ dmx.Component('ag-grid', {
     }
     if (!dmx.equal(this.props.cfilters, props.cfilters)){
       let gridInstance = this.get('gridInstance');
-      if (this.props.cfilters && this.props.cfilters.length > 0) {
+      if (gridInstance && this.props.cfilters && this.props.cfilters.length > 0) {
         var filterModel = {};
         const customFilters = this.props.cfilters;
         customFilters.forEach(function (customFilter) {
