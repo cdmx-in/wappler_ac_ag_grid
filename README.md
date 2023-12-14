@@ -19,7 +19,7 @@ With the update to AG Grid v31, a built-in page limit dropdown feature has been 
    - "Quartz"
    - "Custom"
 5. **Dark Mode** (Default: false)
-6. **Locale**: Select the locale for the grid. Currently supported locales: English (EN), Russian (RU) and Hebrew (HE). (Default: EN)
+6. **Locale**: Select the locale for the grid. Currently supported locales: English (EN), Russian (RU), Hebrew (HE) and Portuguese (PT). (Default: EN)
 
 **Note for Custom Theme:**
 When you select the "Custom" theme option, you have the flexibility to define your own unique styling for the ag-Grid components.
