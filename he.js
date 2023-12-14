@@ -129,7 +129,7 @@ const AG_GRID_LOCALE_HE = {
     lastPage: 'עמוד אחרון',
     firstPage: 'עמוד ראשון',
     previousPage: 'עמוד קודם',
-
+    pageSizeSelectorLabel: 'גודל עמוד:',
     // Pivoting
     pivotColumnGroupTotals: 'סכומים',
 

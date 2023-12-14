@@ -109,7 +109,7 @@ const AG_GRID_LOCALE_RU = {
   lastPage: 'Последняя страница',
   firstPage: 'Первая страница',
   previousPage: 'Предыдущая страница',
-
+  pageSizeSelectorLabel: 'Размер страницы:',
   // Корпоративное меню (графики)
   pivotChartAndPivotMode: 'Сводная диаграмма & режим сведения',
   pivotChart: 'Сводная диаграмма',

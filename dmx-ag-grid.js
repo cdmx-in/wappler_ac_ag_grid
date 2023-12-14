@@ -1245,6 +1245,9 @@ dmx.Component('ag-grid', {
     else if (options.locale_text == 'RU') {
       localeText = AG_GRID_LOCALE_RU
     }
+    else if (options.locale_text == 'PT') {
+      localeText = AG_GRID_LOCALE_PT
+    }
     const gridOptions = {
       columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
       localeText: localeText,

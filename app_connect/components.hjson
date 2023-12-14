@@ -118,7 +118,8 @@
               "values": [
               {title: 'English', value: 'EN'},
               {title: 'Hebrew', value: 'HE'},
-              {title: 'Russian', value: 'RU'}
+              {title: 'Russian', value: 'RU'},
+              {title: 'Portuguese', value: 'PT'}
               ],
               "help": "Select locale for the Grid, Currently Supproted Hebrew (HE), Russian (RU) and English (EN) locale"
             }
@@ -2299,10 +2300,6 @@
           "dst": "css/ag-theme-quartz.css"
         },
         {
-          "src": "../../../node_modules/moment/min/moment.min.js",
-          "dst": "js/moment.min.js"
-        },
-        {
           "src": "switch-toggle-slider.css",
           "dst": "css/switch-toggle-slider.css"
         },
@@ -2317,6 +2314,10 @@
         {
           "src": "ru.js",
           "dst": "js/locale/ru.js"
+        },
+        {
+          "src": "pt.js",
+          "dst": "js/locale/pt.js"
         }
       ],
       "linkFiles": [
@@ -2341,17 +2342,17 @@
           "defer": true
         },
         {
-          "src": "js/moment.min.js",
-          "type": "js",
-          "defer": true
-        },
-        {
           "src": "js/locale/he.js",
           "type": "js",
           "defer": true
         },
         {
           "src": "js/locale/ru.js",
+          "type": "js",
+          "defer": true
+        },
+        {
+          "src": "js/locale/pt.js",
           "type": "js",
           "defer": true
         },
