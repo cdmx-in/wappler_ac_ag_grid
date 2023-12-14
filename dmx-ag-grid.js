@@ -593,7 +593,7 @@ dmx.Component('ag-grid', {
               operators.push(part);
           } else {
               const [left, operator, right] = extractConditionParts(part);
-              const result = evaluateCondition(params.data[left], operator, right);
+              const result = params.data[left] !== null ? evaluateCondition(params.data[left], operator, right) : false;
               results.push(result);
           }
       }
@@ -1001,7 +1001,7 @@ dmx.Component('ag-grid', {
             const [left, operator, right] = extractConditionParts(condition);
             if (
               params.data.hasOwnProperty(left) &&
-              evaluateCondition(params.data[left], operator, right)
+              (params.data[left] !== null ? evaluateCondition(params.data[left], operator, right) : false)
             ) {
               if (area === 'text') {
                 return { color: customColor, fontStyle: font, fontWeight: (font==='bold'?'bold':null) };
