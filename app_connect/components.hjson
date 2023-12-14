@@ -153,6 +153,14 @@
               "help": "Specifies if the column are sortable"
             },
             {
+              "name": "ci_sort",
+              "attribute": "dmx-bind:ci_sort",
+              "title": "Case-Insensitive Sort",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Specifies if the columns are sorted in case-insensitive manner"
+            },
+            {
               "name": "filter",
               "attribute": "dmx-bind:filter",
               "title": "Filter",

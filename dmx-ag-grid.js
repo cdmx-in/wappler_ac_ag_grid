@@ -65,6 +65,7 @@ dmx.Component('ag-grid', {
     amount_field_precision: { type: Number, default: 2 },
     min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
+    ci_sort: { type: Boolean, default: false },
     resizable: { type: Boolean, default: true },
     filter: { type: Boolean, default: true },
     floating_filter: { type: Boolean, default: true },
@@ -714,6 +715,12 @@ dmx.Component('ag-grid', {
         return '-'
       }
     }
+    // comparator for case-insensitive sorting
+    caseInsensitiveComparator = {
+      comparator: function (valueA, valueB) {
+      return valueA.toLowerCase().localeCompare(valueB.toLowerCase())
+      }
+    };
     dateFilterParams = {
         comparator: function (filterLocalDateAtMidnight, cellValue) {
           var cellDate = new Date(cellValue);
@@ -967,7 +974,7 @@ dmx.Component('ag-grid', {
         } else {
           filter = 'agTextColumnFilter';
           valueFormatter = blankOrNullValueFormatter;
-          filterParams = undefined;
+          filterParams = options.ci_sort ? caseInsensitiveComparator : undefined;
           minWidth = undefined;
         }
         // Check if custom definition exists for the current field
