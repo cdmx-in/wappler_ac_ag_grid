@@ -716,11 +716,9 @@ dmx.Component('ag-grid', {
       }
     }
     // comparator for case-insensitive sorting
-    caseInsensitiveComparator = {
-      comparator: function (valueA, valueB) {
+    const caseInsensitiveComparator = (valueA, valueB) => {
       return valueA.toLowerCase().localeCompare(valueB.toLowerCase())
       }
-    };
     dateFilterParams = {
         comparator: function (filterLocalDateAtMidnight, cellValue) {
           var cellDate = new Date(cellValue);
@@ -939,6 +937,7 @@ dmx.Component('ag-grid', {
         let filterValueGetter;
         let valueFormatter;
         let filterParams;
+        let comparator;
         let minWidth;
         let hide;
         let type;
@@ -974,7 +973,8 @@ dmx.Component('ag-grid', {
         } else {
           filter = 'agTextColumnFilter';
           valueFormatter = blankOrNullValueFormatter;
-          filterParams = options.ci_sort ? caseInsensitiveComparator : undefined;
+          filterParams = undefined;
+          comparator = options.ci_sort ? caseInsensitiveComparator : undefined;
           minWidth = undefined;
         }
         // Check if custom definition exists for the current field
@@ -1097,6 +1097,7 @@ dmx.Component('ag-grid', {
           sortable: sortable,
           filterValueGetter: filterValueGetter,
           filterParams: filterParams,
+          comparator: comparator,
           tooltipValueGetter: tooltipValueGetter,
           cellStyle: applyCellStyle,
           ...(cwidths.hasOwnProperty(key) && {
