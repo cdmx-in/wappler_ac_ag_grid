@@ -1145,7 +1145,7 @@ dmx.Component('ag-grid', {
     if (options.row_checkbox_event) {
         checkboxColumn = {
           headerCheckboxSelection: true,
-          headerCheckboxSelectionFilteredOnly: false,
+          headerCheckboxSelectionFilteredOnly: true,
           headerName: '',
           colId: 'checkboxColumn',
           field: null,
