@@ -29,6 +29,7 @@ dmx.Component('ag-grid', {
     wrap_header_text: { type: Boolean, default: true },
     auto_header_height: { type: Boolean, default: true },
     wrap_text: { type: Boolean, default: false },
+    auto_height: { type: Boolean, default: false },
     data_changes: { type: Array, default: [] },
     display_data_changes: { type: Array, default: [] },
     js_data_changes: { type: Array, default: [] },
@@ -999,6 +1000,7 @@ dmx.Component('ag-grid', {
         function applyCellStyle(params) {
           const field = params.colDef.field.toString();
           const styles = cstyles.filter((cs) => cs.field === field);
+          const whiteSpace = options.wrap_text ? 'normal' : 'nowrap'
         
           for (const style of styles) {
             const condition = style.condition;
@@ -1011,13 +1013,15 @@ dmx.Component('ag-grid', {
               (params.data[left] !== null ? evaluateCondition(params.data[left], operator, right) : false)
             ) {
               if (area === 'text') {
-                return { color: customColor, fontStyle: font, fontWeight: (font==='bold'?'bold':null) };
+                return { color: customColor, fontStyle: font, fontWeight: (font==='bold'?'bold':null), whiteSpace: whiteSpace };
               } else if (area === 'cell') {
-                return { backgroundColor: customColor, fontStyle: font };
+                return { backgroundColor: customColor, fontStyle: font, whiteSpace: whiteSpace };
               }
             }
           }
-        
+          if (options.wrap_text) {
+            return { whiteSpace: 'normal' };
+          }
           return null;
         }
 
@@ -1272,7 +1276,7 @@ dmx.Component('ag-grid', {
         resizable: options.resizable,
         wrapHeaderText: options.wrap_header_text,
         autoHeaderHeight: options.auto_header_height,
-        wrapText: options.wrap_text,
+        autoHeight: options.auto_height,
         filter: options.filter,
         sortable: options.sortable,
         floatingFilter: options.floating_filter

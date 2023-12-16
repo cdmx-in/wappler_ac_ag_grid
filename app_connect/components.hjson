@@ -411,7 +411,7 @@
               "title": "Auto Header Height",
               "type": "boolean",
               "defaultValue": true,
-              "help": "The column header height is automatically set based on the content of the header cells."
+              "help": "The header row height is automatically set based on the content of the header."
             },
             {
               "name": "wrapText",
@@ -420,6 +420,14 @@
               "type": "boolean",
               "defaultValue": false,
               "help": "This will cause long texts to wrap in the cells."
+            },
+            {
+              "name": "autoHeight",
+              "attribute": "dmx-bind:auto_height",
+              "title": "Auto Height",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "The height is automatically set based on the content of the cells."
             },
             {
               "name": "suppressRowClickSelection",
