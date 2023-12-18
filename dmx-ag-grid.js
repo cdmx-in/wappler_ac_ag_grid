@@ -706,7 +706,10 @@ dmx.Component('ag-grid', {
           };
 
           const convertedTimestamp = date.toLocaleString(options.date_locale, options);
-          dateTimezone = new Date(convertedTimestamp).getTime();
+          const [datePart, timePart] = convertedTimestamp.split(', ');
+          const [day, month, year] = datePart.split('/');
+          const [hours, minutes, seconds] = timePart.split(':');
+          const dateTimezone = new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`).getTime();
           return formatDate(dateTimezone)
         } else {
           return formatDate(date);
