@@ -1330,6 +1330,7 @@
                 "columnsToSum",
                 "enableFixedFooter",
                 "fixedFooterBottomPadding",
+                "columnsToCountNonUnique"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -1364,6 +1365,14 @@
                         "field": "",
                         "unique_values": ""
                       }
+                },
+                {
+                  "name": "columnsToCountNonUnique",
+                  "attribute": "dmx-bind:columns_to_count_nonunique",
+                  "title": "Count Non-Unique",
+                  "type": "boolean",
+                  "defaultValue": false,
+                  "initDisplay": "none"
                 },
                 {
                   "name": "columnsToSum",

@@ -179,7 +179,8 @@ dmx.Component('ag-grid', {
     compact_view_item_height: { type: Number, default: 20 },
     group_config: { type: Array, default: [] },
     columns_to_count: { type: Array, default: [] },
-    columns_to_sum: { type: String, default: null }
+    columns_to_sum: { type: String, default: null },
+    columns_to_count_nonunique: { type: Boolean, default: false }
   },
 
   methods: {
@@ -1384,14 +1385,17 @@ dmx.Component('ag-grid', {
         columnsToCount.forEach(function (colObj) {
           const col = colObj.field;
           const uniqueValuesToCount = colObj.unique_values.split(',');
-          
           result[0][col] = 0;
           let uniqueValues = new Set();
           
           rowData.forEach(function (line) {
             if (line.index < rowData.length) {
               const value = line.data[col];
-              if (!isNaN(value) && uniqueValuesToCount.includes(value.toString()) && !uniqueValues.has(value)) {
+              if (options.columns_to_count_nonunique) {
+                uniqueValues.add(value);
+                result[0][col]++;
+              }
+              else if (!isNaN(value) && uniqueValuesToCount.includes(value.toString()) && !uniqueValues.has(value)) {
                 uniqueValues.add(value);
                 result[0][col]++;
               } else if (typeof value === 'string' && uniqueValuesToCount.includes(value) && !uniqueValues.has(value)) {
