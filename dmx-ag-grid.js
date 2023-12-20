@@ -722,6 +722,9 @@ dmx.Component('ag-grid', {
     }
     // comparator for case-insensitive sorting
     const caseInsensitiveComparator = (valueA, valueB) => {
+      if (!valueA) {
+        return valueB ? -1 : 0;
+      }
       return valueA.toLowerCase().localeCompare(valueB.toLowerCase())
       }
     dateFilterParams = {
