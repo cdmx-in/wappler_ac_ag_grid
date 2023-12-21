@@ -1315,7 +1315,7 @@ dmx.Component('ag-grid', {
       suppressPropertyNamesCheck: this.props.suppress_property_names_check,
       suppressRowDeselection: this.props.suppress_row_deselection,
       columnHoverHighlight: this.props.column_hover_highlight,
-      onFilterChanged: function (params) {
+      onFilterModified: function (params) { 
         const columnApi = params.columnApi.api;
         columnApi.hideOverlay();
         if (!params.api.filterManager.rowModel.rowsToDisplay.length) {
