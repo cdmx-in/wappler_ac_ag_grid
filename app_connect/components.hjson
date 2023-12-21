@@ -317,6 +317,28 @@
               "help": "Date Format"
             },
             {
+              "name": "loadingOverlay",
+              "attribute": "dmx-bind:loading_overlay",
+              "title": "Enable Loading Overlay",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "This enables loading overlay",
+              "display": "fieldset",
+              "show": [
+                "loadingOverlayDuration"
+              ],
+              "children": [
+                {
+                  "name": "loadingOverlayDuration",
+                  "attribute": "loading_overlay_duration",
+                  "title": "Loading Overlay Duration",
+                  "type": "number",
+                  "defaultValue": 500,
+                  "help": "Loading Overlay Duration in ms"
+                }
+              ]
+            },
+            {
               "name": "fixedHeader",
               "title": "Sticky Header and Horizontal Scrollbar",
               "attribute": "f_header",

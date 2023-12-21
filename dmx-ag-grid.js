@@ -86,6 +86,8 @@ dmx.Component('ag-grid', {
     row_double_click_event: {type: Boolean, default: false },
     row_checkbox_event: {type: Boolean, default: false },
     row_status_event: {type: Boolean, default: false },
+    loading_overlay: { type: Boolean, default: false },
+    loading_overlay_duration: { type: Number, default: 500 },
     enable_actions: {type: Boolean, default: false },
     actions_column_position: {type: String, default: 'right' },
     actions_column_min_width: {type: Number, default: null },
@@ -1276,7 +1278,6 @@ dmx.Component('ag-grid', {
       columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
       localeText: localeText,
       enableRtl: options.enable_rtl,
-      noRowsOverlayComponent: '<div>No Records Found.</div>',
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
       onRowDoubleClicked: enableRowDoubleClickEvent ? onRowDoubleClicked : undefined,
       onCellClicked: enableCellClickEvent ? onCellClicked : undefined,
@@ -1314,6 +1315,15 @@ dmx.Component('ag-grid', {
       suppressPropertyNamesCheck: this.props.suppress_property_names_check,
       suppressRowDeselection: this.props.suppress_row_deselection,
       columnHoverHighlight: this.props.column_hover_highlight,
+      onFilterChanged: function (params) {
+        const columnApi = params.columnApi.api;
+        columnApi.hideOverlay();
+        if (!params.api.filterManager.rowModel.rowsToDisplay.length) {
+          columnApi.showNoRowsOverlay();
+        } else {
+          columnApi.hideOverlay();
+        }
+      },
       onGridReady: (params) => {
         const columnApi = params.columnApi.api;
         hideColumn = (fieldToHide) => {
@@ -1439,7 +1449,6 @@ dmx.Component('ag-grid', {
     };
     const gridConfig = {
       columnDefs: columnDefs,
-      rowData: rowData,
       ...gridOptions
     };
     // Conditionally add event listeners based on whether columnsToSum or columnsToCount are defined
@@ -1459,6 +1468,13 @@ dmx.Component('ag-grid', {
     }
     // Create ag-Grid instance
     gridInstance = agGrid.createGrid(gridDiv, gridConfig);
+    gridInstance.setGridOption('rowData', rowData)
+    if (options.loading_overlay) {
+      gridInstance.showLoadingOverlay()
+      setTimeout(() => {
+        gridInstance.hideOverlay()
+      }, options.loading_overlay_duration);
+    }
 
     if (options.cfilters && options.cfilters.length > 0) {
         var filterModel = {};
