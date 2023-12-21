@@ -722,11 +722,16 @@ dmx.Component('ag-grid', {
     }
     // comparator for case-insensitive sorting
     const caseInsensitiveComparator = (valueA, valueB) => {
-      if (!valueA) {
-        return valueB ? -1 : 0;
+      if (valueA === null || valueA === undefined) {
+        return valueB === null || valueB === undefined ? 0 : -1;
       }
-      return valueA.toLowerCase().localeCompare(valueB.toLowerCase())
+      
+      if (valueB === null || valueB === undefined) {
+        return 1;
       }
+      
+      return valueA.toLowerCase().localeCompare(valueB.toLowerCase());
+    };
     dateFilterParams = {
         comparator: function (filterLocalDateAtMidnight, cellValue) {
           var cellDate = new Date(cellValue);
