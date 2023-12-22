@@ -768,7 +768,7 @@ dmx.Component('ag-grid', {
           hasText = true;
         } else if (!isNaN(Number(value)) && !(typeof value === "string")) {
           hasNumber = true;
-        } else if ((new Date(value)).getTime() > 0) {
+        } else if (((new Date(value)).getTime() > 0) && (value.includes('-') || value.includes('/'))) {
           hasDate = true;
         } else {
           hasText = true;
