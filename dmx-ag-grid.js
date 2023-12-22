@@ -1402,27 +1402,26 @@ dmx.Component('ag-grid', {
       if (columnsToCount) {
         columnsToCount.forEach(function (colObj) {
           const col = colObj.field;
-          const uniqueValuesToCount = colObj.unique_values.split(',');
+          const uniqueValuesToCount = new Set(colObj.unique_values.split(','));
           result[0][col] = 0;
-          let uniqueValues = new Set();
-          
+          const countedValues = new Set();
+          const uniqueValues = new Set();
+        
           rowData.forEach(function (line) {
-            if (line.index < rowData.length) {
-              const value = line.data[col];
-              if (options.columns_to_count_nonunique) {
-                uniqueValues.add(value);
+            const value = line.data[col];
+        
+            if (line.index < rowData.length && value !== undefined) {
+              if (uniqueValuesToCount.has(value.toString()) && !countedValues.has(value)) {
                 result[0][col]++;
+                countedValues.add(value);
               }
-              else if (!isNaN(value) && uniqueValuesToCount.includes(value.toString()) && !uniqueValues.has(value)) {
+        
+              if (!uniqueValues.has(value)) {
                 uniqueValues.add(value);
-                result[0][col]++;
-              } else if (typeof value === 'string' && uniqueValuesToCount.includes(value) && !uniqueValues.has(value)) {
-                uniqueValues.add(value);
-                result[0][col]++;
               }
             }
           });
-          
+        
           result[0][col + '_unique_count'] = uniqueValues.size;
         });
       }
