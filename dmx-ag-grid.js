@@ -1418,9 +1418,6 @@ dmx.Component('ag-grid', {
             }
           });
         
-          if (options.columns_to_count_nonunique) {
-            result[0][col] = uniqueValues.size;
-          }
           result[0][col + '_unique_count'] = uniqueValues.size;
         });
       }
