@@ -1398,30 +1398,29 @@ dmx.Component('ag-grid', {
           });
         });
       }
-    
       if (columnsToCount) {
         columnsToCount.forEach(function (colObj) {
           const col = colObj.field;
           const uniqueValuesToCount = new Set(colObj.unique_values.split(','));
           result[0][col] = 0;
-          const countedValues = new Set();
           const uniqueValues = new Set();
         
           rowData.forEach(function (line) {
             const value = line.data[col];
-        
-            if (line.index < rowData.length && value !== undefined) {
-              if (uniqueValuesToCount.has(value.toString()) && !countedValues.has(value)) {
+            if (line.index < rowData.length && value !== undefined && value !== null) {
+              const valueString = value.toString();
+              if (options.columns_to_count_nonunique || uniqueValuesToCount.has(valueString)) {
                 result[0][col]++;
-                countedValues.add(value);
-              }
-        
-              if (!uniqueValues.has(value)) {
-                uniqueValues.add(value);
+                if (!uniqueValues.has(valueString)) {
+                  uniqueValues.add(valueString);
+                }
               }
             }
           });
         
+          if (options.columns_to_count_nonunique) {
+            result[0][col] = uniqueValues.size;
+          }
           result[0][col + '_unique_count'] = uniqueValues.size;
         });
       }
@@ -1454,14 +1453,14 @@ dmx.Component('ag-grid', {
     if ((options.columns_to_sum && options.columns_to_sum.split(',').length > 0) || (options.columns_to_count.length > 0)) {
       let columnsToSum = options.columns_to_sum ? options.columns_to_sum.split(',') : [];
       let columnsToCount = options.columns_to_count;
-      
+
       gridConfig.onFilterChanged = function (e) {
         totalRow(e.api, columnsToSum, columnsToCount);
       };
       gridConfig.onFirstDataRendered = function (e) {
         totalRow(e.api, columnsToSum, columnsToCount);
       };
-      gridConfig.postSortRows = function (e) {
+gridConfig.postSortRows = function (e) {
         totalRow(e.api, columnsToSum, columnsToCount);
       };
     }
