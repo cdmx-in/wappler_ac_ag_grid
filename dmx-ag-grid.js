@@ -1404,21 +1404,27 @@ dmx.Component('ag-grid', {
           const uniqueValuesToCount = new Set(colObj.unique_values.split(','));
           result[0][col] = 0;
           const uniqueValues = new Set();
+          const totalValues = new Set();
         
           rowData.forEach(function (line) {
             const value = line.data[col];
             if (line.index < rowData.length && value !== undefined && value !== null) {
               const valueString = value.toString();
-              if (options.columns_to_count_nonunique || uniqueValuesToCount.has(valueString)) {
+              if (uniqueValuesToCount.has(valueString)) {
                 result[0][col]++;
+                totalValues.add(valueString);
                 if (!uniqueValues.has(valueString)) {
                   uniqueValues.add(valueString);
                 }
               }
             }
           });
-        
-          result[0][col + '_unique_count'] = uniqueValues.size;
+          if (options.columns_to_count_nonunique) {
+          result[0][col + '_total_count'] = totalValues.size;
+          }
+          else {
+            result[0][col] = uniqueValues.size;
+          }
         });
       }
       api.setGridOption('pinnedBottomRowData', result);
