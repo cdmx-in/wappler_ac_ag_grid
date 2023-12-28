@@ -368,6 +368,8 @@ dmx.Component('ag-grid', {
     const cnames = this.props.cnames
     const cwidths = this.props.cwidths
     const ctypes = this.props.ctypes
+    let gridInstance = this.get('gridInstance') ? this.get('gridInstance') : null;
+    let pagination_page_size = gridInstance ? gridInstance.paginationGetPageSize() : this.props.pagination_page_size
     const enableRowClickEvent = this.props.row_click_event && !this.props.enable_actions && !this.props.row_checkbox_event;
     const enableRowDoubleClickEvent = this.props.row_double_click_event && !this.props.enable_actions && !this.props.row_checkbox_event;
     const enableCellClickEvent = this.props.row_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
@@ -376,7 +378,6 @@ dmx.Component('ag-grid', {
     let columnDefs = [];
     let groupedColumnDefs = [];
     let exportToCSV = this.props.export_to_csv;
-    let gridInstance = null; 
     let cellRenderer;
     const gridThemeClass = options.dark_mode ? `${options.grid_theme}-dark` : options.grid_theme;
     this.$node.innerHTML = `<div id=${options.id}-grid class="${gridThemeClass}"></div>`;
@@ -1300,7 +1301,7 @@ dmx.Component('ag-grid', {
       suppressRowDeselection: this.props.suppress_row_deselection,
       pagination: this.props.pagination,
       paginationAutoPageSize: this.props.pagination_auto_page_size,
-      paginationPageSize: this.props.pagination_page_size,
+      paginationPageSize: pagination_page_size,
       paginationPageSizeSelector: options.pagination_page_size_selector,
       rowHeight: this.props.row_height,
       headerHeight: this.props.header_height,
