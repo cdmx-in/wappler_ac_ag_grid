@@ -281,11 +281,9 @@ dmx.Component('ag-grid', {
         };
       }
     if (gridInstance && transaction) {
-       gridInstance.applyTransaction(transaction);
+      gridInstance.applyTransaction(transaction);
       // gridInstance.refreshCells();
-    } else {
-      return;
-    }
+    } 
   },
   parseFileData: async function (fieldId) {
     const parseCSV = (csvData) => {
@@ -1323,6 +1321,7 @@ dmx.Component('ag-grid', {
       suppressPropertyNamesCheck: this.props.suppress_property_names_check,
       suppressRowDeselection: this.props.suppress_row_deselection,
       columnHoverHighlight: this.props.column_hover_highlight,
+      getRowId: (params) => params.data.id,
       onFilterModified: function (params) { 
         const columnApi = params.columnApi.api;
         columnApi.hideOverlay();
