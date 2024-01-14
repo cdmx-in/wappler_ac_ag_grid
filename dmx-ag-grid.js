@@ -191,9 +191,9 @@ dmx.Component('ag-grid', {
       this.set('columnDefs', columnDefs);
       this.refreshGrid();
     },
-    reloadGrid: function () {
+    reloadGrid: function (loadGridInstance) {
       dmx.nextTick(function() {
-        this.transactionUpdate();
+        this.transactionUpdate(loadGridInstance);
       }, this);
     },
     loadGrid: function () {
@@ -244,11 +244,19 @@ dmx.Component('ag-grid', {
     }
   },
 
-  transactionUpdate: function () {
+  transactionUpdate: async function (loadGridInstance) {
     // const oldRowData = this.get('oldData');
-    const gridInstance = this.get('gridInstance');
-    //const oldRowData = gridInstance.getModel().rowsToDisplay.map(row => row.data);
-      // Retrieve old row data from the grid instance directly
+    var gridInstance = this.get('gridInstance');
+    if (!gridInstance) {
+      if (loadGridInstance) {
+       gridInstance = await this.refreshGrid();
+       await this.set('gridInstance', gridInstance);
+      }
+      else {
+        console.error('AG Grid instance not loaded.');
+        return;
+      }
+    }
     const oldRowData = [];
     gridInstance.forEachNode(node => {
       if (node.data) {
@@ -259,13 +267,12 @@ dmx.Component('ag-grid', {
     let transaction;
   
     if (oldRowData && oldRowData.length > 0) {
-        const addedRows = newRowData.filter(newRow => !oldRowData.some(oldRow => newRow.id === oldRow.id));
-        const removedRows = oldRowData.filter(oldRow => !newRowData.some(newRow => oldRow.id === newRow.id));
-        const updatedRows = newRowData.filter(newRow => {
-          const oldRow = oldRowData.find(old => old.id === newRow.id);
-          return oldRow && JSON.stringify(oldRow) !== JSON.stringify(newRow);
-        });
-  
+      const addedRows = newRowData.filter(newRow => !oldRowData.some(oldRow => newRow.id === oldRow.id));
+      const removedRows = oldRowData.filter(oldRow => !newRowData.some(newRow => oldRow.id === newRow.id));
+      const updatedRows = newRowData.filter(newRow => {
+        const oldRow = oldRowData.find(old => old.id === newRow.id);
+        return oldRow && JSON.stringify(oldRow) !== JSON.stringify(newRow);
+      });
         // Apply transactional updates to AG Grid
         transaction = {
           add: addedRows,
@@ -274,10 +281,10 @@ dmx.Component('ag-grid', {
         };
       }
     if (gridInstance && transaction) {
-      gridInstance.applyTransaction(transaction);
-      gridInstance.refreshCells();
+       gridInstance.applyTransaction(transaction);
+      // gridInstance.refreshCells();
     } else {
-      console.error('AG Grid instance or transaction not found.');
+      return;
     }
   },
   parseFileData: async function (fieldId) {

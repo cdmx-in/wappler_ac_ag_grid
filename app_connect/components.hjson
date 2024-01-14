@@ -2216,7 +2216,18 @@
           icon : 'fa fa-lg fa-sync',
           state : 'opened',
           help: 'Reload the AG Grid',
-          properties : []
+          properties: [
+            {
+              group: 'Properties',
+              variables: [
+                {
+                  name: '1', optionName: '1', title: 'Load Grid', type: 'boolean',
+                  dataBindings: true, defaultValue: false, required: true,
+                  help: 'Load Gird if no data is available.'
+                }
+              ]
+            }
+          ]
         },
         {
           addTitle: 'Export',
