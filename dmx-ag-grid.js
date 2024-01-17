@@ -257,6 +257,9 @@ dmx.Component('ag-grid', {
         return;
       }
     }
+    if (!gridInstance) {
+      return;
+    }
     const oldRowData = [];
     gridInstance.forEachNode(node => {
       if (node.data) {
