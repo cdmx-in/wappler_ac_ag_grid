@@ -767,7 +767,7 @@ dmx.Component('ag-grid', {
       const matchingType = ctypes.find((ct) => ct.field === key);
       return matchingType ? matchingType.type : null;
     }
-    function detectDataType(values) {
+      function detectDataType(values) {
       let hasDate = false;
       let hasNumber = false;
       let hasText = false;
@@ -778,7 +778,7 @@ dmx.Component('ag-grid', {
         } else if (!isNaN(Number(value)) && !(typeof value === "string")) {
           hasNumber = true;
         } else if (((new Date(value)).getTime() > 0) && (value.includes('-') || value.includes('/'))) {
-          hasDate = true;
+                    hasDate = true;
         } else {
           hasText = true;
         }
@@ -955,7 +955,7 @@ dmx.Component('ag-grid', {
         // Assuming rowData is an array of objects
         const values = rowData.map(row => row[key]);
         const nonNullValues = values.filter(value => value !== null);
-        const dataType = (ctypes.length>0 ? getCustomDataTypes(key) : detectDataType(nonNullValues));
+        const dataType = (ctypes.length > 0 && getCustomDataTypes(key) !== null) ? getCustomDataTypes(key) : detectDataType(nonNullValues);
         let filter;
         let valueGetter;
         let filterValueGetter;
