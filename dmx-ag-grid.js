@@ -501,7 +501,8 @@ dmx.Component('ag-grid', {
       const buttons = params.buttons || defaultButtons;
       // Create a new container element to hold the buttons
       const container = document.createElement('div');
-      
+      container.style.display = 'flex';
+      container.style.flexWrap = 'wrap';
       buttons.forEach((buttonConfig) => {
           const button = document.createElement('button');
           button.classList.add('btn');
@@ -1196,6 +1197,7 @@ dmx.Component('ag-grid', {
         cellRenderer: actionsRendererForPinnedBottom,
         minWidth: options.actions_column_min_width,
         maxWidth: options.actions_column_max_width,
+        autoHeight: true,
         pinned: (options.pin_actions ? options.actions_column_position: undefined),
         cellRendererParams: {
           buttons: [],
