@@ -50,36 +50,37 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
    - "Multiple" (Default)
 16. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list. (Default: Local)
 17. **Date Format**: Date Format for displaying date values. (Default: "dd/MM/yyyy hh:mm A")
-18. **Loading Overlay**: This enables loading overlay. (Default: false)
-19. **Loading Overlay Duration**: This sets loading overlay duration in ms. (Default: 500)
-20. **Sticky Header and Horizontal Scrollbar**:  Optionally specify the header offset and topbar class.
+18. **Filder Field ID**: Specifies the field ID of the search field when using grid quick filter. Applicable when using Quick Filter feature of AG Grid, called from Dynamic Events on change event on the field. (Default: search_field)
+19. **Loading Overlay**: This enables loading overlay. (Default: false)
+20. **Loading Overlay Duration**: This sets loading overlay duration in ms. (Default: 500)
+21. **Sticky Header and Horizontal Scrollbar**:  Optionally specify the header offset and topbar class.
    - Fixed Header: Enables sticky header. (Default: false)
    - Header Offset: Specifies offset from the top of the viewport area (Optional). (Default: 100)
    - Topbar Class: Specify class, e.g., "topbar", to measure the offset from (Optional). (Default: "topbar")
    - Topbar Offset: Specify topbar offset (Default: 80)
    - Fixed Horizontal Scroll: Enables Hovering horizontal scrollbar which stays at the bottom all the time. (Default: false)
    - Fixed Horizontal Scroll Width: Fixed horizontal scroll width percentage. (Default: 80%)
-21. **Row Height**: Height of each row in pixels. (Default: Auto)
-22. **Header Height**: Height of the header row in pixels. (Default: Auto)
-23. **Wrap Header Text**: This will cause long headers to wrap. (Default: true)
-24. **Auto Header Height**: The header height is automatically set based on the content of the header. (Default: true)
-25. **Auto Height**: The height is automatically set based on the content of the cells. (Default: false)
-26. **Wrap Text**: This will cause long texts to wrap in the cells. (Default: false)
-27. **Suppress Row Click Selection**: Disables row selection on row click. (Default: false)
-28. **Suppress Menu Hide**: Prevents hiding the column menu. (Default: false)
-29. **Suppress Movable Columns**: Disables moving columns. (Default: false)
-30. **Enable Cell Expressions**: Enables expressions in cell values. (Default: false)
-31. **Animate Rows**: Enables row animation on data changes. (Default: false)
-32. **Suppress Aggregation Function in Header**: Hides the aggregation function in column headers. (Default: false)
-32. **Suppress Clipboard Paste**: Disables pasting data from the clipboard. (Default: false)
-33. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
-34. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
-35. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
-36. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
-37. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
-38. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
-39. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
-40. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+22. **Row Height**: Height of each row in pixels. (Default: Auto)
+23. **Header Height**: Height of the header row in pixels. (Default: Auto)
+24. **Wrap Header Text**: This will cause long headers to wrap. (Default: true)
+25. **Auto Header Height**: The header height is automatically set based on the content of the header. (Default: true)
+26. **Auto Height**: The height is automatically set based on the content of the cells. (Default: false)
+27. **Wrap Text**: This will cause long texts to wrap in the cells. (Default: false)
+28. **Suppress Row Click Selection**: Disables row selection on row click. (Default: false)
+29. **Suppress Menu Hide**: Prevents hiding the column menu. (Default: false)
+30. **Suppress Movable Columns**: Disables moving columns. (Default: false)
+31. **Enable Cell Expressions**: Enables expressions in cell values. (Default: false)
+32. **Animate Rows**: Enables row animation on data changes. (Default: false)
+33. **Suppress Aggregation Function in Header**: Hides the aggregation function in column headers. (Default: false)
+34. **Suppress Clipboard Paste**: Disables pasting data from the clipboard. (Default: false)
+35. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
+36. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
+37. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
+38. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
+39. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
+40. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
+41. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+42. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 
 # Data Type Overrides
 
@@ -405,6 +406,10 @@ Specify the condition to Show the Button[i] Action button, eg: code==TEST, or st
 **Get Selected Rows**
 - The "Get Selected Rows" feature is designed to retrieve selected rows.
 - This variable named "selectedRows", holds the selected data for access from other modules.
+
+**Quick Filter**
+- The "Quick Filter" feature is designed to filter the results based on the value in the Filter Field defined in above settings.
+- Quick Filter is used to filter rows by comparing against the data in all columns. This can be used in addition to column-specific filtering.
 
 ## License
 
