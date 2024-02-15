@@ -71,6 +71,7 @@ dmx.Component('ag-grid', {
     filter: { type: Boolean, default: true },
     floating_filter: { type: Boolean, default: true },
     column_hover_highlight: { type: Boolean, default: true },
+    quick_filter_field: { type: String, default: 'search_field' },
     export_to_csv: { type: Boolean, default: true },
     export_csv_filename: { type: String, default: 'export.csv' },
     fixed_header: { type: Boolean, default: false },
@@ -241,6 +242,9 @@ dmx.Component('ag-grid', {
     },
     getSelectedRows: function () {
       exportSelectedRows();
+    },
+    quickFilter: function () {
+      onFilterTextBoxChanged();
     }
   },
 
@@ -1475,7 +1479,7 @@ dmx.Component('ag-grid', {
       gridConfig.onFirstDataRendered = function (e) {
         totalRow(e.api, columnsToSum, columnsToCount);
       };
-gridConfig.postSortRows = function (e) {
+      gridConfig.postSortRows = function (e) {
         totalRow(e.api, columnsToSum, columnsToCount);
       };
     }
@@ -1488,7 +1492,7 @@ gridConfig.postSortRows = function (e) {
         gridInstance.hideOverlay()
       }, options.loading_overlay_duration);
     }
-
+    
     if (options.cfilters && options.cfilters.length > 0) {
         var filterModel = {};
         const customFilters = options.cfilters
@@ -1588,6 +1592,14 @@ gridConfig.postSortRows = function (e) {
     exportSelectedRows = () => {
       const selectedRows = gridInstance.getSelectedRows();
       this.set('selectedRows', selectedRows);
+    }
+    onFilterTextBoxChanged = () => {
+      if (gridInstance) {
+        gridInstance.setGridOption(
+          'quickFilterText',
+          document.getElementById(options.quick_filter_field).value
+        );
+      }
     }
     function updateHoveringBarStyles() {
       const existingStyle = document.getElementById('hovering-bar-style');

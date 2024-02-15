@@ -317,6 +317,14 @@
               "help": "Date Format"
             },
             {
+              "name": "quickFilterField",
+              "attribute": "quick_filter_field",
+              "title": "Filter Field ID",
+              "type": "text",
+              "defaultValue": "search_field",
+              "help": "Specifies the field ID of the search field when using grid quick filter"
+            },
+            {
               "name": "loadingOverlay",
               "attribute": "dmx-bind:loading_overlay",
               "title": "Enable Loading Overlay",
@@ -2323,6 +2331,15 @@
           icon: 'fas fa-lg fa-table',
           state: 'opened',
           help: 'Get Selected Rows',
+          properties: []
+        },
+        {
+          addTitle: 'quickFilter',
+          title: 'Quick Filter',
+          name: 'quickFilter',
+          icon: 'fas fa-lg fa-search',
+          state: 'opened',
+          help: 'Quick Search',
           properties: []
         }
       ],
