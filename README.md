@@ -3,10 +3,6 @@
 
 The AG Grid module allows you to create a flexible and customizable data grid with various options and properties. Below, you'll find the list of properties and options available for configuring the AG Grid module:
 
-**Important Changes in v1.2.5:**
-With the update to AG Grid v31, a built-in page limit dropdown feature has been introduced. Consequently, when utilizing external page limit selectors, it is necessary to configure the page selector settings accordingly. The defaults are 20, 50, and 100. If you wish to use values other than these defaults, kindly utilize the Page Size Selectors settings to define your preferred selections.
-
-
 ## AG Grid Properties
 
 1. **ID**: Unique ID for the grid. (Required)
@@ -43,7 +39,7 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
 10. **Suppress Row Deselection**: Specifies if rows can be deselected. (Default: false)
 11. **Pagination**: Enables pagination. (Default: true)
 12. **Auto Pagination**: Enables automatic pagination. (Default: false)
-13. **Page Limit Selectors**: Allowed selectors for for page size. (Default: [20,50,100] ).
+13. **Page Limit Selectors**: Allowed selectors for for page size. Set to false to hide the page size selector. (Default: [20,50,100] ).
 14. **Page Limit**: Number of rows to show per page. (Default: 20)
 15. **Row Selection**: Row Selection (single or multiple).
    - "Single"
