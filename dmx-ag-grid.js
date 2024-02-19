@@ -507,6 +507,7 @@ dmx.Component('ag-grid', {
       const container = document.createElement('div');
       container.style.display = 'flex';
       container.style.flexWrap = 'wrap';
+      container.style.paddingTop = '3px';
       buttons.forEach((buttonConfig) => {
           const button = document.createElement('button');
           button.classList.add('btn');
@@ -515,7 +516,7 @@ dmx.Component('ag-grid', {
           button.setAttribute('data-toggle', 'tooltip');
           // Call a function to get the dynamic tooltip content
           if (buttonConfig.tooltip.endsWith('()')) {
-            const tooltipFunction = buttonConfig.tooltip.slice(0, -2); // Remove the trailing '()'
+            const tooltipFunction = buttonConfig.tooltip.slice(0, -2); 
             const tooltipText = window[tooltipFunction](params.data)
             button.setAttribute('title', tooltipText);
           } else {
@@ -1330,7 +1331,6 @@ dmx.Component('ag-grid', {
       suppressPropertyNamesCheck: this.props.suppress_property_names_check,
       suppressRowDeselection: this.props.suppress_row_deselection,
       columnHoverHighlight: this.props.column_hover_highlight,
-      getRowId: (params) => params.data.id,
       onFilterModified: function (params) { 
         const columnApi = params.columnApi.api;
         columnApi.hideOverlay();
