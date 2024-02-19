@@ -620,9 +620,9 @@ dmx.Component('ag-grid', {
       
       for (let i = 0; i < operators.length; i++) {
         if (operators[i] === '||') {
-            finalResult = finalResult || results[i];
+            finalResult = finalResult || results[i + 1];
         } else if (operators[i] === '&&') {
-            finalResult = finalResult && results[i];
+            finalResult = finalResult && results[i + 1];
         }
     }
       return finalResult;
