@@ -57,6 +57,7 @@ dmx.Component('ag-grid', {
     suppress_scroll_on_new_data: { type: Boolean, default: false },
     suppress_property_names_check: { type: Boolean, default: false },
     hide_id_field: { type: Boolean, default: false },
+    id_present: { type: Boolean, default: false },
     numeric_column_align: { type: Boolean, default: false },
     enable_rtl: { type: Boolean, default: false },
     locale_text: { type: String, default: null },
@@ -272,7 +273,7 @@ dmx.Component('ag-grid', {
     });
     const newRowData = this.props.data;
     let transaction;
-  
+
     if (oldRowData && oldRowData.length > 0) {
       const addedRows = newRowData.filter(newRow => !oldRowData.some(oldRow => newRow.id === oldRow.id));
       const removedRows = oldRowData.filter(oldRow => !newRowData.some(newRow => oldRow.id === newRow.id));
@@ -1291,6 +1292,7 @@ dmx.Component('ag-grid', {
       localeText = AG_GRID_LOCALE_PT
     }
     const gridOptions = {
+      ...(options.id_present ? { getRowId: params => params.data.id } : {}),
       columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
       localeText: localeText,
       enableRtl: options.enable_rtl,
