@@ -57,7 +57,6 @@ dmx.Component('ag-grid', {
     suppress_scroll_on_new_data: { type: Boolean, default: false },
     suppress_property_names_check: { type: Boolean, default: false },
     hide_id_field: { type: Boolean, default: false },
-    id_present: { type: Boolean, default: false },
     numeric_column_align: { type: Boolean, default: false },
     enable_rtl: { type: Boolean, default: false },
     locale_text: { type: String, default: null },
@@ -394,6 +393,7 @@ dmx.Component('ag-grid', {
     let cellRenderer;
     const gridThemeClass = options.dark_mode ? `${options.grid_theme}-dark` : options.grid_theme;
     this.$node.innerHTML = `<div id=${options.id}-grid class="${gridThemeClass}"></div>`;
+    let idFieldPresent = false;
     if (!rowData || rowData.length === 0) {
       console.error('No row data provided.');
       return;
@@ -958,6 +958,7 @@ dmx.Component('ag-grid', {
       columnDefs = this.props.column_defs;
     } else {
       const firstRow = rowData[0];
+      idFieldPresent = Object.keys(firstRow).includes('id');
       columnDefs = Object.keys(firstRow).map(key => {
         // Assuming rowData is an array of objects
         const values = rowData.map(row => row[key]);
@@ -1292,7 +1293,7 @@ dmx.Component('ag-grid', {
       localeText = AG_GRID_LOCALE_PT
     }
     const gridOptions = {
-      ...(options.id_present ? { getRowId: params => params.data.id } : {}),
+      ...(idFieldPresent ? { getRowId: params => params.data.id } : {}),
       columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
       localeText: localeText,
       enableRtl: options.enable_rtl,

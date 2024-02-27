@@ -72,12 +72,11 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
 35. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
 36. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
 37. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
-38. **ID Present**: Uses ID field data for performing transactional updates on the Grid. Required to be enabled when perfomring transaction updates (Reload on Grid). (Default: false)
-39. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
-40. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
-41. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
-42. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
-43. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+38. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
+39. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
+40. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
+41. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+42. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 
 # Data Type Overrides
 

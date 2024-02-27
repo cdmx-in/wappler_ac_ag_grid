@@ -540,14 +540,6 @@
               "help": "Hides the ID Field in Grid"
             },
             {
-              "name": "idPreset",
-              "attribute": "dmx-bind:id_present",
-              "title": "ID Present",
-              "type": "boolean",
-              "defaultValue": false,
-              "help": "Uses ID field data for performing transactional updates on the Grid. Required to be enabled when perfomring transaction updates (Reload on Grid)"
-            },
-            {
               "name": "numericColumnAlign",
               "attribute": "dmx-bind:numeric_column_align",
               "title": "Right Align Numeric Columns",
