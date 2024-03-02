@@ -30,6 +30,8 @@ dmx.Component('ag-grid', {
     auto_header_height: { type: Boolean, default: true },
     wrap_text: { type: Boolean, default: false },
     auto_height: { type: Boolean, default: false },
+    vert_center_cell_data: { type: Boolean, default: false },
+    horz_center_cell_data: { type: Boolean, default: false },
     data_changes: { type: Array, default: [] },
     display_data_changes: { type: Array, default: [] },
     js_data_changes: { type: Array, default: [] },
@@ -66,6 +68,8 @@ dmx.Component('ag-grid', {
     amount_field_precision: { type: Number, default: 2 },
     min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
+    cell_editable: { type: Boolean, default: false },
+    row_editable: { type: Boolean, default: false },
     ci_sort: { type: Boolean, default: false },
     resizable: { type: Boolean, default: true },
     filter: { type: Boolean, default: true },
@@ -1188,6 +1192,7 @@ dmx.Component('ag-grid', {
           checkboxSelection: true,
           showDisabledCheckboxes: true,
           resizable: false,
+          editable: false,
           width: 50,
           maxWidth: 50, 
           suppressMenu: true
@@ -1205,6 +1210,7 @@ dmx.Component('ag-grid', {
         minWidth: options.actions_column_min_width,
         maxWidth: options.actions_column_max_width,
         autoHeight: true,
+        editable: false,
         pinned: (options.pin_actions ? options.actions_column_position: undefined),
         cellRendererParams: {
           buttons: [],
@@ -1311,8 +1317,10 @@ dmx.Component('ag-grid', {
         autoHeight: options.auto_height,
         filter: options.filter,
         sortable: options.sortable,
+        editable: options.cell_editable,
         floatingFilter: options.floating_filter
       },
+      editType: (options.row_editable ? 'fullRow': undefined),
       domLayout: this.props.dom_layout,
       enableCellTextSelection: true,
       rowSelection: this.props.row_selection,
@@ -1389,6 +1397,20 @@ dmx.Component('ag-grid', {
         if (options.fixed_horizontal_scroll) {
           updateHoveringBarStyles();
         }
+      },
+      onCellValueChanged: (params) => {
+        this.set('data', params.data);
+        this.set('id', params.data.id);
+        dmx.nextTick(function() {
+          this.dispatchEvent('cell_data_edited');
+        }, this);
+      },
+      onRowValueChanged: (params) => {
+          this.set('data', params.data);
+          this.set('id', params.data.id);
+          dmx.nextTick(function() {
+            this.dispatchEvent('row_data_edited');
+          }, this);
       },
       components: {
         clickCellRenderer: clickCellRenderer,
@@ -1510,6 +1532,29 @@ dmx.Component('ag-grid', {
       }
 
     const gridElement = document.getElementById(options.id+'-grid');
+    if (options.vert_center_cell_data || options.horz_center_cell_data) {
+      const styleElement = document.createElement('style');
+      if (options.vert_center_cell_data) {
+          styleElement.textContent += `
+              .ag-cell {
+                  display: flex;
+                  align-items: center;
+              }
+          `;
+      }
+      if (options.horz_center_cell_data) {
+          styleElement.textContent += `
+              .ag-cell {
+                  display: flex;
+                  justify-content: center;
+              }
+              .ag-header-cell-label {
+                  justify-content: center;
+              }
+          `;
+      }
+      gridElement.appendChild(styleElement);
+   }
     if (options.compact_view) {
       gridElement.style.setProperty('--ag-grid-size', `${options.compact_view_grid_size}`+'px');
       gridElement.style.setProperty('--ag-list-item-height', `${options.compact_view_item_height}`+'px');
@@ -1605,9 +1650,8 @@ dmx.Component('ag-grid', {
       }
     }
     function updateHoveringBarStyles() {
-      const existingStyle = document.getElementById('hovering-bar-style');
+      const existingStyle = gridElement.querySelector('#hovering-bar-style');
       if (options.fixed_horizontal_scroll) {
-        // Create a new style element
         const styleElement = document.createElement('style');
         styleElement.id = 'hovering-bar-style';
         const agRootWrapper = gridElement.querySelector('.ag-root-wrapper');
@@ -1624,7 +1668,7 @@ dmx.Component('ag-grid', {
         if (existingStyle) {
           existingStyle.parentNode.replaceChild(styleElement, existingStyle);
         } else {
-          document.head.appendChild(styleElement);
+          gridElement.appendChild(styleElement);
         }
       } else if (existingStyle) {
         // Remove the style element if it exists
@@ -1729,6 +1773,8 @@ dmx.Component('ag-grid', {
     row_clicked: Event,
     row_double_clicked: Event,
     cell_clicked: Event,
+    cell_data_edited: Event,
+    row_data_edited: Event,
     row_checkbox_checked: Event,
     row_checkbox_unchecked: Event,
     row_status_enabled: Event,
