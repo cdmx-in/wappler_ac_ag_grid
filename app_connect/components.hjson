@@ -476,14 +476,6 @@
               "help": "Specifies if the cell data should be vertically centered."
             },
             {
-              "name": "hCenterCellData",
-              "attribute": "dmx-bind:horz_center_cell_data",
-              "title": "Center Align (H)",
-              "type": "boolean",
-              "defaultValue": false,
-              "help": "Specifies if the cell data should be horizontally centered."
-            },
-            {
               "name": "autoHeight",
               "attribute": "dmx-bind:auto_height",
               "title": "Auto Height",

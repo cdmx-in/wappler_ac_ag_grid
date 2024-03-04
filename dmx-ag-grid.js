@@ -1532,25 +1532,18 @@ dmx.Component('ag-grid', {
       }
 
     const gridElement = document.getElementById(options.id+'-grid');
-    if (options.vert_center_cell_data || options.horz_center_cell_data) {
+    if (options.vert_center_cell_data) {
       const styleElement = document.createElement('style');
       if (options.vert_center_cell_data) {
           styleElement.textContent += `
-              .ag-cell {
-                  display: flex;
-                  align-items: center;
-              }
-          `;
-      }
-      if (options.horz_center_cell_data) {
-          styleElement.textContent += `
-              .ag-cell {
-                  display: flex;
-                  justify-content: center;
-              }
-              .ag-header-cell-label {
-                  justify-content: center;
-              }
+            .ag-cell {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
           `;
       }
       gridElement.appendChild(styleElement);
