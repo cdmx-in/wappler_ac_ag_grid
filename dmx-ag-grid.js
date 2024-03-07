@@ -76,6 +76,7 @@ dmx.Component('ag-grid', {
     floating_filter: { type: Boolean, default: true },
     column_hover_highlight: { type: Boolean, default: true },
     quick_filter_field: { type: String, default: 'search_field' },
+    export_exclude_hidden_fields: { type: Boolean, default: false },
     export_to_csv: { type: Boolean, default: true },
     export_csv_filename: { type: String, default: 'export.csv' },
     fixed_header: { type: Boolean, default: false },
@@ -1686,25 +1687,26 @@ dmx.Component('ag-grid', {
               fieldsAndColIds.push({
                 field: column.field,
                 colId: column.colId,
+                hide: column.hide,
               });
             }
           });
           return fieldsAndColIds;
         };
-
         // Traverse columnDefs to gather fields and colIds
         fieldsAndColIds = traverseColumns(gridConfig.columnDefs);
-            
-          } else {
-            fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
-              field: column.field,
-              colId: column.colId,
-            }));
-          }
-      // Filtering out fields based on excludedColumnIds
-      const fieldsToExport = fieldsAndColIds.filter(
-        (column) => !excludedColumnIds.includes(column.colId)
-      ).map((column) => column.field);
+      } else {
+        fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
+          field: column.field,
+          colId: column.colId,
+          hide: column.hide,
+        }));
+      }
+      const fieldsToExport = fieldsAndColIds.filter((column) => {
+        return !excludedColumnIds.includes(column.colId) &&
+               (!options.export_exclude_hidden_fields || !column.hide);
+      }).map((column) => column.field);
+      
       const params = {
         fileName: options.export_csv_filename,
         allColumns: true,
