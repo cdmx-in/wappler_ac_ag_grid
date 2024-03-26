@@ -176,7 +176,7 @@
               "defaultValue": true,
               "help": "Specifies if the column has a floating filter"
             },
-            {
+{
               "name": "cellEditable",
               "attribute": "dmx-bind:cell_editable",
               "title": "Editable Cells",
@@ -340,7 +340,7 @@
               "defaultValue": "dd/MM/yyyy hh:mm A",
               "help": "Date Format"
             },
-            {
+{
               "name": "quickFilterField",
               "attribute": "quick_filter_field",
               "title": "Filter Field ID",
@@ -475,7 +475,7 @@
               "defaultValue": false,
               "help": "This will cause long texts to wrap in the cells."
             },
-            {
+{
               "name": "vCenterCellData",
               "attribute": "dmx-bind:vert_center_cell_data",
               "title": "Center Align (V)",
@@ -697,7 +697,7 @@
                 {
                   "name": "listColors",
                   "attribute": "dmx-bind:cstyles",
-                  "title": "Colors",
+                  "title": "Text and Cell Colors",
                   "type": "grid",
                   "dataBindings": true,
                   "jsonFormat": true,
@@ -757,6 +757,64 @@
                     "customColor": "",
                     "area": "text",
                     "font": "normal"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "rstyles",
+              "title": "Configure Row Colors",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "rstyles",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": [
+                "listRowColors"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Add custom Colors function that will return true or false. Add the fucntion name in the Function column."
+              "children": [
+                {
+                  "name": "listRowColors",
+                  "attribute": "dmx-bind:rstyles",
+                  "title": "Row Colors",
+                  "type": "grid",
+                  "key": "field",
+                  "dataBindings": true,
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "condition",
+                      "caption": "Function",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "customColor",
+                      "caption": "Color",
+                      "editable": {
+                        "type": "text"
+                      },
+                      help: "Example: '#FF0000' or 'red'"
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "condition": "",
+                    "customColor": ""
                   }
                 }
               ]
@@ -1392,7 +1450,7 @@
                 "columnsToSum",
                 "enableFixedFooter",
                 "fixedFooterBottomPadding",
-                "columnsToCountNonUnique"
+"columnsToCountNonUnique"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -1428,7 +1486,7 @@
                         "unique_values": ""
                       }
                 },
-                {
+{
                   "name": "columnsToCountNonUnique",
                   "attribute": "dmx-bind:columns_to_count_nonunique",
                   "title": "Count Non-Unique",
@@ -2364,7 +2422,7 @@
           state: 'opened',
           help: 'Get Selected Rows',
           properties: []
-        },
+},
         {
           addTitle: 'quickFilter',
           title: 'Quick Filter',
@@ -2828,7 +2886,7 @@
         "dmx-ag-grid": true
       }
     },
-    {
+{
       "name": "dmx-ag-grid-cell-edited",
       "attributeStartsWith": "dmx-on",
       "attribute": "cell_data_edited",

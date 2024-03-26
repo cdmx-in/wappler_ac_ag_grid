@@ -22,6 +22,7 @@ dmx.Component('ag-grid', {
     tooltip_config: { type: Array, default: [] },
     custom_tooltip: { type: String, default: null },
     cstyles: { type: Array, default: [] },
+    rstyles: { type: Array, default: {} },
     cnames: { type: Object, default: {} },
     cwidths: { type: Object, default: {} },
     ctypes: { type: Array, default: [] },
@@ -728,7 +729,6 @@ dmx.Component('ag-grid', {
           const options = {
             timeZone: timezone,
           };
-
           const convertedTimestamp = date.toLocaleString(options.date_locale, options);
           const [datePart, timePart] = convertedTimestamp.split(', ');
           const [day, month, year] = datePart.split('/');
@@ -755,6 +755,32 @@ dmx.Component('ag-grid', {
       
       return valueA.toLowerCase().localeCompare(valueB.toLowerCase());
     };
+    //Custom Row Styles
+    function createRowStyleFunction(rstyles) {
+      return function(params) {
+        if (!rstyles || !Array.isArray(rstyles) || rstyles.length === 0) {
+          return; // No styles to apply
+        }
+        const rowStyle = {};
+        for (const style of rstyles) {
+          const condition = style.condition.replace(/\(\)$/, ''); // Remove () if present at the end
+          const customColor = style.customColor;
+          let conditionResult;
+          if (typeof window[condition] === 'function') {
+            const result = window[condition](params.data);
+            if (typeof result !== 'boolean') {
+              console.error('Row condition function must return a boolean value.');
+              return;
+            }
+            conditionResult = result;
+          }
+          if (conditionResult) {
+            rowStyle.background = customColor;
+          }
+        }
+        return rowStyle;
+      };
+    }
     dateFilterParams = {
         comparator: function (filterLocalDateAtMidnight, cellValue) {
           var cellDate = new Date(cellValue);
@@ -843,7 +869,6 @@ dmx.Component('ag-grid', {
         if (matchingChange && matchingChange.area === 'cell' ) {
           return matchingChange.new_value;
         }
-    
         // Check if there's a matching change in dataBindedChanges
         const matchingKeyData = keyLookup[key];
         if (matchingKeyData) {
@@ -883,14 +908,11 @@ dmx.Component('ag-grid', {
     
       return function (params) {
         const value = params.data[key];
-        
-    
         // Check if there's a matching change in dataChanges
         const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
         if (matchingChange && matchingChange.area === 'tooltip' ) {
           return matchingChange.new_value;
         }
-    
         // Check if there's a matching change in dataBindedChanges
         const matchingKeyData = keyLookup[key];
         if (matchingKeyData) {
@@ -933,7 +955,6 @@ dmx.Component('ag-grid', {
     
       return function (params) {
         const value = params.data[key];
-    
         // Check if there's a matching change in dataChanges
         const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
         if (matchingChange) {
@@ -1036,22 +1057,43 @@ dmx.Component('ag-grid', {
         function applyCellStyle(params) {
           const field = params.colDef.field.toString();
           const styles = cstyles.filter((cs) => cs.field === field);
-          const whiteSpace = options.wrap_text ? 'normal' : 'nowrap'
+          const whiteSpace = options.wrap_text ? 'normal' : 'nowrap';
         
           for (const style of styles) {
             const condition = style.condition;
             const customColor = style.customColor;
             const font = style.font || 'normal';
-            const area = style.area || 'text'; 
-            const [left, operator, right] = extractConditionParts(condition);
-            if (
-              params.data.hasOwnProperty(left) &&
-              (params.data[left] !== null ? evaluateCondition(params.data[left], operator, right) : false)
-            ) {
+            const area = style.area || 'text';
+            let conditionResult = false;
+            if (condition.endsWith('()') && typeof window[condition.replace(/\(\)$/, '')] === 'function') {
+              const result = window[condition.replace(/\(\)$/, '')](params.data);
+              if (typeof result !== 'boolean') {
+                console.error('Custom condition function must return a boolean value.');
+                return;
+              }
+                conditionResult = result;
+            } else {
+              const [left, operator, right] = extractConditionParts(condition);
+              if (params.data.hasOwnProperty(left) &&
+                (params.data[left] !== null ? evaluateCondition(params.data[left], operator, right) : false)
+              ) {
+                conditionResult = true;
+              }
+            }
+            if (conditionResult) {
               if (area === 'text') {
-                return { color: customColor, fontStyle: font, fontWeight: (font==='bold'?'bold':null), whiteSpace: whiteSpace };
+                return {
+                  color: customColor,
+                  fontStyle: font,
+                  fontWeight: (font === 'bold' ? 'bold' : null),
+                  whiteSpace: whiteSpace
+                };
               } else if (area === 'cell') {
-                return { backgroundColor: customColor, fontStyle: font, whiteSpace: whiteSpace };
+                return {
+                  backgroundColor: customColor,
+                  fontStyle: font,
+                  whiteSpace: whiteSpace
+                };
               }
             }
           }
@@ -1060,7 +1102,6 @@ dmx.Component('ag-grid', {
           }
           return null;
         }
-
         if (cnames.hasOwnProperty(key)) {
         const cname = cnames[key]
         headerName = cname ? cname.custom_name : humanize(key);         
@@ -1302,6 +1343,7 @@ dmx.Component('ag-grid', {
     const gridOptions = {
       ...(idFieldPresent ? { getRowId: params => params.data.id } : {}),
       columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
+      getRowStyle: options.rstyles ? createRowStyleFunction(options.rstyles): undefined,
       localeText: localeText,
       enableRtl: options.enable_rtl,
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,

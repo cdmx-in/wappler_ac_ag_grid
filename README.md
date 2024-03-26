@@ -66,22 +66,21 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
 29. **Auto Height**: The height is automatically set based on the content of the cells. (Default: false)
 30. **Wrap Text**: This will cause long texts to wrap in the cells. (Default: false)
 31. **Center Align (V)**: Specifies if the cell data should be vertically centered. (Default: false)
-32. **Center Align (H)**: Specifies if the cell data should be vertically centered. (Default: false)
-33. **Suppress Row Click Selection**: Disables row selection on row click. (Default: false)
-34. **Suppress Menu Hide**: Prevents hiding the column menu. (Default: false)
-35. **Suppress Movable Columns**: Disables moving columns. (Default: false)
-36. **Enable Cell Expressions**: Enables expressions in cell values. (Default: false)
-37. **Animate Rows**: Enables row animation on data changes. (Default: false)
-38. **Suppress Aggregation Function in Header**: Hides the aggregation function in column headers. (Default: false)
-39. **Suppress Clipboard Paste**: Disables pasting data from the clipboard. (Default: false)
-40. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
-41. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
-42. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
-43. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
-44. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
-45. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
-46. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
-47. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+32. **Suppress Row Click Selection**: Disables row selection on row click. (Default: false)
+33. **Suppress Menu Hide**: Prevents hiding the column menu. (Default: false)
+34. **Suppress Movable Columns**: Disables moving columns. (Default: false)
+35. **Enable Cell Expressions**: Enables expressions in cell values. (Default: false)
+36. **Animate Rows**: Enables row animation on data changes. (Default: false)
+37. **Suppress Aggregation Function in Header**: Hides the aggregation function in column headers. (Default: false)
+38. **Suppress Clipboard Paste**: Disables pasting data from the clipboard. (Default: false)
+39. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
+40. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
+41. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
+42. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
+43. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
+44. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
+45. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+46. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 
 # Data Type Overrides
 
@@ -95,15 +94,39 @@ This grid allows you to define custom type overrides for specific fields in the 
 
 # Style Formatting
 
+## Text and Cell Colors
+
 The Style Formatting feature allows you to configure custom colors and fonts for column data based on certain conditions.
 This grid allows you to define custom color and font settings based on specific conditions. The grid has the following columns:
 
 1. **Field**: The field name for which you want to apply the custom color and font settings. (eg. first_name or status)
-2. **Condition**: The condition to check for applying the custom color and font settings. (eg. status=false or name=K den)
+2. **Condition**: The condition to check for applying the custom color and font settings. (eg. status=false or name=K den).
+   You can also supply a function here to return true or false based on the input.
+   eg: input jsTest() in the condition field and define it as below:
+   ```javascript
+   <script>
+     function jsTest(data) {
+       return (data.status == 'success');
+     }
+   </script>
 3. **Color**: The custom color to apply when the condition is met. Enter the color in HEX format (e.g., "#FF0000") or use named colors (e.g., "red"). 
 4. **Area**: Choose where to apply the color: "text" (cell text) or "cell" (cell background).
 5. **Font**: Choose the font style: "normal," "italic," or "bold."
 ---
+
+## Configure Row Colors
+
+1. **Condition**: The condition to check for applying the custom color to rows. (eg. status=false or name=K den).
+ You can also supply a function here to return true or false based on the input. 
+ eg: input jsTest() in the condition field and define it as below:
+ ```javascript
+   <script>
+     function jsTest(data) {
+       return (data.status == 'success');
+     }
+   </script>
+</script>
+2. **Color**: The custom color to apply to row when the condition is met. Enter the color in HEX format (e.g., "#FF0000") or use named colors (e.g., "red"). 
 
 # Tooltip Settings
 
