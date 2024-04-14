@@ -27,6 +27,9 @@ dmx.Component('ag-grid', {
     cwidths: { type: Object, default: {} },
     ctypes: { type: Array, default: [] },
     cfilters: { type: Array, default: [] },
+    cstatic_select_editors: { type: Object, default: {} },
+    cdynamic_select_editors: { type: Object, default: {} },
+    cselect_placeholder: { type: String, default: "-" },
     wrap_header_text: { type: Boolean, default: true },
     auto_header_height: { type: Boolean, default: true },
     wrap_text: { type: Boolean, default: false },
@@ -70,6 +73,7 @@ dmx.Component('ag-grid', {
     min_width: { type: Number, default: 150 },
     sortable: { type: Boolean, default: true },
     cell_editable: { type: Boolean, default: false },
+    editable_fields: { type: String, default: null },
     row_editable: { type: Boolean, default: false },
     ci_sort: { type: Boolean, default: false },
     resizable: { type: Boolean, default: true },
@@ -999,8 +1003,11 @@ dmx.Component('ag-grid', {
         let minWidth;
         let hide;
         let type;
-        let colId;
         let sortable;
+        let cellEditor;
+        let cellEditorParams;
+        let valueParser;
+        let editable;
 
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
@@ -1166,6 +1173,59 @@ dmx.Component('ag-grid', {
         else {
           hide = undefined;
         }
+        if (options.editable_fields) {
+          const editableCellsArray = options.editable_fields.split(',');
+          if (editableCellsArray.includes(key)) {
+            editable = true;
+          }
+        }
+        function lookupKey(mappings, name) {
+          const keys = Object.keys(mappings);
+          for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            if (mappings[key] === name) {
+              return key;
+            }
+          }
+        }
+        function lookupValue(mappings, key) {
+          if (key==''||key === undefined){
+            return options.cselect_placeholder
+          }
+          return mappings[key];
+        }
+        if (options.cdynamic_select_editors.hasOwnProperty(key) || options.cstatic_select_editors.hasOwnProperty(key)) {
+          editable = true;
+          cellEditor = 'agSelectCellEditor';
+          valueFormatter = (params) => {
+            const selectedNode = params.api.getSelectedNodes()[0];
+            const dynamicOptions = options.cdynamic_select_editors[key];
+            const staticOptions = options.cstatic_select_editors[key];
+            let selectOptions;
+            if (dynamicOptions && params.data) {
+                selectOptions = params.data[dynamicOptions.options_field];
+            } else if (staticOptions) {
+                if (!staticOptions.parsedOptions) {
+                    staticOptions.parsedOptions = JSON.parse(staticOptions.options);
+                }
+                selectOptions = staticOptions.parsedOptions;
+            } else {
+                selectOptions = selectedNode?.data[dynamicOptions.options_field];
+            }
+            return lookupValue(selectOptions, params.value);
+          };
+          valueParser = (params) => {
+            return lookupKey(selectOptions, params.newValue);
+          }
+          cellEditorParams = (params) => {
+            const editorOptions = options.cdynamic_select_editors[key] ? 
+                params.data[options.cdynamic_select_editors[key].options_field] :
+                JSON.parse(options.cstatic_select_editors[key].options);
+            return {
+                values: Object.keys(editorOptions)
+            };
+        };
+      }
         return {
           headerName: headerName,
           field: key,
@@ -1175,6 +1235,7 @@ dmx.Component('ag-grid', {
           minWidth: minWidth,
           hide: hide,
           type: type,
+          editable: editable,
           sortable: sortable,
           filterValueGetter: filterValueGetter,
           filterParams: filterParams,
@@ -1185,7 +1246,10 @@ dmx.Component('ag-grid', {
             minWidth: parseInt(cwidths[key].min_width),
             maxWidth: parseInt(cwidths[key].max_width),
           }),
-          cellRenderer: cellRenderer
+          cellRenderer: cellRenderer,
+          cellEditor: cellEditor,
+          cellEditorParams: cellEditorParams,
+          valueParser: valueParser
         };
       });
       if (options.group_config && options.group_config.length > 0) {

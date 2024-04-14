@@ -176,22 +176,6 @@
               "defaultValue": true,
               "help": "Specifies if the column has a floating filter"
             },
-{
-              "name": "cellEditable",
-              "attribute": "dmx-bind:cell_editable",
-              "title": "Editable Cells",
-              "type": "boolean",
-              "defaultValue": false,
-              "help": "Makes cells editable."
-            },
-             {
-              "name": "rowEditable",
-              "attribute": "dmx-bind:row_editable",
-              "title": "Row Editable",
-              "type": "boolean",
-              "defaultValue": false,
-              "help": "Makes entire row editable."
-            },
             {
               "name": "exportExcludeHidden",
               "attribute": "dmx-bind:export_exclude_hidden_fields",
@@ -340,7 +324,7 @@
               "defaultValue": "dd/MM/yyyy hh:mm A",
               "help": "Date Format"
             },
-{
+            {
               "name": "quickFilterField",
               "attribute": "quick_filter_field",
               "title": "Filter Field ID",
@@ -475,7 +459,7 @@
               "defaultValue": false,
               "help": "This will cause long texts to wrap in the cells."
             },
-{
+            {
               "name": "vCenterCellData",
               "attribute": "dmx-bind:vert_center_cell_data",
               "title": "Center Align (V)",
@@ -1279,6 +1263,123 @@
           ]
         },
         {
+          "group": "📒 Inling Editing",
+          "variables": [
+            {
+              "name": "cellsEditable",
+              "attribute": "editable_fields",
+              "title": "Editable Cells",
+              "type": "text",
+              "defaultValue": "",
+              "help": "Makes Specific cells editable. Values should be comma separated fields."
+            },
+            {
+              "name": "allCellsEditable",
+              "attribute": "dmx-bind:cell_editable",
+              "title": "Editable Cells",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Makes All cells editable."
+            },
+            {
+              "name": "rowEditable",
+              "attribute": "dmx-bind:row_editable",
+              "title": "Row Editable",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Makes entire row editable."
+            },
+            {
+              "name": "inlineEditorOptions",
+              "title": "Configure Selector Editors",
+              "attribute": "selector_options",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": [
+                "StaticSelectorEditors",
+                "DynamicSelectorEditors"
+              ],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Enables Dropdown Selectors"
+              "children": [
+                {
+                  "name": "StaticSelectorEditors",
+                  "attribute": "dmx-bind:cstatic_select_editors",
+                  "title": "Static Selectors",
+                  "type": "grid",
+                  "key": "field",
+                  "jsonFormat": true,
+                  "dataBindings": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "size": "20%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      field: "options",
+                      caption: "Options",
+                      size: "20%",
+                      dataBindings: true,
+                      editable: {
+                        type: "datapicker"
+                      },
+                      help: "Static Options."
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "options": ""
+                  }
+                },
+                {
+                  "name": "DynamicSelectorEditors",
+                  "attribute": "dmx-bind:cdynamic_select_editors",
+                  "title": "Dynamic Selectors",
+                  "type": "grid",
+                  "key": "field",
+                  "jsonFormat": true,
+                  "dataBindings": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "size": "20%",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      field: "options_field",
+                      caption: "Options Field",
+                      size: "20%",
+                      "editable": {
+                        "type": "text"
+                      }
+                      help: "Dynamic Options using field data."
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "options_field": ""
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "group": "📒 Hide Fields and Filters",
           "variables": [
             {
@@ -1450,7 +1551,7 @@
                 "columnsToSum",
                 "enableFixedFooter",
                 "fixedFooterBottomPadding",
-"columnsToCountNonUnique"
+                "columnsToCountNonUnique"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -1486,7 +1587,7 @@
                         "unique_values": ""
                       }
                 },
-{
+                {
                   "name": "columnsToCountNonUnique",
                   "attribute": "dmx-bind:columns_to_count_nonunique",
                   "title": "Count Non-Unique",
@@ -2422,7 +2523,7 @@
           state: 'opened',
           help: 'Get Selected Rows',
           properties: []
-},
+        },
         {
           addTitle: 'quickFilter',
           title: 'Quick Filter',
@@ -2886,7 +2987,7 @@
         "dmx-ag-grid": true
       }
     },
-{
+    {
       "name": "dmx-ag-grid-cell-edited",
       "attributeStartsWith": "dmx-on",
       "attribute": "cell_data_edited",
