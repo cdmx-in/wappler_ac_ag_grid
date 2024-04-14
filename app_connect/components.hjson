@@ -1268,7 +1268,7 @@
             {
               "name": "cellsEditable",
               "attribute": "editable_fields",
-              "title": "Editable Cells",
+              "title": "Editable Fields",
               "type": "text",
               "defaultValue": "",
               "help": "Makes Specific cells editable. Values should be comma separated fields."
