@@ -844,7 +844,7 @@ dmx.Component('ag-grid', {
           const output = change.output;
           const area = change.area;
           let dataArray;
-          this.$addBinding(data_source, (function (e) {
+          this.$watch(data_source, (function (e) {
             dataArray = e;
           }));
           keyLookup[change.field] = { dataArray, property, output, area };
@@ -903,7 +903,7 @@ dmx.Component('ag-grid', {
           const output = change.output;
           const area = change.area;
           let dataArray;
-          this.$addBinding(data_source, (function (e) {
+          this.$watch(data_source, (function (e) {
             dataArray = e;
           }));
           keyLookup[change.field] = { dataArray, property, output, area };
@@ -950,7 +950,7 @@ dmx.Component('ag-grid', {
           const property = change.property;
           const output = change.output;
           let dataArray;
-          this.$addBinding(data_source, (function (e) {
+          this.$watch(data_source, (function (e) {
             dataArray = e;
           }));
           keyLookup[change.field] = { dataArray, property, output };
@@ -1698,6 +1698,7 @@ dmx.Component('ag-grid', {
         const topbar = gridElement.querySelector('.' + options.topbar_class);
         const topbarHeight = (topbar ? topbar.getBoundingClientRect().height : 0) + options.fixed_top_offset;
         const headerPos = (topbar ? topbar.getBoundingClientRect().bottom : 0) + options.fixed_header_offset;
+        if (!header) return;
         if (window.scrollY > headerPos) {
           header.style.position = 'fixed';
           header.style.top = `${topbarHeight}px`;
@@ -1895,23 +1896,23 @@ dmx.Component('ag-grid', {
     row_action_button10: Event
   },
   
-  render: function(node) {
+  init: function(node) {
     if (this.$node) {
       this.$parse();
     }
   },
 
-  update: function (props) {
+  requestUpdate: function (props, oldValue) {
     this.set('count', this.props.data.length);
-    if (!dmx.equal(this.props.data, props.data) && !this.props.noload) {
+    if (!dmx.equal(this.props.data, oldValue.data) && !this.props.noload) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
     }
-    if (!dmx.equal(this.props.dark_mode, props.dark_mode)) {
+    if (!dmx.equal(this.props.dark_mode, oldValue.dark_mode)) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
     }
-    if (!dmx.equal(this.props.cfilters, props.cfilters)){
+    if (!dmx.equal(this.props.cfilters, oldValue.cfilters)){
       let gridInstance = this.get('gridInstance');
       if (gridInstance && this.props.cfilters && this.props.cfilters.length > 0) {
         var filterModel = {};

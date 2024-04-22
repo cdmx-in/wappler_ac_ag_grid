@@ -1,4 +1,6 @@
 ﻿#### Developed and Maintained by: Roney Dsilva
+#Notes: 1.7.0 is released with AC2 support and AC1 support has been deprecated in this release. AG Grid upted to 31.2
+
 # AG Grid Module Documentation
 
 The AG Grid module allows you to create a flexible and customizable data grid with various options and properties. Below, you'll find the list of properties and options available for configuring the AG Grid module:
