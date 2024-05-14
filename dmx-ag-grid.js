@@ -1904,15 +1904,15 @@ dmx.Component('ag-grid', {
 
   requestUpdate: function (props, oldValue) {
     this.set('count', this.props.data.length);
-    if (!dmx.equal(this.props.data, oldValue.data) && !this.props.noload) {
+    if (!dmx.equal(this.props.data, oldValue?.data) && !this.props.noload) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
     }
-    if (!dmx.equal(this.props.dark_mode, oldValue.dark_mode)) {
+    if (!dmx.equal(this.props.dark_mode, oldValue?.dark_mode)) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
     }
-    if (!dmx.equal(this.props.cfilters, oldValue.cfilters)){
+    if (!dmx.equal(this.props.cfilters, oldValue?.cfilters)){
       let gridInstance = this.get('gridInstance');
       if (gridInstance && this.props.cfilters && this.props.cfilters.length > 0) {
         var filterModel = {};
