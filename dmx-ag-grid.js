@@ -390,6 +390,10 @@ dmx.Component('ag-grid', {
     const cnames = this.props.cnames
     const cwidths = this.props.cwidths
     const ctypes = this.props.ctypes
+    if (!this.$node || !rowData || rowData.length === 0) {
+      console.error('No row data provided.');
+      return;
+    }
     let gridInstance = this.get('gridInstance') ? this.get('gridInstance') : null;
     let pagination_page_size = gridInstance ? gridInstance.paginationGetPageSize() : this.props.pagination_page_size
     const enableRowClickEvent = this.props.row_click_event && !this.props.enable_actions && !this.props.row_checkbox_event;
@@ -404,10 +408,6 @@ dmx.Component('ag-grid', {
     const gridThemeClass = options.dark_mode ? `${options.grid_theme}-dark` : options.grid_theme;
     this.$node.innerHTML = `<div id=${options.id}-grid class="${gridThemeClass}"></div>`;
     let idFieldPresent = false;
-    if (!rowData || rowData.length === 0) {
-      console.error('No row data provided.');
-      return;
-    }
     window.cellClickEvent = (columnName, value, idValue) => {
       this.set('fields', {"field": columnName, "data": value});
       this.set('id', idValue);
