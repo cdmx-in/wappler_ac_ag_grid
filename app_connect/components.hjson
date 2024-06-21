@@ -177,22 +177,6 @@
               "help": "Specifies if the column has a floating filter"
             },
             {
-              "name": "exportExcludeHidden",
-              "attribute": "dmx-bind:export_exclude_hidden_fields",
-              "title": "Exclude Hidden Fields",
-              "type": "boolean",
-              "defaultValue": false,
-              "help": "Specifies if Hidden fields are to be excluded in CSV export."
-            },
-            {
-              "name": "exportToCSV",
-              "attribute": "dmx-bind:export_to_csv",
-              "title": "CSV Export",
-              "type": "boolean",
-              "defaultValue": true,
-              "help": "Specifies if Export to CSV to be enabled"
-            },
-            {
               "name": "enableRtl",
               "attribute": "dmx-bind:enable_rtl",
               "title": "Enable RTL",
@@ -231,6 +215,29 @@
               "type": "boolean",
               "defaultValue": false,
               "help": "Built-in pagination size as per page size."
+            },
+            {
+              "name": "exportToCSV",
+              "attribute": "dmx-bind:export_to_csv",
+              "title": "CSV Export",
+              "type": "boolean",
+              "defaultValue": true,
+              "help": "Specifies if Export to CSV to be enabled"
+            },
+            {
+              "name": "exportExcludeHidden",
+              "attribute": "dmx-bind:export_exclude_hidden_fields",
+              "title": "Exclude Hidden Fields",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Specifies if Hidden fields are to be excluded in CSV export."
+            },
+            {
+              "name": "exportExcludeFields",
+              "attribute": "export_exclude_fields",
+              "title": "Exclude Fields CSV",
+              "type": "text",
+              "help": "Specifies fields to be excluded in CSV export (comma-seperated)."
             },
             {
               "name": "paginationPageSizeSelector",

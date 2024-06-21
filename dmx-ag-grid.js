@@ -82,6 +82,7 @@ dmx.Component('ag-grid', {
     column_hover_highlight: { type: Boolean, default: true },
     quick_filter_field: { type: String, default: 'search_field' },
     export_exclude_hidden_fields: { type: Boolean, default: false },
+    export_exclude_fields: { type: String, default: null },
     export_to_csv: { type: Boolean, default: true },
     export_csv_filename: { type: String, default: 'export.csv' },
     fixed_header: { type: Boolean, default: false },
@@ -1781,6 +1782,7 @@ dmx.Component('ag-grid', {
     //CSV Export Function
     exportGridData = () => {
       const excludedColumnIds = ['checkboxColumn', 'actionsColumn']; 
+      const exportExcludeFieldsArray = options.export_exclude_fields ? options.export_exclude_fields.split(',') : [];
       // Extracting fields and colIds from columnDefs
       let fieldsAndColIds;
       if (options.group_config) {
@@ -1811,7 +1813,8 @@ dmx.Component('ag-grid', {
       }
       const fieldsToExport = fieldsAndColIds.filter((column) => {
         return !excludedColumnIds.includes(column.colId) &&
-               (!options.export_exclude_hidden_fields || !column.hide);
+               (!options.export_exclude_hidden_fields || !column.hide) &&
+               !exportExcludeFieldsArray.includes(column.field);
       }).map((column) => column.field);
       
       const params = {
