@@ -943,7 +943,7 @@ dmx.Component('ag-grid', {
         }
       };
     }
-    createCombinedFilterValueGetter = (key, dataChanges, dataBindedChanges) => {
+    createCombinedFilterValueGetter = (key, dataChanges, dataBindedChanges, displayDataChanges) => {
       const keyLookup = {};
     
       dataBindedChanges.forEach(change => {
@@ -961,6 +961,20 @@ dmx.Component('ag-grid', {
     
       return function (params) {
         const value = params.data[key];
+        if ((displayDataChanges.length > 0) && displayDataChanges.some(change => change.field === key)) {
+          const placeholderMap = Object.fromEntries(
+            Object.entries(params.data).map(([field, fieldValue]) => [`%${field}%`, fieldValue !== null ? fieldValue : ''])
+          );
+          return displayDataChanges.reduce((filterValue, change) => {
+            if (change.field === key) {
+              const placeholders = Object.keys(placeholderMap).join('|');
+              // Add a default value for unknown placeholders
+              const regex = new RegExp(placeholders + '|%[^%]+%', 'g');
+              filterValue = change.data.replace(regex, match => placeholderMap[match] || '');
+            }
+            return filterValue;
+          }, value);
+        }
         // Check if there's a matching change in dataChanges
         const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
         if (matchingChange) {
@@ -1056,7 +1070,7 @@ dmx.Component('ag-grid', {
         }
         else {
           valueGetter = createCombinedValueGetter(key, options.data_changes, options.data_binded_changes, options.display_data_changes);
-          filterValueGetter = createCombinedFilterValueGetter(key, options.data_changes, options.data_binded_changes);
+          filterValueGetter = createCombinedFilterValueGetter(key, options.data_changes, options.data_binded_changes, options.display_data_changes);
           tooltipValueGetter = createCombinedTooltipValueGetter(key, options.data_changes, options.data_binded_changes);
 
         }
