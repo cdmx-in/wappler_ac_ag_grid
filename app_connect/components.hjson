@@ -1632,7 +1632,7 @@
           ]
         },
         {
-          "group": "📒 Set Filters",
+          "group": "📒 Set Filters and Sort Orders",
           "variables": [
             {
               "name": "setFilters",
@@ -1694,6 +1694,57 @@
                     "field": "",
                     "type": "Contains",
                     "filter": ""
+                  }
+                }
+              ]
+            },
+            {
+              "name": "setSortOrders",
+              "title": "Set Sort Orders",
+              "attributeStartsWith": "dmx-bind",
+              "attribute": "set_sort_order",
+              "type": "boolean",
+              "defaultValue": false,
+              "display": "fieldset",
+              "show": ["listCustomSortOrder"],
+              "noChangeOnHide": true,
+              "groupEnabler": true,
+              "help": "Allows setting sort orders for columns",
+              "children": [
+                {
+                  "name": "listCustomSortOrder",
+                  "attribute": "dmx-bind:csort",
+                  "title": "Custom Sort Order",
+                  "type": "grid",
+                  "jsonFormat": true,
+                  "dataBindings": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "sort",
+                      "caption": "Sort Order",
+                      "editable": {
+                        "type": "list",
+                        "items": [
+                          {"id": "asc", "text": "Ascending"},
+                          {"id": "desc", "text": "Descending"}
+                        ]
+                      }
+                      "help": "Sort Order for the fields."
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "sort": "asc"
                   }
                 }
               ]

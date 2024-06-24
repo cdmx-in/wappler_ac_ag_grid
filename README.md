@@ -301,7 +301,7 @@ Configuration includes:
 
 ---
 
-# Set Filters
+# Set Filters and Sort Orders
 
 The "Set Filters" feature allows you to enable the setting of filters for columns in a user interface. This feature allows to preset filters when the grid is rendered.
 
@@ -313,6 +313,13 @@ Toggle to enable or disable the feature. When enabled, users can set filters for
   - **Field**: The column name to filter.
   - **Filter Type**: The type of filter to apply, options available are: "Starts With," "Less Than," "Date From," "Greater Than," "Equals," and "Contains."
   - **Filter Value**: The Value/Filter to be applied.
+
+### Set Sort Orders
+Toggle to enable or disable the feature. When enabled, users can set sort orders for columns. (Default: false)
+
+  **Custom Sort Orders**: A grid that allows you to define custom sort orders.
+  - **Field**: The column name to sort.
+  - **Sort Order**: Select Ascending or Descending Order for the Field."
 
 ---
 

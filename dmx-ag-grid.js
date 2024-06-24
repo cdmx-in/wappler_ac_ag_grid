@@ -27,6 +27,7 @@ dmx.Component('ag-grid', {
     cwidths: { type: Object, default: {} },
     ctypes: { type: Array, default: [] },
     cfilters: { type: Array, default: [] },
+    csort: { type: Array, default: [] },
     cstatic_select_editors: { type: Object, default: {} },
     cdynamic_select_editors: { type: Object, default: {} },
     cselect_placeholder: { type: String, default: "-" },
@@ -857,17 +858,17 @@ dmx.Component('ag-grid', {
 
         if ((displayDataChanges.length > 0) && displayDataChanges.some(change => change.field === params.colDef.field)) {
           const placeholderMap = Object.fromEntries(
-            Object.entries(params.data).map(([field, fieldValue]) => [`%${field}%`, fieldValue])
+              Object.entries(params.data).map(([field, fieldValue]) => [`%${field}%`, fieldValue !== null ? fieldValue : ''])
           );
           return displayDataChanges.reduce((cellData, change) => {
-            if (change.field === params.colDef.field) {
-              const placeholders = Object.keys(placeholderMap).join('|');
-              const regex = new RegExp(placeholders, 'g');
-              cellData = change.data.replace(regex, match => placeholderMap[match]);
-            }
-            return cellData;
+              if (change.field === params.colDef.field) {
+                  const placeholders = Object.keys(placeholderMap).join('|');
+                  const regex = new RegExp(placeholders + '|%[^%]+%', 'g');
+                  cellData = change.data.replace(regex, match => placeholderMap[match] || '');
+              }
+              return cellData;
           }, value);
-        }
+      }      
 
         // Check if there's a matching change in dataChanges
         const matchingChange = dataChanges.find(change => change.field === key && change.value === String(value));
@@ -1461,6 +1462,19 @@ dmx.Component('ag-grid', {
       },
       onGridReady: (params) => {
         const columnApi = params.columnApi.api;
+        if (options.csort && options.csort.length > 0) {
+          let sortModel = options.csort.map(function(sortItem, index) {
+              return {
+                  colId: sortItem.field,
+                  sort: sortItem.sort,
+                  sortIndex: index
+              };
+          });
+          columnApi.applyColumnState({
+              state: sortModel,
+              defaultState: { sort: null }
+          });
+        }
         hideColumn = (fieldToHide) => {
           columnApi.setColumnsVisible([fieldToHide], false);
         }
