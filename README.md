@@ -126,7 +126,6 @@ This grid allows you to define custom color and font settings based on specific 
        return (data.status == 'success');
      }
    </script>
-</script>
 2. **Color**: The custom color to apply to row when the condition is met. Enter the color in HEX format (e.g., "#FF0000") or use named colors (e.g., "red"). 
 
 # Tooltip Settings
