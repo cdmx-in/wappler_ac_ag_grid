@@ -186,7 +186,7 @@ The grid has the following settings:
 1. **Field**: The field name for which you want to apply the custom data changes. 
 2. **Function**: Create a JavaScript function that defines the custom rendering logic. In your HTML or script section, define the JS function. 
 ex: jsChanges. 
-
+ ```javascript
 <script>
   function jsChanges(data) {
     const html = `
@@ -195,7 +195,7 @@ ex: jsChanges.
     return html;
   }
 </script>
-
+  ```
 ---
 # Custom Headers
 

@@ -728,6 +728,32 @@ dmx.Component('ag-grid', {
         }
       });
     }
+    function getDateForComparison(value, timezone) {
+      if (value) {
+        const date = new Date(value);
+        if (timezone) {
+          const options = {
+            timeZone: timezone,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+          };
+          const convertedTimestamp = date.toLocaleString('en-US', options);
+          const [datePart, timePart] = convertedTimestamp.split(', ');
+          const [month, day, year] = datePart.split('/');
+          const [hours, minutes, seconds] = timePart.split(':');
+          return new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
+        } else {
+          return date;
+        }
+      } else {
+        return null;
+      }
+    }
     function formatTime(params, timezone) {
       if (params.value) {
         const date = new Date(params.value)
@@ -789,9 +815,8 @@ dmx.Component('ag-grid', {
     }
     dateFilterParams = {
         comparator: function (filterLocalDateAtMidnight, cellValue) {
-          var cellDate = new Date(cellValue);
-          var filterDate = new Date(filterLocalDateAtMidnight);
-
+          const cellDate = getDateForComparison(cellValue, timezone);
+          const filterDate = new Date(filterLocalDateAtMidnight);
           // Compare the date portion of the cell value with the filter value
           var cellDateOnly = new Date(cellDate.getFullYear(), cellDate.getMonth(), cellDate.getDate());
           var filterDateOnly = new Date(filterDate.getFullYear(), filterDate.getMonth(), filterDate.getDate());
