@@ -1190,7 +1190,7 @@ dmx.Component('ag-grid', {
             filter = null;
           }
         }
-        
+
         
         if (options.hide_sort) {
           const hideSortArray = options.hide_sort.split(',');
@@ -1877,7 +1877,14 @@ dmx.Component('ag-grid', {
         processCellCallback: function (params) {
           const columnDef = params.column.getColDef();
           const valueFormatter = columnDef.valueFormatter;
-          if (valueFormatter && typeof valueFormatter === "function") {
+          const cellRenderer = columnDef.cellRenderer;
+          // Apply cellRenderer if it exists
+          if (cellRenderer && typeof cellRenderer === "function") {
+            const cellRendererValue = cellRenderer(params);
+            console.log(cellRendererValue)
+              return cellRendererValue;
+          }
+          else if (valueFormatter && typeof valueFormatter === "function") {
             const formattedValue = valueFormatter(params);
             if (formattedValue !== null && formattedValue !== undefined) {
               return formattedValue;
