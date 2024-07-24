@@ -1191,7 +1191,7 @@ dmx.Component('ag-grid', {
           }
         }
 
-        
+
         if (options.hide_sort) {
           const hideSortArray = options.hide_sort.split(',');
           if (hideSortArray.includes(key)) {
@@ -1230,7 +1230,7 @@ dmx.Component('ag-grid', {
           }
         }
         function lookupValue(mappings, key) {
-          if (key==''||key === undefined){
+          if (mappings === undefined || key==''||key === undefined){
             return options.cselect_placeholder
           }
           return mappings[key];
@@ -1239,6 +1239,8 @@ dmx.Component('ag-grid', {
           editable = true;
           cellEditor = 'agSelectCellEditor';
           valueFormatter = (params) => {
+            if (params.api.isDestroyed()) return;
+          
             const selectedNode = params.api.getSelectedNodes()[0];
             const dynamicOptions = options.cdynamic_select_editors[key];
             const staticOptions = options.cstatic_select_editors[key];
@@ -1253,7 +1255,7 @@ dmx.Component('ag-grid', {
             } else {
                 selectOptions = selectedNode?.data[dynamicOptions.options_field];
             }
-            return lookupValue(selectOptions, params.value);
+              return lookupValue(selectOptions, params.value);
           };
           valueParser = (params) => {
             return lookupKey(selectOptions, params.newValue);
@@ -1342,7 +1344,7 @@ dmx.Component('ag-grid', {
           editable: false,
           width: 50,
           maxWidth: 50, 
-          suppressMenu: true
+          suppressHeaderMenuButton: true
       };
       columnDefs.unshift(checkboxColumn);
     }
@@ -1880,8 +1882,16 @@ dmx.Component('ag-grid', {
           const cellRenderer = columnDef.cellRenderer;
           // Apply cellRenderer if it exists
           if (cellRenderer && typeof cellRenderer === "function") {
-            const cellRendererValue = cellRenderer(params);
-            console.log(cellRendererValue)
+            const cellRendererParams = {
+              value: params.value,
+              data: params.node.data,
+              node: params.node,
+              colDef: columnDef,
+              column: params.column,
+              api: params.api,
+              context: params.context,
+            };
+            const cellRendererValue = cellRenderer(cellRendererParams);
               return cellRendererValue;
           }
           else if (valueFormatter && typeof valueFormatter === "function") {
