@@ -1448,7 +1448,7 @@ dmx.Component('ag-grid', {
       localeText = AG_GRID_LOCALE_PT
     }
     const gridOptions = {
-      ...(idFieldPresent ? { getRowId: params => params.data.id } : {}),
+      ...(idFieldPresent ? { getRowId: params => String(params.data.id) } : {}),
       columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
       getRowStyle: options.rstyles ? createRowStyleFunction(options.rstyles): undefined,
       localeText: localeText,
@@ -1493,7 +1493,7 @@ dmx.Component('ag-grid', {
       suppressRowDeselection: this.props.suppress_row_deselection,
       columnHoverHighlight: this.props.column_hover_highlight,
       onFilterModified: function (params) { 
-        const columnApi = params.columnApi.api;
+        const columnApi = params.api;
         columnApi.hideOverlay();
         if (!params.api.filterManager.rowModel.rowsToDisplay.length) {
           columnApi.showNoRowsOverlay();
@@ -1502,7 +1502,7 @@ dmx.Component('ag-grid', {
         }
       },
       onGridReady: (params) => {
-        const columnApi = params.columnApi.api;
+        const columnApi = params.api;
         if (options.csort && options.csort.length > 0) {
           let sortModel = options.csort.map(function(sortItem, index) {
               return {
@@ -1675,7 +1675,7 @@ dmx.Component('ag-grid', {
     gridInstance = agGrid.createGrid(gridDiv, gridConfig);
     gridInstance.setGridOption('rowData', rowData)
     if (options.loading_overlay) {
-      gridInstance.showLoadingOverlay()
+      gridInstance.setGridOption("loading", true)
       setTimeout(() => {
         gridInstance.hideOverlay()
       }, options.loading_overlay_duration);
