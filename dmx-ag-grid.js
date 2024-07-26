@@ -1494,11 +1494,10 @@ dmx.Component('ag-grid', {
       columnHoverHighlight: this.props.column_hover_highlight,
       onFilterModified: function (params) { 
         const columnApi = params.api;
-        columnApi.hideOverlay();
-        if (!params.api.filterManager.rowModel.rowsToDisplay.length) {
-          columnApi.showNoRowsOverlay();
-        } else {
+        if (columnApi.getDisplayedRowCount() > 0) {
           columnApi.hideOverlay();
+        } else {
+          columnApi.showNoRowsOverlay();
         }
       },
       onGridReady: (params) => {
