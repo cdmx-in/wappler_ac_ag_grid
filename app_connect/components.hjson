@@ -2511,7 +2511,7 @@
                   dataBindings: true, defaultValue: true, required: false,
                   help: 'Export Grid data as CSV file.'
                 },
-                {s
+                {
                   name: '2', optionName: '2', title: 'PDF', type: 'boolean',
                   dataBindings: true, defaultValue: false, required: false,
                   help: 'Export Grid data as PDF file.'

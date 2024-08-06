@@ -2040,11 +2040,18 @@ dmx.Component('ag-grid', {
               api: gridInstance,
             };
             const cellStyle = applyCellStyle(params);
+            // Determine the header name using cnames and humanize function
+            const headerName = isHeader ? (
+              cnames.hasOwnProperty(field) ? 
+              cnames[field].custom_name : 
+              humanize(field)
+            ) : '';
             return {
-              text: isHeader ? `${field[0].toUpperCase() + field.slice(1)}` : 
-                    (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
-                    (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
-                    gridInstance.getValue(column, gridInstance.getDisplayedRowAtIndex(0)) ?? '',
+              text: !isHeader ? (
+                (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
+                (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
+                gridInstance.getValue(column, gridInstance.getDisplayedRowAtIndex(0)) ?? ''
+              ) : headerName,
               color: cellStyle?.color ?? 'black',
               fillColor: cellStyle?.backgroundColor ? cellStyle.backgroundColor.replace('#', '') : undefined,
             };
