@@ -86,6 +86,8 @@ dmx.Component('ag-grid', {
     export_exclude_fields: { type: String, default: null },
     export_to_csv: { type: Boolean, default: true },
     export_csv_filename: { type: String, default: 'export.csv' },
+    export_to_pdf: { type: Boolean, default: false },
+    export_pdf_filename: { type: String, default: 'export.pdf' },
     fixed_header: { type: Boolean, default: false },
     topbar_class: { type: String, default: 'topbar' },
     fixed_header_offset: { type: Number, default: 100 },
@@ -215,12 +217,14 @@ dmx.Component('ag-grid', {
       this.set('gridInstance', gridInstance);
       }, this);
     },
-    exportGrid: function () {
-      dmx.nextTick(function() {
-        if (typeof exportGridData === 'function') {
-          exportGridData();
+    exportGrid: function (Csv, Pdf) {
+      if (!Csv && !Pdf) return;
+      dmx.nextTick(() => {
+        const exportFunction = Csv ? exportGridData : (Pdf ? exportGridDataToPDF : null);
+        if (typeof exportFunction === 'function') {
+          exportFunction();
         } else {
-          console.error('Grid not loaded to perform export');
+          console.error('Grid not loaded to perform the requested export');
         }
       }, this);
     },
@@ -406,6 +410,7 @@ dmx.Component('ag-grid', {
     let columnDefs = [];
     let groupedColumnDefs = [];
     let exportToCSV = this.props.export_to_csv;
+    let exportToPDF = this.props.export_to_pdf;
     let cellRenderer;
     const gridThemeClass = options.dark_mode ? `${options.grid_theme}-dark` : options.grid_theme;
     this.$node.innerHTML = `<div id=${options.id}-grid class="${gridThemeClass}"></div>`;
@@ -1641,10 +1646,10 @@ dmx.Component('ag-grid', {
       return;
     }
 
-    if (gridInstance) {
-        gridInstance.destroy();
-        gridInstance = null;
-    }
+    // if (gridInstance) {
+    //     gridInstance.destroy();
+    //     gridInstance = null;
+    // }
     const getPageId = () => {
       const currentPageUrl = window.location.origin + window.location.pathname;
       const optionsId = options.id+'-grid';
@@ -1939,6 +1944,191 @@ dmx.Component('ag-grid', {
       gridContainer.parentNode.insertBefore(exportButton, gridContainer);
       exportButton.style.marginBottom = '10px';
     }
+    // Export AG Grid data to PDF
+    exportGridDataToPDF = async () => {
+      if (!gridInstance || gridInstance.isDestroyed()) {
+        console.error('Grid API is destroyed or not initialized.');
+        return;
+      }
+      const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
+      const exportExcludeFieldsArray = options.export_exclude_fields ? options.export_exclude_fields.split(',') : [];
+      let fieldsAndColIds;
+      if (options.group_config) {
+        // Helper function to traverse grouped column structure
+        const traverseColumns = (columns) => {
+          const fieldsAndColIds = [];
+          columns.forEach((column) => {
+            if (column.children) {
+              fieldsAndColIds.push(...traverseColumns(column.children));
+            } else {
+              fieldsAndColIds.push({
+                field: column.field,
+                colId: column.colId,
+                hide: column.hide,
+              });
+            }
+          });
+          return fieldsAndColIds;
+        };
+        // Traverse columnDefs to gather fields and colIds
+        fieldsAndColIds = traverseColumns(gridConfig.columnDefs);
+      } else {
+        fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
+          field: column.field,
+          colId: column.colId,
+          hide: column.hide,
+        }));
+      }
+      const fieldsToExport = fieldsAndColIds.filter((column) => {
+        return !excludedColumnIds.includes(column.colId) &&
+               (!options.export_exclude_hidden_fields || !column.hide) &&
+               !exportExcludeFieldsArray.includes(column.field);
+      }).map((column) => column.field);
+    
+      const applyCellStyle = (params) => {
+        if (params.data == null) return '-'
+        const field = params.colDef.field.toString();
+        const styles = this.props.cstyles.filter((cs) => cs.field === field);
+        const whiteSpace = options.wrap_text ? 'normal' : 'nowrap';
+    
+        for (const style of styles) {
+          const condition = style.condition;
+          const customColor = style.customColor;
+          const font = style.font || 'normal';
+          const area = style.area || 'text';
+          let conditionResult = false;
+          if (condition.endsWith('()') && typeof window[condition.replace(/\(\)$/, '')] === 'function') {
+            const result = window[condition.replace(/\(\)$/, '')](params.data);
+            if (typeof result !== 'boolean') {
+              console.error('Custom condition function must return a boolean value.');
+              return;
+            }
+            conditionResult = result;
+          } else {
+            const [left, operator, right] = extractConditionParts(condition);
+            if (params.data.hasOwnProperty(left) &&
+              (params.data[left] !== null ? evaluateCondition(params.data[left], operator, right) : false)
+            ) {
+              conditionResult = true;
+            }
+          }
+          if (conditionResult) {
+            const cellStyle = {
+              color: customColor,
+              fontStyle: font,
+              fontWeight: (font === 'bold' ? 'bold' : null),
+              whiteSpace: whiteSpace
+            };
+            return area === 'cell' ? { ...cellStyle, backgroundColor: customColor } : cellStyle;
+          }
+        }
+        return options.wrap_text ? { whiteSpace: 'normal' } : null;
+      };
+    
+      const getColumnData = (gridInstance, isHeader) => 
+        gridInstance.getAllDisplayedColumns()
+          .filter(column => fieldsToExport.includes(column.getColDef().field))
+          .map(column => {
+            const colDef = column.getColDef();
+            const field = colDef.field;
+            const params = {
+              value: isHeader ? null : gridInstance.getValue(column, gridInstance.getDisplayedRowAtIndex(0)),
+              data: isHeader ? null : gridInstance.getDisplayedRowAtIndex(0).data,
+              node: isHeader ? null : gridInstance.getDisplayedRowAtIndex(0),
+              colDef,
+              column,
+              api: gridInstance,
+            };
+            const cellStyle = applyCellStyle(params);
+            return {
+              text: isHeader ? `${field[0].toUpperCase() + field.slice(1)}` : 
+                    (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
+                    (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
+                    gridInstance.getValue(column, gridInstance.getDisplayedRowAtIndex(0)) ?? '',
+              color: cellStyle?.color ?? 'black',
+              fillColor: cellStyle?.backgroundColor ? cellStyle.backgroundColor.replace('#', '') : undefined,
+            };
+          });
+    
+      const columns = gridInstance.getColumnState();
+      const columnMap = new Map(columns.map(col => [col.colId, col]));
+    
+      const rows = [];
+      gridInstance.forEachNode(node => {
+        const row = fieldsToExport.map(field => {
+          const col = columnMap.get(field);
+          const colDef = col ? gridInstance.getColumnDefs().find(def => def.colId === col.colId) : {};
+          const params = {
+            value: gridInstance.getCellValue({ rowNode: node, colKey: col.colId }) ?? '-',
+            data: node.data,
+            node,
+            colDef,
+            column: gridInstance.getColumnState().find(col => col.colId === col.colId),
+            api: gridInstance,
+          };
+          const cellStyle = applyCellStyle(params);
+          const value = gridInstance.getCellValue({ rowNode: node, colKey: col.colId }) ?? '-';
+          return {
+            text: (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
+                  (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
+                  value,
+            color: cellStyle?.color ?? 'black',
+            fillColor: cellStyle?.backgroundColor ? cellStyle.backgroundColor.replace('#', '') : undefined,
+          };
+        });
+        rows.push(row);
+      });
+      const documentDefinition = {
+        pageOrientation: 'landscape',
+        content: [{
+          table: {
+            headerRows: 1,
+            widths: fieldsToExport.map(() => `${100 / fieldsToExport.length}%`),
+            body: [getColumnData(gridInstance, true), ...rows],
+            heights: (rowIndex) => (rowIndex === 0 ? 40 : 15),
+            fillColor: (rowIndex, colIndex) => rows[rowIndex][colIndex].fillColor,
+            color: (rowIndex, colIndex) => rows[rowIndex][colIndex].color,
+          },
+        }],
+      };
+      pdfMake.createPdf(documentDefinition).download(options.export_pdf_filename);
+    };
+    if (exportToPDF) {
+      const existingPdfExportButton = document.getElementById('exportPdfButton');
+      if (existingPdfExportButton) {
+        return;
+      }
+      const exportPdfButton = document.createElement('button');
+      exportPdfButton.id = 'exportPdfButton'; 
+      const icon = document.createElement('i');
+      icon.classList.add('fas', 'fa-file-pdf');
+      exportPdfButton.appendChild(icon);
+
+      // Add the button text
+      const buttonText = document.createElement('span');
+      buttonText.innerText = ' Export to PDF';
+      exportPdfButton.appendChild(buttonText);
+      exportPdfButton.style.backgroundColor = '#4CAF50';
+      exportPdfButton.style.border = 'none';
+      exportPdfButton.style.color = 'white';
+      exportPdfButton.style.padding = '5px 10px';
+      exportPdfButton.style.textAlign = 'center';
+      exportPdfButton.style.textDecoration = 'none';
+      exportPdfButton.style.display = 'inline-block';
+      exportPdfButton.style.fontSize = '14px'; 
+      exportPdfButton.style.borderRadius = '5px';
+      exportPdfButton.style.cursor = 'pointer';
+      exportPdfButton.style.marginBottom = '10px';
+
+      exportPdfButton.addEventListener('click', () => {
+        exportGridDataToPDF(this)
+      })
+    
+      // Append the export button to the grid container
+      gridContainer.parentNode.insertBefore(exportPdfButton, gridContainer);
+      exportPdfButton.style.marginBottom = '10px';
+    }
+    // Return grid instance
     return gridInstance;
     
   },

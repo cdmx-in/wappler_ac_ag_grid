@@ -36,52 +36,53 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
 5. **Filter**: Specifies if the column has a filter. (Default: true)
 6. **Floating Filter**: Specifies if the column has a floating filter. (Default: true)
 7. **Exclude Hidden Fields**: Specifies if Hidden fields are to be excluded in CSV export. (Default: false)
-8. **CSV Export**: Specifies if Export to CSV is enabled. (Default: true)
-9. **Exclude Fields CSV**: Specifies fields to be excluded in CSV export. (Default: null)
-10. **Enable RTL**: Enabled Right to Left, used for Hebrew and Arabic. (Default: false)
-11. **Column Hover Highlight**: Specifies column hover highlighting. (Default: true)
-12. **Suppress Row Deselection**: Specifies if rows can be deselected. (Default: false)
-13. **Pagination**: Enables pagination. (Default: true)
-14. **Auto Pagination**: Enables automatic pagination. (Default: false)
-15. **Page Limit Selectors**: Allowed selectors for for page size. Set to false to hide the page size selector. (Default: [20,50,100] ).
-16. **Page Limit**: Number of rows to show per page. (Default: 20)
-17. **Row Selection**: Row Selection (single or multiple).
+8. **CSV Export**: Specifies if Export to CSV is enabled. (Default: true).
+9. **PDF Export**: Specifies if Export to PDF is enabled. (Default: false).
+10. **Exclude Fields CSV**: Specifies fields to be excluded in CSV export. (Default: null)
+11. **Enable RTL**: Enabled Right to Left, used for Hebrew and Arabic. (Default: false)
+12. **Column Hover Highlight**: Specifies column hover highlighting. (Default: true)
+13. **Suppress Row Deselection**: Specifies if rows can be deselected. (Default: false)
+14. **Pagination**: Enables pagination. (Default: true)
+15. **Auto Pagination**: Enables automatic pagination. (Default: false)
+16. **Page Limit Selectors**: Allowed selectors for for page size. Set to false to hide the page size selector. (Default: [20,50,100] ).
+17. **Page Limit**: Number of rows to show per page. (Default: 20)
+18. **Row Selection**: Row Selection (single or multiple).
    - "Single"
    - "Multiple" (Default)
-18. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list. (Default: Local)
-19. **Date Format**: Date Format for displaying date values. (Default: "dd/MM/yyyy hh:mm A")
-20. **Filter Field ID**: Specifies the field ID of the search field when using grid quick filter. Applicable when using Quick Filter feature of AG Grid, called from Dynamic Events on change event on the field. (Default: search_field)
-21. **Loading Overlay**: This enables loading overlay. (Default: false)
-22. **Loading Overlay Duration**: This sets loading overlay duration in ms. (Default: 500)
-23. **Sticky Header and Horizontal Scrollbar**:  Optionally specify the header offset and topbar class.
+19. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list. (Default: Local)
+20. **Date Format**: Date Format for displaying date values. (Default: "dd/MM/yyyy hh:mm A")
+21. **Filter Field ID**: Specifies the field ID of the search field when using grid quick filter. Applicable when using Quick Filter feature of AG Grid, called from Dynamic Events on change event on the field. (Default: search_field)
+22. **Loading Overlay**: This enables loading overlay. (Default: false)
+23. **Loading Overlay Duration**: This sets loading overlay duration in ms. (Default: 500)
+24. **Sticky Header and Horizontal Scrollbar**:  Optionally specify the header offset and topbar class.
    - Fixed Header: Enables sticky header. (Default: false)
    - Header Offset: Specifies offset from the top of the viewport area (Optional). (Default: 100)
    - Topbar Class: Specify class, e.g., "topbar", to measure the offset from (Optional). (Default: "topbar")
    - Topbar Offset: Specify topbar offset (Default: 80)
    - Fixed Horizontal Scroll: Enables Hovering horizontal scrollbar which stays at the bottom all the time. (Default: false)
    - Fixed Horizontal Scroll Width: Fixed horizontal scroll width percentage. (Default: 80%)
-24. **Row Height**: Height of each row in pixels. (Default: Auto)
-25. **Header Height**: Height of the header row in pixels. (Default: Auto)
-26. **Wrap Header Text**: This will cause long headers to wrap. (Default: true)
-27. **Auto Header Height**: The header height is automatically set based on the content of the header. (Default: true)
-28. **Auto Height**: The height is automatically set based on the content of the cells. (Default: false)
-29. **Wrap Text**: This will cause long texts to wrap in the cells. (Default: false)
-30. **Center Align (V)**: Specifies if the cell data should be vertically centered. (Default: false)
-31. **Suppress Row Click Selection**: Disables row selection on row click. (Default: false)
-32. **Suppress Menu Hide**: Prevents hiding the column menu. (Default: false)
-33. **Suppress Movable Columns**: Disables moving columns. (Default: false)
-34. **Enable Cell Expressions**: Enables expressions in cell values. (Default: false)
-35. **Animate Rows**: Enables row animation on data changes. (Default: false)
-36. **Suppress Aggregation Function in Header**: Hides the aggregation function in column headers. (Default: false)
-37. **Suppress Clipboard Paste**: Disables pasting data from the clipboard. (Default: false)
-38. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
-39. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
-40. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
-41. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
-42. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
-43. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
-44. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
-45. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+25. **Row Height**: Height of each row in pixels. (Default: Auto)
+26. **Header Height**: Height of the header row in pixels. (Default: Auto)
+27. **Wrap Header Text**: This will cause long headers to wrap. (Default: true)
+28. **Auto Header Height**: The header height is automatically set based on the content of the header. (Default: true)
+29. **Auto Height**: The height is automatically set based on the content of the cells. (Default: false)
+30. **Wrap Text**: This will cause long texts to wrap in the cells. (Default: false)
+31. **Center Align (V)**: Specifies if the cell data should be vertically centered. (Default: false)
+32. **Suppress Row Click Selection**: Disables row selection on row click. (Default: false)
+33. **Suppress Menu Hide**: Prevents hiding the column menu. (Default: false)
+34. **Suppress Movable Columns**: Disables moving columns. (Default: false)
+35. **Enable Cell Expressions**: Enables expressions in cell values. (Default: false)
+36. **Animate Rows**: Enables row animation on data changes. (Default: false)
+37. **Suppress Aggregation Function in Header**: Hides the aggregation function in column headers. (Default: false)
+38. **Suppress Clipboard Paste**: Disables pasting data from the clipboard. (Default: false)
+39. **Suppress Scroll on New Data**: Prevents scrolling to newly added data. (Default: false)
+40. **Suppress Property Names Check**: Disables checking for duplicate property names. (Default: false)
+41. **Hide ID Field**: Hides the ID Field in the Grid. (Default: false)
+42. **Numeric Column Align**: Align numeric columns to the right. (Default: false)
+43. **Row Click Events**: Enables row click events. This can be used in Dynamic events => Grid Events => Row Clicked. (Default: false)
+44. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
+45. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+46. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 
 # Data Type Overrides
 
@@ -101,7 +102,7 @@ The Style Formatting feature allows you to configure custom colors and fonts for
 This grid allows you to define custom color and font settings based on specific conditions. The grid has the following columns:
 
 1. **Field**: The field name for which you want to apply the custom color and font settings. (eg. first_name or status)
-2. **Condition**: The condition to check for applying the custom color and font settings. (eg. status=false or name=K den).
+2. **Condition**: The condition to check for applying the custom color and font settings. (eg. status==false or name==K den).
    You can also supply a function here to return true or false based on the input.
    eg: input jsTest() in the condition field and define it as below:
    ```javascript
@@ -117,7 +118,7 @@ This grid allows you to define custom color and font settings based on specific 
 
 ## Configure Row Colors
 
-1. **Condition**: The condition to check for applying the custom color to rows. (eg. status=false or name=K den).
+1. **Condition**: The condition to check for applying the custom color to rows. (eg. status==false or name==K den).
  You can also supply a function here to return true or false based on the input. 
  eg: input jsTest() in the condition field and define it as below:
  ```javascript
@@ -434,7 +435,7 @@ Specify the condition to Show the Button[i] Action button, eg: code==TEST, or st
 
 **Export**
 - To be used if you wish to use a separate Export button instead of using the inbuilt top left-cornered Export button.
-- Trigger this action to call Export Data to CSV download action.
+- Trigger this action to call Export Data to CSV/PDF download action based on selected file Type.
 
 **Save Column State**
 - This action allows you to save the current state of the grid's columns, including their visibility and order, to the browser's local storage.

@@ -225,6 +225,14 @@
               "help": "Specifies if Export to CSV to be enabled"
             },
             {
+              "name": "exportToPDF",
+              "attribute": "dmx-bind:export_to_pdf",
+              "title": "PDF Export",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Specifies if Export to PDF to be enabled"
+            },
+            {
               "name": "exportExcludeHidden",
               "attribute": "dmx-bind:export_exclude_hidden_fields",
               "title": "Exclude Hidden Fields",
@@ -1409,6 +1417,7 @@
                 {
                   "name": "hideFields",
                   "attribute": "hide_fields",
+                  "dataBindings": true,
                   "title": "Hide Fields",
                   "type": "text",
                   "initDisplay": "none"
@@ -2492,8 +2501,24 @@
           name: 'exportGrid',
           icon: 'fa fa-lg fa-download',
           state: 'opened',
-          help: 'Export AG Grid Data to CSV',
-          properties: []
+          help: 'Export AG Grid Data',
+          properties: [
+            {
+              group: 'Properties',
+              variables: [
+                {
+                  name: '1', optionName: '1', title: 'CSV', type: 'boolean',
+                  dataBindings: true, defaultValue: true, required: false,
+                  help: 'Export Grid data as CSV file.'
+                },
+                {s
+                  name: '2', optionName: '2', title: 'PDF', type: 'boolean',
+                  dataBindings: true, defaultValue: false, required: false,
+                  help: 'Export Grid data as PDF file.'
+                }
+              ]
+            }
+          ]
         },
         {
           addTitle: 'SaveColumnState',
@@ -2608,6 +2633,14 @@
           "dst": "js/exceljs.min.js"
         },
         {
+          "src": "../../../node_modules/pdfmake/build/pdfmake.min.js",
+          "dst": "js/pdfmake.min.js"
+        },
+        {
+          "src": "../../../node_modules/pdfmake/build/vfs_fonts.js",
+          "dst": "js/vfs_fonts.js"
+        },
+        {
           "src": "../../../node_modules/ag-grid-community/styles/ag-theme-alpine.css",
           "dst": "css/ag-theme-alpine.css"
         },
@@ -2642,6 +2675,14 @@
         {
           "src": "pt.js",
           "dst": "js/locale/pt.js"
+        },
+        {
+          "src": "pdfmake.min.js",
+          "dst": "js/pdfmake.min.js"
+        },
+        {
+          "src": "vfs_fonts.js",
+          "dst": "js/vfs_fonts.js"
         }
       ],
       "linkFiles": [
@@ -2920,7 +2961,8 @@
       "groupIcon": "fa fa-lg fa-cubes",
       "defaultValue": false,
       "show": [
-        "exportCsvFilename"
+        "exportCsvFilename",
+        "exportPdfFilename"
       ],
       "noChangeOnHide": true,
       "groupEnabler": true,
@@ -2935,6 +2977,18 @@
           "type": "text",
           "help": "Export CSV filename.",
           "defaultValue": "export.csv",
+          "initDisplay": "none"
+        },
+        {
+          "name": "exportPdfFilename",
+          "attributeStartsWith": "dmx-bind",
+          "attribute": "export_pdf_filename",
+          "isValue": true,
+          "dataBindings": true,
+          "title": "PDF Filename",
+          "type": "text",
+          "help": "Export PDF filename.",
+          "defaultValue": "export.pdf",
           "initDisplay": "none"
         }
       ],
