@@ -127,6 +127,7 @@ dmx.Component('ag-grid', {
     delete_action_btn_class: {type: String, default: 'btn-danger btn-xs m-1' },
     delete_action_btn_condition: {type: String, default: null },
     enable_custom_action_btns: { type: Boolean, default: false },
+    action_button_class_toggles: { type: Array, default: [] },
     button1_action_btn: { type: "Boolean", default: false },
     button1_action_title: { type: "String", default: "" },
     button1_action_tooltip: { type: "String", default: "" },
@@ -466,6 +467,7 @@ dmx.Component('ag-grid', {
     const enableRowDoubleClickEvent = this.props.row_double_click_event && !this.props.enable_actions && !this.props.row_checkbox_event;
     const enableCellClickEvent = this.props.row_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
     const enableCellDoubleClickEvent = this.props.row_double_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
+    const actionButtonClassToggles = options.action_button_class_toggles
     let localeText;
     let columnDefs = [];
     let groupedColumnDefs = [];
@@ -612,6 +614,12 @@ dmx.Component('ag-grid', {
           }
           button.innerHTML = `<i class="${buttonConfig.icon}"></i> ${buttonConfig.action}`;
           container.appendChild(button);
+          // Handle dynamic classes based on conditions and buttonConfig.id
+          actionButtonClassToggles.forEach((toggle) => {
+            if (toggle.btn_id === buttonConfig.id && evaluateConditions([toggle.condition], params)) {
+                button.classList.add(...toggle.class.split(' '));
+            }
+          });
            // Check if the button should be hidden based on the condition string and row data
           if (buttonConfig.condition) {
             const conditions = buttonConfig.condition.split(/(\|\||&&)/);
@@ -1443,6 +1451,7 @@ dmx.Component('ag-grid', {
     
       if (options.edit_action_btn) {
         actionsColumn.cellRendererParams.buttons.push({
+          id: 'edit',
           action: options.edit_action_title,
           classNames: options.edit_action_btn_class,
           tooltip: options.edit_action_tooltip,
@@ -1458,6 +1467,7 @@ dmx.Component('ag-grid', {
     
       if (options.view_action_btn) {
         actionsColumn.cellRendererParams.buttons.push({
+          id: 'view',
           action: options.view_action_title,
           classNames: options.view_action_btn_class,
           tooltip: options.view_action_tooltip,
@@ -1473,6 +1483,7 @@ dmx.Component('ag-grid', {
 
       if (options.delete_action_btn) {
         actionsColumn.cellRendererParams.buttons.push({
+          id: 'delete',
           action: options.delete_action_title,
           classNames: options.delete_action_btn_class,
           tooltip: options.delete_action_tooltip,
@@ -1497,6 +1508,7 @@ dmx.Component('ag-grid', {
         
           if (options[buttonActionKey]) {
             actionsColumn.cellRendererParams.buttons.push({
+              id: `button${i}`,
               action: options[buttonTitleKey],
               classNames: options[buttonClassKey],
               tooltip: options[buttonTooltipKey],
