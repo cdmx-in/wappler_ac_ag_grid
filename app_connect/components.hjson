@@ -1879,7 +1879,7 @@
                 {
                   "name": "editActionBtnCondition",
                   "attribute": "edit_action_btn_condition",
-                  "title": "Edit Action Button Conditon",
+                  "title": "Edit Action Button Condition",
                   "type": "text"
                 },
                 {
@@ -1920,7 +1920,7 @@
                 {
                   "name": "viewActionBtnCondition",
                   "attribute": "view_action_btn_condition",
-                  "title": "View Action Button Conditon",
+                  "title": "View Action Button Condition",
                   "type": "text"
                 },
                 {
@@ -1961,7 +1961,7 @@
                 {
                   "name": "deleteActionBtnCondition",
                   "attribute": "delete_action_btn_condition",
-                  "title": "Delete Action Button Conditon",
+                  "title": "Delete Action Button Condition",
                   "type": "text"
                 }
               ]
@@ -2034,7 +2034,67 @@
                 "button10ActionTooltip",
                 "button10ActionBtnClass",
                 "button10ActionIconClass",
-                "button10ActionBtnCondition"
+                "button10ActionBtnCondition",
+                "button11ActionBtn",
+                "button11ActionTitle",
+                "button11ActionTooltip",
+                "button11ActionBtnClass",
+                "button11ActionIconClass",
+                "button11ActionBtnCondition",
+                "button12ActionBtn",
+                "button12ActionTitle",
+                "button12ActionTooltip",
+                "button12ActionBtnClass",
+                "button12ActionIconClass",
+                "button12ActionBtnCondition",
+                "button13ActionBtn",
+                "button13ActionTitle",
+                "button13ActionTooltip",
+                "button13ActionBtnClass",
+                "button13ActionIconClass",
+                "button13ActionBtnCondition",
+                "button14ActionBtn",
+                "button14ActionTitle",
+                "button14ActionTooltip",
+                "button14ActionBtnClass",
+                "button14ActionIconClass",
+                "button14ActionBtnCondition",
+                "button15ActionBtn",
+                "button15ActionTitle",
+                "button15ActionTooltip",
+                "button15ActionBtnClass",
+                "button15ActionIconClass",
+                "button15ActionBtnCondition",
+                "button16ActionBtn",
+                "button16ActionTitle",
+                "button16ActionTooltip",
+                "button16ActionBtnClass",
+                "button16ActionIconClass",
+                "button16ActionBtnCondition",
+                "button17ActionBtn",
+                "button17ActionTitle",
+                "button17ActionTooltip",
+                "button17ActionBtnClass",
+                "button17ActionIconClass",
+                "button17ActionBtnCondition",
+                "button18ActionBtn",
+                "button18ActionTitle",
+                "button18ActionTooltip",
+                "button18ActionBtnClass",
+                "button18ActionIconClass",
+                "button18ActionBtnCondition",
+                "button19ActionBtn",
+                "button19ActionTitle",
+                "button19ActionTooltip",
+                "button19ActionBtnClass",
+                "button19ActionIconClass",
+                "button19ActionBtnCondition",
+                "button20ActionBtn",
+                "button20ActionTitle",
+                "button20ActionTooltip",
+                "button20ActionBtnClass",
+                "button20ActionIconClass",
+                "button20ActionBtnCondition"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -2086,7 +2146,7 @@
                 {
                   "name": "button1ActionBtnCondition",
                   "attribute": "button1_action_btn_condition",
-                  "title": "Button1 Conditon",
+                  "title": "Button1 Condition",
                   "type": "text"
                 },
                 {
@@ -2127,7 +2187,7 @@
                 {
                   "name": "button2ActionBtnCondition",
                   "attribute": "button2_action_btn_condition",
-                  "title": "Button2 Conditon",
+                  "title": "Button2 Condition",
                   "type": "text"
                 },
                 {
@@ -2168,7 +2228,7 @@
                 {
                   "name": "button3ActionBtnCondition",
                   "attribute": "button3_action_btn_condition",
-                  "title": "Button3 Conditon",
+                  "title": "Button3 Condition",
                   "type": "text"
                 },
                 {
@@ -2209,7 +2269,7 @@
                 {
                   "name": "button4ActionBtnCondition",
                   "attribute": "button4_action_btn_condition",
-                  "title": "Button4 Conditon",
+                  "title": "Button4 Condition",
                   "type": "text"
                 },
                 {
@@ -2250,7 +2310,7 @@
                 {
                   "name": "button5ActionBtnCondition",
                   "attribute": "button5_action_btn_condition",
-                  "title": "Button5 Conditon",
+                  "title": "Button5 Condition",
                   "type": "text"
                 },
                 {
@@ -2291,7 +2351,7 @@
                 {
                   "name": "button6ActionBtnCondition",
                   "attribute": "button6_action_btn_condition",
-                  "title": "Button6 Conditon",
+                  "title": "Button6 Condition",
                   "type": "text"
                 },
                 {
@@ -2332,7 +2392,7 @@
                 {
                   "name": "button7ActionBtnCondition",
                   "attribute": "button7_action_btn_condition",
-                  "title": "Button7 Conditon",
+                  "title": "Button7 Condition",
                   "type": "text"
                 },
                 {
@@ -2373,7 +2433,7 @@
                 {
                   "name": "button8ActionBtnCondition",
                   "attribute": "button8_action_btn_condition",
-                  "title": "Button8 Conditon",
+                  "title": "Button8 Condition",
                   "type": "text"
                 },
                 {
@@ -2414,7 +2474,7 @@
                 {
                   "name": "button9ActionBtnCondition",
                   "attribute": "button9_action_btn_condition",
-                  "title": "Button9 Conditon",
+                  "title": "Button9 Condition",
                   "type": "text"
                 },
                 {
@@ -2455,7 +2515,417 @@
                 {
                   "name": "button10ActionBtnCondition",
                   "attribute": "button10_action_btn_condition",
-                  "title": "Button10 Conditon",
+                  "title": "Button10 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button11ActionBtn",
+                  "attribute": "dmx-bind:button11_action_btn",
+                  "title": "Button11 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button11ActionTitle",
+                  "attribute": "button11_action_title",
+                  "title": "Button11 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button11ActionTooltip",
+                  "attribute": "button11_action_tooltip",
+                  "title": "Button11 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button11ActionBtnClass",
+                  "attribute": "button11_action_btn_class",
+                  "title": "Button11 Class",
+                  "type": "text",
+                  "defaultValue": "btn-primary btn-xs m-1"
+                },
+                {
+                  "name": "button11ActionIconClass",
+                  "attribute": "button11_action_icon_class",
+                  "title": "Button11 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-cog"
+                },
+                {
+                  "name": "button11ActionBtnCondition",
+                  "attribute": "button11_action_btn_condition",
+                  "title": "Button11 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button12ActionBtn",
+                  "attribute": "dmx-bind:button12_action_btn",
+                  "title": "Button12 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button12ActionTitle",
+                  "attribute": "button12_action_title",
+                  "title": "Button12 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button12ActionTooltip",
+                  "attribute": "button12_action_tooltip",
+                  "title": "Button12 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button12ActionBtnClass",
+                  "attribute": "button12_action_btn_class",
+                  "title": "Button12 Class",
+                  "type": "text",
+                  "defaultValue": "btn-info btn-xs m-1"
+                },
+                {
+                  "name": "button12ActionIconClass",
+                  "attribute": "button12_action_icon_class",
+                  "title": "Button12 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-search"
+                },
+                {
+                  "name": "button12ActionBtnCondition",
+                  "attribute": "button12_action_btn_condition",
+                  "title": "Button12 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button13ActionBtn",
+                  "attribute": "dmx-bind:button13_action_btn",
+                  "title": "Button13 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button13ActionTitle",
+                  "attribute": "button13_action_title",
+                  "title": "Button13 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button13ActionTooltip",
+                  "attribute": "button13_action_tooltip",
+                  "title": "Button13 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button13ActionBtnClass",
+                  "attribute": "button13_action_btn_class",
+                  "title": "Button13 Class",
+                  "type": "text",
+                  "defaultValue": "btn-success btn-xs m-1"
+                },
+                {
+                  "name": "button13ActionIconClass",
+                  "attribute": "button13_action_icon_class",
+                  "title": "Button13 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-thumbs-up"
+                },
+                {
+                  "name": "button13ActionBtnCondition",
+                  "attribute": "button13_action_btn_condition",
+                  "title": "Button13 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button14ActionBtn",
+                  "attribute": "dmx-bind:button14_action_btn",
+                  "title": "Button14 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button14ActionTitle",
+                  "attribute": "button14_action_title",
+                  "title": "Button14 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button14ActionTooltip",
+                  "attribute": "button14_action_tooltip",
+                  "title": "Button14 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button14ActionBtnClass",
+                  "attribute": "button14_action_btn_class",
+                  "title": "Button14 Class",
+                  "type": "text",
+                  "defaultValue": "btn-warning btn-xs m-1"
+                },
+                {
+                  "name": "button14ActionIconClass",
+                  "attribute": "button14_action_icon_class",
+                  "title": "Button14 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-bell"
+                },
+                {
+                  "name": "button14ActionBtnCondition",
+                  "attribute": "button14_action_btn_condition",
+                  "title": "Button14 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button15ActionBtn",
+                  "attribute": "dmx-bind:button15_action_btn",
+                  "title": "Button15 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button15ActionTitle",
+                  "attribute": "button15_action_title",
+                  "title": "Button15 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button15ActionTooltip",
+                  "attribute": "button15_action_tooltip",
+                  "title": "Button15 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button15ActionBtnClass",
+                  "attribute": "button15_action_btn_class",
+                  "title": "Button15 Class",
+                  "type": "text",
+                  "defaultValue": "btn-danger btn-xs m-1"
+                },
+                {
+                  "name": "button15ActionIconClass",
+                  "attribute": "button15_action_icon_class",
+                  "title": "Button15 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-ban"
+                },
+                {
+                  "name": "button15ActionBtnCondition",
+                  "attribute": "button15_action_btn_condition",
+                  "title": "Button15 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button16ActionBtn",
+                  "attribute": "dmx-bind:button16_action_btn",
+                  "title": "Button16 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button16ActionTitle",
+                  "attribute": "button16_action_title",
+                  "title": "Button16 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button16ActionTooltip",
+                  "attribute": "button16_action_tooltip",
+                  "title": "Button16 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button16ActionBtnClass",
+                  "attribute": "button16_action_btn_class",
+                  "title": "Button16 Class",
+                  "type": "text",
+                  "defaultValue": "btn-secondary btn-xs m-1"
+                },
+                {
+                  "name": "button16ActionIconClass",
+                  "attribute": "button16_action_icon_class",
+                  "title": "Button16 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-link"
+                },
+                {
+                  "name": "button16ActionBtnCondition",
+                  "attribute": "button16_action_btn_condition",
+                  "title": "Button16 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button17ActionBtn",
+                  "attribute": "dmx-bind:button17_action_btn",
+                  "title": "Button17 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button17ActionTitle",
+                  "attribute": "button17_action_title",
+                  "title": "Button17 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button17ActionTooltip",
+                  "attribute": "button17_action_tooltip",
+                  "title": "Button17 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button17ActionBtnClass",
+                  "attribute": "button17_action_btn_class",
+                  "title": "Button17 Class",
+                  "type": "text",
+                  "defaultValue": "btn-primary btn-sm m-1"
+                },
+                {
+                  "name": "button17ActionIconClass",
+                  "attribute": "button17_action_icon_class",
+                  "title": "Button17 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-download"
+                },
+                {
+                  "name": "button17ActionBtnCondition",
+                  "attribute": "button17_action_btn_condition",
+                  "title": "Button17 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button18ActionBtn",
+                  "attribute": "dmx-bind:button18_action_btn",
+                  "title": "Button18 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button18ActionTitle",
+                  "attribute": "button18_action_title",
+                  "title": "Button18 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button18ActionTooltip",
+                  "attribute": "button18_action_tooltip",
+                  "title": "Button18 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button18ActionBtnClass",
+                  "attribute": "button18_action_btn_class",
+                  "title": "Button18 Class",
+                  "type": "text",
+                  "defaultValue": "btn-info btn-sm m-1"
+                },
+                {
+                  "name": "button18ActionIconClass",
+                  "attribute": "button18_action_icon_class",
+                  "title": "Button18 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-file-pdf"
+                },
+                {
+                  "name": "button18ActionBtnCondition",
+                  "attribute": "button18_action_btn_condition",
+                  "title": "Button18 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button19ActionBtn",
+                  "attribute": "dmx-bind:button19_action_btn",
+                  "title": "Button19 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button19ActionTitle",
+                  "attribute": "button19_action_title",
+                  "title": "Button19 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button19ActionTooltip",
+                  "attribute": "button19_action_tooltip",
+                  "title": "Button19 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button19ActionBtnClass",
+                  "attribute": "button19_action_btn_class",
+                  "title": "Button19 Class",
+                  "type": "text",
+                  "defaultValue": "btn-success btn-sm m-1"
+                },
+                {
+                  "name": "button19ActionIconClass",
+                  "attribute": "button19_action_icon_class",
+                  "title": "Button19 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-star"
+                },
+                {
+                  "name": "button19ActionBtnCondition",
+                  "attribute": "button19_action_btn_condition",
+                  "title": "Button19 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button20ActionBtn",
+                  "attribute": "dmx-bind:button20_action_btn",
+                  "title": "Button20 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button20ActionTitle",
+                  "attribute": "button20_action_title",
+                  "title": "Button20 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button20ActionTooltip",
+                  "attribute": "button20_action_tooltip",
+                  "title": "Button20 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button20ActionBtnClass",
+                  "attribute": "button20_action_btn_class",
+                  "title": "Button20 Class",
+                  "type": "text",
+                  "defaultValue": "btn-danger btn-sm m-1"
+                },
+                {
+                  "name": "button20ActionIconClass",
+                  "attribute": "button20_action_icon_class",
+                  "title": "Button20 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-trash-alt"
+                },
+                {
+                  "name": "button20ActionBtnCondition",
+                  "attribute": "button20_action_btn_condition",
+                  "title": "Button20 Condition",
                   "type": "text"
                 }
 
