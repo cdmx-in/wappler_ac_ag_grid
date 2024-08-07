@@ -2677,11 +2677,11 @@
           "dst": "js/locale/pt.js"
         },
         {
-          "src": "pdfmake.min.js",
+          "src": "../../../node_modules/pdfmake/build/pdfmake.min.js",
           "dst": "js/pdfmake.min.js"
         },
         {
-          "src": "vfs_fonts.js",
+          "src": "../../../node_modules/pdfmake/build/vfs_fonts.js",
           "dst": "js/vfs_fonts.js"
         }
       ],
@@ -2718,6 +2718,16 @@
         },
         {
           "src": "js/locale/pt.js",
+          "type": "js",
+          "defer": true
+        },
+        {
+          "src": "js/pdfmake.min.js",
+          "type": "js",
+          "defer": true
+        },
+        {
+          "src": "js/vfs_fonts.js",
           "type": "js",
           "defer": true
         },
