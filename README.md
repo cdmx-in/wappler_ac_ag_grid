@@ -402,7 +402,7 @@ Specify the condition to Show the Delete Action button, eg: code==TEST, or statu
 
 # Custom Action Buttons
 
-**Buttons 1-10**
+**Buttons 1-20**
 
 **Button[i] Action Button**
 This will display the "Button[i] Action Button" options.
@@ -421,6 +421,10 @@ Specify the CSS class for styling the icon of the Button[i] Action button.
 
 **Button[i] Action Button Condition**
 Specify the condition to Show the Button[i] Action button, eg: code==TEST, or status==COMPLETED||status==FINISHED or status==COMPLETED&&user_status==true
+
+# Button Class Toggles
+The Button Class Toggles feature provides a way to define and manage classes for action buttons within a grid, based on certain data conditions. This can be useful for dynamically updating button styles based on the state of the row data.
+Specify the condition to apply the defined class on the Action button, eg: code==TEST, or status==COMPLETED||status==FINISHED or status==COMPLETED&&user_status==true
 
 # Action Attributes
 
