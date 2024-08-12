@@ -279,7 +279,10 @@ dmx.Component('ag-grid', {
       }, this);
     },
     exportGrid: function (Csv, Pdf) {
-      if (!Csv && !Pdf) return;
+      // Default Csv to true if both Csv and Pdf are false
+      if (!Csv && !Pdf) {
+        Csv = true;
+      }
       dmx.nextTick(() => {
         const exportFunction = Csv ? exportGridData : (Pdf ? exportGridDataToPDF : null);
         if (typeof exportFunction === 'function') {
@@ -1727,11 +1730,10 @@ dmx.Component('ag-grid', {
       console.error(`Grid container element with ID '${options.id}'-grid not found.`);
       return;
     }
-
-    // if (gridInstance) {
-    //     gridInstance.destroy();
-    //     gridInstance = null;
-    // }
+    if (gridInstance) {
+        gridInstance.destroy();
+        gridInstance = null;
+    }
     const getPageId = () => {
       const currentPageUrl = window.location.origin + window.location.pathname;
       const optionsId = options.id+'-grid';
