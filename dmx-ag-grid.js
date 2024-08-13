@@ -1592,6 +1592,11 @@ dmx.Component('ag-grid', {
       },
       onGridReady: (params) => {
         const columnApi = params.api;
+        if (options.loading_overlay) {
+          setTimeout(() => {
+            columnApi.setGridOption("loading", false)
+          }, options.loading_overlay_duration);
+        }
         if (options.csort && options.csort.length > 0) {
           let sortModel = options.csort.map(function(sortItem, index) {
               return {
@@ -1764,11 +1769,7 @@ dmx.Component('ag-grid', {
     gridInstance.setGridOption('rowData', rowData)
     if (options.loading_overlay) {
       gridInstance.setGridOption("loading", true)
-      setTimeout(() => {
-        gridInstance.hideOverlay()
-      }, options.loading_overlay_duration);
     }
-    
     if (options.cfilters && options.cfilters.length > 0) {
         var filterModel = {};
         const customFilters = options.cfilters
