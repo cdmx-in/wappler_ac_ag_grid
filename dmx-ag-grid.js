@@ -844,10 +844,10 @@ dmx.Component('ag-grid', {
       if (params.value) {
         const date = new Date(params.value)
         if (timezone) {
-          const options = {
-            timeZone: timezone,
+          const tzOptions = {
+            timeZone: timezone
           };
-          const convertedTimestamp = date.toLocaleString(options.date_locale, options);
+          const convertedTimestamp = date.toLocaleString('en-GB', tzOptions);
           const [datePart, timePart] = convertedTimestamp.split(', ');
           const [day, month, year] = datePart.split('/');
           const [hours, minutes, seconds] = timePart.split(':');
