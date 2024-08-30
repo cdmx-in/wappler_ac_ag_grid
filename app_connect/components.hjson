@@ -3540,7 +3540,7 @@
       }
     },
     {
-      "name": "dmx-ag-grid-export-filename",
+      "name": "dmx-ag-grid-export-csv-filename",
       "attributeStartsWith": "dmx-bind",
       "attribute": "export_csv_filename",
       "title": "Export CSV Filename",
@@ -3551,8 +3551,7 @@
       "groupIcon": "fa fa-lg fa-cubes",
       "defaultValue": false,
       "show": [
-        "exportCsvFilename",
-        "exportPdfFilename"
+        "exportCsvFilename"
       ],
       "noChangeOnHide": true,
       "groupEnabler": true,
@@ -3568,7 +3567,29 @@
           "help": "Export CSV filename.",
           "defaultValue": "export.csv",
           "initDisplay": "none"
-        },
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-export-pdf-filename",
+      "attributeStartsWith": "dmx-bind",
+      "attribute": "export_pdf_filename",
+      "title": "Export PDF Filename",
+      "type": "boolean",
+      "display": "fieldset",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Config",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "exportPdfFilename"
+      ],
+      "noChangeOnHide": true,
+      "groupEnabler": true,
+      "children": [
         {
           "name": "exportPdfFilename",
           "attributeStartsWith": "dmx-bind",

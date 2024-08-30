@@ -863,11 +863,11 @@ dmx.Component('ag-grid', {
     }
     // comparator for case-insensitive sorting
     const caseInsensitiveComparator = (valueA, valueB) => {
-      if (valueA === null || valueA === undefined) {
-        return valueB === null || valueB === undefined ? 0 : -1;
+      if (valueA === null || valueA === undefined || valueA === '' || typeof valueA === 'number') {
+        return valueB === null || valueB === undefined || valueB === '' || typeof valueB === 'number' ? 0 : -1;
       }
       
-      if (valueB === null || valueB === undefined) {
+      if (valueB === null || valueB === undefined || valueB === '' || typeof valueB === 'number') {
         return 1;
       }
       
