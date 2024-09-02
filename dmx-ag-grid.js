@@ -863,15 +863,29 @@ dmx.Component('ag-grid', {
     }
     // comparator for case-insensitive sorting
     const caseInsensitiveComparator = (valueA, valueB) => {
-      if (valueA === null || valueA === undefined || valueA === '' || typeof valueA === 'number') {
-        return valueB === null || valueB === undefined || valueB === '' || typeof valueB === 'number' ? 0 : -1;
+      // Check for null, undefined, or empty strings
+      if (valueA === null || valueA === undefined || valueA === '') {
+        return valueB === null || valueB === undefined || valueB === '' ? 0 : -1;
       }
-      
-      if (valueB === null || valueB === undefined || valueB === '' || typeof valueB === 'number') {
+    
+      if (valueB === null || valueB === undefined || valueB === '') {
         return 1;
       }
-      
-      return valueA.toLowerCase().localeCompare(valueB.toLowerCase());
+    
+      // Convert values to numbers if they are numeric
+      const numA = Number(valueA);
+      const numB = Number(valueB);
+    
+      // If both values are numbers
+      if (!isNaN(numA) && !isNaN(numB)) {
+        return numA - numB;
+      }
+    
+      // Convert non-number values to strings for case-insensitive comparison
+      const strA = typeof valueA === 'string' ? valueA : String(valueA);
+      const strB = typeof valueB === 'string' ? valueB : String(valueB);
+    
+      return strA.toLowerCase().localeCompare(strB.toLowerCase());
     };
     //Custom Row Styles
     function createRowStyleFunction(rstyles) {
