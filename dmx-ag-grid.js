@@ -1910,6 +1910,12 @@ dmx.Component('ag-grid', {
             position: fixed;
             bottom: 0;
           }
+          .ag-sticky-bottom {
+            display: none;
+          }
+          .ag-paging-panel {
+            border-top: none;
+          }
         `;
         if (existingStyle) {
           existingStyle.parentNode.replaceChild(styleElement, existingStyle);
