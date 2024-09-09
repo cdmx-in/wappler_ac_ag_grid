@@ -2240,6 +2240,42 @@ dmx.Component('ag-grid', {
       gridContainer.parentNode.insertBefore(exportPdfButton, gridContainer);
       exportPdfButton.style.marginBottom = '10px';
     }
+    const paginationPanelCss = `
+      /* Flexbox layout for pagination panel */
+      .ag-paging-panel {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      
+      /* Adjust layout for tablets and smaller devices */
+      @media (max-width: 768px) {
+        .ag-paging-panel {
+          height: 100px !important;
+        }
+        .ag-paging-page-size {
+          width: 60%; /* Ensure it takes up 60% width */
+          display: flex;
+          align-items: center;
+          order: 2; /* Force it to be positioned after the summary panel */
+          margin-top: 20px;
+      }
+      
+        /* Ensure to/from, next/previous are visible */
+        .ag-paging-row-summary-panel,
+        .ag-paging-page-summary-panel {
+            display: inline-block;
+            width: 100%; /* Ensure it takes full width */
+            flex-wrap: wrap;
+            justify-content: space-between;
+            text-align: center;
+        }
+      }
+    `;
+
+    const paginationPanelStyle = document.createElement('style');
+    paginationPanelStyle.innerHTML = paginationPanelCss;
+    document.appendChild(paginationPanelStyle);
+
     // Return grid instance
     return gridInstance;
     
