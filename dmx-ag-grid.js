@@ -2261,11 +2261,15 @@ dmx.Component('ag-grid', {
       }
       
         /* Ensure to/from, next/previous are visible */
-        .ag-paging-row-summary-panel,
-        .ag-paging-page-summary-panel {
-            display: inline-block;
+        .ag-paging-row-summary-panel {
+          display: inline-block;
             width: 100%; /* Ensure it takes full width */
-            flex-wrap: wrap;
+            justify-content: space-between;
+            text-align: center;
+        }
+        .ag-paging-page-summary-panel {
+            display: flex;
+            width: 100%; /* Ensure it takes full width */
             justify-content: space-between;
             text-align: center;
         }
@@ -2274,7 +2278,7 @@ dmx.Component('ag-grid', {
 
     const paginationPanelStyle = document.createElement('style');
     paginationPanelStyle.innerHTML = paginationPanelCss;
-    document.appendChild(paginationPanelStyle);
+    document.head.appendChild(paginationPanelStyle);
 
     // Return grid instance
     return gridInstance;
