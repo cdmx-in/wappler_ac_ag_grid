@@ -278,6 +278,12 @@ dmx.Component('ag-grid', {
       this.set('gridInstance', gridInstance);
       }, this);
     },
+    destroyGrid: function () {
+      dmx.nextTick(function() {
+      var gridInstance = this.get('gridInstance');
+      if (gridInstance) gridInstance.destroy();
+      }, this);
+    },
     exportGrid: function (Csv, Pdf) {
       // Default Csv to true if both Csv and Pdf are false
       if (!Csv && !Pdf) {
@@ -461,7 +467,7 @@ dmx.Component('ag-grid', {
     const cwidths = this.props.cwidths
     const ctypes = this.props.ctypes
     if (!this.$node || !rowData || rowData.length === 0) {
-      console.error('No row data provided.');
+      console.error('No row data provided.')
       return;
     }
     let gridInstance = this.get('gridInstance') ? this.get('gridInstance') : null;

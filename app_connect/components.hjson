@@ -3042,6 +3042,15 @@
           ]
         },
         {
+          addTitle: 'Destroy',
+          title : 'Destroy',
+          name : 'destroyGrid',
+          icon : 'fa fa-lg fa-trash',
+          state : 'opened',
+          help: 'Destroy the AG Grid',
+          properties : []
+        },
+        {
           addTitle: 'Export',
           title: 'Export',
           name: 'exportGrid',
