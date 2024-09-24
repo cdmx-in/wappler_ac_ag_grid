@@ -1378,7 +1378,7 @@ dmx.Component('ag-grid', {
         return {
           headerName: headerName,
           field: key,
-          filter: filter,
+          filter: options.filter ? filter : null,
           valueFormatter: valueFormatter,
           valueGetter: valueGetter,
           minWidth: minWidth,
