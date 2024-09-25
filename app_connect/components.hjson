@@ -193,14 +193,6 @@
               "help": "Specifies Column Hover Highlighting"
             },
             {
-              "name": "suppressRowDeselection",
-              "attribute": "dmx-bind:suppress_row_deselection",
-              "title": "Supress Row Deselection",
-              "type": "boolean",
-              "defaultValue": false,
-              "help": "Specifies if rows can be deselected"
-            },
-            {
               "name": "pagination",
               "attribute": "dmx-bind:pagination",
               "title": "Pagination",
@@ -268,10 +260,10 @@
               "attribute": "row_selection",
               "title": "Row Selection",
               "type": "droplist",
-              "defaultValue": 'multiple',
+              "defaultValue": 'multiRow',
               "values": [
-              {title: 'Single', value: 'single'},
-              {title: 'Muliple', value: 'multiple'}
+              {title: 'Single', value: 'singleRow'},
+              {title: 'Muliple', value: 'multiRow'}
               ],
               "help": "Row Selection (single or multiple)"
             },

@@ -43,7 +43,7 @@ dmx.Component('ag-grid', {
     data: { type: Array, default: [] },
     dom_layout: { type: String, default: 'autoHeight' },
     enable_cell_text_selection: { type: Boolean, default: true },
-    row_selection: { type: String, default: 'multiple' },
+    row_selection: { type: String, default: 'multiRow' },
     suppress_row_deselection: { type: Boolean, default: false },
     pagination: { type: Boolean, default: true },
     pagination_auto_page_size: { type: Boolean, default: false },
@@ -1435,25 +1435,6 @@ dmx.Component('ag-grid', {
       this.set('id', rowData.id);
       this.dispatchEvent('row_double_clicked')
     }
-    let checkboxColumn;
-    if (options.row_checkbox_event) {
-        checkboxColumn = {
-          headerCheckboxSelection: true,
-          headerCheckboxSelectionFilteredOnly: true,
-          headerName: '',
-          colId: 'checkboxColumn',
-          field: null,
-          filter: '',
-          checkboxSelection: true,
-          showDisabledCheckboxes: true,
-          resizable: false,
-          editable: false,
-          width: 50,
-          maxWidth: 50, 
-          suppressHeaderMenuButton: true
-      };
-      columnDefs.unshift(checkboxColumn);
-    }
     if (options.enable_actions) {
       actionsColumn = {
         headerName: 'Actions',
@@ -1580,18 +1561,23 @@ dmx.Component('ag-grid', {
         editable: options.cell_editable,
         floatingFilter: options.floating_filter
       },
+      selection: {
+          mode: options.row_selection,
+          selectAll: "filtered",
+          checkboxes: options.row_checkbox_event,  // To enable checkboxes
+          headerCheckbox: options.row_checkbox_event, // Header checkbox for select all
+          enableClickSelection: !options.suppress_row_click_selection,  // Allows row selection on click
+          hideDisabledCheckboxes: false  // Show disabled checkboxes
+      },
       editType: (options.row_editable ? 'fullRow': undefined),
       domLayout: this.props.dom_layout,
       enableCellTextSelection: true,
-      rowSelection: this.props.row_selection,
-      suppressRowDeselection: this.props.suppress_row_deselection,
       pagination: this.props.pagination,
       paginationAutoPageSize: this.props.pagination_auto_page_size,
       paginationPageSize: pagination_page_size,
       paginationPageSizeSelector: options.pagination_page_size_selector,
       rowHeight: this.props.row_height,
       headerHeight: this.props.header_height,
-      suppressRowClickSelection: this.props.suppress_row_click_selection,
       suppressMenuHide: this.props.suppress_menu_hide,
       suppressMovableColumns: this.props.suppress_movable_columns,
       enableCellExpressions: this.props.enable_cell_expressions,
@@ -1600,7 +1586,6 @@ dmx.Component('ag-grid', {
       suppressClipboardPaste: this.props.suppress_clipboard_paste,
       suppressScrollOnNewData: this.props.suppress_scroll_on_new_data,
       suppressPropertyNamesCheck: this.props.suppress_property_names_check,
-      suppressRowDeselection: this.props.suppress_row_deselection,
       columnHoverHighlight: this.props.column_hover_highlight,
       onFilterModified: function (params) { 
         const columnApi = params.api;
@@ -1695,6 +1680,21 @@ dmx.Component('ag-grid', {
         actionsRenderer: actionsRenderer
       }
     };
+    if (options.row_checkbox_event) {
+      gridOptions.onRowSelected = (event) => {
+        if (event.node && event.node.isSelected()) {
+          const rowData = event.node.data;
+          this.set('data', rowData);
+          this.set('id', rowData.id);
+          this.dispatchEvent('row_checkbox_checked');
+        } else {
+          const rowData = event.node.data;
+          this.set('data', rowData);
+          this.set('id', rowData.id);
+          this.dispatchEvent('row_checkbox_unchecked');
+        }
+      };
+    }
     const totalRow = function (api, columnsToSum, columnsToCount) {
       if (!columnsToSum && !columnsToCount) {
         return;
@@ -1825,22 +1825,6 @@ dmx.Component('ag-grid', {
       gridElement.style.setProperty('--ag-list-item-height', `${options.compact_view_item_height}`+'px');
     }
     const gridContainer = gridElement.parentNode;
-    // Add an event listener to the grid
-    if (options.row_checkbox_event) {
-      gridInstance.addEventListener('rowSelected', (event) => {
-        if (event.node && event.node.isSelected()) {
-          const rowData = event.node.data;
-          this.set('data', rowData);
-          this.set('id', rowData.id);
-          this.dispatchEvent('row_checkbox_checked');
-        } else {
-          const rowData = event.node.data;
-          this.set('data', rowData);
-          this.set('id', rowData.id);
-          this.dispatchEvent('row_checkbox_unchecked');
-        }
-      });
-  }
     if (!gridContainer) {
       console.error('Grid container not found.');
       return;
