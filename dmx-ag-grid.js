@@ -467,7 +467,7 @@ dmx.Component('ag-grid', {
     const cwidths = this.props.cwidths
     const ctypes = this.props.ctypes
     if (!this.$node || !rowData || rowData.length === 0) {
-      console.error('No row data provided.')
+      console.debug('AG Grid loaded with no row data.')
       return;
     }
     let gridInstance = this.get('gridInstance') ? this.get('gridInstance') : null;
