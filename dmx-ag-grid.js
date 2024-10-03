@@ -1502,7 +1502,7 @@ dmx.Component('ag-grid', {
       }
       
       if (options.enable_custom_action_btns) {
-        for (let i = 1; i <= 10; i++) {
+        for (let i = 1; i <= 20; i++) {
           const buttonActionKey = `button${i}_action_btn`;
           const buttonTitleKey = `button${i}_action_title`;
           const buttonClassKey = `button${i}_action_btn_class`;
