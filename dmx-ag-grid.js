@@ -1561,7 +1561,7 @@ dmx.Component('ag-grid', {
         editable: options.cell_editable,
         floatingFilter: options.floating_filter
       },
-      selection: {
+      rowSelection: {
           mode: options.row_selection,
           selectAll: "filtered",
           checkboxes: options.row_checkbox_event,  // To enable checkboxes
