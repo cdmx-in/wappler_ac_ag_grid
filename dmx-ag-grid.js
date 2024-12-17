@@ -394,37 +394,36 @@ dmx.Component('ag-grid', {
       });
     };
   
-    const parseExcel = (excelData) => {
+    const parseExcel = (file) => {
       return new Promise((resolve, reject) => {
-        const workbook = new ExcelJS.Workbook();
-        workbook.xlsx.load(excelData)
-          .then(() => {
-            const worksheet = workbook.getWorksheet(1);
-            const data = [];
-            const headers = [];
-  
-            worksheet.eachRow((row, rowNumber) => {
-              if (rowNumber === 1) {
-                row.eachCell((cell) => {
-                  headers.push(cell.value);
-                });
+        const headers = [];
+        const data = [];
+        readXlsxFile(file)
+          .then((rows) => {
+            rows.forEach((row, rowIndex) => {
+              if (rowIndex === 0) {
+                // First row contains headers
+                headers.push(...row);
               } else {
+                // Map data rows to objects using the headers
                 const rowData = {};
-                row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-                  rowData[headers[colNumber - 1]] = cell.value;
+                row.forEach((cell, colIndex) => {
+                  // Use headers to map values to the respective columns
+                  rowData[headers[colIndex]] = cell;
                 });
                 data.push(rowData);
               }
             });
-  
+            // Resolve the promise with the parsed data
             resolve(data);
           })
           .catch((error) => {
+            // Reject the promise in case of an error
             reject(error.message);
           });
       });
     };
-  
+    
     const fileInput = document.getElementById(fieldId);
     if (!fileInput) {
       console.error('Field having field Id: '+fieldId+' not found.');
@@ -438,19 +437,17 @@ dmx.Component('ag-grid', {
     const reader = new FileReader();
     reader.onload = async (e) => {
       const fileData = e.target.result;
-  
       try {
         let parsedData;
         // Detect the file type based on the file extension or other criteria
         if (file.name.endsWith('.csv')) {
           parsedData = await parseCSV(fileData);
         } else if (file.name.endsWith('.xlsx') || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-          parsedData = await parseExcel(fileData);
+          parsedData = await parseExcel(file);
         } else {
           console.error('Unsupported file type. Please select a CSV or Excel file.');
           return;
         }
-  
         this.set('fileData', parsedData);
       } catch (error) {
         console.error('Error parsing file:', error);

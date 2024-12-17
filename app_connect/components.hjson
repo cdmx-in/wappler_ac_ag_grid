@@ -3176,8 +3176,8 @@
           "dst": "js/papaparse.js"
         },
         {
-          "src": "../../../node_modules/exceljs/dist/exceljs.min.js",
-          "dst": "js/exceljs.min.js"
+          "src": "../../../node_modules/read-excel-file/bundle/read-excel-file.min.js",
+          "dst": "js/read-excel-file.min.js"
         },
         {
           "src": "../../../node_modules/pdfmake/build/pdfmake.min.js",
