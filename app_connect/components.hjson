@@ -3241,7 +3241,7 @@
           "defer": true
         },
         {
-          "src": "js/exceljs.min.js",
+          "src": "js/read-excel-file.min.js",
           "type": "js",
           "defer": true
         },

@@ -474,6 +474,7 @@ dmx.Component('ag-grid', {
     const enableCellClickEvent = this.props.row_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
     const enableCellDoubleClickEvent = this.props.row_double_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
     const actionButtonClassToggles = options.action_button_class_toggles
+    let localeText;
     let columnDefs = [];
     let groupedColumnDefs = [];
     let exportToCSV = this.props.export_to_csv;
@@ -1525,17 +1526,23 @@ dmx.Component('ag-grid', {
     }
       options.actions_column_position=='right' ? columnDefs.push(actionsColumn):columnDefs.unshift(actionsColumn);
     }
-    const localeMap = {
-      'HE': AG_GRID_LOCALE_HE,
-      'RU': AG_GRID_LOCALE_RU,
-      'PT': AG_GRID_LOCALE_PT,
-      'ES': AG_GRID_LOCALE_ES,
-    };
+    if (options.locale_text == 'HE') {
+      localeText = AG_GRID_LOCALE_IL
+    }
+    else if (options.locale_text == 'RU') {
+      localeText = AG_GRID_LOCALE_RU
+    }
+    else if (options.locale_text == 'PT') {
+      localeText = AG_GRID_LOCALE_PT
+    }
+    else if (options.locale_text == 'ES') {
+      localeText = AG_GRID_LOCALE_ES
+    }
     const gridOptions = {
       ...(idFieldPresent ? { getRowId: params => String(params.data.id) } : {}),
       columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
       getRowStyle: options.rstyles ? createRowStyleFunction(options.rstyles): undefined,
-      localeText: localeMap[options.locale_text] || null,
+      localeText: localeText,
       enableRtl: options.enable_rtl,
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
       onRowDoubleClicked: enableRowDoubleClickEvent ? onRowDoubleClicked : undefined,
@@ -1822,11 +1829,10 @@ dmx.Component('ag-grid', {
       console.error('Grid container not found.');
       return;
     }
-    const agHeader = gridElement.querySelector('.ag-header');
-    const agRootWrapper = gridElement.querySelector('.ag-root-wrapper');
-
     // Function to adjust the header width
     function adjustHeaderWidth() {
+      const agHeader = gridElement.querySelector('.ag-header');
+      const agRootWrapper = gridElement.querySelector('.ag-root-wrapper');
       if (agHeader && agRootWrapper) {
         const rootWrapperWidth = agRootWrapper.clientWidth;
         const newHeaderWidth = rootWrapperWidth * 1.0;
