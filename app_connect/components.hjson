@@ -119,9 +119,10 @@
               {title: 'English', value: 'EN'},
               {title: 'Hebrew', value: 'HE'},
               {title: 'Russian', value: 'RU'},
-              {title: 'Portuguese', value: 'PT'}
+              {title: 'Portuguese', value: 'PT'},
+              {title: 'Spanish', value: 'ES'}
               ],
-              "help": "Select locale for the Grid, Currently Supproted Hebrew (HE), Russian (RU) and English (EN) locale"
+              "help": "Select locale for the Grid, Currently Supproted Hebrew (HE), Russian (RU), Spanish (ES) and English (EN) locale"
             }
           ]
         },
@@ -3212,16 +3213,12 @@
           "dst": "js/dmx-ag-grid.js"
         },
         {
-          "src": "he.js",
-          "dst": "js/locale/he.js"
+          "src": "../../../node_modules/@ag-grid-community/locale/dist/umd/@ag-grid-community/locale.min.js",
+          "dst": "js/locale/locale.min.js"
         },
         {
           "src": "ru.js",
           "dst": "js/locale/ru.js"
-        },
-        {
-          "src": "pt.js",
-          "dst": "js/locale/pt.js"
         },
         {
           "src": "../../../node_modules/pdfmake/build/pdfmake.min.js",
@@ -3254,17 +3251,12 @@
           "defer": true
         },
         {
-          "src": "js/locale/he.js",
+          "src": "js/locale/locale.min.js",
           "type": "js",
           "defer": true
         },
         {
           "src": "js/locale/ru.js",
-          "type": "js",
-          "defer": true
-        },
-        {
-          "src": "js/locale/pt.js",
           "type": "js",
           "defer": true
         },

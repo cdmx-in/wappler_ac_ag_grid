@@ -474,7 +474,6 @@ dmx.Component('ag-grid', {
     const enableCellClickEvent = this.props.row_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
     const enableCellDoubleClickEvent = this.props.row_double_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
     const actionButtonClassToggles = options.action_button_class_toggles
-    let localeText;
     let columnDefs = [];
     let groupedColumnDefs = [];
     let exportToCSV = this.props.export_to_csv;
@@ -1526,20 +1525,17 @@ dmx.Component('ag-grid', {
     }
       options.actions_column_position=='right' ? columnDefs.push(actionsColumn):columnDefs.unshift(actionsColumn);
     }
-    if (options.locale_text == 'HE') {
-      localeText = AG_GRID_LOCALE_HE
-    }
-    else if (options.locale_text == 'RU') {
-      localeText = AG_GRID_LOCALE_RU
-    }
-    else if (options.locale_text == 'PT') {
-      localeText = AG_GRID_LOCALE_PT
-    }
+    const localeMap = {
+      'HE': AG_GRID_LOCALE_HE,
+      'RU': AG_GRID_LOCALE_RU,
+      'PT': AG_GRID_LOCALE_PT,
+      'ES': AG_GRID_LOCALE_ES,
+    };
     const gridOptions = {
       ...(idFieldPresent ? { getRowId: params => String(params.data.id) } : {}),
       columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
       getRowStyle: options.rstyles ? createRowStyleFunction(options.rstyles): undefined,
-      localeText: localeText,
+      localeText: localeMap[options.locale_text] || null,
       enableRtl: options.enable_rtl,
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
       onRowDoubleClicked: enableRowDoubleClickEvent ? onRowDoubleClicked : undefined,
@@ -2314,7 +2310,12 @@ dmx.Component('ag-grid', {
   },
 
   requestUpdate: function (props, oldValue) {
-    this.set('count', this.props.data.length);
+    // Check if data exists before trying to access its length
+    if (this.props.data) {
+      this.set('count', this.props.data.length);
+    } else {
+      this.set('count', 0);
+    }
     if (!dmx.equal(this.props.data, oldValue?.data) && !this.props.noload) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
