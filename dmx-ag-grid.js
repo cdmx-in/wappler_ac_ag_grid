@@ -62,7 +62,6 @@ dmx.Component('ag-grid', {
     suppress_agg_at_root_level: { type: Boolean, default: false },
     suppress_clipboard_paste: { type: Boolean, default: false },
     suppress_scroll_on_new_data: { type: Boolean, default: false },
-    suppress_property_names_check: { type: Boolean, default: false },
     hide_id_field: { type: Boolean, default: false },
     numeric_column_align: { type: Boolean, default: false },
     enable_rtl: { type: Boolean, default: false },
@@ -128,6 +127,7 @@ dmx.Component('ag-grid', {
     delete_action_btn_condition: {type: String, default: null },
     enable_custom_action_btns: { type: Boolean, default: false },
     action_button_class_toggles: { type: Array, default: [] },
+    action_button_icon_class_toggles: { type: Array, default: [] },
     button1_action_btn: { type: "Boolean", default: false },
     button1_action_title: { type: "String", default: "" },
     button1_action_tooltip: { type: "String", default: "" },
@@ -474,6 +474,7 @@ dmx.Component('ag-grid', {
     const enableCellClickEvent = this.props.row_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
     const enableCellDoubleClickEvent = this.props.row_double_click_event && (this.props.enable_actions || this.props.row_checkbox_event);
     const actionButtonClassToggles = options.action_button_class_toggles
+    const actionButtonIconClassToggles = options.action_button_icon_class_toggles
     let localeText;
     let columnDefs = [];
     let groupedColumnDefs = [];
@@ -621,9 +622,18 @@ dmx.Component('ag-grid', {
           button.innerHTML = `<i class="${buttonConfig.icon}"></i> ${buttonConfig.action}`;
           container.appendChild(button);
           // Handle dynamic classes based on conditions and buttonConfig.id
+          
           actionButtonClassToggles.forEach((toggle) => {
-            if (toggle.btn_id === buttonConfig.id && evaluateConditions([toggle.condition], params)) {
+            if (toggle.btn_id.toLowerCase() === buttonConfig.id && evaluateConditions([toggle.condition], params)) {
                 button.classList.add(...toggle.class.split(' '));
+            }
+          });
+          actionButtonIconClassToggles.forEach((iconToggle) => {
+            if (iconToggle.btn_id.toLowerCase() === buttonConfig.id && evaluateConditions([iconToggle.condition], params)) {
+                const iconElement = button.querySelector('i');
+                if (iconElement) {
+                    iconElement.classList.add(...iconToggle.class.split(' '));
+                }
             }
           });
            // Check if the button should be hidden based on the condition string and row data
@@ -714,22 +724,29 @@ dmx.Component('ag-grid', {
           if (part === '||' || part === '&&') {
               operators.push(part);
           } else {
-              const [left, operator, right] = extractConditionParts(part);
-              const result = params.data[left] !== null ? evaluateCondition(params.data[left], operator, right) : false;
-              results.push(result);
+              const hasOperator = /(==|!=|<=|>=|<|>)/.test(part);
+              if (!hasOperator) {
+                const left = part;
+                const result = params.data[left] !== null && params.data[left] !== undefined && params.data[left] !== ""; 
+                results.push(result);
+              } else {
+                  const [left, operator, right] = extractConditionParts(part);
+                  const result = params.data[left] !== null ? evaluateCondition(params.data[left], operator, right) : false;
+                  results.push(result);
+              }
           }
       }
       let finalResult = results[0];
-      
+
       for (let i = 0; i < operators.length; i++) {
-        if (operators[i] === '||') {
-            finalResult = finalResult || results[i + 1];
-        } else if (operators[i] === '&&') {
-            finalResult = finalResult && results[i + 1];
-        }
-    }
+          if (operators[i] === '||') {
+              finalResult = finalResult || results[i + 1];
+          } else if (operators[i] === '&&') {
+              finalResult = finalResult && results[i + 1];
+          }
+      }
       return finalResult;
-    }
+  }
     
     function evaluateCondition(left, operator, right) {
       switch (operator) {
@@ -1585,7 +1602,6 @@ dmx.Component('ag-grid', {
       suppressAggFuncInHeader: this.props.suppress_agg_func_in_header,
       suppressClipboardPaste: this.props.suppress_clipboard_paste,
       suppressScrollOnNewData: this.props.suppress_scroll_on_new_data,
-      suppressPropertyNamesCheck: this.props.suppress_property_names_check,
       columnHoverHighlight: this.props.column_hover_highlight,
       onFilterModified: function (params) { 
         const columnApi = params.api;

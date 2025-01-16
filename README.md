@@ -423,7 +423,14 @@ Specify the condition to Show the Button[i] Action button, eg: code==TEST, or st
 
 # Button Class Toggles
 The Button Class Toggles feature provides a way to define and manage classes for action buttons within a grid, based on certain data conditions. This can be useful for dynamically updating button styles based on the state of the row data.
-Specify the condition to apply the defined class on the Action button, eg: code==TEST, or status==COMPLETED||status==FINISHED or status==COMPLETED&&user_status==true
+Specify the condition to apply the defined class on the Action button, 
+eg: code==TEST, or status==COMPLETED||status==FINISHED or status==COMPLETED&&user_status==true
+You can also specify left-only conditions, where only the field name is provided. The field is then evaluated for its truthiness ie if value present/true(bool) eg: status
+
+# Button Icon Class Toggles
+The Icon Class Toggles feature works similarly to Button Class Toggles but is used to apply classes to icons in the action buttons based on conditions in the row data. This allows you to dynamically update the icons
+eg: code==TEST, or status==COMPLETED||status==FINISHED or status==COMPLETED&&user_status==true
+You can also specify left-only conditions, where only the field name is provided. The field is then evaluated for its truthiness ie if value present/true(bool) eg: status
 
 # Action Attributes
 

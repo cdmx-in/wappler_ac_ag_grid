@@ -2930,7 +2930,7 @@
               "type": "boolean",
               "defaultValue": false,
               "display": "fieldset",
-              "show": ["actionBtnsClassToggles"],
+              "show": ["actionBtnsClassToggles","actionBtnsIconClassToggles"],
               "noChangeOnHide": true,
               "groupEnabler": true,
               "children": [
@@ -2997,11 +2997,75 @@
                     "class": "",
                     "condition": ""
                   }
+                },
+                {
+                  "name": "actionBtnsIconClassToggles",
+                  "attribute": "dmx-bind:action_button_icon_class_toggles",
+                  "title": "Buttons Icon Classes",
+                  "type": "grid",
+                  "jsonFormat": true,
+                  "dataBindings": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "btn_id",
+                      "caption": "Button",
+                      "editable": {
+                        "type": "list",
+                        "items": [
+                          {"id": "edit", "text": "Edit"},
+                          {"id": "view", "text": "View"},
+                          {"id": "delete", "text": "Delete"},
+                          {"id": "button1", "text": "Button 1"},
+                          {"id": "button2", "text": "Button 2"},
+                          {"id": "button3", "text": "Button 3"},
+                          {"id": "button4", "text": "Button 4"},
+                          {"id": "button5", "text": "Button 5"},
+                          {"id": "button6", "text": "Button 6"},
+                          {"id": "button7", "text": "Button 7"},
+                          {"id": "button8", "text": "Button 8"},
+                          {"id": "button9", "text": "Button 9"},
+                          {"id": "button10", "text": "Button 10"},
+                          {"id": "button11", "text": "Button 11"},
+                          {"id": "button12", "text": "Button 12"},
+                          {"id": "button13", "text": "Button 13"},
+                          {"id": "button14", "text": "Button 14"},
+                          {"id": "button15", "text": "Button 15"},
+                          {"id": "button16", "text": "Button 16"},
+                          {"id": "button17", "text": "Button 17"},
+                          {"id": "button18", "text": "Button 18"},
+                          {"id": "button19", "text": "Button 19"},
+                          {"id": "button20", "text": "Button 20"}
+                        ]
+                      }
+                    },
+                    {
+                      "field": "class",
+                      "caption": "Class",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "condition",
+                      "caption": "Condition",
+                      "editable": {
+                        "type": "text"
+                      }
+                    }
+                  ],
+                  "newRecord": {
+                    "btn_id": "",
+                    "class": "",
+                    "condition": ""
+                  }
                 }
               ]
             }
-          ]
-        }
+              ]
+            }
 
       ],
       actionsScheme: [
