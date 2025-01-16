@@ -1673,12 +1673,12 @@
                       "editable": {
                         "type": "list",
                         "items": [
-                          {"id": "startsWith", "text": "Starts With"},
-                          {"id": "lessThan", "text": "Less Than"},
-                          {"id": "dateFrom", "text": "Date From"},
-                          {"id": "greaterThan", "text": "Greater Than"},
-                          {"id": "equals", "text": "Equals"},
-                          {"id": "contains", "text": "Contains"}
+                          {"id": "startsWith", "text": "startsWith"},
+                          {"id": "lessThan", "text": "lessThan"},
+                          {"id": "dateFrom", "text": "dateFrom"},
+                          {"id": "greaterThan", "text": "greaterThan"},
+                          {"id": "equals", "text": "equals"},
+                          {"id": "contains", "text": "contains"}
                         ]
                       }
                       "help": "Filter type: startsWith, lessThan, dateFrom, etc."
@@ -1737,8 +1737,8 @@
                       "editable": {
                         "type": "list",
                         "items": [
-                          {"id": "asc", "text": "Ascending"},
-                          {"id": "desc", "text": "Descending"}
+                          {"id": "asc", "text": "asc"},
+                          {"id": "desc", "text": "desc"}
                         ]
                       }
                       "help": "Sort Order for the fields."
@@ -2951,29 +2951,29 @@
                       "editable": {
                         "type": "list",
                         "items": [
-                          {"id": "edit", "text": "Edit"},
-                          {"id": "view", "text": "View"},
-                          {"id": "delete", "text": "Delete"},
-                          {"id": "button1", "text": "Button 1"},
-                          {"id": "button2", "text": "Button 2"},
-                          {"id": "button3", "text": "Button 3"},
-                          {"id": "button4", "text": "Button 4"},
-                          {"id": "button5", "text": "Button 5"},
-                          {"id": "button6", "text": "Button 6"},
-                          {"id": "button7", "text": "Button 7"},
-                          {"id": "button8", "text": "Button 8"},
-                          {"id": "button9", "text": "Button 9"},
-                          {"id": "button10", "text": "Button 10"},
-                          {"id": "button11", "text": "Button 11"},
-                          {"id": "button12", "text": "Button 12"},
-                          {"id": "button13", "text": "Button 13"},
-                          {"id": "button14", "text": "Button 14"},
-                          {"id": "button15", "text": "Button 15"},
-                          {"id": "button16", "text": "Button 16"},
-                          {"id": "button17", "text": "Button 17"},
-                          {"id": "button18", "text": "Button 18"},
-                          {"id": "button19", "text": "Button 19"},
-                          {"id": "button20", "text": "Button 20"}
+                          {"id": "edit", "text": "edit"},
+                          {"id": "view", "text": "view"},
+                          {"id": "delete", "text": "delete"},
+                          {"id": "button1", "text": "button1"},
+                          {"id": "button2", "text": "button2"},
+                          {"id": "button3", "text": "button3"},
+                          {"id": "button4", "text": "button4"},
+                          {"id": "button5", "text": "button5"},
+                          {"id": "button6", "text": "button6"},
+                          {"id": "button7", "text": "button7"},
+                          {"id": "button8", "text": "button8"},
+                          {"id": "button9", "text": "button9"},
+                          {"id": "button10", "text": "button10"},
+                          {"id": "button11", "text": "button11"},
+                          {"id": "button12", "text": "button12"},
+                          {"id": "button13", "text": "button13"},
+                          {"id": "button14", "text": "button14"},
+                          {"id": "button15", "text": "button15"},
+                          {"id": "button16", "text": "button16"},
+                          {"id": "button17", "text": "button17"},
+                          {"id": "button18", "text": "button18"},
+                          {"id": "button19", "text": "button19"},
+                          {"id": "button20", "text": "button20"}
                         ]
                       }
                     },
@@ -3015,29 +3015,29 @@
                       "editable": {
                         "type": "list",
                         "items": [
-                          {"id": "edit", "text": "Edit"},
-                          {"id": "view", "text": "View"},
-                          {"id": "delete", "text": "Delete"},
-                          {"id": "button1", "text": "Button 1"},
-                          {"id": "button2", "text": "Button 2"},
-                          {"id": "button3", "text": "Button 3"},
-                          {"id": "button4", "text": "Button 4"},
-                          {"id": "button5", "text": "Button 5"},
-                          {"id": "button6", "text": "Button 6"},
-                          {"id": "button7", "text": "Button 7"},
-                          {"id": "button8", "text": "Button 8"},
-                          {"id": "button9", "text": "Button 9"},
-                          {"id": "button10", "text": "Button 10"},
-                          {"id": "button11", "text": "Button 11"},
-                          {"id": "button12", "text": "Button 12"},
-                          {"id": "button13", "text": "Button 13"},
-                          {"id": "button14", "text": "Button 14"},
-                          {"id": "button15", "text": "Button 15"},
-                          {"id": "button16", "text": "Button 16"},
-                          {"id": "button17", "text": "Button 17"},
-                          {"id": "button18", "text": "Button 18"},
-                          {"id": "button19", "text": "Button 19"},
-                          {"id": "button20", "text": "Button 20"}
+                          {"id": "edit", "text": "edit"},
+                          {"id": "view", "text": "view"},
+                          {"id": "delete", "text": "delete"},
+                          {"id": "button1", "text": "button1"},
+                          {"id": "button2", "text": "button2"},
+                          {"id": "button3", "text": "button3"},
+                          {"id": "button4", "text": "button4"},
+                          {"id": "button5", "text": "button5"},
+                          {"id": "button6", "text": "button6"},
+                          {"id": "button7", "text": "button7"},
+                          {"id": "button8", "text": "button8"},
+                          {"id": "button9", "text": "button9"},
+                          {"id": "button10", "text": "button10"},
+                          {"id": "button11", "text": "button11"},
+                          {"id": "button12", "text": "button12"},
+                          {"id": "button13", "text": "button13"},
+                          {"id": "button14", "text": "button14"},
+                          {"id": "button15", "text": "button15"},
+                          {"id": "button16", "text": "button16"},
+                          {"id": "button17", "text": "button17"},
+                          {"id": "button18", "text": "button18"},
+                          {"id": "button19", "text": "button19"},
+                          {"id": "button20", "text": "button20"}
                         ]
                       }
                     },
