@@ -210,6 +210,14 @@
               "help": "Built-in pagination size as per page size."
             },
             {
+              "name": "exportTrimData",
+              "attribute": "dmx-bind:export_trim_data",
+              "title": "Trim Export Data",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Specifies if exported data should be trimmed"
+            },
+            {
               "name": "exportToCSV",
               "attribute": "dmx-bind:export_to_csv",
               "title": "CSV Export",

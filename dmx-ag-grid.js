@@ -81,6 +81,7 @@ dmx.Component('ag-grid', {
     floating_filter: { type: Boolean, default: true },
     column_hover_highlight: { type: Boolean, default: true },
     quick_filter_field: { type: String, default: 'search_field' },
+    export_trim_data: { type: Boolean, default: false },
     export_exclude_hidden_fields: { type: Boolean, default: false },
     export_exclude_fields: { type: String, default: null },
     export_to_csv: { type: Boolean, default: true },
@@ -1950,7 +1951,7 @@ dmx.Component('ag-grid', {
 
     //CSV Export Function
     exportGridData = () => {
-      const excludedColumnIds = ['checkboxColumn', 'actionsColumn']; 
+      const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
       const exportExcludeFieldsArray = options.export_exclude_fields ? options.export_exclude_fields.split(',') : [];
       // Extracting fields and colIds from columnDefs
       let fieldsAndColIds;
@@ -1985,7 +1986,7 @@ dmx.Component('ag-grid', {
                (!options.export_exclude_hidden_fields || !column.hide) &&
                !exportExcludeFieldsArray.includes(column.field);
       }).map((column) => column.field);
-      
+    
       const params = {
         fileName: options.export_csv_filename,
         allColumns: true,
@@ -1994,6 +1995,8 @@ dmx.Component('ag-grid', {
           const columnDef = params.column.getColDef();
           const valueFormatter = columnDef.valueFormatter;
           const cellRenderer = columnDef.cellRenderer;
+          let value = params.value || "-";
+    
           // Apply cellRenderer if it exists
           if (cellRenderer && typeof cellRenderer === "function") {
             const cellRendererParams = {
@@ -2005,16 +2008,22 @@ dmx.Component('ag-grid', {
               api: params.api,
               context: params.context,
             };
-            const cellRendererValue = cellRenderer(cellRendererParams);
-              return cellRendererValue;
+            value = cellRenderer(cellRendererParams);
           }
+          // Apply valueFormatter if it exists
           else if (valueFormatter && typeof valueFormatter === "function") {
             const formattedValue = valueFormatter(params);
             if (formattedValue !== null && formattedValue !== undefined) {
-              return formattedValue;
+              value = formattedValue;
             }
           }
-          return params.value;
+    
+          // Trim value if export_trim is true
+          if (options.export_trim_data && typeof value === 'string') {
+            return value.trim();
+          }
+    
+          return value;
         },
       };
       gridInstance.exportDataAsCsv(params);
