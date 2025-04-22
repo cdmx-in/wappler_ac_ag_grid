@@ -1,6 +1,6 @@
 {
     "name": "@cdmx/wappler_ag_grid",
-    "version": "1.9.10",
+    "version": "1.9.11",
     "type": "module",
     "description": "App Connect module for AG Grid Table Generation.",
     "license": "MIT",
@@ -14,11 +14,11 @@
         "ag-grid"
     ],
     "dependencies": {
-        "@ag-grid-community/locale": "~32.3.3",
-        "ag-grid-community": "~32.3.3",
-        "papaparse": "~5.4.1",
-        "pdfmake": "~0.2.16",
-        "read-excel-file": "~5.8.6"
+        "@ag-grid-community/locale": "~33.2.4",
+        "ag-grid-community": "~33.2.4",
+        "papaparse": "~5.5.2",
+        "pdfmake": "~0.2.18",
+        "read-excel-file": "~5.8.7"
     },
     "scripts": {
         "build": "rollup --config",
