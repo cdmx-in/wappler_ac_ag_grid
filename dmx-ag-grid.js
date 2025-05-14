@@ -259,6 +259,7 @@ dmx.Component('ag-grid', {
     group_config: { type: Array, default: [] },
     columns_to_count: { type: Array, default: [] },
     columns_to_sum: { type: String, default: null },
+    footer_sum_precision: { type: Number, default: null },
     columns_to_count_nonunique: { type: Boolean, default: false }
   },
 
@@ -1731,6 +1732,10 @@ dmx.Component('ag-grid', {
               result[0][col] += parseFloat(line.data[col]) || line.data[col];
             }
           });
+          // Apply footer sum precision if specified
+          if (options.footer_sum_precision) {
+             result[0][col] = parseFloat(result[0][col].toFixed(options.footer_sum_precision) );
+          }
         });
       }
       if (columnsToCount) {

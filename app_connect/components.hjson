@@ -1566,6 +1566,7 @@
               "show": [
                 "columnsToCount",
                 "columnsToSum",
+                "footerSumPrecision",
                 "enableFixedFooter",
                 "fixedFooterBottomPadding",
                 "columnsToCountNonUnique"
@@ -1603,6 +1604,13 @@
                         "field": "",
                         "unique_values": ""
                       }
+                },
+                {
+                  "name": "footerSumPrecision",
+                  "attribute": "footer_sum_precision",
+                  "title": "Sum Precision",
+                  "type": "number",
+                  "help": "Sets the number of decimal places to display in the footer for sum totals."
                 },
                 {
                   "name": "columnsToCountNonUnique",
