@@ -6,6 +6,7 @@ dmx.Component('ag-grid', {
     fields: {},
     fileData: [],
     selectedRows: [],
+    columnState: [],
     state: {
       gridReady: !1,
       firstDataRendered: !1,
@@ -313,9 +314,10 @@ dmx.Component('ag-grid', {
     resetColumnState: function () {
       dmx.nextTick(function() {
         const idValue = this.$node.querySelector('dmx-ag-grid > div')?.getAttribute('id') ?? 'Grid not found';
-        const currentPageUrl = window.location.origin + window.location.pathname;
+        const currentPageUrl = window.location.pathname;
         const uniqueId = `${currentPageUrl}_${idValue}`;
-        localStorage.removeItem(`columnState_${uniqueId}`);
+        const storageKey = options.column_state_storage_key || uniqueId;
+        localStorage.removeItem(`dmxState-${storageKey}`);
         let gridInstance = this.refreshGrid();
         this.set('gridInstance', gridInstance);
       }, this);
@@ -1651,13 +1653,14 @@ dmx.Component('ag-grid', {
           const columnState = columnApi.getColumnState();
           const pageId = getPageId();
           const storageKey = options.column_state_storage_key || pageId;
-          localStorage.setItem(`columnState_${storageKey}`, JSON.stringify(columnState));
+          localStorage.setItem(`dmxState-${storageKey}`, JSON.stringify(columnState));
+          this.set('columnState', columnState);
         }
 
         function restoreColumnState() {
           const pageId = getPageId();
           const storageKey = options.column_state_storage_key || pageId;
-          const savedColumnState = localStorage.getItem(`columnState_${storageKey}`);
+          const savedColumnState = localStorage.getItem(`dmxState-${storageKey}`);
 
           if (savedColumnState) {
             try {
@@ -1668,7 +1671,7 @@ dmx.Component('ag-grid', {
                 applyVisibility: true,
               });
             } catch (err) {
-              console.warn(`Failed to parse column state for key: columnState_${storageKey}`, err);
+              console.warn(`Failed to parse column state for key: dmxState-${storageKey}`, err);
             }
           }
         }

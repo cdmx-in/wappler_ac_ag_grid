@@ -52,6 +52,11 @@
           "name": "selectedRows",
           "title": "selectedRows",
           "type": "array"
+        },
+        {
+          "name": "columnState",
+          "title": "columnState",
+          "type": "array"
         }
       ],
       "outputType": "object",
