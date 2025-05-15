@@ -260,7 +260,8 @@ dmx.Component('ag-grid', {
     columns_to_count: { type: Array, default: [] },
     columns_to_sum: { type: String, default: null },
     footer_sum_precision: { type: Number, default: null },
-    columns_to_count_nonunique: { type: Boolean, default: false }
+    columns_to_count_nonunique: { type: Boolean, default: false },
+    column_state_storage_key: { type: String, default: null }
   },
 
   methods: {
@@ -1649,17 +1650,26 @@ dmx.Component('ag-grid', {
         saveColumnStateToStorage = () => {
           const columnState = columnApi.getColumnState();
           const pageId = getPageId();
-          localStorage.setItem(`columnState_${pageId}`, JSON.stringify(columnState));    
+          const storageKey = options.column_state_storage_key || pageId;
+          localStorage.setItem(`columnState_${storageKey}`, JSON.stringify(columnState));
         }
+
         function restoreColumnState() {
           const pageId = getPageId();
-          const savedColumnState = JSON.parse(localStorage.getItem(`columnState_${pageId}`));
+          const storageKey = options.column_state_storage_key || pageId;
+          const savedColumnState = localStorage.getItem(`columnState_${storageKey}`);
+
           if (savedColumnState) {
-            columnApi.applyColumnState({
-              state: savedColumnState,
-              applyOrder: true,
-              applyVisibility: true,
-            });
+            try {
+              const parsedState = JSON.parse(savedColumnState);
+              columnApi.applyColumnState({
+                state: parsedState,
+                applyOrder: true,
+                applyVisibility: true,
+              });
+            } catch (err) {
+              console.warn(`Failed to parse column state for key: columnState_${storageKey}`, err);
+            }
           }
         }
         restoreColumnState();
@@ -1782,7 +1792,7 @@ dmx.Component('ag-grid', {
         gridInstance = null;
     }
     const getPageId = () => {
-      const currentPageUrl = window.location.origin + window.location.pathname;
+      const currentPageUrl = window.location.pathname;
       const optionsId = options.id+'-grid';
       const uniqueId = `${currentPageUrl}_${optionsId}`;
       return uniqueId;

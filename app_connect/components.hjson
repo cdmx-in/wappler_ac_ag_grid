@@ -3376,6 +3376,40 @@
     }
   ],
   "attributes": [
+     {
+      name: "dmx_ag_grid_column_state_key",
+      attributeStartsWith: "dmx-bind",
+      attribute: "column_state_storage_key",
+      title: "Column State Storage Key",
+      type: "boolean",
+      display: "fieldset",
+      icon: "fa fa-lg fa-chevron-right",
+      groupTitle: "Grid Config",
+      groupIcon: "fa fa-lg fa-cubes",
+      defaultValue: false,
+      show: [
+        "columnStateStorageKey"
+      ],
+      noChangeOnHide: true,
+      groupEnabler: true,
+      children: [
+        {
+          name: "columnStateStorageKey",
+          attributeStartsWith: "dmx-bind",
+          attribute: "column_state_storage",
+          isValue: true,
+          dataBindings: true,
+          title: "Key Name",
+          type: "text",
+          help: "Optional: Provide a custom key to store and retrieve column state from Local Storage.",
+          defaultValue: "",
+          initDisplay: "none"
+        }
+      ],
+      allowedOn: {
+        dmx-ag-grid: true
+      }
+    },
     {
       "name": "dmx-ag-grid-value",
       "attributeStartsWith": "dmx-bind",
