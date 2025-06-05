@@ -1942,17 +1942,24 @@ dmx.Component('ag-grid', {
         const bodyHorizontalScrollElement = gridElement.querySelector('.ag-body-horizontal-scroll');
         const rootWrapperWidth = agRootWrapper.clientWidth;
         bodyHorizontalScrollElement.style.width = rootWrapperWidth + 'px';
-        // Add the styles for the hovering horizontal bottom bar
+        
+        // Get the height of the horizontal scrollbar
+        const scrollbarHeight = bodyHorizontalScrollElement.offsetHeight || 17;
+        
         styleElement.innerHTML = `
           .ag-body-horizontal-scroll {
             position: fixed;
             bottom: 0;
+            z-index: 1000;
           }
           .ag-sticky-bottom {
             display: none;
           }
           .ag-paging-panel {
             border-top: none;
+            margin-bottom: ${scrollbarHeight}px !important;
+            position: relative;
+            z-index: 999;
           }
         `;
         if (existingStyle) {
@@ -1961,7 +1968,6 @@ dmx.Component('ag-grid', {
           gridElement.appendChild(styleElement);
         }
       } else if (existingStyle) {
-        // Remove the style element if it exists
         existingStyle.parentNode.removeChild(existingStyle);
       }
     }
@@ -2175,6 +2181,7 @@ dmx.Component('ag-grid', {
               colDef,
               column,
               api: gridInstance,
+              context: params.context,
             };
             const cellStyle = applyCellStyle(params);
             // Determine the header name using cnames and humanize function
