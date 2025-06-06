@@ -1741,13 +1741,17 @@ dmx.Component('ag-grid', {
         columnsToSum.forEach(function (col) {
           result[0][col] = 0;
           rowData.forEach(function (line) {
-            if (line.index < rowData.length) {
-              result[0][col] += parseFloat(line.data[col]) || line.data[col];
+            if (line.index < rowData.length && line.data[col] !== null && line.data[col] !== undefined) {
+              // Convert to number and handle NaN
+              const value = Number(line.data[col]);
+              if (!isNaN(value)) {
+                result[0][col] += value;
+              }
             }
           });
           // Apply footer sum precision if specified
-          if (options.footer_sum_precision) {
-             result[0][col] = parseFloat(result[0][col].toFixed(options.footer_sum_precision) );
+          if (options.footer_sum_precision !== null && !isNaN(result[0][col])) {
+            result[0][col] = Number(result[0][col].toFixed(options.footer_sum_precision));
           }
         });
       }
