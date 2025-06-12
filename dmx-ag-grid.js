@@ -1288,16 +1288,20 @@ dmx.Component('ag-grid', {
             const matchingJsChange = options.js_data_changes.find(change => change.field === key);
             if (matchingJsChange) {
               cellRenderer = function (params) {
-              if (typeof window[matchingJsChange.function] === 'function') {
+                // Don't apply custom renderer to pinned bottom rows (totals)
+                if (params.node && params.node.rowPinned === 'bottom') {
+                  return "-";
+                }
+                if (typeof window[matchingJsChange.function] === 'function') {
                   const cellValue = window[matchingJsChange.function](params.data); 
                   return cellValue;
                 }
+              }
             }
-          }
-          else {
-            cellRenderer = undefined;
-            colId = undefined;
-          }
+            else {
+              cellRenderer = undefined;
+              colId = undefined;
+            }
         }
         else {
           cellRenderer = undefined;
