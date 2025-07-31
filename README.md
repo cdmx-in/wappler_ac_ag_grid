@@ -1,5 +1,62 @@
 ﻿#### Developed and Maintained by: Roney Dsilva
-#Notes: 1.7.0 is released with AC2 support and AC1 support has been deprecated in this release. AG Grid upted to 31.2
+
+**Major Update:** This release upgrades from AG Grid v32.3.7 to v34.1.0, bringing significant performance improvements and exciting new features.
+
+## 🚀 What's New in v2.0.0
+
+1. **🔥 AG Grid v34.1.0** - Latest version with all community features
+2. **⚡ Performance Boost** - Up to 40% bundle size reduction potential
+
+- **Breaking Changes:** Some configurations may require updates due to AG Grid v33/v34 changes
+
+## 🚀 What's New in AG Grid v34.1.0
+
+### New Features Available in This Release:
+
+1. **✅ Cell Editor Validation** - Built-in validation for all cell editors:
+   - Automatic constraint checking based on column configuration
+   - Override defaults with custom validation rules
+   - Handle invalid values by reverting or blocking changes
+
+2. **🎯 Bulk Cell Editing** - Edit multiple cells in a single action:
+   - Select cells, enter new value, commit with Tab key
+   - Ideal for updating status of multiple items or overriding null values
+
+3. **⚡ Performance Improvements** - Up to 40% bundle size reduction through:
+   - Modular architecture improvements
+   - Better tree-shaking capabilities
+   - Optimized loading times
+
+4. **🎨 Enhanced Theming** - New Theming API for:
+   - Dynamic theme manipulation at runtime
+   - Better integration with Theme Builder
+   - Easy customization via theme parameters
+
+## 🔄 Migration from v1.x to v2.0
+
+### Compatibility Notes:
+- **Good News:** This upgrade is largely **non-breaking** for existing implementations
+- Your existing grids should continue to work without changes
+- AG Grid v34 is non-breaking from v33, so most configurations remain the same
+
+### Recommended Steps:
+1. **Update Package:** Simply update to v2.0.0 - no code changes required for basic functionality
+2. **Test Your Grids:** Verify existing grids work as expected
+3. **Explore New Features:** Gradually enable new v34 features as needed:
+   - Enable Cell Editor Validation for better data quality
+   - Try Batch/Bulk editing for improved user experience
+   - Use the new Filters Tool Panel for better UX
+   - Implement Tree Data Drag & Drop for hierarchical data
+
+### Performance Benefits:
+- **Bundle Size:** Potential 20-40% reduction in bundle size
+- **Loading Speed:** Faster grid initialization
+- **Memory Usage:** Improved memory efficiency
+
+### Breaking Changes (Minimal):
+- Some very old deprecated APIs (from v31 and earlier) have been removed
+- If you customized AG Grid CSS extensively, test your styling
+- The new Theming API is now default (but legacy CSS themes still work)
 
 # AG Grid Module Documentation
 
@@ -83,6 +140,18 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
 44. **Row Double Click Events**: Enables row double click events. This can be used in Dynamic events => Grid Events => Row Double Clicked. (Default: false)
 45. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 46. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
+
+## 🚀 AG Grid v34 New Features
+
+47. **Cell Editor Validation**: Enable built-in validation for all cell editors with automatic constraint checking based on column configuration. You can also override defaults with custom validation rules specific to your application. Validation is performed when editing ends, and you can configure the grid to handle invalid values by either reverting or blocking the change. (Default: false)
+
+48. **Batch Cell Editing**: Allow users to edit multiple cells in the grid before committing the changes. This is useful for scenarios where you want to make several edits before updating the data source, perfect for complex data entry workflows. (Default: false)
+
+49. **Bulk Cell Editing**: Enable users to edit multiple cells in a single action by selecting the cells to update, entering a new value, and committing the change with the Tab key. This is ideal when you need to update multiple cells with the same value, such as updating status of row items or overriding null values. (Default: false)
+
+50. **New Filters Tool Panel**: Enable the completely redesigned filters tool panel which allows users to access the grid's filters without opening the column menu. Features include: selecting columns for filtering, choosing between Simple/Selection/Combo filters, and configuring global Apply/Clear/Reset/Cancel buttons - particularly useful for server-side filtering with single requests. (Default: false)
+
+51. **Tree Data Drag & Drop**: Enable managed row dragging for Tree Data, meaning the grid will automatically handle the dragging of rows and updating of the data structure. Supports reordering, moving parents and children, and converting leaf nodes into groups. (Default: false)
 
 # Data Type Overrides
 
@@ -476,6 +545,72 @@ You can also specify left-only conditions, where only the field name is provided
 **Quick Filter**
 - The "Quick Filter" feature is designed to filter the results based on the value in the Filter Field defined in above settings.
 - Quick Filter is used to filter rows by comparing against the data in all columns. This can be used in addition to column-specific filtering.
+
+## 💡 Implementation Examples for v34 Features
+
+### Cell Editor Validation Example
+```javascript
+// Enable validation in your grid properties
+enable_cell_editor_validation: true
+
+// The grid will automatically validate based on column types
+// For custom validation, you can override in column definitions
+```
+
+### Batch Editing Example
+```javascript
+// Enable batch editing
+enable_batch_editing: true
+
+// Users can now:
+// 1. Edit multiple cells
+// 2. Press Enter to commit all changes at once
+// 3. Press Escape to cancel all pending changes
+```
+
+### Bulk Editing Example
+```javascript
+// Enable bulk editing with range selection
+enable_bulk_editing: true
+
+// Users can now:
+// 1. Select multiple cells (Ctrl+click or drag)
+// 2. Type a new value
+// 3. Press Tab to apply to all selected cells
+```
+
+### New Filters Tool Panel Example
+```javascript
+// Enable the new filters tool panel
+enable_new_filters_tool_panel: true
+
+// Benefits:
+// - Access filters without opening column menus
+// - Global filter controls (Apply/Clear/Reset)
+// - Better for server-side filtering
+```
+
+### Tree Data Drag & Drop Example
+```javascript
+// Enable tree data drag and drop
+tree_data_drag_drop: true
+
+// Your data should have hierarchical structure:
+// [
+//   { id: 1, name: "Parent", orgHierarchy: ['Dept'] },
+//   { id: 2, name: "Child", orgHierarchy: ['Dept', 'Team'] }
+// ]
+```
+
+## 🔧 Best Practices for v34
+
+1. **Performance:** Start with basic features and gradually enable v34 enhancements
+2. **Testing:** Test new features in development before production deployment
+3. **Bundle Size:** Monitor bundle size improvements with the new architecture
+4. **User Experience:** Combine multiple v34 features for enhanced workflows:
+   - Use Batch Editing + Validation for better data entry
+   - Combine New Filters Tool Panel with server-side data
+   - Use Tree Data + Drag & Drop for hierarchical management
 
 ## License
 

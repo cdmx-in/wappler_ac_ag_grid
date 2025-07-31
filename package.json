@@ -1,8 +1,8 @@
 {
     "name": "@cdmx/wappler_ag_grid",
-    "version": "1.9.19",
+    "version": "2.0.0",
     "type": "module",
-    "description": "App Connect module for AG Grid Table Generation.",
+    "description": "App Connect module for AG Grid v34 - Advanced data grid with enhanced editing, filtering, and tree data capabilities.",
     "license": "MIT",
     "author": {
         "name": "cdmx1",
@@ -14,8 +14,8 @@
         "ag-grid"
     ],
     "dependencies": {
-        "@ag-grid-community/locale": "~32.3.7",
-        "ag-grid-community": "~32.3.7",
+        "@ag-grid-community/locale": "~34.1.0",
+        "ag-grid-community": "~34.1.0",
         "papaparse": "~5.5.2",
         "pdfmake": "~0.2.18",
         "read-excel-file": "~5.8.7"
