@@ -1,6 +1,6 @@
 {
     "name": "@cdmx/wappler_ag_grid",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "type": "module",
     "description": "App Connect module for AG Grid v34 - Advanced data grid with enhanced editing, filtering, and tree data capabilities.",
     "license": "MIT",

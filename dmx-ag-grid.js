@@ -1614,11 +1614,26 @@ dmx.Component('ag-grid', {
       columnHoverHighlight: this.props.column_hover_highlight,
       onFilterModified: function (params) { 
         const columnApi = params.api;
-        if (columnApi.getDisplayedRowCount() > 0) {
-          columnApi.hideOverlay();
-        } else {
-          columnApi.showNoRowsOverlay();
-        }
+          const rowCount = columnApi.getDisplayedRowCount();
+          
+          if (rowCount > 0) {
+            columnApi.hideOverlay();
+          } else {
+            columnApi.showNoRowsOverlay();
+          }
+
+      },
+      onFilterChanged: function (params) {
+        const columnApi = params.api;
+        setTimeout(() => {
+          const rowCount = columnApi.getDisplayedRowCount();
+          
+          if (rowCount > 0) {
+            columnApi.hideOverlay();
+          } else {
+            columnApi.showNoRowsOverlay();
+          }
+        }, 100);
       },
       onGridReady: (params) => {
         const columnApi = params.api;
@@ -1817,9 +1832,9 @@ dmx.Component('ag-grid', {
       let columnsToSum = options.columns_to_sum ? options.columns_to_sum.split(',') : [];
       let columnsToCount = options.columns_to_count;
 
-      gridConfig.onFilterChanged = function (e) {
-        totalRow(e.api, columnsToSum, columnsToCount);
-      };
+         gridConfig.onFilterChanged = function (e) {
+               totalRow(e.api, columnsToSum, columnsToCount);
+              };
       gridConfig.onFirstDataRendered = function (e) {
         totalRow(e.api, columnsToSum, columnsToCount);
       };
