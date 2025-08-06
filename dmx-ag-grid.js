@@ -1832,9 +1832,16 @@ dmx.Component('ag-grid', {
       let columnsToSum = options.columns_to_sum ? options.columns_to_sum.split(',') : [];
       let columnsToCount = options.columns_to_count;
 
-         gridConfig.onFilterChanged = function (e) {
-               totalRow(e.api, columnsToSum, columnsToCount);
-              };
+   
+      const originalOnFilterChanged = gridConfig.onFilterChanged;
+      gridConfig.onFilterChanged = function (e) {
+       
+        totalRow(e.api, columnsToSum, columnsToCount);
+        
+        if (originalOnFilterChanged) {
+          originalOnFilterChanged(e);
+        }
+      };
       gridConfig.onFirstDataRendered = function (e) {
         totalRow(e.api, columnsToSum, columnsToCount);
       };
