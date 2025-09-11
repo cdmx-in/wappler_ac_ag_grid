@@ -845,7 +845,8 @@
               "defaultValue": false,
               "display": "fieldset",
               "show": [
-                "tooltipConfig"
+                "tooltipConfig",
+                "jsTooltipChanges"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -887,6 +888,38 @@
                     "field": "",
                     "tooltip": "no"
                   }
+                },
+                {
+                  "name": "jsTooltipChanges",
+                  "attribute": "dmx-bind:js_tooltip_changes",
+                  "title": "Using JS Function",
+                  "type": "grid",
+                  "dataBindings": true,
+                  "jsonFormat": true,
+                  "encloseBT": true,
+                  "jsonBT": true,
+                  "initDisplay": "none",
+                  "columns": [
+                    {
+                      "field": "field",
+                      "caption": "Field",
+                      "editable": {
+                        "type": "text"
+                      }
+                    },
+                    {
+                      "field": "function",
+                      "caption": "Function",
+                      "editable": {
+                        "type": "text"
+                      }
+                    }
+                  ],
+                  "newRecord": {
+                    "field": "",
+                    "function": ""
+                  },
+                  "help": "Configure JavaScript functions to generate custom tooltips for specific fields. Functions can return HTML content for rich tooltips."
                 }
               ]
             }

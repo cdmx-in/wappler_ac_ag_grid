@@ -41,6 +41,7 @@ dmx.Component('ag-grid', {
     data_changes: { type: Array, default: [] },
     display_data_changes: { type: Array, default: [] },
     js_data_changes: { type: Array, default: [] },
+    js_tooltip_changes: { type: Array, default: [] },
     data: { type: Array, default: [] },
     dom_layout: { type: String, default: 'autoHeight' },
     enable_cell_text_selection: { type: Boolean, default: true },
@@ -1046,6 +1047,35 @@ dmx.Component('ag-grid', {
         return value;
       };
     }
+    
+    // Custom HTML Tooltip Component
+    function CustomTooltipComponent() {}
+    
+    CustomTooltipComponent.prototype.init = function(params) {
+      const eGui = this.eGui = document.createElement('div');
+      eGui.classList.add('custom-tooltip');
+      eGui.style.backgroundColor = 'white';
+      eGui.style.border = '1px solid #ccc';
+      eGui.style.borderRadius = '4px';
+      eGui.style.padding = '8px';
+      eGui.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+      eGui.style.maxWidth = '300px';
+      eGui.style.fontSize = '13px';
+      eGui.style.zIndex = '9999';
+      
+      const tooltipValue = params.value || params.valueFormatted || '';
+      // Check if the content contains HTML tags
+      if (typeof tooltipValue === 'string' && (tooltipValue.includes('<') && tooltipValue.includes('>'))) {
+        eGui.innerHTML = tooltipValue;
+      } else {
+        eGui.textContent = tooltipValue;
+      }
+    };
+    
+    CustomTooltipComponent.prototype.getGui = function() {
+      return this.eGui;
+    };
+    
     createCombinedTooltipValueGetter = (key, dataChanges, dataBindedChanges) => {
       const keyLookup = {};
       dataBindedChanges.forEach(change => {
@@ -1084,7 +1114,7 @@ dmx.Component('ag-grid', {
         else if (Array.isArray(options.tooltip_config)) {
           for (const config of options.tooltip_config) {
             if (config.field === key && config.tooltip === "yes") {
-              return value;
+                return value;
             }
           }
         }
@@ -1163,6 +1193,8 @@ dmx.Component('ag-grid', {
         let filter;
         let valueGetter;
         let filterValueGetter;
+        let tooltipValueGetter;
+        let tooltipComponent;
         let valueFormatter;
         let filterParams;
         let comparator;
@@ -1283,18 +1315,18 @@ dmx.Component('ag-grid', {
           headerName = humanize(key);
         }
         
-        if (options.js_data_changes.length > 0 && Array.isArray(options.js_data_changes)) {
+        if (options.js_data_changes && Array.isArray(options.js_data_changes) && options.js_data_changes.length > 0) {
             // Check if there's a matching change in jsDataChanges
             const matchingJsChange = options.js_data_changes.find(change => change.field === key);
             if (matchingJsChange) {
-              cellRenderer = function (params) {
-                // Don't apply custom renderer to pinned bottom rows (totals)
-                if (params.node && params.node.rowPinned === 'bottom') {
-                  return "-";
-                }
-                if (typeof window[matchingJsChange.function] === 'function') {
-                  const cellValue = window[matchingJsChange.function](params.data); 
-                  return cellValue;
+                              cellRenderer = function (params) {
+                  // Don't apply custom renderer to pinned bottom rows (totals)
+                  if (params.node && params.node.rowPinned === 'bottom') {
+                    return "-";
+                  }
+                  if (typeof window[matchingJsChange.function] === 'function') {
+                    const cellValue = window[matchingJsChange.function](params.data);
+                    return cellValue;
                 }
               }
             }
@@ -1306,6 +1338,21 @@ dmx.Component('ag-grid', {
         else {
           cellRenderer = undefined;
           colId = undefined;
+        }
+        
+        if (options.js_tooltip_changes && Array.isArray(options.js_tooltip_changes) && options.js_tooltip_changes.length > 0) {
+          const tooltipChange = options.js_tooltip_changes.find(change => change.field === key);
+          if (tooltipChange) {
+            tooltipValueGetter = (params) => {
+              if (typeof window[tooltipChange.function] === 'function') {
+                return window[tooltipChange.function](params.data);
+              }
+              return params.value;
+            };
+            
+            // Use custom tooltip component for HTML rendering
+            tooltipComponent = 'CustomTooltipComponent';
+          }
         }
         if (key =='status' && options.row_status_event) {
           cellRenderer = 'checkboxCellRenderer';
@@ -1412,7 +1459,34 @@ dmx.Component('ag-grid', {
           filterValueGetter: filterValueGetter,
           filterParams: filterParams,
           comparator: comparator,
-          tooltipValueGetter: tooltipValueGetter,
+          ...(tooltipComponent ? {
+            tooltipComponent: tooltipComponent,
+            tooltipValueGetter: tooltipValueGetter
+          } : tooltipValueGetter && typeof tooltipValueGetter === 'function' ? (() => {
+            // Check if tooltip content contains HTML
+            const sampleParams = { data: rowData[0] || {}, value: '' };
+            const sampleTooltip = tooltipValueGetter(sampleParams);
+            const containsHtml = typeof sampleTooltip === 'string' && 
+              (sampleTooltip.includes('<') && sampleTooltip.includes('>'));
+            
+            return containsHtml ? {
+              tooltipComponent: 'CustomTooltipComponent',
+              tooltipValueGetter: tooltipValueGetter
+            } : {
+              tooltipValueGetter: tooltipValueGetter
+            };
+          })() : tooltipValueGetter && typeof tooltipValueGetter === 'object' && tooltipValueGetter.isHtml ? {
+            tooltipComponent: function(params) {
+              return {
+                getGui: function() {
+                  const element = document.createElement('div');
+                  element.innerHTML = tooltipValueGetter.htmlContent;
+                  element.className = 'ag-tooltip-custom';
+                  return element;
+                }
+              };
+            }
+          } : {}),
           cellStyle: applyCellStyle,
           ...(cwidths.hasOwnProperty(key) && {
             minWidth: parseInt(cwidths[key].min_width),
@@ -1727,7 +1801,8 @@ dmx.Component('ag-grid', {
       components: {
         clickCellRenderer: clickCellRenderer,
         checkboxCellRenderer: checkboxCellRenderer,
-        actionsRenderer: actionsRenderer
+        actionsRenderer: actionsRenderer,
+        CustomTooltipComponent: CustomTooltipComponent
       }
     };
     if (options.row_checkbox_event) {

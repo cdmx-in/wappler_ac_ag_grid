@@ -2,10 +2,12 @@
 
 **Major Update:** This release upgrades from AG Grid v32.3.7 to v34.1.0, bringing significant performance improvements and exciting new features.
 
-## 🚀 What's New in v2.0.0
+## 🚀 What's New in v2.0.3
 
 1. **🔥 AG Grid v34.1.0** - Latest version with all community features
 2. **⚡ Performance Boost** - Up to 40% bundle size reduction potential
+3. **🎨 HTML Tooltips** - Rich HTML tooltip support with JavaScript functions
+4. **🔧 Enhanced Tooltip System** - Custom tooltip components with automatic HTML detection
 
 - **Breaking Changes:** Some configurations may require updates due to AG Grid v33/v34 changes
 
@@ -40,7 +42,7 @@
 - AG Grid v34 is non-breaking from v33, so most configurations remain the same
 
 ### Recommended Steps:
-1. **Update Package:** Simply update to v2.0.0 - no code changes required for basic functionality
+1. **Update Package:** Simply update to v2.0.2 - no code changes required for basic functionality
 2. **Test Your Grids:** Verify existing grids work as expected
 3. **Explore New Features:** Gradually enable new v34 features as needed:
    - Enable Cell Editor Validation for better data quality
@@ -153,6 +155,14 @@ To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-cus
 
 51. **Tree Data Drag & Drop**: Enable managed row dragging for Tree Data, meaning the grid will automatically handle the dragging of rows and updating of the data structure. Supports reordering, moving parents and children, and converting leaf nodes into groups. (Default: false)
 
+52. **🎨 HTML Tooltips**: Create rich, interactive tooltips with full HTML support using JavaScript functions. Features include:
+   - Custom HTML content with styling and images
+   - Dynamic content generation based on row data
+   - Automatic HTML detection and rendering
+   - Professional tooltip styling with shadows and borders
+   - Integration with existing tooltip configurations
+   - Performance optimized with on-demand generation
+
 # Data Type Overrides
 
 The Data Type Overrides feature allows you to configure type overrides for specific attributes in the data. This allows you to override the auto-detected data types.
@@ -201,14 +211,81 @@ This grid allows you to define custom color and font settings based on specific 
 
 # Tooltip Settings
 
-The Tooltip Settings feature allows you to configure custom tooltips for specific fields in the data.
+The Tooltip Settings feature allows you to configure custom tooltips for specific fields in the data, including support for HTML content and JavaScript functions.
 
-To set a custom tooltip text, enter the desired text for the tooltip in the field.
+## Basic Tooltip Configuration
+
+To set basic tooltips, enter the desired text for the tooltip in the field.
 This grid allows you to configure custom tooltips for specific fields. The grid has the following columns:
 
-1. **Field**: The field name for which you want to set a custom tooltip. 
-2. **Tooltip**: Choose whether to enable ("yes") or disable ("no") the tooltip for the field. 
----
+1. **Field**: The field name for which you want to set a custom tooltip.
+2. **Tooltip**: Choose whether to enable ("yes") or disable ("no") the tooltip for the field.
+
+## Custom Tooltip Text
+
+**Custom Tooltip Text** (Type: textbox)
+- Set a global custom tooltip text that will be applied to all fields that don't have specific tooltip configurations.
+
+## Advanced Tooltips with JavaScript Functions
+
+The **Using JS Function** feature allows you to create rich HTML tooltips using JavaScript functions. This provides full control over tooltip content and styling.
+
+### Configuration
+
+1. **Field**: The field name for which you want to apply the custom tooltip function.
+2. **Function**: The name of your JavaScript function that generates the tooltip content.
+
+### JavaScript Function Example
+
+```javascript
+<script>
+  // Basic HTML tooltip
+  function generateTooltip(data) {
+    return `
+      <div style="max-width: 250px; font-family: Arial, sans-serif;">
+        <h4 style="margin: 0 0 8px 0; color: #333; font-size: 14px;">
+          ${data.title}
+        </h4>
+        <p style="margin: 0 0 8px 0; font-size: 12px; color: #666;">
+          ${data.description}
+        </p>
+        <hr style="margin: 8px 0; border: none; border-top: 1px solid #eee;">
+        <div style="font-size: 11px; color: #888;">
+          ID: ${data.id} | Status: ${data.status}
+        </div>
+      </div>
+    `;
+  }
+
+  // Rich tooltip with images and styling
+  function generateStatusTooltip(data) {
+    const statusColor = data.status === 'active' ? '#28a745' : '#dc3545';
+    const statusIcon = data.status === 'active' ? '✓' : '✗';
+
+    return `
+      <div style="max-width: 300px; padding: 12px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <div style="display: flex; align-items: center; margin-bottom: 12px;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: ${statusColor}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px;">
+            ${statusIcon}
+          </div>
+          <div>
+            <div style="font-weight: bold; font-size: 16px; color: #333;">${data.name}</div>
+            <div style="font-size: 12px; color: ${statusColor}; font-weight: 500;">${data.status.toUpperCase()}</div>
+          </div>
+        </div>
+        <div style="border-top: 1px solid #eee; padding-top: 8px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px;">
+            <div><strong>ID:</strong> ${data.id}</div>
+            <div><strong>Type:</strong> ${data.type}</div>
+            <div><strong>Created:</strong> ${new Date(data.created_at).toLocaleDateString()}</div>
+            <div><strong>Updated:</strong> ${new Date(data.updated_at).toLocaleDateString()}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+</script>
+```
 
 # Advanced Data Manipulation
 
