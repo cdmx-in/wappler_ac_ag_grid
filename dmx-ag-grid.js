@@ -488,8 +488,16 @@ dmx.Component('ag-grid', {
     let exportToCSV = this.props.export_to_csv;
     let exportToPDF = this.props.export_to_pdf;
     let cellRenderer;
-    const gridThemeClass = options.dark_mode ? `${options.grid_theme}-dark` : options.grid_theme;
-    this.$node.innerHTML = `<div id=${options.id}-grid class="${gridThemeClass}"></div>`;
+    
+    // Set up theme mode
+    this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
+    
+    // Apply theme mode using dark_mode attribute
+    const themeContainer = this.$node.querySelector(`#${options.id}-grid`);
+    if (themeContainer) {
+      themeContainer.dataset.agThemeMode = options.dark_mode ? 'dark' : 'light';
+    }
+    
     let idFieldPresent = false;
     window.cellClickEvent = (columnName, value, idValue) => {
       this.set('fields', {"field": columnName, "data": value});
@@ -1089,7 +1097,7 @@ dmx.Component('ag-grid', {
     CustomTooltipComponent.prototype.getGui = function() {
       return this.eGui;
     };
-    
+
     createCombinedTooltipValueGetter = (key, dataChanges, dataBindedChanges) => {
       const keyLookup = {};
       dataBindedChanges.forEach(change => {
