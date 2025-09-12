@@ -1057,47 +1057,20 @@ dmx.Component('ag-grid', {
       };
     }
     
-    // Custom HTML Tooltip Component
-    function CustomTooltipComponent() {}
     
+    //Tooltip Component
+    function CustomTooltipComponent() {}
     CustomTooltipComponent.prototype.init = function(params) {
-      const eGui = this.eGui = document.createElement('div');
-      eGui.classList.add('custom-tooltip');
-      
-      // Use the dark_mode option from grid configuration
-      const isDarkMode = params.context && params.context.dark_mode ? params.context.dark_mode : false;
-      
-      // Apply theme-aware styling
-      if (isDarkMode) {
-        eGui.style.backgroundColor = '#2d3748';
-        eGui.style.border = '1px solid #4a5568';
-        eGui.style.color = '#e2e8f0';
-      } else {
-        eGui.style.backgroundColor = 'white';
-        eGui.style.border = '1px solid #ccc';
-        eGui.style.color = '#333';
-      }
-      
-      eGui.style.borderRadius = '4px';
-      eGui.style.padding = '8px';
-      eGui.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
-      eGui.style.maxWidth = '300px';
-      eGui.style.fontSize = '13px';
-      eGui.style.zIndex = '9999';
-      
       const tooltipValue = params.value || params.valueFormatted || '';
-      // Check if the content contains HTML tags
-      if (typeof tooltipValue === 'string' && (tooltipValue.includes('<') && tooltipValue.includes('>'))) {
-        eGui.innerHTML = tooltipValue;
-      } else {
-        eGui.textContent = tooltipValue;
-      }
+      const eGui = this.eGui = document.createElement('div');
+      eGui.classList.add('ag-tooltip');
+      eGui.innerHTML = tooltipValue;
     };
     
     CustomTooltipComponent.prototype.getGui = function() {
       return this.eGui;
     };
-
+    
     createCombinedTooltipValueGetter = (key, dataChanges, dataBindedChanges) => {
       const keyLookup = {};
       dataBindedChanges.forEach(change => {
@@ -1485,30 +1458,8 @@ dmx.Component('ag-grid', {
           ...(tooltipComponent ? {
             tooltipComponent: tooltipComponent,
             tooltipValueGetter: tooltipValueGetter
-          } : tooltipValueGetter && typeof tooltipValueGetter === 'function' ? (() => {
-            // Check if tooltip content contains HTML
-            const sampleParams = { data: rowData[0] || {}, value: '' };
-            const sampleTooltip = tooltipValueGetter(sampleParams);
-            const containsHtml = typeof sampleTooltip === 'string' && 
-              (sampleTooltip.includes('<') && sampleTooltip.includes('>'));
-            
-            return containsHtml ? {
-              tooltipComponent: 'CustomTooltipComponent',
-              tooltipValueGetter: tooltipValueGetter
-            } : {
-              tooltipValueGetter: tooltipValueGetter
-            };
-          })() : tooltipValueGetter && typeof tooltipValueGetter === 'object' && tooltipValueGetter.isHtml ? {
-            tooltipComponent: function(params) {
-              return {
-                getGui: function() {
-                  const element = document.createElement('div');
-                  element.innerHTML = tooltipValueGetter.htmlContent;
-                  element.className = 'ag-tooltip-custom';
-                  return element;
-                }
-              };
-            }
+          } : tooltipValueGetter && typeof tooltipValueGetter === 'function' ? {
+            tooltipValueGetter: tooltipValueGetter
           } : {}),
           cellStyle: applyCellStyle,
           ...(cwidths.hasOwnProperty(key) && {
