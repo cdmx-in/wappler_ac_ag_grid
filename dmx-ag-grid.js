@@ -489,10 +489,10 @@ dmx.Component('ag-grid', {
     let exportToPDF = this.props.export_to_pdf;
     let cellRenderer;
     
-    // Set up theme mode
-    this.$node.innerHTML = `<div id=${options.id}-grid class="${options.grid_theme}"></div>`;
+    const gridThemeClass = options.dark_mode ? `${options.grid_theme}-dark` : options.grid_theme;
+    this.$node.innerHTML = `<div id=${options.id}-grid class="${gridThemeClass}"></div>`;
     
-    // Apply theme mode using dark_mode attribute
+    // Apply theme mode using data attribute
     const themeContainer = this.$node.querySelector(`#${options.id}-grid`);
     if (themeContainer) {
       themeContainer.dataset.agThemeMode = options.dark_mode ? 'dark' : 'light';
