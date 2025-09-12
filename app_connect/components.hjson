@@ -6,7 +6,7 @@
       "groupTitle": "Components",
       "groupIcon": "fa fa-lg fa-cube",
       "title": "AG Grid: @@id@@",
-      "icon": "fa fa-lg fa-table",
+      "icon": "fas fa-lg fa-table",
       "state": "opened",
       "anyParent": true,
       "template": "<dmx-ag-grid id=\"@@id@@\"></dmx-ag-grid>",
@@ -835,6 +835,14 @@
               "title": "Custom Tooltip Text",
               "type": "text",
               "help": "Specify custom tooltip text"
+            },
+            {
+              "name": "tooltipShowDelay",
+              "attribute": "tooltip_show_delay",
+              "title": "Tooltip Show Delay (ms)",
+              "type": "number",
+              "defaultValue": 2000,
+              "help": "Delay in milliseconds before showing tooltips (default: 2000ms)"
             },
             {
               "name": "tooltipConfig",

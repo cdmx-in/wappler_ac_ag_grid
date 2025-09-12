@@ -42,6 +42,7 @@ dmx.Component('ag-grid', {
     display_data_changes: { type: Array, default: [] },
     js_data_changes: { type: Array, default: [] },
     js_tooltip_changes: { type: Array, default: [] },
+    tooltip_show_delay: { type: Number, default: 2000 },
     data: { type: Array, default: [] },
     dom_layout: { type: String, default: 'autoHeight' },
     enable_cell_text_selection: { type: Boolean, default: true },
@@ -1054,8 +1055,21 @@ dmx.Component('ag-grid', {
     CustomTooltipComponent.prototype.init = function(params) {
       const eGui = this.eGui = document.createElement('div');
       eGui.classList.add('custom-tooltip');
-      eGui.style.backgroundColor = 'white';
-      eGui.style.border = '1px solid #ccc';
+      
+      // Use the dark_mode option from grid configuration
+      const isDarkMode = params.context && params.context.dark_mode ? params.context.dark_mode : false;
+      
+      // Apply theme-aware styling
+      if (isDarkMode) {
+        eGui.style.backgroundColor = '#2d3748';
+        eGui.style.border = '1px solid #4a5568';
+        eGui.style.color = '#e2e8f0';
+      } else {
+        eGui.style.backgroundColor = 'white';
+        eGui.style.border = '1px solid #ccc';
+        eGui.style.color = '#333';
+      }
+      
       eGui.style.borderRadius = '4px';
       eGui.style.padding = '8px';
       eGui.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
@@ -1340,6 +1354,7 @@ dmx.Component('ag-grid', {
           colId = undefined;
         }
         
+        // Handle JS tooltip changes
         if (options.js_tooltip_changes && Array.isArray(options.js_tooltip_changes) && options.js_tooltip_changes.length > 0) {
           const tooltipChange = options.js_tooltip_changes.find(change => change.field === key);
           if (tooltipChange) {
@@ -1644,6 +1659,9 @@ dmx.Component('ag-grid', {
       getRowStyle: options.rstyles ? createRowStyleFunction(options.rstyles): undefined,
       localeText: localeText,
       enableRtl: options.enable_rtl,
+      context: {
+        dark_mode: options.dark_mode
+      },
       onRowClicked: enableRowClickEvent ? onRowClicked : undefined,
       onRowDoubleClicked: enableRowDoubleClickEvent ? onRowDoubleClicked : undefined,
       onCellClicked: enableCellClickEvent ? onCellClicked : undefined,
@@ -1686,6 +1704,7 @@ dmx.Component('ag-grid', {
       suppressClipboardPaste: this.props.suppress_clipboard_paste,
       suppressScrollOnNewData: this.props.suppress_scroll_on_new_data,
       columnHoverHighlight: this.props.column_hover_highlight,
+      tooltipShowDelay: options.tooltip_show_delay,
       onFilterModified: function (params) { 
         const columnApi = params.api;
           const rowCount = columnApi.getDisplayedRowCount();

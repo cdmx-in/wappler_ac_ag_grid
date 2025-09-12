@@ -226,6 +226,11 @@ This grid allows you to configure custom tooltips for specific fields. The grid 
 **Custom Tooltip Text** (Type: textbox)
 - Set a global custom tooltip text that will be applied to all fields that don't have specific tooltip configurations.
 
+## Tooltip Show Delay
+
+**Tooltip Show Delay** (Type: number, Default: 2000)
+- Set the delay in milliseconds before tooltips appear when hovering over cells. This helps prevent tooltips from showing immediately and can improve user experience by avoiding accidental tooltip displays.
+
 ## Advanced Tooltips with JavaScript Functions
 
 The **Using JS Function** feature allows you to create rich HTML tooltips using JavaScript functions. This provides full control over tooltip content and styling.
