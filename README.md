@@ -86,6 +86,17 @@ The overrides for the "Custom" theme can be applied in the ag-theme-custom.css f
 
 To use the "Custom" theme, copy "ag-theme-custom.css" to public/css/ag-theme-custom.css and include it in your layout file.
 
+**Important CSS Fix for Custom Theme:**
+When using the custom theme, you may notice that the magnification lens icon on filter search overlaps with the text while typing. To fix this issue, add the following CSS to your custom theme file:
+
+```css
+.ag-input-wrapper:before {
+    content: unset !important;
+}
+```
+
+This CSS rule removes the pseudo-element that creates the overlapping magnification lens icon, ensuring proper text visibility during filter input.
+
 
 ## AG Grid Options
 1. **Minimum Width**: The minimum width of the column. (Default: 150)
