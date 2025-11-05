@@ -1109,7 +1109,7 @@ dmx.Component('ag-grid', {
         else if (Array.isArray(options.tooltip_config)) {
           for (const config of options.tooltip_config) {
             if (config.field === key && config.tooltip === "yes") {
-                return value;
+              return value;
             }
           }
         }
@@ -1204,6 +1204,35 @@ dmx.Component('ag-grid', {
 
         if (dataType === 'number') {
           filter = 'agNumberColumnFilter';
+          const baseFilterOptions = [
+            'equals',
+            'notEqual',
+            'lessThan',
+            'lessThanOrEqual',
+            'greaterThan',
+            'greaterThanOrEqual',
+            'inRange'
+          ];
+          
+          filterParams = {
+            filterOptions: [
+              ...baseFilterOptions,
+              {
+                displayKey: 'contains',
+                displayName: 'Contains',
+                predicate: (filterValue, cellValue) => {
+                  return cellValue.toString().includes(filterValue.toString());
+                }
+              },
+              {
+                displayKey: 'doesNotContain',
+                displayName: 'Does not Contain',
+                predicate: (filterValue, cellValue) => {
+                  return !cellValue.toString().includes(filterValue.toString());
+                }
+              }
+            ]
+          };
           if (options.numeric_column_align){
             type = 'numericColumn';
           }
@@ -1314,14 +1343,14 @@ dmx.Component('ag-grid', {
             // Check if there's a matching change in jsDataChanges
             const matchingJsChange = options.js_data_changes.find(change => change.field === key);
             if (matchingJsChange) {
-                              cellRenderer = function (params) {
-                  // Don't apply custom renderer to pinned bottom rows (totals)
-                  if (params.node && params.node.rowPinned === 'bottom') {
-                    return "-";
-                  }
-                  if (typeof window[matchingJsChange.function] === 'function') {
-                    const cellValue = window[matchingJsChange.function](params.data);
-                    return cellValue;
+              cellRenderer = function (params) {
+                // Don't apply custom renderer to pinned bottom rows (totals)
+                if (params.node && params.node.rowPinned === 'bottom') {
+                  return "-";
+                }
+                if (typeof window[matchingJsChange.function] === 'function') {
+                  const cellValue = window[matchingJsChange.function](params.data); 
+                  return cellValue;
                 }
               }
             }
@@ -1917,8 +1946,8 @@ dmx.Component('ag-grid', {
             filter: customFilter.filter
           };
         });
-        gridInstance.setFilterModel(filterModel);
-        gridInstance.onFilterChanged();
+          gridInstance.setFilterModel(filterModel);
+          gridInstance.onFilterChanged();
       }
 
     const gridElement = document.getElementById(options.id+'-grid');
