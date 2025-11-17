@@ -2149,7 +2149,67 @@
                 "button20ActionTooltip",
                 "button20ActionBtnClass",
                 "button20ActionIconClass",
-                "button20ActionBtnCondition"
+                "button20ActionBtnCondition",
+                "button21ActionBtn",
+                "button21ActionTitle",
+                "button21ActionTooltip",
+                "button21ActionBtnClass",
+                "button21ActionIconClass",
+                "button21ActionBtnCondition",
+                "button22ActionBtn",
+                "button22ActionTitle",
+                "button22ActionTooltip",
+                "button22ActionBtnClass",
+                "button22ActionIconClass",
+                "button22ActionBtnCondition",
+                "button23ActionBtn",
+                "button23ActionTitle",
+                "button23ActionTooltip",
+                "button23ActionBtnClass",
+                "button23ActionIconClass",
+                "button23ActionBtnCondition",
+                "button24ActionBtn",
+                "button24ActionTitle",
+                "button24ActionTooltip",
+                "button24ActionBtnClass",
+                "button24ActionIconClass",
+                "button24ActionBtnCondition",
+                "button25ActionBtn",
+                "button25ActionTitle",
+                "button25ActionTooltip",
+                "button25ActionBtnClass",
+                "button25ActionIconClass",
+                "button25ActionBtnCondition",
+                "button26ActionBtn",
+                "button26ActionTitle",
+                "button26ActionTooltip",
+                "button26ActionBtnClass",
+                "button26ActionIconClass",
+                "button26ActionBtnCondition",
+                "button27ActionBtn",
+                "button27ActionTitle",
+                "button27ActionTooltip",
+                "button27ActionBtnClass",
+                "button27ActionIconClass",
+                "button27ActionBtnCondition",
+                "button28ActionBtn",
+                "button28ActionTitle",
+                "button28ActionTooltip",
+                "button28ActionBtnClass",
+                "button28ActionIconClass",
+                "button28ActionBtnCondition",
+                "button29ActionBtn",
+                "button29ActionTitle",
+                "button29ActionTooltip",
+                "button29ActionBtnClass",
+                "button29ActionIconClass",
+                "button29ActionBtnCondition",
+                "button30ActionBtn",
+                "button30ActionTitle",
+                "button30ActionTooltip",
+                "button30ActionBtnClass",
+                "button30ActionIconClass",
+                "button30ActionBtnCondition"
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
@@ -2982,6 +3042,416 @@
                   "attribute": "button20_action_btn_condition",
                   "title": "Button20 Condition",
                   "type": "text"
+                },
+                {
+                  "name": "button21ActionBtn",
+                  "attribute": "dmx-bind:button21_action_btn",
+                  "title": "Button21 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button21ActionTitle",
+                  "attribute": "button21_action_title",
+                  "title": "Button21 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button21ActionTooltip",
+                  "attribute": "button21_action_tooltip",
+                  "title": "Button21 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button21ActionBtnClass",
+                  "attribute": "button21_action_btn_class",
+                  "title": "Button21 Class",
+                  "type": "text",
+                  "defaultValue": "btn-primary btn-sm m-1"
+                },
+                {
+                  "name": "button21ActionIconClass",
+                  "attribute": "button21_action_icon_class",
+                  "title": "Button21 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-arrow-right"
+                },
+                {
+                  "name": "button21ActionBtnCondition",
+                  "attribute": "button21_action_btn_condition",
+                  "title": "Button21 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button22ActionBtn",
+                  "attribute": "dmx-bind:button22_action_btn",
+                  "title": "Button22 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button22ActionTitle",
+                  "attribute": "button22_action_title",
+                  "title": "Button22 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button22ActionTooltip",
+                  "attribute": "button22_action_tooltip",
+                  "title": "Button22 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button22ActionBtnClass",
+                  "attribute": "button22_action_btn_class",
+                  "title": "Button22 Class",
+                  "type": "text",
+                  "defaultValue": "btn-info btn-sm m-1"
+                },
+                {
+                  "name": "button22ActionIconClass",
+                  "attribute": "button22_action_icon_class",
+                  "title": "Button22 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-arrow-left"
+                },
+                {
+                  "name": "button22ActionBtnCondition",
+                  "attribute": "button22_action_btn_condition",
+                  "title": "Button22 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button23ActionBtn",
+                  "attribute": "dmx-bind:button23_action_btn",
+                  "title": "Button23 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button23ActionTitle",
+                  "attribute": "button23_action_title",
+                  "title": "Button23 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button23ActionTooltip",
+                  "attribute": "button23_action_tooltip",
+                  "title": "Button23 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button23ActionBtnClass",
+                  "attribute": "button23_action_btn_class",
+                  "title": "Button23 Class",
+                  "type": "text",
+                  "defaultValue": "btn-success btn-sm m-1"
+                },
+                {
+                  "name": "button23ActionIconClass",
+                  "attribute": "button23_action_icon_class",
+                  "title": "Button23 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-check"
+                },
+                {
+                  "name": "button23ActionBtnCondition",
+                  "attribute": "button23_action_btn_condition",
+                  "title": "Button23 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button24ActionBtn",
+                  "attribute": "dmx-bind:button24_action_btn",
+                  "title": "Button24 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button24ActionTitle",
+                  "attribute": "button24_action_title",
+                  "title": "Button24 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button24ActionTooltip",
+                  "attribute": "button24_action_tooltip",
+                  "title": "Button24 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button24ActionBtnClass",
+                  "attribute": "button24_action_btn_class",
+                  "title": "Button24 Class",
+                  "type": "text",
+                  "defaultValue": "btn-warning btn-sm m-1"
+                },
+                {
+                  "name": "button24ActionIconClass",
+                  "attribute": "button24_action_icon_class",
+                  "title": "Button24 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-exclamation"
+                },
+                {
+                  "name": "button24ActionBtnCondition",
+                  "attribute": "button24_action_btn_condition",
+                  "title": "Button24 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button25ActionBtn",
+                  "attribute": "dmx-bind:button25_action_btn",
+                  "title": "Button25 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button25ActionTitle",
+                  "attribute": "button25_action_title",
+                  "title": "Button25 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button25ActionTooltip",
+                  "attribute": "button25_action_tooltip",
+                  "title": "Button25 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button25ActionBtnClass",
+                  "attribute": "button25_action_btn_class",
+                  "title": "Button25 Class",
+                  "type": "text",
+                  "defaultValue": "btn-danger btn-sm m-1"
+                },
+                {
+                  "name": "button25ActionIconClass",
+                  "attribute": "button25_action_icon_class",
+                  "title": "Button25 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-times"
+                },
+                {
+                  "name": "button25ActionBtnCondition",
+                  "attribute": "button25_action_btn_condition",
+                  "title": "Button25 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button26ActionBtn",
+                  "attribute": "dmx-bind:button26_action_btn",
+                  "title": "Button26 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button26ActionTitle",
+                  "attribute": "button26_action_title",
+                  "title": "Button26 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button26ActionTooltip",
+                  "attribute": "button26_action_tooltip",
+                  "title": "Button26 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button26ActionBtnClass",
+                  "attribute": "button26_action_btn_class",
+                  "title": "Button26 Class",
+                  "type": "text",
+                  "defaultValue": "btn-secondary btn-sm m-1"
+                },
+                {
+                  "name": "button26ActionIconClass",
+                  "attribute": "button26_action_icon_class",
+                  "title": "Button26 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-refresh"
+                },
+                {
+                  "name": "button26ActionBtnCondition",
+                  "attribute": "button26_action_btn_condition",
+                  "title": "Button26 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button27ActionBtn",
+                  "attribute": "dmx-bind:button27_action_btn",
+                  "title": "Button27 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button27ActionTitle",
+                  "attribute": "button27_action_title",
+                  "title": "Button27 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button27ActionTooltip",
+                  "attribute": "button27_action_tooltip",
+                  "title": "Button27 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button27ActionBtnClass",
+                  "attribute": "button27_action_btn_class",
+                  "title": "Button27 Class",
+                  "type": "text",
+                  "defaultValue": "btn-primary btn-sm m-1"
+                },
+                {
+                  "name": "button27ActionIconClass",
+                  "attribute": "button27_action_icon_class",
+                  "title": "Button27 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-plus"
+                },
+                {
+                  "name": "button27ActionBtnCondition",
+                  "attribute": "button27_action_btn_condition",
+                  "title": "Button27 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button28ActionBtn",
+                  "attribute": "dmx-bind:button28_action_btn",
+                  "title": "Button28 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button28ActionTitle",
+                  "attribute": "button28_action_title",
+                  "title": "Button28 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button28ActionTooltip",
+                  "attribute": "button28_action_tooltip",
+                  "title": "Button28 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button28ActionBtnClass",
+                  "attribute": "button28_action_btn_class",
+                  "title": "Button28 Class",
+                  "type": "text",
+                  "defaultValue": "btn-info btn-sm m-1"
+                },
+                {
+                  "name": "button28ActionIconClass",
+                  "attribute": "button28_action_icon_class",
+                  "title": "Button28 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-minus"
+                },
+                {
+                  "name": "button28ActionBtnCondition",
+                  "attribute": "button28_action_btn_condition",
+                  "title": "Button28 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button29ActionBtn",
+                  "attribute": "dmx-bind:button29_action_btn",
+                  "title": "Button29 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button29ActionTitle",
+                  "attribute": "button29_action_title",
+                  "title": "Button29 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button29ActionTooltip",
+                  "attribute": "button29_action_tooltip",
+                  "title": "Button29 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button29ActionBtnClass",
+                  "attribute": "button29_action_btn_class",
+                  "title": "Button29 Class",
+                  "type": "text",
+                  "defaultValue": "btn-success btn-sm m-1"
+                },
+                {
+                  "name": "button29ActionIconClass",
+                  "attribute": "button29_action_icon_class",
+                  "title": "Button29 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-copy"
+                },
+                {
+                  "name": "button29ActionBtnCondition",
+                  "attribute": "button29_action_btn_condition",
+                  "title": "Button29 Condition",
+                  "type": "text"
+                },
+                {
+                  "name": "button30ActionBtn",
+                  "attribute": "dmx-bind:button30_action_btn",
+                  "title": "Button30 Action Button",
+                  "type": "boolean",
+                  "defaultValue": false
+                },
+                {
+                  "name": "button30ActionTitle",
+                  "attribute": "button30_action_title",
+                  "title": "Button30 Title",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button30ActionTooltip",
+                  "attribute": "button30_action_tooltip",
+                  "title": "Button30 Tooltip",
+                  "type": "text",
+                  "defaultValue": ""
+                },
+                {
+                  "name": "button30ActionBtnClass",
+                  "attribute": "button30_action_btn_class",
+                  "title": "Button30 Class",
+                  "type": "text",
+                  "defaultValue": "btn-danger btn-sm m-1"
+                },
+                {
+                  "name": "button30ActionIconClass",
+                  "attribute": "button30_action_icon_class",
+                  "title": "Button30 Icon Class",
+                  "type": "text",
+                  "defaultValue": "fas fa-share"
+                },
+                {
+                  "name": "button30ActionBtnCondition",
+                  "attribute": "button30_action_btn_condition",
+                  "title": "Button30 Condition",
+                  "type": "text"
                 }
               ]
             },
@@ -3035,7 +3505,17 @@
                           {"id": "button17", "text": "button17"},
                           {"id": "button18", "text": "button18"},
                           {"id": "button19", "text": "button19"},
-                          {"id": "button20", "text": "button20"}
+                          {"id": "button20", "text": "button20"},
+                          {"id": "button21", "text": "button21"},
+                          {"id": "button22", "text": "button22"},
+                          {"id": "button23", "text": "button23"},
+                          {"id": "button24", "text": "button24"},
+                          {"id": "button25", "text": "button25"},
+                          {"id": "button26", "text": "button26"},
+                          {"id": "button27", "text": "button27"},
+                          {"id": "button28", "text": "button28"},
+                          {"id": "button29", "text": "button29"},
+                          {"id": "button30", "text": "button30"}
                         ]
                       }
                     },
@@ -3099,7 +3579,17 @@
                           {"id": "button17", "text": "button17"},
                           {"id": "button18", "text": "button18"},
                           {"id": "button19", "text": "button19"},
-                          {"id": "button20", "text": "button20"}
+                          {"id": "button20", "text": "button20"},
+                          {"id": "button21", "text": "button21"},
+                          {"id": "button22", "text": "button22"},
+                          {"id": "button23", "text": "button23"},
+                          {"id": "button24", "text": "button24"},
+                          {"id": "button25", "text": "button25"},
+                          {"id": "button26", "text": "button26"},
+                          {"id": "button27", "text": "button27"},
+                          {"id": "button28", "text": "button28"},
+                          {"id": "button29", "text": "button29"},
+                          {"id": "button30", "text": "button30"}
                         ]
                       }
                     },
