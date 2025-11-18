@@ -5319,6 +5319,326 @@
         "allowedOn": {
           "dmx-ag-grid": true
         }
+      },
+      {
+        "name": "dmx-ag-grid-button21-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button21",
+        "display": "fieldset",
+        "title": "Button21 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button21ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button21ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button21",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
+      {
+        "name": "dmx-ag-grid-button22-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button22",
+        "display": "fieldset",
+        "title": "Button22 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button22ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button22ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button22",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
+      {
+        "name": "dmx-ag-grid-button23-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button23",
+        "display": "fieldset",
+        "title": "Button23 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button23ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button23ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button23",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
+      {
+        "name": "dmx-ag-grid-button24-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button24",
+        "display": "fieldset",
+        "title": "Button24 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button24ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button24ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button24",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
+      {
+        "name": "dmx-ag-grid-button25-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button25",
+        "display": "fieldset",
+        "title": "Button25 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button25ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button25ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button25",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
+      {
+        "name": "dmx-ag-grid-button26-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button26",
+        "display": "fieldset",
+        "title": "Button26 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button26ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button26ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button26",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
+      {
+        "name": "dmx-ag-grid-button27-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button27",
+        "display": "fieldset",
+        "title": "Button27 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button27ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button27ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button27",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
+      {
+        "name": "dmx-ag-grid-button28-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button28",
+        "display": "fieldset",
+        "title": "Button28 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button28ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button28ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button28",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
+      {
+        "name": "dmx-ag-grid-button29-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button29",
+        "display": "fieldset",
+        "title": "Button29 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button29ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button29ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button29",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
+      },
+      {
+        "name": "dmx-ag-grid-button30-clicked",
+        "attributeStartsWith": "dmx-on",
+        "attribute": "row_action_button30",
+        "display": "fieldset",
+        "title": "Button30 Clicked",
+        "icon": "fa fa-lg fa-chevron-right",
+        "groupTitle": "Custom Buttons",
+        "groupIcon": "fa fa-lg fa-hand-pointer",
+        "defaultValue": false,
+        "show": ["button30ActionEvent"],
+        "noChangeOnHide": true,
+        "type": "boolean",
+        "groupEnabler": true,
+        "children": [
+          {
+            "name": "button30ActionEvent",
+            "attributeStartsWith": "dmx-on",
+            "attribute": "row_action_button30",
+            "isValue": true,
+            "actionsPicker": true,
+            "title": "Action:",
+            "type": "text",
+            "help": "Choose the action to execute.",
+            "defaultValue": "",
+            "initDisplay": "none"
+          }
+        ],
+        "allowedOn": {
+          "dmx-ag-grid": true
+        }
       }
   ],
   "static_events": []
