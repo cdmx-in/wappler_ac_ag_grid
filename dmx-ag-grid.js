@@ -1296,7 +1296,7 @@ dmx.Component('ag-grid', {
               },
               {
                 displayKey: 'doesNotContain',
-                displayName: 'Does not Contain',
+                displayName: 'Does not contain',
                 predicate: (filterValue, cellValue) => {
                   return !cellValue.toString().includes(filterValue.toString());
                 }
