@@ -609,6 +609,10 @@ You can also specify left-only conditions, where only the field name is provided
 **Export**
 - To be used if you wish to use a separate Export button instead of using the inbuilt top left-cornered Export button.
 - Trigger this action to call Export Data to CSV/PDF download action based on selected file Type.
+- **Column State Integration**: When exporting data, the grid automatically respects the saved column state from localStorage. This means:
+  - Columns are exported in the same order as they appear in the grid (based on user's saved column arrangement)
+  - Hidden columns are automatically excluded from export
+  - If no saved column state exists, the export falls back to the default column configuration
 
 **Save Column State**
 - This action allows you to save the current state of the grid's columns, including their visibility and order, to the browser's local storage.

@@ -2153,39 +2153,104 @@ dmx.Component('ag-grid', {
     exportGridData = () => {
       const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
       const exportExcludeFieldsArray = options.export_exclude_fields ? options.export_exclude_fields.split(',') : [];
-      // Extracting fields and colIds from columnDefs
-      let fieldsAndColIds;
-      if (options.group_config) {
-        // Helper function to traverse grouped column structure
-        const traverseColumns = (columns) => {
-          const fieldsAndColIds = [];
-          columns.forEach((column) => {
-            if (column.children) {
-              fieldsAndColIds.push(...traverseColumns(column.children));
-            } else {
-              fieldsAndColIds.push({
-                field: column.field,
-                colId: column.colId,
-                hide: column.hide,
-              });
-            }
-          });
-          return fieldsAndColIds;
-        };
-        // Traverse columnDefs to gather fields and colIds
-        fieldsAndColIds = traverseColumns(gridConfig.columnDefs);
-      } else {
-        fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
-          field: column.field,
-          colId: column.colId,
-          hide: column.hide,
-        }));
+      
+      let fieldsToExport = [];
+      
+      // Try to get saved column state from localStorage
+      const pageId = getPageId();
+      const storageKey = options.column_state_storage_key || pageId;
+      const savedColumnState = localStorage.getItem(`dmxState-${storageKey}`);
+      
+      // If saved column state exists, use it
+      if (savedColumnState) {
+        try {
+          const parsedState = JSON.parse(savedColumnState);
+          // Use the saved state to determine column order and visibility
+          fieldsToExport = parsedState
+            .filter((col) => {
+              // Skip excluded columns
+              if (excludedColumnIds.includes(col.colId)) {
+                return false;
+              }
+              // Skip hidden columns (respecting the hide property from saved state)
+              if (col.hide) {
+                return false;
+              }
+              return true;
+            })
+            .map((col) => {
+              // Map colId to field from columnDefs
+              const columnDef = findColumnDefByColId(col.colId);
+              return columnDef ? columnDef.field : col.colId;
+            })
+            .filter((field) => !exportExcludeFieldsArray.includes(field));
+        } catch (err) {
+          console.warn(`Failed to parse saved column state for key: dmxState-${storageKey}`, err);
+          fieldsToExport = [];
+        }
       }
-      const fieldsToExport = fieldsAndColIds.filter((column) => {
-        return !excludedColumnIds.includes(column.colId) &&
-               (!options.export_exclude_hidden_fields || !column.hide) &&
-               !exportExcludeFieldsArray.includes(column.field);
-      }).map((column) => column.field);
+      
+      // Helper function to find column definition by colId
+      function findColumnDefByColId(colId) {
+        if (options.group_config) {
+          const traverseColumns = (columns) => {
+            for (const column of columns) {
+              if (column.children) {
+                const result = traverseColumns(column.children);
+                if (result) return result;
+              } else if (column.colId === colId) {
+                return column;
+              }
+            }
+            return null;
+          };
+          return traverseColumns(gridConfig.columnDefs);
+        } else {
+          return gridConfig.columnDefs.find((column) => column.colId === colId);
+        }
+      }
+      
+      // Fallback to current logic if no saved state or if fieldsToExport is empty
+      if (!fieldsToExport || fieldsToExport.length === 0) {
+        fieldsToExport = getDefaultExportFields();
+      }
+      
+      function getDefaultExportFields() {
+        // Extracting fields and colIds from columnDefs
+        let fieldsAndColIds;
+        if (options.group_config) {
+          // Helper function to traverse grouped column structure
+          const traverseColumns = (columns) => {
+            const fieldsAndColIds = [];
+            columns.forEach((column) => {
+              if (column.children) {
+                fieldsAndColIds.push(...traverseColumns(column.children));
+              } else {
+                fieldsAndColIds.push({
+                  field: column.field,
+                  colId: column.colId,
+                  hide: column.hide,
+                });
+              }
+            });
+            return fieldsAndColIds;
+          };
+          // Traverse columnDefs to gather fields and colIds
+          fieldsAndColIds = traverseColumns(gridConfig.columnDefs);
+        } else {
+          fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
+            field: column.field,
+            colId: column.colId,
+            hide: column.hide,
+          }));
+        }
+        const result = fieldsAndColIds.filter((column) => {
+          return !excludedColumnIds.includes(column.colId) &&
+                 (!options.export_exclude_hidden_fields || !column.hide) &&
+                 !exportExcludeFieldsArray.includes(column.field);
+        }).map((column) => column.field);
+        return result;
+      }
     
       const params = {
         fileName: options.export_csv_filename,
