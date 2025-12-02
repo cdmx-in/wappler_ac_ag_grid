@@ -254,6 +254,14 @@
               "help": "Specifies fields to be excluded in CSV export (comma-seperated)."
             },
             {
+              "name": "exportRemoveHtml",
+              "attribute": "dmx-bind:export_remove_html",
+              "title": "Remove HTML from Export",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Removes HTML tags from exported data (CSV/PDF). Converts <br> tags to newlines."
+            },
+            {
               "name": "paginationPageSizeSelector",
               "attribute": "dmx-bind:pagination_page_size_selector",
               "title": "Page Limit Selectors",

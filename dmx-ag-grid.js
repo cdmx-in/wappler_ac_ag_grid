@@ -87,6 +87,7 @@ dmx.Component('ag-grid', {
     export_trim_data: { type: Boolean, default: false },
     export_exclude_hidden_fields: { type: Boolean, default: false },
     export_exclude_fields: { type: String, default: null },
+    export_remove_html: { type: Boolean, default: false },
     export_to_csv: { type: Boolean, default: true },
     export_csv_filename: { type: String, default: 'export.csv' },
     export_to_pdf: { type: Boolean, default: false },
@@ -2154,6 +2155,21 @@ dmx.Component('ag-grid', {
     updateHoveringBarStyles();
 
     //CSV Export Function
+    // Helper function to remove HTML tags from string
+    const removeHtmlTags = (htmlString) => {
+      if (typeof htmlString !== 'string') return htmlString;
+      // Remove all HTML tags and decode common HTML entities
+      return htmlString
+        .replace(/<br\s*\/?>/gi, '\n')  // Replace <br> tags with newlines
+        .replace(/<[^>]*>/g, '')         // Remove all other HTML tags
+        .replace(/&nbsp;/g, ' ')         // Replace non-breaking space
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'");
+    };
+
     exportGridData = (currentGridInstance, currentGridConfig) => {
       const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
       const exportExcludeFieldsArray = options.export_exclude_fields ? options.export_exclude_fields.split(',') : [];
@@ -2285,6 +2301,11 @@ dmx.Component('ag-grid', {
             if (formattedValue !== null && formattedValue !== undefined) {
               value = formattedValue;
             }
+          }
+    
+          // Remove HTML tags if export_remove_html is true
+          if (options.export_remove_html && typeof value === 'string') {
+            value = removeHtmlTags(value);
           }
     
           // Trim value if export_trim is true
@@ -2446,12 +2467,19 @@ dmx.Component('ag-grid', {
               cnames[field].custom_name : 
               humanize(field)
             ) : '';
+            let cellValue = !isHeader ? (
+              (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
+              (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
+              gInstance.getValue(column, gInstance.getDisplayedRowAtIndex(0)) ?? ''
+            ) : headerName;
+            
+            // Remove HTML tags if export_remove_html is true
+            if (options.export_remove_html && typeof cellValue === 'string') {
+              cellValue = removeHtmlTags(cellValue);
+            }
+            
             return {
-              text: !isHeader ? (
-                (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
-                (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
-                gInstance.getValue(column, gInstance.getDisplayedRowAtIndex(0)) ?? ''
-              ) : headerName,
+              text: cellValue,
               color: cellStyle?.color ?? 'black',
               fillColor: cellStyle?.backgroundColor ? cellStyle.backgroundColor.replace('#', '') : undefined,
             };
@@ -2474,11 +2502,20 @@ dmx.Component('ag-grid', {
             api: currentGridInstance,
           };
           const cellStyle = applyCellStyle(params);
-          const value = currentGridInstance.getCellValue({ rowNode: node, colKey: col.colId }) ?? '-';
+          let value = currentGridInstance.getCellValue({ rowNode: node, colKey: col.colId }) ?? '-';
+          
+          // Get the rendered value
+          let displayValue = (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
+                            (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
+                            value;
+          
+          // Remove HTML tags if export_remove_html is true
+          if (options.export_remove_html && typeof displayValue === 'string') {
+            displayValue = removeHtmlTags(displayValue);
+          }
+          
           return {
-            text: (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
-                  (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
-                  value,
+            text: displayValue,
             color: cellStyle?.color ?? 'black',
             fillColor: cellStyle?.backgroundColor ? cellStyle.backgroundColor.replace('#', '') : undefined,
           };
