@@ -356,9 +356,11 @@ dmx.Component('ag-grid', {
         Csv = true;
       }
       dmx.nextTick(() => {
-        const exportFunction = Csv ? exportGridData : (Pdf ? exportGridDataToPDF : null);
-        if (typeof exportFunction === 'function') {
-          exportFunction();
+        const gridInst = this.get('gridInstance');
+        if (Csv) {
+          exportGridData(gridInst, this.gridConfig);
+        } else if (Pdf) {
+          exportGridDataToPDF(gridInst, this.gridConfig);
         } else {
           console.error('Grid not loaded to perform the requested export');
         }
@@ -1979,6 +1981,8 @@ dmx.Component('ag-grid', {
       columnDefs: columnDefs,
       ...gridOptions
     };
+    // Store gridConfig on component instance for export functions
+    this.gridConfig = gridConfig;
     // Conditionally add event listeners based on whether columnsToSum or columnsToCount are defined
     if ((options.columns_to_sum && options.columns_to_sum.split(',').length > 0) || (options.columns_to_count.length > 0)) {
       let columnsToSum = options.columns_to_sum ? options.columns_to_sum.split(',') : [];
@@ -2150,7 +2154,7 @@ dmx.Component('ag-grid', {
     updateHoveringBarStyles();
 
     //CSV Export Function
-    exportGridData = () => {
+    exportGridData = (currentGridInstance, currentGridConfig) => {
       const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
       const exportExcludeFieldsArray = options.export_exclude_fields ? options.export_exclude_fields.split(',') : [];
       
@@ -2204,9 +2208,9 @@ dmx.Component('ag-grid', {
             }
             return null;
           };
-          return traverseColumns(gridConfig.columnDefs);
+          return traverseColumns(currentGridConfig.columnDefs);
         } else {
-          return gridConfig.columnDefs.find((column) => column.colId === colId);
+          return currentGridConfig.columnDefs.find((column) => column.colId === colId);
         }
       }
       
@@ -2236,9 +2240,9 @@ dmx.Component('ag-grid', {
             return fieldsAndColIds;
           };
           // Traverse columnDefs to gather fields and colIds
-          fieldsAndColIds = traverseColumns(gridConfig.columnDefs);
+          fieldsAndColIds = traverseColumns(currentGridConfig.columnDefs);
         } else {
-          fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
+          fieldsAndColIds = currentGridConfig.columnDefs.map((column) => ({
             field: column.field,
             colId: column.colId,
             hide: column.hide,
@@ -2291,46 +2295,57 @@ dmx.Component('ag-grid', {
           return value;
         },
       };
-      gridInstance.exportDataAsCsv(params);
+      currentGridInstance.exportDataAsCsv(params);
     };
     // Create the export button
     if (exportToCSV) {
-      const existingExportButton = document.getElementById('exportButton');
-      if (existingExportButton) {
-        return;
+      let exportButton = document.getElementById(`exportButton-${options.id}`);
+      let isNewButton = false;
+      if (!exportButton) {
+        isNewButton = true;
+        exportButton = document.createElement('button');
+        exportButton.id = `exportButton-${options.id}`; 
+        const icon = document.createElement('i');
+        icon.classList.add('fas', 'fa-file-csv');
+        exportButton.appendChild(icon);
+
+        // Add the button text
+        const buttonText = document.createElement('span');
+        buttonText.innerText = ' Export to CSV';
+        exportButton.appendChild(buttonText);
+        exportButton.style.backgroundColor = '#4CAF50';
+        exportButton.style.border = 'none';
+        exportButton.style.color = 'white';
+        exportButton.style.padding = '5px 10px';
+        exportButton.style.textAlign = 'center';
+        exportButton.style.textDecoration = 'none';
+        exportButton.style.display = 'inline-block';
+        exportButton.style.fontSize = '14px'; 
+        exportButton.style.borderRadius = '5px';
+        exportButton.style.cursor = 'pointer';
+        exportButton.style.marginBottom = '10px';
       }
-      const exportButton = document.createElement('button');
-      exportButton.id = 'exportButton'; 
-      const icon = document.createElement('i');
-      icon.classList.add('fas', 'fa-file-csv');
-      exportButton.appendChild(icon);
-
-      // Add the button text
-      const buttonText = document.createElement('span');
-      buttonText.innerText = ' Export to CSV';
-      exportButton.appendChild(buttonText);
-      exportButton.style.backgroundColor = '#4CAF50';
-      exportButton.style.border = 'none';
-      exportButton.style.color = 'white';
-      exportButton.style.padding = '5px 10px';
-      exportButton.style.textAlign = 'center';
-      exportButton.style.textDecoration = 'none';
-      exportButton.style.display = 'inline-block';
-      exportButton.style.fontSize = '14px'; 
-      exportButton.style.borderRadius = '5px';
-      exportButton.style.cursor = 'pointer';
-      exportButton.style.marginBottom = '10px';
-
-      exportButton.addEventListener('click', () => {
-        exportGridData()
-      })
-      // Append the export button to the grid container
-      gridContainer.parentNode.insertBefore(exportButton, gridContainer);
-      exportButton.style.marginBottom = '10px';
+      
+      // Always update the click handler to ensure it has the latest gridInstance and gridConfig
+      exportButton.onclick = () => {
+        const currentGridInstance = this.get('gridInstance');
+        const currentGridConfig = this.gridConfig;
+        if (currentGridInstance && currentGridConfig) {
+          exportGridData(currentGridInstance, currentGridConfig);
+        } else {
+          console.error('Grid instance or configuration not available for export');
+        }
+      };
+      
+      if (isNewButton) {
+        // Append the export button to the grid container
+        gridContainer.parentNode.insertBefore(exportButton, gridContainer);
+        exportButton.style.marginBottom = '10px';
+      }
     }
     // Export AG Grid data to PDF
-    exportGridDataToPDF = async () => {
-      if (!gridInstance || gridInstance.isDestroyed()) {
+    exportGridDataToPDF = async (currentGridInstance, currentGridConfig) => {
+      if (!currentGridInstance || currentGridInstance.isDestroyed()) {
         console.error('Grid API is destroyed or not initialized.');
         return;
       }
@@ -2355,9 +2370,9 @@ dmx.Component('ag-grid', {
           return fieldsAndColIds;
         };
         // Traverse columnDefs to gather fields and colIds
-        fieldsAndColIds = traverseColumns(gridConfig.columnDefs);
+        fieldsAndColIds = traverseColumns(currentGridConfig.columnDefs);
       } else {
-        fieldsAndColIds = gridConfig.columnDefs.map((column) => ({
+        fieldsAndColIds = currentGridConfig.columnDefs.map((column) => ({
           field: column.field,
           colId: column.colId,
           hide: column.hide,
@@ -2409,19 +2424,19 @@ dmx.Component('ag-grid', {
         return options.wrap_text ? { whiteSpace: 'normal' } : null;
       };
     
-      const getColumnData = (gridInstance, isHeader) => 
-        gridInstance.getAllDisplayedColumns()
+      const getColumnData = (gInstance, isHeader) => 
+        gInstance.getAllDisplayedColumns()
           .filter(column => fieldsToExport.includes(column.getColDef().field))
           .map(column => {
             const colDef = column.getColDef();
             const field = colDef.field;
             const params = {
-              value: isHeader ? null : gridInstance.getValue(column, gridInstance.getDisplayedRowAtIndex(0)),
-              data: isHeader ? null : gridInstance.getDisplayedRowAtIndex(0).data,
-              node: isHeader ? null : gridInstance.getDisplayedRowAtIndex(0),
+              value: isHeader ? null : gInstance.getValue(column, gInstance.getDisplayedRowAtIndex(0)),
+              data: isHeader ? null : gInstance.getDisplayedRowAtIndex(0).data,
+              node: isHeader ? null : gInstance.getDisplayedRowAtIndex(0),
               colDef,
               column,
-              api: gridInstance,
+              api: gInstance,
               context: params.context,
             };
             const cellStyle = applyCellStyle(params);
@@ -2435,31 +2450,31 @@ dmx.Component('ag-grid', {
               text: !isHeader ? (
                 (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
                 (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
-                gridInstance.getValue(column, gridInstance.getDisplayedRowAtIndex(0)) ?? ''
+                gInstance.getValue(column, gInstance.getDisplayedRowAtIndex(0)) ?? ''
               ) : headerName,
               color: cellStyle?.color ?? 'black',
               fillColor: cellStyle?.backgroundColor ? cellStyle.backgroundColor.replace('#', '') : undefined,
             };
-          });
+          });;
     
-      const columns = gridInstance.getColumnState();
+      const columns = currentGridInstance.getColumnState();
       const columnMap = new Map(columns.map(col => [col.colId, col]));
     
       const rows = [];
-      gridInstance.forEachNode(node => {
+      currentGridInstance.forEachNode(node => {
         const row = fieldsToExport.map(field => {
           const col = columnMap.get(field);
-          const colDef = col ? gridInstance.getColumnDefs().find(def => def.colId === col.colId) : {};
+          const colDef = col ? currentGridInstance.getColumnDefs().find(def => def.colId === col.colId) : {};
           const params = {
-            value: gridInstance.getCellValue({ rowNode: node, colKey: col.colId }) ?? '-',
+            value: currentGridInstance.getCellValue({ rowNode: node, colKey: col.colId }) ?? '-',
             data: node.data,
             node,
             colDef,
-            column: gridInstance.getColumnState().find(col => col.colId === col.colId),
-            api: gridInstance,
+            column: currentGridInstance.getColumnState().find(col => col.colId === col.colId),
+            api: currentGridInstance,
           };
           const cellStyle = applyCellStyle(params);
-          const value = gridInstance.getCellValue({ rowNode: node, colKey: col.colId }) ?? '-';
+          const value = currentGridInstance.getCellValue({ rowNode: node, colKey: col.colId }) ?? '-';
           return {
             text: (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') ? colDef.cellRenderer(params) : 
                   (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') ? colDef.valueFormatter(params) : 
@@ -2476,7 +2491,7 @@ dmx.Component('ag-grid', {
           table: {
             headerRows: 1,
             widths: fieldsToExport.map(() => `${100 / fieldsToExport.length}%`),
-            body: [getColumnData(gridInstance, true), ...rows],
+            body: [getColumnData(currentGridInstance, true), ...rows],
             heights: (rowIndex) => (rowIndex === 0 ? 40 : 15),
             fillColor: (rowIndex, colIndex) => rows[rowIndex][colIndex].fillColor,
             color: (rowIndex, colIndex) => rows[rowIndex][colIndex].color,
@@ -2486,39 +2501,49 @@ dmx.Component('ag-grid', {
       pdfMake.createPdf(documentDefinition).download(options.export_pdf_filename);
     };
     if (exportToPDF) {
-      const existingPdfExportButton = document.getElementById('exportPdfButton');
-      if (existingPdfExportButton) {
-        return;
+      let exportPdfButton = document.getElementById(`exportPdfButton-${options.id}`);
+      let isNewPdfButton = false;
+      if (!exportPdfButton) {
+        isNewPdfButton = true;
+        exportPdfButton = document.createElement('button');
+        exportPdfButton.id = `exportPdfButton-${options.id}`; 
+        const icon = document.createElement('i');
+        icon.classList.add('fas', 'fa-file-pdf');
+        exportPdfButton.appendChild(icon);
+
+        // Add the button text
+        const buttonText = document.createElement('span');
+        buttonText.innerText = ' Export to PDF';
+        exportPdfButton.appendChild(buttonText);
+        exportPdfButton.style.backgroundColor = '#4CAF50';
+        exportPdfButton.style.border = 'none';
+        exportPdfButton.style.color = 'white';
+        exportPdfButton.style.padding = '5px 10px';
+        exportPdfButton.style.textAlign = 'center';
+        exportPdfButton.style.textDecoration = 'none';
+        exportPdfButton.style.display = 'inline-block';
+        exportPdfButton.style.fontSize = '14px'; 
+        exportPdfButton.style.borderRadius = '5px';
+        exportPdfButton.style.cursor = 'pointer';
+        exportPdfButton.style.marginBottom = '10px';
       }
-      const exportPdfButton = document.createElement('button');
-      exportPdfButton.id = 'exportPdfButton'; 
-      const icon = document.createElement('i');
-      icon.classList.add('fas', 'fa-file-pdf');
-      exportPdfButton.appendChild(icon);
-
-      // Add the button text
-      const buttonText = document.createElement('span');
-      buttonText.innerText = ' Export to PDF';
-      exportPdfButton.appendChild(buttonText);
-      exportPdfButton.style.backgroundColor = '#4CAF50';
-      exportPdfButton.style.border = 'none';
-      exportPdfButton.style.color = 'white';
-      exportPdfButton.style.padding = '5px 10px';
-      exportPdfButton.style.textAlign = 'center';
-      exportPdfButton.style.textDecoration = 'none';
-      exportPdfButton.style.display = 'inline-block';
-      exportPdfButton.style.fontSize = '14px'; 
-      exportPdfButton.style.borderRadius = '5px';
-      exportPdfButton.style.cursor = 'pointer';
-      exportPdfButton.style.marginBottom = '10px';
-
-      exportPdfButton.addEventListener('click', () => {
-        exportGridDataToPDF(this)
-      })
+      
+      // Always update the click handler to ensure it has the latest gridInstance and gridConfig
+      exportPdfButton.onclick = () => {
+        const currentGridInstance = this.get('gridInstance');
+        const currentGridConfig = this.gridConfig;
+        if (currentGridInstance && currentGridConfig) {
+          exportGridDataToPDF(currentGridInstance, currentGridConfig);
+        } else {
+          console.error('Grid instance or configuration not available for export');
+        }
+      };
     
-      // Append the export button to the grid container
-      gridContainer.parentNode.insertBefore(exportPdfButton, gridContainer);
-      exportPdfButton.style.marginBottom = '10px';
+      if (isNewPdfButton) {
+        // Append the export button to the grid container
+        gridContainer.parentNode.insertBefore(exportPdfButton, gridContainer);
+        exportPdfButton.style.marginBottom = '10px';
+      }
     }
     const paginationPanelCss = `
       /* Flexbox layout for pagination panel */
