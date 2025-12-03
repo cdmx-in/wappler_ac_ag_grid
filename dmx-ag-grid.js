@@ -1313,6 +1313,8 @@ dmx.Component('ag-grid', {
             const amountFieldsArray = options.amount_fields.split(',');
             if (amountFieldsArray.includes(key)) {
               valueFormatter = function (params) {
+                const num = Number(params.value);
+                if (isNaN(num)) return '-';
                 if (params.value != null) {
                   return Number(params.value).toLocaleString(options.date_locale, {
                     minimumFractionDigits: options.amount_field_precision,
@@ -1325,6 +1327,7 @@ dmx.Component('ag-grid', {
           } else {
             valueFormatter = blankOrNullValueFormatter;
           }
+          comparator = options.ci_sort ? caseInsensitiveComparator : undefined;
         } else if (dataType === 'date') {
           filter = 'agDateColumnFilter';
           valueFormatter = (params) => formatTime(params, timezone);
