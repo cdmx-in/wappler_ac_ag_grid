@@ -358,10 +358,11 @@ dmx.Component('ag-grid', {
       }
       dmx.nextTick(() => {
         const gridInst = this.get('gridInstance');
+        const gridCfg = this.get('gridConfig');
         if (Csv) {
-          exportGridData(gridInst, this.gridConfig);
+          exportGridData(gridInst, gridCfg);
         } else if (Pdf) {
-          exportGridDataToPDF(gridInst, this.gridConfig);
+          exportGridDataToPDF(gridInst, gridCfg);
         } else {
           console.error('Grid not loaded to perform the requested export');
         }
@@ -1983,10 +1984,21 @@ dmx.Component('ag-grid', {
     };
     const gridConfig = {
       columnDefs: columnDefs,
-      ...gridOptions
+      ...gridOptions,
+      // Store export configuration for each grid instance
+      exportConfig: {
+        export_csv_filename: options.export_csv_filename,
+        export_pdf_filename: options.export_pdf_filename,
+        export_remove_html: options.export_remove_html,
+        export_trim_data: options.export_trim_data,
+        export_exclude_fields: options.export_exclude_fields,
+        export_exclude_hidden_fields: options.export_exclude_hidden_fields,
+        group_config: options.group_config,
+        column_state_storage_key: options.column_state_storage_key
+      }
     };
     // Store gridConfig on component instance for export functions
-    this.gridConfig = gridConfig;
+    this.set('gridConfig', gridConfig);
     // Conditionally add event listeners based on whether columnsToSum or columnsToCount are defined
     if ((options.columns_to_sum && options.columns_to_sum.split(',').length > 0) || (options.columns_to_count.length > 0)) {
       let columnsToSum = options.columns_to_sum ? options.columns_to_sum.split(',') : [];
@@ -2174,14 +2186,15 @@ dmx.Component('ag-grid', {
     };
 
     exportGridData = (currentGridInstance, currentGridConfig) => {
+      const exportConfig = currentGridConfig.exportConfig;
       const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
-      const exportExcludeFieldsArray = options.export_exclude_fields ? options.export_exclude_fields.split(',') : [];
+      const exportExcludeFieldsArray = exportConfig.export_exclude_fields ? exportConfig.export_exclude_fields.split(',') : [];
       
       let fieldsToExport = [];
       
       // Try to get saved column state from localStorage
       const pageId = getPageId();
-      const storageKey = options.column_state_storage_key || pageId;
+      const storageKey = exportConfig.column_state_storage_key || pageId;
       const savedColumnState = localStorage.getItem(`dmxState-${storageKey}`);
       
       // If saved column state exists, use it
@@ -2215,7 +2228,7 @@ dmx.Component('ag-grid', {
       
       // Helper function to find column definition by colId
       function findColumnDefByColId(colId) {
-        if (options.group_config) {
+        if (exportConfig.group_config) {
           const traverseColumns = (columns) => {
             for (const column of columns) {
               if (column.children) {
@@ -2241,7 +2254,7 @@ dmx.Component('ag-grid', {
       function getDefaultExportFields() {
         // Extracting fields and colIds from columnDefs
         let fieldsAndColIds;
-        if (options.group_config) {
+        if (exportConfig.group_config) {
           // Helper function to traverse grouped column structure
           const traverseColumns = (columns) => {
             const fieldsAndColIds = [];
@@ -2269,14 +2282,14 @@ dmx.Component('ag-grid', {
         }
         const result = fieldsAndColIds.filter((column) => {
           return !excludedColumnIds.includes(column.colId) &&
-                 (!options.export_exclude_hidden_fields || !column.hide) &&
+                 (!exportConfig.export_exclude_hidden_fields || !column.hide) &&
                  !exportExcludeFieldsArray.includes(column.field);
         }).map((column) => column.field);
         return result;
       }
     
       const params = {
-        fileName: options.export_csv_filename,
+        fileName: exportConfig.export_csv_filename,
         allColumns: true,
         columnKeys: fieldsToExport,
         processCellCallback: function (params) {
@@ -2307,12 +2320,12 @@ dmx.Component('ag-grid', {
           }
     
           // Remove HTML tags if export_remove_html is true
-          if (options.export_remove_html && typeof value === 'string') {
+          if (exportConfig.export_remove_html && typeof value === 'string') {
             value = removeHtmlTags(value);
           }
     
           // Trim value if export_trim is true
-          if (options.export_trim_data && typeof value === 'string') {
+          if (exportConfig.export_trim_data && typeof value === 'string') {
             return value.trim();
           }
     
@@ -2353,7 +2366,7 @@ dmx.Component('ag-grid', {
       // Always update the click handler to ensure it has the latest gridInstance and gridConfig
       exportButton.onclick = () => {
         const currentGridInstance = this.get('gridInstance');
-        const currentGridConfig = this.gridConfig;
+        const currentGridConfig = this.get('gridConfig');
         if (currentGridInstance && currentGridConfig) {
           exportGridData(currentGridInstance, currentGridConfig);
         } else {
@@ -2373,10 +2386,11 @@ dmx.Component('ag-grid', {
         console.error('Grid API is destroyed or not initialized.');
         return;
       }
+      const exportConfig = currentGridConfig.exportConfig;
       const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
-      const exportExcludeFieldsArray = options.export_exclude_fields ? options.export_exclude_fields.split(',') : [];
+      const exportExcludeFieldsArray = exportConfig.export_exclude_fields ? exportConfig.export_exclude_fields.split(',') : [];
       let fieldsAndColIds;
-      if (options.group_config) {
+      if (exportConfig.group_config) {
         // Helper function to traverse grouped column structure
         const traverseColumns = (columns) => {
           const fieldsAndColIds = [];
@@ -2404,7 +2418,7 @@ dmx.Component('ag-grid', {
       }
       const fieldsToExport = fieldsAndColIds.filter((column) => {
         return !excludedColumnIds.includes(column.colId) &&
-               (!options.export_exclude_hidden_fields || !column.hide) &&
+               (!exportConfig.export_exclude_hidden_fields || !column.hide) &&
                !exportExcludeFieldsArray.includes(column.field);
       }).map((column) => column.field);
     
@@ -2477,7 +2491,7 @@ dmx.Component('ag-grid', {
             ) : headerName;
             
             // Remove HTML tags if export_remove_html is true
-            if (options.export_remove_html && typeof cellValue === 'string') {
+            if (exportConfig.export_remove_html && typeof cellValue === 'string') {
               cellValue = removeHtmlTags(cellValue);
             }
             
@@ -2513,7 +2527,7 @@ dmx.Component('ag-grid', {
                             value;
           
           // Remove HTML tags if export_remove_html is true
-          if (options.export_remove_html && typeof displayValue === 'string') {
+          if (exportConfig.export_remove_html && typeof displayValue === 'string') {
             displayValue = removeHtmlTags(displayValue);
           }
           
@@ -2538,7 +2552,7 @@ dmx.Component('ag-grid', {
           },
         }],
       };
-      pdfMake.createPdf(documentDefinition).download(options.export_pdf_filename);
+      pdfMake.createPdf(documentDefinition).download(exportConfig.export_pdf_filename);
     };
     if (exportToPDF) {
       let exportPdfButton = document.getElementById(`exportPdfButton-${options.id}`);
