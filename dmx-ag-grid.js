@@ -2475,7 +2475,7 @@ dmx.Component('ag-grid', {
               colDef,
               column,
               api: gInstance,
-              context: params.context,
+              context: gInstance.getContext ? gInstance.getContext() : undefined,
             };
             const cellStyle = applyCellStyle(params);
             // Determine the header name using cnames and humanize function
