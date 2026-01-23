@@ -521,6 +521,14 @@
               "help": "Prevents hiding the column menu"
             },
             {
+              "name": "suppressModelUpdateAfterUpdateTransaction",
+              "attribute": "dmx-bind:suppress_model_update",
+              "title": "Suppress Model Update After Update Transaction",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Prevents automatic reprocessing of grouping, filters, aggregation and sorting after update transactions"
+            },
+            {
               "name": "suppressMovableColumns",
               "attribute": "dmx-bind:suppress_movable_columns",
               "title": "Suppress Movable Columns",

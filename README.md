@@ -2,12 +2,13 @@
 
 **Major Update:** This release upgrades from AG Grid v32.3.7 to v34.1.0, bringing significant performance improvements and exciting new features.
 
-## 🚀 What's New in v2.0.3
+## 🚀 What's New in v2.0.19
 
 1. **🔥 AG Grid v34.1.0** - Latest version with all community features
 2. **⚡ Performance Boost** - Up to 40% bundle size reduction potential
 3. **🎨 HTML Tooltips** - Rich HTML tooltip support with JavaScript functions
 4. **🔧 Enhanced Tooltip System** - Custom tooltip components with automatic HTML detection
+5. **🚫 Suppress Model Update** - New option to prevent automatic reprocessing after update transactions
 
 - **Breaking Changes:** Some configurations may require updates due to AG Grid v33/v34 changes
 
@@ -110,20 +111,21 @@ This CSS rule removes the pseudo-element that creates the overlapping magnificat
 9. **CSV Export**: Specifies if Export to CSV is enabled. (Default: true).
 10. **PDF Export**: Specifies if Export to PDF is enabled. (Default: false).
 11. **Exclude Fields CSV**: Specifies fields to be excluded in CSV export. (Default: null)
-12. **Enable RTL**: Enabled Right to Left, used for Hebrew and Arabic. (Default: false)
-13. **Column Hover Highlight**: Specifies column hover highlighting. (Default: true)
-14. **Pagination**: Enables pagination. (Default: true)
-15. **Auto Pagination**: Enables automatic pagination. (Default: false)
-16. **Page Limit Selectors**: Allowed selectors for for page size. Set to false to hide the page size selector. (Default: [20,50,100] ).
-17. **Page Limit**: Number of rows to show per page. (Default: 20)
-18. **Row Selection**: Row Selection (single or multiple).
+12. **Remove HTML from Export**: Removes HTML tags from exported data (CSV/PDF). Converts <br> tags to newlines. (Default: false)
+13. **Enable RTL**: Enabled Right to Left, used for Hebrew and Arabic. (Default: false)
+14. **Column Hover Highlight**: Specifies column hover highlighting. (Default: true)
+15. **Pagination**: Enables pagination. (Default: true)
+16. **Auto Pagination**: Enables automatic pagination. (Default: false)
+17. **Page Limit Selectors**: Allowed selectors for for page size. Set to false to hide the page size selector. (Default: [20,50,100] ).
+18. **Page Limit**: Number of rows to show per page. (Default: 20)
+19. **Row Selection**: Row Selection (single or multiple).
    - "Single"
    - "Multiple" (Default)
-19. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list. (Default: Local)
-20. **Date Format**: Date Format for displaying date values. (Default: "dd/MM/yyyy hh:mm A")
-21. **Filter Field ID**: Specifies the field ID of the search field when using grid quick filter. Applicable when using Quick Filter feature of AG Grid, called from Dynamic Events on change event on the field. (Default: search_field)
-22. **Loading Overlay**: This enables loading overlay. (Default: false)
-23. **Loading Overlay Duration**: This sets loading overlay duration in ms. (Default: 500)
+20. **Timezone**: Timezone for Date Fields. Select the appropriate timezone from the dropdown list. (Default: Local)
+21. **Date Format**: Date Format for displaying date values. (Default: "dd/MM/yyyy hh:mm A")
+22. **Filter Field ID**: Specifies the field ID of the search field when using grid quick filter. Applicable when using Quick Filter feature of AG Grid, called from Dynamic Events on change event on the field. (Default: search_field)
+23. **Loading Overlay**: This enables loading overlay. (Default: false)
+24. **Loading Overlay Duration**: This sets loading overlay duration in ms. (Default: 500)
 24. **Sticky Header and Horizontal Scrollbar**:  Optionally specify the header offset and topbar class.
    - Fixed Header: Enables sticky header. (Default: false)
    - Header Offset: Specifies offset from the top of the viewport area (Optional). (Default: 100)
@@ -140,7 +142,8 @@ This CSS rule removes the pseudo-element that creates the overlapping magnificat
 31. **Center Align (V)**: Specifies if the cell data should be vertically centered. (Default: false)
 32. **Suppress Row Click Selection**: Disables row selection on row click. (Default: false)
 33. **Suppress Menu Hide**: Prevents hiding the column menu. (Default: false)
-34. **Suppress Movable Columns**: Disables moving columns. (Default: false)
+34. **Suppress Model Update**: Prevents automatic reprocessing of grouping, filters, aggregation and sorting after update transactions. (Default: false)
+35. **Suppress Movable Columns**: Disables moving columns. (Default: false)
 35. **Enable Cell Expressions**: Enables expressions in cell values. (Default: false)
 36. **Animate Rows**: Enables row animation on data changes. (Default: false)
 37. **Suppress Aggregation Function in Header**: Hides the aggregation function in column headers. (Default: false)
@@ -154,19 +157,9 @@ This CSS rule removes the pseudo-element that creates the overlapping magnificat
 45. **Enable Row Selection**: Enables row selection. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 46. **Enable Row Status Toggle**: Enables row status toggle events. This can be used in Dynamic events => Grid Events => Checkbox Checked || Checkbox Unchecked. (Default: false)
 
-## 🚀 AG Grid v34 New Features
+## 🎨 Enhanced Features
 
-47. **Cell Editor Validation**: Enable built-in validation for all cell editors with automatic constraint checking based on column configuration. You can also override defaults with custom validation rules specific to your application. Validation is performed when editing ends, and you can configure the grid to handle invalid values by either reverting or blocking the change. (Default: false)
-
-48. **Batch Cell Editing**: Allow users to edit multiple cells in the grid before committing the changes. This is useful for scenarios where you want to make several edits before updating the data source, perfect for complex data entry workflows. (Default: false)
-
-49. **Bulk Cell Editing**: Enable users to edit multiple cells in a single action by selecting the cells to update, entering a new value, and committing the change with the Tab key. This is ideal when you need to update multiple cells with the same value, such as updating status of row items or overriding null values. (Default: false)
-
-50. **New Filters Tool Panel**: Enable the completely redesigned filters tool panel which allows users to access the grid's filters without opening the column menu. Features include: selecting columns for filtering, choosing between Simple/Selection/Combo filters, and configuring global Apply/Clear/Reset/Cancel buttons - particularly useful for server-side filtering with single requests. (Default: false)
-
-51. **Tree Data Drag & Drop**: Enable managed row dragging for Tree Data, meaning the grid will automatically handle the dragging of rows and updating of the data structure. Supports reordering, moving parents and children, and converting leaf nodes into groups. (Default: false)
-
-52. **🎨 HTML Tooltips**: Create rich, interactive tooltips with full HTML support using JavaScript functions. Features include:
+47. **🎨 HTML Tooltips**: Create rich, interactive tooltips with full HTML support using JavaScript functions. Features include:
    - Custom HTML content with styling and images
    - Dynamic content generation based on row data
    - Automatic HTML detection and rendering
