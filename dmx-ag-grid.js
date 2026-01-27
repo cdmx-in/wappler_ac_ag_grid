@@ -2704,15 +2704,15 @@ dmx.Component('ag-grid', {
     } else {
       this.set('count', 0);
     }
-    if (!dmx.equal(this.props.data, oldValue?.data) && !this.props.noload) {
+    if (props === 'data' && !dmx.equal(this.props.data, oldValue) && !this.props.noload) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
     }
-    if (!dmx.equal(this.props.dark_mode, oldValue?.dark_mode)) {
+     if (props === 'dark_mode' && !dmx.equal(this.props.dark_mode, oldValue)) {
       let gridInstance = this.refreshGrid();
       this.set('gridInstance', gridInstance);
     }
-    if (!dmx.equal(this.props.cfilters, oldValue?.cfilters)){
+    if (props === 'cfilters' && !dmx.equal(this.props.cfilters, oldValue)){
       let gridInstance = this.get('gridInstance');
       if (gridInstance && this.props.cfilters && this.props.cfilters.length > 0) {
         var filterModel = {};
