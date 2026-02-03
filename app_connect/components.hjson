@@ -57,6 +57,11 @@
           "name": "columnState",
           "title": "columnState",
           "type": "array"
+        },
+        {
+          "name": "filterState",
+          "title": "filterState",
+          "type": "object"
         }
       ],
       "outputType": "object",
@@ -3794,6 +3799,53 @@
           icon: 'fas fa-lg fa-search',
           state: 'opened',
           help: 'Quick Search',
+          properties: []
+        },
+        {
+          addTitle: 'getAppliedFilters',
+          title: 'Get Applied Filters',
+          name: 'getAppliedFilters',
+          icon: 'fa fa-lg fa-filter',
+          state: 'opened',
+          help: 'Get Currently Applied Filters and Store in filterState',
+          properties: []
+        },
+        {
+          addTitle: 'getFilteredData',
+          title: 'Get Filtered Data',
+          name: 'getFilteredData',
+          icon: 'fa fa-lg fa-list',
+          state: 'opened',
+          help: 'Get All Filtered Row Data',
+          properties: []
+        },
+        {
+          addTitle: 'applyFilters',
+          title: 'Apply Filters',
+          name: 'applyFilters',
+          icon: 'fa fa-lg fa-check-circle',
+          state: 'opened',
+          help: 'Apply Filters Programmatically',
+          properties: [
+            {
+              group: 'Properties',
+              variables: [
+                {
+                  name: '1', optionName: '1', title: 'Filter Model', type: 'text',
+                  dataBindings: true, defaultValue: '{}', required: true,
+                  help: 'Filter model object with field-filter mappings'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          addTitle: 'clearFilters',
+          title: 'Clear Filters',
+          name: 'clearFilters',
+          icon: 'fa fa-lg fa-times-circle',
+          state: 'opened',
+          help: 'Remove All Applied Filters',
           properties: []
         }
       ],

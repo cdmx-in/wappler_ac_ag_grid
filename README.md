@@ -636,7 +636,94 @@ You can also specify left-only conditions, where only the field name is provided
 - The "Quick Filter" feature is designed to filter the results based on the value in the Filter Field defined in above settings.
 - Quick Filter is used to filter rows by comparing against the data in all columns. This can be used in addition to column-specific filtering.
 
+**Get Applied Filters**
+- This action retrieves the currently applied filters from the grid and stores them in the `filterState` property.
+- Use this to capture the current filter configuration for display, logging, or saving to a database.
+- Returns an object with field names as keys and filter configurations as values.
+
+**Get Filtered Data**
+- This action retrieves all currently visible rows after filters have been applied.
+- Unlike the grid's raw data, this returns only the rows that match the active filters.
+- Useful for exporting filtered results or performing calculations on filtered data.
+
+**Apply Filters**
+- This action applies filters programmatically to the grid without user interaction.
+- Pass a filter model object with the structure: `{ "fieldName": { type: "FilterType", filter: "value" } }`
+- Automatically updates the `filterState` property with the applied filters.
+- Example: `agGrid.applyFilters({ "status": { type: "Contains", filter: "Active" } })`
+
+**Clear Filters**
+- This action removes all currently applied filters from the grid.
+- Useful for resetting the grid view or preparing for new filter configurations.
+- Automatically clears the `filterState` property.
+
 ## 💡 Implementation Examples for v34 Features
+
+### Filter Management Examples
+
+**Getting Applied Filters**
+```javascript
+// Retrieve current filters and store in filterState
+agGrid.getAppliedFilters();
+
+// Access the filters programmatically
+const filters = agGrid.filterState;
+console.log(filters);
+// Output: { "name": { type: "Contains", filter: "John" }, "age": { type: "GreaterThan", filter: 30 } }
+```
+
+**Getting Filtered Data**
+```javascript
+// Get all rows that match the current filters
+const filteredData = agGrid.getFilteredData();
+
+// Use for calculations, exports, or other operations
+const totalRows = filteredData.length;
+const avgAge = filteredData.reduce((sum, row) => sum + row.age, 0) / filteredData.length;
+```
+
+**Applying Filters Programmatically**
+```javascript
+// Apply single filter
+agGrid.applyFilters({
+  "status": { type: "Contains", filter: "Active" }
+});
+
+// Apply multiple filters
+agGrid.applyFilters({
+  "department": { type: "Contains", filter: "Sales" },
+  "salary": { type: "GreaterThan", filter: 50000 },
+  "joinDate": { type: "GreaterThan", filter: "2023-01-01" }
+});
+```
+
+**Clearing Filters**
+```javascript
+// Remove all filters from the grid
+agGrid.clearFilters();
+
+// The filterState will be reset to an empty object
+console.log(agGrid.filterState); // Output: {}
+```
+
+**Filter Model Structure**
+```javascript
+// Common filter types and their structures:
+
+// Text filters
+{ "name": { type: "Contains", filter: "John" } }
+{ "name": { type: "NotContains", filter: "Smith" } }
+{ "name": { type: "Equals", filter: "John Doe" } }
+
+// Number filters
+{ "age": { type: "GreaterThan", filter: 30 } }
+{ "age": { type: "LessThan", filter: 65 } }
+{ "age": { type: "Equals", filter: 35 } }
+
+// Date filters (use date strings or timestamps)
+{ "joinDate": { type: "GreaterThan", filter: "2023-01-01" } }
+{ "joinDate": { type: "LessThan", filter: "2024-12-31" } }
+```
 
 ### Cell Editor Validation Example
 ```javascript

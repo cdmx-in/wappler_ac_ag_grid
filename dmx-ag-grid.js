@@ -7,6 +7,7 @@ dmx.Component('ag-grid', {
     fileData: [],
     selectedRows: [],
     columnState: [],
+    filterState: [],
     state: {
       gridReady: !1,
       firstDataRendered: !1,
@@ -403,6 +404,60 @@ dmx.Component('ag-grid', {
     },
     quickFilter: function () {
       onFilterTextBoxChanged();
+    },
+    getAppliedFilters: function () {
+      dmx.nextTick(function() {
+        const gridInstance = this.get('gridInstance');
+        if (gridInstance) {
+          const filterModel = gridInstance.getFilterModel();
+          this.set('filterState', filterModel || {});
+          return filterModel;
+        } else {
+          console.error('Grid not loaded to get filters');
+          return null;
+        }
+      }, this);
+    },
+    getFilteredData: function () {
+      dmx.nextTick(function() {
+        const gridInstance = this.get('gridInstance');
+        if (gridInstance) {
+          const filteredData = [];
+          gridInstance.forEachNodeAfterFilter(node => {
+            if (node.data) {
+              filteredData.push(node.data);
+            }
+          });
+          return filteredData;
+        } else {
+          console.error('Grid not loaded to get filtered data');
+          return null;
+        }
+      }, this);
+    },
+    applyFilters: function (filterModel) {
+      dmx.nextTick(function() {
+        const gridInstance = this.get('gridInstance');
+        if (gridInstance && filterModel) {
+          gridInstance.setFilterModel(filterModel);
+          gridInstance.onFilterChanged();
+          this.set('filterState', filterModel);
+        } else {
+          console.error('Grid not loaded or filter model is invalid');
+        }
+      }, this);
+    },
+    clearFilters: function () {
+      dmx.nextTick(function() {
+        const gridInstance = this.get('gridInstance');
+        if (gridInstance) {
+          gridInstance.setFilterModel(null);
+          gridInstance.onFilterChanged();
+          this.set('filterState', {});
+        } else {
+          console.error('Grid not loaded to clear filters');
+        }
+      }, this);
     }
   },
 
