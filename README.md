@@ -1,65 +1,30 @@
 ﻿#### Developed and Maintained by: Roney Dsilva
 
-**Major Update:** This release upgrades from AG Grid v32.3.7 to v34.1.0, bringing significant performance improvements and exciting new features.
+**Major Update:** This release upgrades AG Grid to v35.1.0, bringing continued performance improvements and new features.
 
-## 🚀 What's New in v2.0.19
+## 🚀 What's New in v2.0.23
 
-1. **🔥 AG Grid v34.1.0** - Latest version with all community features
-2. **⚡ Performance Boost** - Up to 40% bundle size reduction potential
+1. **🔥 AG Grid v35.1.0** - Latest version with all community features
+2. **⚡ Smooth Upgrade** - Non-breaking upgrade from v34, all existing configurations continue to work
 3. **🎨 HTML Tooltips** - Rich HTML tooltip support with JavaScript functions
 4. **🔧 Enhanced Tooltip System** - Custom tooltip components with automatic HTML detection
-5. **🚫 Suppress Model Update** - New option to prevent automatic reprocessing after update transactions
+5. **🚫 Suppress Model Update** - Option to prevent automatic reprocessing after update transactions
 
-- **Breaking Changes:** Some configurations may require updates due to AG Grid v33/v34 changes
-
-## 🚀 What's New in AG Grid v34.1.0
-
-### New Features Available in This Release:
-
-1. **✅ Cell Editor Validation** - Built-in validation for all cell editors:
-   - Automatic constraint checking based on column configuration
-   - Override defaults with custom validation rules
-   - Handle invalid values by reverting or blocking changes
-
-2. **🎯 Bulk Cell Editing** - Edit multiple cells in a single action:
-   - Select cells, enter new value, commit with Tab key
-   - Ideal for updating status of multiple items or overriding null values
-
-3. **⚡ Performance Improvements** - Up to 40% bundle size reduction through:
-   - Modular architecture improvements
-   - Better tree-shaking capabilities
-   - Optimized loading times
-
-4. **🎨 Enhanced Theming** - New Theming API for:
-   - Dynamic theme manipulation at runtime
-   - Better integration with Theme Builder
-   - Easy customization via theme parameters
-
-## 🔄 Migration from v1.x to v2.0
+## 🔄 Migration from v34 to v35
 
 ### Compatibility Notes:
-- **Good News:** This upgrade is largely **non-breaking** for existing implementations
+- **Good News:** This upgrade is **non-breaking** for existing implementations
 - Your existing grids should continue to work without changes
-- AG Grid v34 is non-breaking from v33, so most configurations remain the same
+- No deprecated API removals in v35
+
+### What Changed Internally:
+- New automatic overlays for filtering and exporting are now suppressed by default to preserve existing overlay behavior
+- Date/number filter range validation now enforces start < end
 
 ### Recommended Steps:
-1. **Update Package:** Simply update to v2.0.2 - no code changes required for basic functionality
+1. **Update Package:** Simply update to the latest version - no code changes required
 2. **Test Your Grids:** Verify existing grids work as expected
-3. **Explore New Features:** Gradually enable new v34 features as needed:
-   - Enable Cell Editor Validation for better data quality
-   - Try Batch/Bulk editing for improved user experience
-   - Use the new Filters Tool Panel for better UX
-   - Implement Tree Data Drag & Drop for hierarchical data
-
-### Performance Benefits:
-- **Bundle Size:** Potential 20-40% reduction in bundle size
-- **Loading Speed:** Faster grid initialization
-- **Memory Usage:** Improved memory efficiency
-
-### Breaking Changes (Minimal):
-- Some very old deprecated APIs (from v31 and earlier) have been removed
-- If you customized AG Grid CSS extensively, test your styling
-- The new Theming API is now default (but legacy CSS themes still work)
+3. **Test Exports:** Verify CSV/PDF exports work correctly
 
 # AG Grid Module Documentation
 
@@ -657,7 +622,7 @@ You can also specify left-only conditions, where only the field name is provided
 - Useful for resetting the grid view or preparing for new filter configurations.
 - Automatically clears the `filterState` property.
 
-## 💡 Implementation Examples for v34 Features
+## 💡 Implementation Examples
 
 ### Filter Management Examples
 
@@ -779,14 +744,14 @@ tree_data_drag_drop: true
 // ]
 ```
 
-## 🔧 Best Practices for v34
+## 🔧 Best Practices
 
-1. **Performance:** Start with basic features and gradually enable v34 enhancements
+1. **Performance:** Start with basic features and gradually enable enhancements
 2. **Testing:** Test new features in development before production deployment
-3. **Bundle Size:** Monitor bundle size improvements with the new architecture
-4. **User Experience:** Combine multiple v34 features for enhanced workflows:
+3. **Bundle Size:** Monitor bundle size improvements with the modular architecture
+4. **User Experience:** Combine multiple features for enhanced workflows:
    - Use Batch Editing + Validation for better data entry
-   - Combine New Filters Tool Panel with server-side data
+   - Combine Filters Tool Panel with server-side data
    - Use Tree Data + Drag & Drop for hierarchical management
 
 ## License
