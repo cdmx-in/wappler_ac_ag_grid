@@ -1827,6 +1827,7 @@ dmx.Component('ag-grid', {
       suppressScrollOnNewData: this.props.suppress_scroll_on_new_data,
       columnHoverHighlight: this.props.column_hover_highlight,
       tooltipShowDelay: options.tooltip_show_delay,
+      suppressOverlays: ['noMatchingRows', 'exporting'],
       onFilterModified: function (params) { 
         const columnApi = params.api;
           const rowCount = columnApi.getDisplayedRowCount();
@@ -2042,16 +2043,19 @@ dmx.Component('ag-grid', {
     const gridConfig = {
       columnDefs: columnDefs,
       ...gridOptions,
-      // Store export configuration for each grid instance
-      exportConfig: {
-        export_csv_filename: options.export_csv_filename,
-        export_pdf_filename: options.export_pdf_filename,
-        export_remove_html: options.export_remove_html,
-        export_trim_data: options.export_trim_data,
-        export_exclude_fields: options.export_exclude_fields,
-        export_exclude_hidden_fields: options.export_exclude_hidden_fields,
-        group_config: options.group_config,
-        column_state_storage_key: options.column_state_storage_key
+      // Store export configuration in context to avoid AG Grid warnings
+      context: {
+        ...gridOptions.context,
+        exportConfig: {
+          export_csv_filename: options.export_csv_filename,
+          export_pdf_filename: options.export_pdf_filename,
+          export_remove_html: options.export_remove_html,
+          export_trim_data: options.export_trim_data,
+          export_exclude_fields: options.export_exclude_fields,
+          export_exclude_hidden_fields: options.export_exclude_hidden_fields,
+          group_config: options.group_config,
+          column_state_storage_key: options.column_state_storage_key
+        }
       }
     };
     // Store gridConfig on component instance for export functions
@@ -2243,7 +2247,7 @@ dmx.Component('ag-grid', {
     };
 
     exportGridData = (currentGridInstance, currentGridConfig) => {
-      const exportConfig = currentGridConfig.exportConfig;
+      const exportConfig = currentGridConfig.context.exportConfig;
       const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
       const exportExcludeFieldsArray = exportConfig.export_exclude_fields ? exportConfig.export_exclude_fields.split(',') : [];
       
@@ -2443,7 +2447,7 @@ dmx.Component('ag-grid', {
         console.error('Grid API is destroyed or not initialized.');
         return;
       }
-      const exportConfig = currentGridConfig.exportConfig;
+      const exportConfig = currentGridConfig.context.exportConfig;
       const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
       const exportExcludeFieldsArray = exportConfig.export_exclude_fields ? exportConfig.export_exclude_fields.split(',') : [];
       let fieldsAndColIds;
