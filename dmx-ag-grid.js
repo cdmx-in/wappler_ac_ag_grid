@@ -94,6 +94,8 @@ dmx.Component('ag-grid', {
     export_csv_filename: { type: String, default: 'export.csv' },
     export_to_pdf: { type: Boolean, default: false },
     export_pdf_filename: { type: String, default: 'export.pdf' },
+    export_to_xls: { type: Boolean, default: false },
+    export_xls_filename: { type: String, default: 'export.xlsx' },
     fixed_header: { type: Boolean, default: false },
     topbar_class: { type: String, default: 'topbar' },
     fixed_header_offset: { type: Number, default: 100 },
@@ -353,9 +355,9 @@ dmx.Component('ag-grid', {
       if (gridInstance) gridInstance.destroy();
       }, this);
     },
-    exportGrid: function (Csv, Pdf) {
-      // Default Csv to true if both Csv and Pdf are false
-      if (!Csv && !Pdf) {
+    exportGrid: function (Csv, Pdf, Xls) {
+      // Default Csv to true if none specified
+      if (!Csv && !Pdf && !Xls) {
         Csv = true;
       }
       dmx.nextTick(() => {
@@ -365,6 +367,8 @@ dmx.Component('ag-grid', {
           exportGridData(gridInst, gridCfg);
         } else if (Pdf) {
           exportGridDataToPDF(gridInst, gridCfg);
+        } else if (Xls) {
+          exportGridDataToXLS(gridInst, gridCfg);
         } else {
           console.error('Grid not loaded to perform the requested export');
         }
@@ -607,6 +611,7 @@ dmx.Component('ag-grid', {
     let groupedColumnDefs = [];
     let exportToCSV = this.props.export_to_csv;
     let exportToPDF = this.props.export_to_pdf;
+    let exportToXLS = this.props.export_to_xls;
     let cellRenderer;
     
     const gridThemeClass = options.dark_mode ? `${options.grid_theme}-dark` : options.grid_theme;
@@ -2049,6 +2054,7 @@ dmx.Component('ag-grid', {
         exportConfig: {
           export_csv_filename: options.export_csv_filename,
           export_pdf_filename: options.export_pdf_filename,
+          export_xls_filename: options.export_xls_filename,
           export_remove_html: options.export_remove_html,
           export_trim_data: options.export_trim_data,
           export_exclude_fields: options.export_exclude_fields,
@@ -2658,6 +2664,221 @@ dmx.Component('ag-grid', {
         // Append the export button to the grid container
         gridContainer.parentNode.insertBefore(exportPdfButton, gridContainer);
         exportPdfButton.style.marginBottom = '10px';
+      }
+    }
+    // XLS Export Function using ExcelJS
+    exportGridDataToXLS = async (currentGridInstance, currentGridConfig) => {
+      if (!currentGridInstance || currentGridInstance.isDestroyed()) {
+        console.error('Grid API is destroyed or not initialized.');
+        return;
+      }
+      if (typeof ExcelJS === 'undefined') {
+        console.error('ExcelJS library is not loaded. Make sure exceljs.min.js is included.');
+        return;
+      }
+      const exportConfig = currentGridConfig.context.exportConfig;
+      const excludedColumnIds = ['checkboxColumn', 'actionsColumn'];
+      const exportExcludeFieldsArray = exportConfig.export_exclude_fields ? exportConfig.export_exclude_fields.split(',') : [];
+
+      // Determine fields to export (reuse same logic as CSV)
+      let fieldsToExport = [];
+      const pageId = getPageId();
+      const storageKey = exportConfig.column_state_storage_key || pageId;
+      const savedColumnState = localStorage.getItem(`dmxState-${storageKey}`);
+
+      if (savedColumnState) {
+        try {
+          const parsedState = JSON.parse(savedColumnState);
+          fieldsToExport = parsedState
+            .filter((col) => {
+              if (excludedColumnIds.includes(col.colId)) return false;
+              if (col.hide) return false;
+              return true;
+            })
+            .map((col) => {
+              const columnDef = findColumnDefByColId(col.colId, exportConfig, currentGridConfig);
+              return columnDef ? columnDef.field : col.colId;
+            })
+            .filter((field) => !exportExcludeFieldsArray.includes(field));
+        } catch (err) {
+          console.warn(`Failed to parse saved column state for key: dmxState-${storageKey}`, err);
+          fieldsToExport = [];
+        }
+      }
+
+      function findColumnDefByColId(colId, expConfig, gridCfg) {
+        if (expConfig.group_config) {
+          const traverseColumns = (columns) => {
+            for (const column of columns) {
+              if (column.children) {
+                const result = traverseColumns(column.children);
+                if (result) return result;
+              } else if (column.colId === colId) {
+                return column;
+              }
+            }
+            return null;
+          };
+          return traverseColumns(gridCfg.columnDefs);
+        } else {
+          return gridCfg.columnDefs.find((column) => column.colId === colId);
+        }
+      }
+
+      if (!fieldsToExport || fieldsToExport.length === 0) {
+        let fieldsAndColIds;
+        if (exportConfig.group_config) {
+          const traverseColumns = (columns) => {
+            const result = [];
+            columns.forEach((column) => {
+              if (column.children) {
+                result.push(...traverseColumns(column.children));
+              } else {
+                result.push({ field: column.field, colId: column.colId, hide: column.hide });
+              }
+            });
+            return result;
+          };
+          fieldsAndColIds = traverseColumns(currentGridConfig.columnDefs);
+        } else {
+          fieldsAndColIds = currentGridConfig.columnDefs.map((column) => ({
+            field: column.field, colId: column.colId, hide: column.hide,
+          }));
+        }
+        fieldsToExport = fieldsAndColIds.filter((column) => {
+          return !excludedColumnIds.includes(column.colId) &&
+                 (!exportConfig.export_exclude_hidden_fields || !column.hide) &&
+                 !exportExcludeFieldsArray.includes(column.field);
+        }).map((column) => column.field);
+      }
+
+      // Build headers
+      const headers = fieldsToExport.map(field => {
+        return cnames.hasOwnProperty(field) ? cnames[field].custom_name : humanize(field);
+      });
+
+      // Build rows
+      const rows = [];
+      currentGridInstance.forEachNode(node => {
+        const row = fieldsToExport.map(field => {
+          const columns = currentGridInstance.getColumnState();
+          const col = columns.find(c => c.colId === field);
+          const colDef = col ? currentGridInstance.getColumnDefs().find(def => def.colId === col.colId) : {};
+          const params = {
+            value: currentGridInstance.getCellValue({ rowNode: node, colKey: field }) ?? '-',
+            data: node.data,
+            node,
+            colDef,
+            column: col,
+            api: currentGridInstance,
+            context: currentGridInstance.getContext ? currentGridInstance.getContext() : undefined,
+          };
+
+          let displayValue;
+          if (colDef.cellRenderer && typeof colDef.cellRenderer === 'function') {
+            displayValue = colDef.cellRenderer(params);
+          } else if (colDef.valueFormatter && typeof colDef.valueFormatter === 'function') {
+            displayValue = colDef.valueFormatter(params);
+          } else {
+            displayValue = params.value;
+          }
+
+          if (exportConfig.export_remove_html && typeof displayValue === 'string') {
+            displayValue = removeHtmlTags(displayValue);
+          }
+          if (exportConfig.export_trim_data && typeof displayValue === 'string') {
+            displayValue = displayValue.trim();
+          }
+          return displayValue;
+        });
+        rows.push(row);
+      });
+
+      // Create workbook and worksheet using ExcelJS
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet('Export');
+
+      // Add header row
+      worksheet.addRow(headers);
+      // Style header row
+      const headerRow = worksheet.getRow(1);
+      headerRow.font = { bold: true };
+      headerRow.eachCell((cell) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'FFE0E0E0' }
+        };
+      });
+
+      // Add data rows
+      rows.forEach(row => worksheet.addRow(row));
+
+      // Auto-fit column widths
+      worksheet.columns.forEach((column, i) => {
+        let maxLength = headers[i] ? headers[i].length : 10;
+        rows.forEach(row => {
+          const cellValue = row[i];
+          if (cellValue != null) {
+            const len = String(cellValue).length;
+            if (len > maxLength) maxLength = len;
+          }
+        });
+        column.width = Math.min(maxLength + 2, 50);
+      });
+
+      // Generate and download
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = exportConfig.export_xls_filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    };
+    if (exportToXLS) {
+      let exportXlsButton = document.getElementById(`exportXlsButton-${options.id}`);
+      let isNewXlsButton = false;
+      if (!exportXlsButton) {
+        isNewXlsButton = true;
+        exportXlsButton = document.createElement('button');
+        exportXlsButton.id = `exportXlsButton-${options.id}`;
+        const icon = document.createElement('i');
+        icon.classList.add('fas', 'fa-file-excel');
+        exportXlsButton.appendChild(icon);
+
+        const buttonText = document.createElement('span');
+        buttonText.innerText = ' Export to XLS';
+        exportXlsButton.appendChild(buttonText);
+        exportXlsButton.style.backgroundColor = '#4CAF50';
+        exportXlsButton.style.border = 'none';
+        exportXlsButton.style.color = 'white';
+        exportXlsButton.style.padding = '5px 10px';
+        exportXlsButton.style.textAlign = 'center';
+        exportXlsButton.style.textDecoration = 'none';
+        exportXlsButton.style.display = 'inline-block';
+        exportXlsButton.style.fontSize = '14px';
+        exportXlsButton.style.borderRadius = '5px';
+        exportXlsButton.style.cursor = 'pointer';
+        exportXlsButton.style.marginBottom = '10px';
+      }
+
+      exportXlsButton.onclick = () => {
+        const currentGridInstance = this.get('gridInstance');
+        const currentGridConfig = this.get('gridConfig');
+        if (currentGridInstance && currentGridConfig) {
+          exportGridDataToXLS(currentGridInstance, currentGridConfig);
+        } else {
+          console.error('Grid instance or configuration not available for export');
+        }
+      };
+
+      if (isNewXlsButton) {
+        gridContainer.parentNode.insertBefore(exportXlsButton, gridContainer);
+        exportXlsButton.style.marginBottom = '10px';
       }
     }
     const paginationPanelCss = `

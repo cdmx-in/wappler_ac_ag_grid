@@ -244,6 +244,14 @@
               "help": "Specifies if Export to PDF to be enabled"
             },
             {
+              "name": "exportToXLS",
+              "attribute": "dmx-bind:export_to_xls",
+              "title": "XLS Export",
+              "type": "boolean",
+              "defaultValue": false,
+              "help": "Specifies if Export to XLS (Excel) to be enabled"
+            },
+            {
               "name": "exportExcludeHidden",
               "attribute": "dmx-bind:export_exclude_hidden_fields",
               "title": "Exclude Hidden Fields",
@@ -3700,6 +3708,11 @@
                   name: '2', optionName: '2', title: 'PDF', type: 'boolean',
                   dataBindings: true, defaultValue: false, required: false,
                   help: 'Export Grid data as PDF file.'
+                },
+                {
+                  name: '3', optionName: '3', title: 'XLS', type: 'boolean',
+                  dataBindings: true, defaultValue: false, required: false,
+                  help: 'Export Grid data as Excel (.xlsx) file.'
                 }
               ]
             }
@@ -3911,6 +3924,10 @@
         {
           "src": "../../../node_modules/pdfmake/build/vfs_fonts.js",
           "dst": "js/vfs_fonts.js"
+        },
+        {
+          "src": "../../../node_modules/exceljs/dist/exceljs.min.js",
+          "dst": "js/exceljs.min.js"
         }
       ],
       "linkFiles": [
@@ -3951,6 +3968,11 @@
         },
         {
           "src": "js/vfs_fonts.js",
+          "type": "js",
+          "defer": true
+        },
+        {
+          "src": "js/exceljs.min.js",
           "type": "js",
           "defer": true
         },
@@ -4311,6 +4333,40 @@
           "type": "text",
           "help": "Export PDF filename.",
           "defaultValue": "export.pdf",
+          "initDisplay": "none"
+        }
+      ],
+      "allowedOn": {
+        "dmx-ag-grid": true
+      }
+    },
+    {
+      "name": "dmx-ag-grid-export-xls-filename",
+      "attributeStartsWith": "dmx-bind",
+      "attribute": "export_xls_filename",
+      "title": "Export XLS Filename",
+      "type": "boolean",
+      "display": "fieldset",
+      "icon": "fa fa-lg fa-chevron-right",
+      "groupTitle": "Grid Config",
+      "groupIcon": "fa fa-lg fa-cubes",
+      "defaultValue": false,
+      "show": [
+        "exportXlsFilename"
+      ],
+      "noChangeOnHide": true,
+      "groupEnabler": true,
+      "children": [
+        {
+          "name": "exportXlsFilename",
+          "attributeStartsWith": "dmx-bind",
+          "attribute": "export_xls_filename",
+          "isValue": true,
+          "dataBindings": true,
+          "title": "XLS Filename",
+          "type": "text",
+          "help": "Export XLS filename.",
+          "defaultValue": "export.xlsx",
           "initDisplay": "none"
         }
       ],
