@@ -3703,9 +3703,9 @@
                   name: '1', optionName: '1', title: 'Format', type: 'droplist',
                   dataBindings: true, defaultValue: 'csv', required: false,
                   "values": [
-                  {title: 'CSV', value: 'csv'},
-                  {title: 'PDF', value: 'pdf'},
-                  {title: 'XLS', value: 'xls'}
+                  {title: 'CSV', value: "'csv'"},
+                  {title: 'PDF', value: "'pdf'"},
+                  {title: 'XLS', value: "'xls'"}
                   ],
                   help: 'Export Grid data as CSV, PDF, or XLS file.'
                 }
