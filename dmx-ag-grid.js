@@ -355,22 +355,27 @@ dmx.Component('ag-grid', {
       if (gridInstance) gridInstance.destroy();
       }, this);
     },
-    exportGrid: function (Csv, Pdf, Xls) {
-      // Default Csv to true if none specified
-      if (!Csv && !Pdf && !Xls) {
-        Csv = true;
-      }
+    exportGrid: function (format) {
+      // Default to csv if no format specified
+      format = (format || 'csv')
       dmx.nextTick(() => {
         const gridInst = this.get('gridInstance');
         const gridCfg = this.get('gridConfig');
-        if (Csv) {
-          exportGridData(gridInst, gridCfg);
-        } else if (Pdf) {
-          exportGridDataToPDF(gridInst, gridCfg);
-        } else if (Xls) {
-          exportGridDataToXLS(gridInst, gridCfg);
-        } else {
+        if (!gridInst || !gridCfg) {
           console.error('Grid not loaded to perform the requested export');
+          return;
+        }
+        switch (format) {
+          case 'pdf':
+            exportGridDataToPDF(gridInst, gridCfg);
+            break;
+          case 'xls':
+            exportGridDataToXLS(gridInst, gridCfg);
+            break;
+          case 'csv':
+          default:
+            exportGridData(gridInst, gridCfg);
+            break;
         }
       }, this);
     },

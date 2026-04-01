@@ -3700,19 +3700,14 @@
               group: 'Properties',
               variables: [
                 {
-                  name: '1', optionName: '1', title: 'CSV', type: 'boolean',
-                  dataBindings: true, defaultValue: true, required: false,
-                  help: 'Export Grid data as CSV file.'
-                },
-                {
-                  name: '2', optionName: '2', title: 'PDF', type: 'boolean',
-                  dataBindings: true, defaultValue: false, required: false,
-                  help: 'Export Grid data as PDF file.'
-                },
-                {
-                  name: '3', optionName: '3', title: 'XLS', type: 'boolean',
-                  dataBindings: true, defaultValue: false, required: false,
-                  help: 'Export Grid data as Excel (.xlsx) file.'
+                  name: '1', optionName: '1', title: 'Format', type: 'droplist',
+                  dataBindings: true, defaultValue: 'csv', required: false,
+                  "values": [
+                  {title: 'CSV', value: 'csv'},
+                  {title: 'PDF', value: 'pdf'},
+                  {title: 'XLS', value: 'xls'}
+                  ],
+                  help: 'Export Grid data as CSV, PDF, or XLS file.'
                 }
               ]
             }

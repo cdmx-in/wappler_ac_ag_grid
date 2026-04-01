@@ -2,13 +2,14 @@
 
 **Major Update:** This release upgrades AG Grid to v35.1.0, bringing continued performance improvements and new features.
 
-## 🚀 What's New in v2.0.23
+## 🚀 What's New in v2.1.1
 
 1. **🔥 AG Grid v35.1.0** - Latest version with all community features
 2. **⚡ Smooth Upgrade** - Non-breaking upgrade from v34, all existing configurations continue to work
 3. **🎨 HTML Tooltips** - Rich HTML tooltip support with JavaScript functions
 4. **🔧 Enhanced Tooltip System** - Custom tooltip components with automatic HTML detection
 5. **🚫 Suppress Model Update** - Option to prevent automatic reprocessing after update transactions
+6. **📤 Simplified Export Action** - Export format now uses a single dropdown selector (CSV, PDF, XLS) instead of separate checkboxes
 
 ## 🔄 Migration from v34 to v35
 
@@ -566,7 +567,11 @@ You can also specify left-only conditions, where only the field name is provided
 
 **Export**
 - To be used if you wish to use a separate Export button instead of using the inbuilt top left-cornered Export button.
-- Trigger this action to call Export Data to CSV/PDF download action based on selected file Type.
+- Trigger this action to export grid data in your chosen format.
+- **Format**: Select the export format from the dropdown:
+  - `csv` - Export as CSV file (default)
+  - `pdf` - Export as PDF file
+  - `xls` - Export as Excel (.xlsx) file
 - **Column State Integration**: When exporting data, the grid automatically respects the saved column state from localStorage. This means:
   - Columns are exported in the same order as they appear in the grid (based on user's saved column arrangement)
   - Hidden columns are automatically excluded from export
