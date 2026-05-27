@@ -26,3 +26,4 @@
         "publish-dry-run": "npm publish ./dist --access public --dry-run"
     }
 }
+
