@@ -24,7 +24,7 @@ dmx.Component('ag-grid', {
     tooltip_config: { type: Array, default: [] },
     custom_tooltip: { type: String, default: null },
     cstyles: { type: Array, default: [] },
-    rstyles: { type: Array, default: {} },
+    rstyles: { type: Array, default: [] },
     cnames: { type: Object, default: {} },
     cwidths: { type: Object, default: {} },
     ctypes: { type: Array, default: [] },
@@ -850,7 +850,8 @@ dmx.Component('ag-grid', {
 
     function extractConditionParts(condition) {
           
-      const operators = ['===', '==', '!=', '>', '<', '>=', '<='];
+      // Multi-char operators must be checked before '>' / '<' so '>=' and '<=' parse correctly
+      const operators = ['===', '==', '!=', '>=', '<=', '>', '<'];
       let operator;
       let left;
       let right;
@@ -1065,27 +1066,51 @@ dmx.Component('ag-grid', {
     //Custom Row Styles
     function createRowStyleFunction(rstyles) {
       return function(params) {
-        if (!rstyles || !Array.isArray(rstyles) || rstyles.length === 0) {
+        // Accept both the array form (current) and the legacy object-keyed-by-field form
+        const styles = Array.isArray(rstyles)
+          ? rstyles
+          : (rstyles && typeof rstyles === 'object' ? Object.values(rstyles) : []);
+        if (styles.length === 0) {
           return; // No styles to apply
         }
-        const rowStyle = {};
-        for (const style of rstyles) {
-          const condition = style.condition.replace(/\(\)$/, ''); // Remove () if present at the end
+        for (const style of styles) {
+          if (!style || !style.customColor) continue;
+          const condition = (style.condition || '').toString().trim();
+          const field = style.field;
           const customColor = style.customColor;
-          let conditionResult;
-          if (typeof window[condition] === 'function') {
-            const result = window[condition](params.data);
+          if (condition === '') continue;
+          let conditionResult = false;
+
+          if (condition.endsWith('()') && typeof window[condition.replace(/\(\)$/, '')] === 'function') {
+            // Function-based condition: receives row data, must return a boolean
+            const result = window[condition.replace(/\(\)$/, '')](params.data);
             if (typeof result !== 'boolean') {
               console.error('Row condition function must return a boolean value.');
-              return;
+              continue;
             }
             conditionResult = result;
+          } else if (/(===|==|!=|>=|<=|>|<)/.test(condition)) {
+            // Value/operator expression, with support for compound && / ||
+            if (/&&|\|\|/.test(condition)) {
+              const tokens = condition.split(/\s*(&&|\|\|)\s*/).filter(t => t !== '');
+              conditionResult = evaluateConditions(tokens, params);
+            } else {
+              const [left, operator, right] = extractConditionParts(condition);
+              conditionResult = params.data.hasOwnProperty(left) &&
+                (params.data[left] !== null ? evaluateCondition(params.data[left], operator, right) : false);
+            }
+          } else if (field) {
+            // Shorthand: Field + plain value => exact match on that field's value
+            conditionResult = params.data.hasOwnProperty(field) &&
+              params.data[field] !== null &&
+              String(params.data[field]) === condition;
           }
+
           if (conditionResult) {
-            rowStyle.background = customColor;
+            return { background: customColor }; // first match wins
           }
         }
-        return rowStyle;
+        return; // no condition matched
       };
     }
     dateFilterParams = {

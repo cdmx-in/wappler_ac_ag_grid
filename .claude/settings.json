@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git --no-pager diff HEAD -- dmx-ag-grid.js app_connect/components.hjson)"
+    ]
+  }
+}

@@ -808,14 +808,13 @@
               ],
               "noChangeOnHide": true,
               "groupEnabler": true,
-              "help": "Add custom Colors function that will return true or false. Add the fucntion name in the Function column."
+              "help": "Color whole rows by condition. Add one row per color - the same field can have many. Condition supports value/operator expressions (e.g. status == active, amount > 1000, status == open && amount > 100), a function name returning a boolean (e.g. myFn()), or - as a shorthand - a Field plus a plain value for an exact match. Values are unquoted."
               "children": [
                 {
                   "name": "listRowColors",
                   "attribute": "dmx-bind:rstyles",
                   "title": "Row Colors",
                   "type": "grid",
-                  "key": "field",
                   "dataBindings": true,
                   "jsonFormat": true,
                   "encloseBT": true,
@@ -827,14 +826,16 @@
                       "caption": "Field",
                       "editable": {
                         "type": "text"
-                      }
+                      },
+                      help: "Optional. Used with the shorthand (Field + plain value in Condition) for an exact match."
                     },
                     {
                       "field": "condition",
-                      "caption": "Function",
+                      "caption": "Condition",
                       "editable": {
                         "type": "text"
-                      }
+                      },
+                      help: "Expression (status == active, amount > 1000, a && b), function name with trailing parentheses (myFn() - the () are required), or a plain value matched against Field. Values are unquoted."
                     },
                     {
                       "field": "customColor",

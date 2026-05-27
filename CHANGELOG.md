@@ -1,4 +1,26 @@
-# Change Log - HTML Export Removal Feature
+# Change Log
+
+## Version 2.1.4 (Row Color Formatting Fix)
+
+### Summary
+Fixed row color styling (`rstyles`) so it works dynamically, supports multiple colors for the
+same field, and can color rows directly by field value.
+
+### Changes Made
+1. **`app_connect/components.hjson`** - removed `"key": "field"` from the "Configure Row Colors"
+   grid so it serializes as an array (unlimited rows per field). Renamed the `condition` column to
+   "Condition" and documented the supported syntax.
+2. **`dmx-ag-grid.js`** - changed the `rstyles` prop default from `{}` to `[]`, and rewrote
+   `createRowStyleFunction` to mirror the cell-style path: it normalizes both array and legacy
+   object input (backward compatible), and evaluates value/operator expressions
+   (`status == active`, `amount > 1000`, compound `&&`/`||`), function conditions (`myFn()`), and a
+   Field + plain-value exact-match shorthand. First matching condition wins.
+3. **`dmx-ag-grid.js`** - fixed operator parsing in `extractConditionParts` so `>=` and `<=`
+   are no longer mis-parsed as `>`/`<` (this also fixes `>=`/`<=` conditions in cell styles).
+   Function conditions require trailing `()` so plain shorthand values (e.g. status `open`)
+   cannot collide with `window` built-ins like `window.open`.
+
+---
 
 ## Version 2.0.15 (HTML Export Removal Added)
 
