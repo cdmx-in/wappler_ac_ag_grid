@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>08 · Formatting &amp; Types · AG Grid Test Suite</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page08">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '08 · Formatting & Types',
+      summary: 'amount_fields with precision, date_format + timezone, numeric column align, custom column types.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+
+  <section class="feature">
+    <h2>Amount + date formatting</h2>
+    <p class="desc">
+      <code>amount_fields="salary,rating"</code> with precision <code>2</code>, <code>date_format="dd/MM/yyyy"</code>
+      applied to <code>hire_date</code>. Numeric columns right-aligned.
+    </p>
+
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="fmtGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        amount_fields="salary,rating"
+        dmx-bind:amount_field_precision="2"
+        date_format="dd/MM/yyyy"
+        date_locale="en-GB"
+        dmx-bind:numeric_column_align="true"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Custom column types (ctypes)</h2>
+    <p class="desc">Force <code>active</code> to render as boolean badge and <code>rating</code> as currency.</p>
+
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="ctypeGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:ctypes="[{field:'active', type:'boolean'},{field:'rating', type:'number'}]"
+        dmx-bind:cnames="{first_name:'First', last_name:'Last', hire_date:'Joined'}"
+        dmx-bind:cwidths='{"first_name":{"min_width":120,"max_width":160},"last_name":{"min_width":120,"max_width":160},"department":{"min_width":140,"max_width":200}}'
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Header behaviour</h2>
+    <p class="desc">Wrap header text, auto header height, suppress movable columns, wrap cell text.</p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="hdrGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:wrap_header_text="true"
+        dmx-bind:auto_header_height="true"
+        dmx-bind:wrap_text="true"
+        dmx-bind:auto_height="true"
+        dmx-bind:suppress_movable_columns="true"
+        dmx-bind:header_height="60"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+</main>
+</body>
+</html>

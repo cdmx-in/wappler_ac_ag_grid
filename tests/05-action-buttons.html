@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>05 · Action Buttons</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page05">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '05 · Action Buttons',
+      summary: 'Built-in edit/view/delete actions plus 5 custom buttons with conditions.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+  <dmx-event-log id="actLog"></dmx-event-log>
+
+  <section class="feature">
+    <h2>Standard actions + 5 custom buttons</h2>
+    <p class="desc">
+      Pinned right. Built-in edit/view/delete + custom button1..button5. <code>button2_action_btn_condition</code>
+      restricts button 2 to active employees only.
+    </p>
+
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="actGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:enable_actions="true"
+        actions_column_position="right"
+        dmx-bind:pin_actions="true"
+        dmx-bind:edit_action_btn="true" edit_action_tooltip="Edit row"
+        dmx-bind:view_action_btn="true" view_action_tooltip="View row"
+        dmx-bind:delete_action_btn="true" delete_action_tooltip="Delete row"
+
+        dmx-bind:enable_custom_action_btns="true"
+        dmx-bind:button1_action_btn="true" button1_action_tooltip="Promote" button1_action_icon_class="fas fa-star"
+        dmx-bind:button2_action_btn="true" button2_action_tooltip="Email" button2_action_icon_class="fas fa-envelope" button2_action_btn_condition="active"
+        dmx-bind:button3_action_btn="true" button3_action_tooltip="Archive" button3_action_icon_class="fas fa-box-archive"
+        dmx-bind:button4_action_btn="true" button4_action_tooltip="Flag" button4_action_icon_class="fas fa-flag"
+        dmx-bind:button5_action_btn="true" button5_action_tooltip="Print" button5_action_icon_class="fas fa-print"
+
+        dmx-bind:pagination="false"
+
+        dmx-on:row_action_edit="actLog.add('row_action_edit')"
+        dmx-on:row_action_view="actLog.add('row_action_view')"
+        dmx-on:row_action_delete="actLog.add('row_action_delete')"
+        dmx-on:row_action_button1="actLog.add('row_action_button1')"
+        dmx-on:row_action_button2="actLog.add('row_action_button2')"
+        dmx-on:row_action_button3="actLog.add('row_action_button3')"
+        dmx-on:row_action_button4="actLog.add('row_action_button4')"
+        dmx-on:row_action_button5="actLog.add('row_action_button5')">
+      </dmx-ag-grid>
+    </div>
+
+    <div class="kv">
+      <div class="k">last action</div><div class="v" dmx-text="actLog.last.name">—</div>
+      <div class="k">action count</div><div class="v" dmx-text="actLog.count">0</div>
+      <div class="k">field captured</div><div class="v" dmx-text="actGrid.fields">{}</div>
+      <div class="k">id captured</div><div class="v" dmx-text="actGrid.id">—</div>
+    </div>
+
+    <div class="log" id="log-out"></div>
+  </section>
+</main>
+
+<script>
+  (function pollLog() {
+    if (!window.dmx || !dmx.app) return setTimeout(pollLog, 100);
+    const log = dmx.app.get('actLog');
+    if (!log) return setTimeout(pollLog, 100);
+    setInterval(() => {
+      const evs = log.events || [];
+      document.getElementById('log-out').innerHTML =
+        evs.slice(0, 30).map(e => '<div class="log-entry">' + e.at + ' — ' + e.name + '</div>').join('');
+    }, 400);
+  })();
+</script>
+</body>
+</html>

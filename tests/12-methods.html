@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>12 · Component Methods</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page12">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '12 · Component Methods',
+      summary: 'Every imperative method exposed in components.hjson, wired to a button so agents can fuzz them.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+
+  <section class="feature">
+    <h2>Method playground</h2>
+    <p class="desc">Each button calls a documented method. Watch the binding row + console for effects.</p>
+
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="m"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        quick_filter_field="qf_input"
+        dmx-bind:pagination="true"
+        dmx-bind:pagination_page_size="10">
+      </dmx-ag-grid>
+    </div>
+
+    <div class="controls" style="margin-top: 12px;">
+      <button class="primary" onclick="TestKit.callMethod('m','loadGrid')">loadGrid()</button>
+      <button onclick="TestKit.callMethod('m','reloadGrid', true)">reloadGrid(true)</button>
+      <button onclick="TestKit.callMethod('m','destroyGrid')">destroyGrid()</button>
+      <button onclick="TestKit.callMethod('m','pinColumns','first_name')">pinColumns('first_name')</button>
+      <button onclick="TestKit.callMethod('m','hideColumns','email')">hideColumns('email')</button>
+      <button onclick="TestKit.callMethod('m','getSelectedRows')">getSelectedRows()</button>
+      <button onclick="TestKit.callMethod('m','getAppliedFilters')">getAppliedFilters()</button>
+      <button onclick="TestKit.callMethod('m','getFilteredData')">getFilteredData()</button>
+      <button onclick="programmaticFilter()">applyFilters({department:'Sales'})</button>
+      <button onclick="TestKit.callMethod('m','clearFilters')">clearFilters()</button>
+      <button onclick="TestKit.callMethod('m','saveColumnState')">saveColumnState()</button>
+      <button onclick="TestKit.callMethod('m','resetColumnState')">resetColumnState()</button>
+    </div>
+
+    <div class="controls">
+      <input type="text" id="qf_input" placeholder="quick filter text" oninput="TestKit.callMethod('m','quickFilter')">
+      <button onclick="dump()">log component state</button>
+    </div>
+
+    <div class="kv">
+      <div class="k">count</div><div class="v" dmx-text="m.count">0</div>
+      <div class="k">selectedRows.length</div><div class="v" dmx-text="m.selectedRows.length">0</div>
+      <div class="k">filterState</div><div class="v" dmx-text="m.filterState">{}</div>
+    </div>
+
+    <div class="log" id="cli-log"></div>
+  </section>
+</main>
+
+<script>
+  function programmaticFilter() {
+    TestKit.callMethod('m', 'applyFilters', {
+      department: { type: 'equals', filter: 'Sales' }
+    });
+  }
+  function dump() {
+    const snap = TestKit.snapshot('m');
+    const box = document.getElementById('cli-log');
+    const e = document.createElement('div');
+    e.className = 'log-entry';
+    e.textContent = new Date().toISOString().slice(11,19) + ' → ' + JSON.stringify(snap);
+    box.insertBefore(e, box.firstChild);
+  }
+</script>
+</body>
+</html>

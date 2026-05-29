@@ -1,0 +1,30 @@
+<!--
+  Common head snippet for AG Grid scenario pages. Copy the block below into each
+  scenario's <head>. Kept here so adding a new vendor file means editing one place.
+  Load order matters: AppConnect → helpers/banner → AG Grid lib + locale → exports → dmx-ag-grid.js
+-->
+
+<link rel="stylesheet" href="./lib/test-suite.css">
+<link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+<link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-balham.css">
+<link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-material.css">
+<link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-quartz.css">
+<link rel="stylesheet" href="../ag-theme-custom.css">
+<link rel="stylesheet" href="../switch-toggle-slider.css">
+
+<script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+<script src="./lib/version-banner.js" defer></script>
+<script src="./lib/test-helpers.js" defer></script>
+<script src="./lib/page-template.js" defer></script>
+
+<script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+<script src="../node_modules/@ag-grid-community/locale/dist/umd/@ag-grid-community/locale.min.js" defer></script>
+<script src="../ru.js" defer></script>
+<script src="../node_modules/papaparse/papaparse.min.js" defer></script>
+<script src="../node_modules/read-excel-file/bundle/read-excel-file.min.js" defer></script>
+<script src="../node_modules/pdfmake/build/pdfmake.min.js" defer></script>
+<script src="../node_modules/pdfmake/build/vfs_fonts.js" defer></script>
+<script src="../node_modules/exceljs/dist/exceljs.min.js" defer></script>
+<script src="../dmx-ag-grid.js" defer></script>
+
+<script src="./data/sample-data.js" defer></script>

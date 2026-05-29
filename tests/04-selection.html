@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>04 · Selection &amp; Row Events</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page04">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '04 · Selection & Row Events',
+      summary: 'Single vs multi-row selection, row checkbox events, status toggle, click + double-click hooks.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+  <dmx-event-log id="evLog"></dmx-event-log>
+
+  <section class="feature">
+    <h2>Multi-row selection with checkbox events</h2>
+    <p class="desc">
+      <code>row_selection="multiRow"</code>, <code>row_checkbox_event=true</code>, <code>row_status_event=true</code>.
+      Selected rows are exposed via <code>selectedRows</code>.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="selGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        row_selection="multiRow"
+        dmx-bind:row_checkbox_event="true"
+        dmx-bind:row_status_event="true"
+        dmx-bind:row_click_event="true"
+        dmx-bind:row_double_click_event="true"
+        dmx-bind:pagination="false"
+        dmx-on:row_clicked="evLog.add('row_clicked')"
+        dmx-on:row_double_clicked="evLog.add('row_double_clicked')"
+        dmx-on:row_checkbox_checked="evLog.add('row_checkbox_checked')"
+        dmx-on:row_checkbox_unchecked="evLog.add('row_checkbox_unchecked')"
+        dmx-on:row_status_enabled="evLog.add('row_status_enabled')"
+        dmx-on:row_status_disabled="evLog.add('row_status_disabled')">
+      </dmx-ag-grid>
+    </div>
+
+    <div class="controls">
+      <button class="primary" onclick="TestKit.callMethod('selGrid','getSelectedRows')">getSelectedRows()</button>
+      <button onclick="dumpSelected()">log selectedRows binding</button>
+    </div>
+
+    <div class="kv">
+      <div class="k">selectedRows.length</div>
+      <div class="v" dmx-text="selGrid.selectedRows.length">0</div>
+      <div class="k">last event</div>
+      <div class="v" dmx-text="evLog.last.name">—</div>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Single-row selection</h2>
+    <p class="desc"><code>row_selection="singleRow"</code> — clicking a row replaces selection.</p>
+    <div class="grid-wrap">
+      <dmx-ag-grid id="singleSel" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine" row_selection="singleRow" dmx-bind:pagination="false"></dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Event log</h2>
+    <div class="log" id="log-out"></div>
+  </section>
+</main>
+
+<script>
+  function dumpSelected() {
+    const c = TestKit.grid('selGrid');
+    console.log('selectedRows', c && c.get('selectedRows'));
+  }
+  (function pollLog() {
+    if (!window.dmx || !dmx.app) return setTimeout(pollLog, 100);
+    const log = dmx.app.get('evLog');
+    if (!log) return setTimeout(pollLog, 100);
+    setInterval(() => {
+      const evs = log.events || [];
+      document.getElementById('log-out').innerHTML =
+        evs.slice(0, 30).map(e => '<div class="log-entry">' + e.at + ' — ' + e.name + '</div>').join('');
+    }, 400);
+  })();
+</script>
+</body>
+</html>

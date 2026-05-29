@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>03 · Editing · AG Grid Test Suite</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page03">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '03 · Editing',
+      summary: 'Cell vs row editing, restricted editable_fields, static + dynamic select editors.'
+    });
+  });
+</script>
+
+<main class="test-main">
+
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+  <dmx-event-log id="editLog"></dmx-event-log>
+
+  <section class="feature">
+    <h2>Cell editable — all fields</h2>
+    <p class="desc">
+      Double-click any cell to edit. <code>cell_data_edited</code> fires for each change with
+      <code>{ field, oldValue, newValue, rowId }</code>. Logged below.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="cellEdit"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:cell_editable="true"
+        dmx-bind:pagination="false"
+        dmx-bind:floating_filter="false"
+        dmx-on:cell_data_edited="editLog.add('cell_data_edited')">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Row editable — restricted fields</h2>
+    <p class="desc">
+      <code>row_editable=true</code> with <code>editable_fields="salary,rating,active"</code> — only those columns
+      are editable. <code>row_data_edited</code> fires once per row commit.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="rowEdit"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:row_editable="true"
+        editable_fields="salary,rating,active"
+        dmx-bind:pagination="false"
+        dmx-on:row_data_edited="editLog.add('row_data_edited')">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Select editors</h2>
+    <p class="desc">
+      <code>cstatic_select_editors</code> for <code>department</code>, <code>cdynamic_select_editors</code> for <code>active</code>.
+      Both render a dropdown editor when the cell is edited.
+    </p>
+    <div class="grid-wrap">
+      <!-- cstatic_select_editors expects { fieldName: { options: '<JSON string>' } } where
+           the JSON parses to an object whose keys become the displayed values. -->
+      <dmx-ag-grid
+        id="selectEdit"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:cell_editable="true"
+        dmx-bind:cstatic_select_editors='{"department": {"options": "{\"Engineering\":\"Engineering\",\"Sales\":\"Sales\",\"Marketing\":\"Marketing\",\"HR\":\"HR\",\"Finance\":\"Finance\"}"}}'
+        cselect_placeholder="—"
+        dmx-bind:pagination="false"
+        dmx-on:cell_data_edited="editLog.add('select_cell_edited')">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Edit log</h2>
+    <div class="kv">
+      <div class="k">events captured</div><div class="v" dmx-text="editLog.count">0</div>
+      <div class="k">last event</div><div class="v" dmx-text="editLog.last.name">—</div>
+    </div>
+    <div class="log" id="log-out"></div>
+  </section>
+</main>
+
+<script>
+  function renderLog() {
+    if (!window.dmx || !dmx.app) return setTimeout(renderLog, 100);
+    const log = dmx.app.get('editLog');
+    if (!log) return setTimeout(renderLog, 100);
+    const box = document.getElementById('log-out');
+    setInterval(() => {
+      const evs = log.events || [];
+      box.innerHTML = evs.map(e => '<div class="log-entry">' + e.at + ' — ' + e.name + '</div>').join('');
+    }, 500);
+  }
+  renderLog();
+</script>
+</body>
+</html>

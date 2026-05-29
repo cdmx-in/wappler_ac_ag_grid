@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>11 · Layout &amp; Scroll</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+  <style>
+    .topbar { background: #1f2937; color: #fff; padding: 8px 16px; }
+    .footer { background: #1f2937; color: #fff; padding: 8px 16px; text-align: center; }
+  </style>
+</head>
+<body is="dmx-app" id="page11">
+<div class="topbar">simulated fixed topbar (height ~36px)</div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '11 · Layout & Scroll',
+      summary: 'autoHeight vs normal, fixed_header offset, fixed_footer, horizontal scroll, hide_id_field.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+
+  <section class="feature">
+    <h2>autoHeight + hide id</h2>
+    <div class="grid-wrap">
+      <dmx-ag-grid id="autoH" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine"
+        dom_layout="autoHeight" dmx-bind:hide_id_field="true" dmx-bind:pagination="false"></dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Normal layout + fixed_header offset</h2>
+    <div class="grid-wrap" style="height: 360px;">
+      <dmx-ag-grid id="fixedH" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine"
+        dom_layout="normal"
+        dmx-bind:fixed_header="true"
+        topbar_class="topbar"
+        dmx-bind:fixed_header_offset="36"
+        dmx-bind:fixed_top_offset="0"
+        dmx-bind:pagination="false"></dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Horizontal scroll forced</h2>
+    <div class="grid-wrap">
+      <dmx-ag-grid id="scrollH" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine"
+        dmx-bind:fixed_horizontal_scroll="true"
+        dmx-bind:always_show_horizontal_scroll="true"
+        dmx-bind:min_width="220"
+        dmx-bind:pagination="false"></dmx-ag-grid>
+    </div>
+  </section>
+</main>
+
+<div class="footer">simulated fixed footer</div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>14 · Compact View &amp; Extended Buttons</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page14">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '14 · Compact View & Extended Buttons',
+      summary: 'compact_view layout; buttons 6–15 wired up to verify the extended button slots and class toggles.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+  <dmx-event-log id="evLog"></dmx-event-log>
+
+  <section class="feature">
+    <h2>Compact view mode</h2>
+    <p class="desc"><code>compact_view=true</code> with a 3-column grid, row height 20px.</p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="compactGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:compact_view="true"
+        dmx-bind:compact_view_grid_size="3"
+        dmx-bind:compact_view_item_height="20"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Buttons 6 – 15 + class toggles</h2>
+    <p class="desc">
+      Exercises the upper range of custom action buttons + the
+      <code>action_button_class_toggles</code> / <code>action_button_icon_class_toggles</code> arrays.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="extButtons"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:enable_actions="true"
+        actions_column_position="right"
+        dmx-bind:pin_actions="true"
+        dmx-bind:enable_custom_action_btns="true"
+        dmx-bind:button6_action_btn="true"  button6_action_tooltip="Link"   button6_action_icon_class="fas fa-link"
+        dmx-bind:button7_action_btn="true"  button7_action_tooltip="DL"     button7_action_icon_class="fas fa-download"
+        dmx-bind:button8_action_btn="true"  button8_action_tooltip="PDF"    button8_action_icon_class="fas fa-file-pdf"
+        dmx-bind:button9_action_btn="true"  button9_action_tooltip="Star"   button9_action_icon_class="fas fa-star"
+        dmx-bind:button10_action_btn="true" button10_action_tooltip="Trash" button10_action_icon_class="fas fa-trash-alt"
+        dmx-bind:button11_action_btn="true" button11_action_tooltip="Cog"   button11_action_icon_class="fas fa-cog"
+        dmx-bind:button12_action_btn="true" button12_action_tooltip="Search" button12_action_icon_class="fas fa-search"
+        dmx-bind:button13_action_btn="true" button13_action_tooltip="Like"  button13_action_icon_class="fas fa-thumbs-up"
+        dmx-bind:button14_action_btn="true" button14_action_tooltip="Bell"  button14_action_icon_class="fas fa-bell"
+        dmx-bind:button15_action_btn="true" button15_action_tooltip="Ban"   button15_action_icon_class="fas fa-ban"
+        dmx-bind:action_button_class_toggles="[{btn_id:'button6', condition:'active', class:'btn-success'}]"
+        dmx-bind:action_button_icon_class_toggles="[{btn_id:'button9', condition:'rating >= 4.5', class:'fa-spin'}]"
+        dmx-bind:pagination="false"
+        dmx-on:row_action_button6="evLog.add('row_action_button6')"
+        dmx-on:row_action_button10="evLog.add('row_action_button10')"
+        dmx-on:row_action_button15="evLog.add('row_action_button15')">
+      </dmx-ag-grid>
+    </div>
+    <div class="kv">
+      <div class="k">last action</div><div class="v" dmx-text="evLog.last.name">—</div>
+      <div class="k">total actions</div><div class="v" dmx-text="evLog.count">0</div>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Cell + row events explicitly enabled</h2>
+    <p class="desc">
+      <code>cell_click_event</code> and <code>row_double_click_event</code> with actions enabled — cell clicks
+      report as cell events instead of row events.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="cellEvtGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:enable_actions="true"
+        dmx-bind:edit_action_btn="true"
+        dmx-bind:cell_click_event="true"
+        dmx-bind:row_double_click_event="true"
+        dmx-bind:pagination="false"
+        dmx-on:cell_clicked="evLog.add('cell_clicked')"
+        dmx-on:row_double_clicked="evLog.add('row_double_clicked')">
+      </dmx-ag-grid>
+    </div>
+  </section>
+</main>
+</body>
+</html>

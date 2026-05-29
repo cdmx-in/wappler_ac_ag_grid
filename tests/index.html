@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AG Grid Wappler · Test Suite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+</head>
+<body is="dmx-app" id="suite-index">
+<script>
+  // Render header after defer-scripts load.
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: 'AG Grid Wappler — Test Suite',
+      summary: 'End-to-end feature coverage for the <dmx-ag-grid> component, designed for agent-driven browser testing.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <section class="feature">
+    <h2>How to run</h2>
+    <p class="desc">
+      Serve the project root over HTTP (e.g. <code>npx http-server . -p 8080 -c-1</code>) then visit
+      <code>/tests/index.html</code>. Each scenario waits until <code>document.body.dataset.gridsReady === 'true'</code>
+      before the grids are interactable — agents can poll that flag instead of guessing timings.
+    </p>
+    <p class="desc">
+      Console helpers: <code>TestKit.grid(id)</code>, <code>TestKit.waitForGrid(id)</code>,
+      <code>TestKit.snapshot(id)</code>, <code>TestKit.callMethod(id, name, ...args)</code>.
+      Version drift between the running AppConnect build and <code>tests/VERSIONS.json</code> is logged on every page.
+    </p>
+  </section>
+
+  <section class="feature">
+    <h2>Scenarios</h2>
+    <p class="desc">Each scenario isolates a feature group so failures are easy to attribute.</p>
+    <div class="scenario-grid">
+      <a class="scenario-card" href="./01-basic-render.html">
+        <h3>01 · Basic Render <span class="badge">core</span></h3>
+        <p>Default column inference, sort, filter, floating filter, pagination, count binding.</p>
+      </a>
+      <a class="scenario-card" href="./02-themes-locale.html">
+        <h3>02 · Themes &amp; Locale <span class="badge">visual</span></h3>
+        <p>All five built-in themes, dark mode toggle, RTL, locale switch (EN/HE/RU/ES/PT).</p>
+      </a>
+      <a class="scenario-card" href="./03-editing.html">
+        <h3>03 · Editing <span class="badge">edit</span></h3>
+        <p>Cell editable, row editable, static/dynamic select editors, edited-event payloads.</p>
+      </a>
+      <a class="scenario-card" href="./04-selection.html">
+        <h3>04 · Selection &amp; Row Events <span class="badge">events</span></h3>
+        <p>Single/multi-row selection, row checkboxes, row click / double-click / status events.</p>
+      </a>
+      <a class="scenario-card" href="./05-action-buttons.html">
+        <h3>05 · Action Buttons <span class="badge">actions</span></h3>
+        <p>Built-in edit/view/delete + 5 custom action buttons with conditions and class toggles.</p>
+      </a>
+      <a class="scenario-card" href="./06-export.html">
+        <h3>06 · Export <span class="badge">io</span></h3>
+        <p>CSV / XLSX / PDF download, trim, exclude hidden, exclude fields, strip HTML, custom filename.</p>
+      </a>
+      <a class="scenario-card" href="./07-import.html">
+        <h3>07 · Import <span class="badge">io</span></h3>
+        <p>importFileData() with CSV and Excel sources, surfacing fileData binding.</p>
+      </a>
+      <a class="scenario-card" href="./08-formatting.html">
+        <h3>08 · Formatting &amp; Types <span class="badge">format</span></h3>
+        <p>Custom column types, amount fields with precision, date format + timezone, column align.</p>
+      </a>
+      <a class="scenario-card" href="./09-grouping.html">
+        <h3>09 · Grouping &amp; Aggregation <span class="badge">group</span></h3>
+        <p>group_config, columns_to_sum / columns_to_count, footer sum precision.</p>
+      </a>
+      <a class="scenario-card" href="./10-state-persistence.html">
+        <h3>10 · State Persistence <span class="badge">state</span></h3>
+        <p>Save/reset column state to localStorage, applied filter introspection, programmatic filters.</p>
+      </a>
+      <a class="scenario-card" href="./11-layout.html">
+        <h3>11 · Layout &amp; Scroll <span class="badge">layout</span></h3>
+        <p>autoHeight vs normal layout, fixed header/footer, horizontal scroll, hide_id_field.</p>
+      </a>
+      <a class="scenario-card" href="./12-methods.html">
+        <h3>12 · Component Methods <span class="badge">api</span></h3>
+        <p>reloadGrid, loadGrid, destroyGrid, pinColumns, hideColumns, quickFilter, applyFilters, clearFilters.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Version manifest</h2>
+    <p class="desc">If the AppConnect pill in the header doesn't match, run every scenario and bump <code>tests/VERSIONS.json</code>.</p>
+    <pre class="log" id="version-dump">loading...</pre>
+  </section>
+</main>
+
+<script>
+  fetch('./VERSIONS.json').then(r => r.json()).then(j => {
+    const el = document.getElementById('version-dump');
+    if (el) el.textContent = JSON.stringify(j, null, 2);
+  }).catch(() => {});
+</script>
+</body>
+</html>

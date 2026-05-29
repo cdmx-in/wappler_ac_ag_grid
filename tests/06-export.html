@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>06 · Export · AG Grid Test Suite</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../node_modules/pdfmake/build/pdfmake.min.js" defer></script>
+  <script src="../node_modules/pdfmake/build/vfs_fonts.js" defer></script>
+  <script src="../node_modules/exceljs/dist/exceljs.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page06">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '06 · Export',
+      summary: 'CSV / XLSX / PDF export with trim, hidden-field handling, HTML stripping, custom filename.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+
+  <section class="feature">
+    <h2>Multi-format export</h2>
+    <p class="desc">
+      All three exporters enabled. Buttons call <code>exportGrid('csv'|'xls'|'pdf')</code>.
+      Use the file save dialog to confirm filenames.
+    </p>
+
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="expGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:export_to_csv="true"   export_csv_filename="employees-export.csv"
+        dmx-bind:export_to_xls="true"   export_xls_filename="employees-export.xlsx"
+        dmx-bind:export_to_pdf="true"   export_pdf_filename="employees-export.pdf"
+        dmx-bind:export_trim_data="true"
+        dmx-bind:export_remove_html="true"
+        dmx-bind:export_exclude_hidden_fields="true"
+        export_exclude_fields="email"
+        dmx-bind:hide_fields="rating"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+
+    <div class="controls" style="margin-top: 12px;">
+      <button class="primary" onclick="TestKit.callMethod('expGrid','exportGrid','csv')">Export CSV</button>
+      <button onclick="TestKit.callMethod('expGrid','exportGrid','xls')">Export XLSX</button>
+      <button onclick="TestKit.callMethod('expGrid','exportGrid','pdf')">Export PDF</button>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Export with no options</h2>
+    <p class="desc">Disable all exporters. Calling <code>exportGrid()</code> should log an error (still callable but harmless).</p>
+    <div class="grid-wrap">
+      <dmx-ag-grid id="noExp" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine"
+                   dmx-bind:export_to_csv="false" dmx-bind:export_to_xls="false" dmx-bind:export_to_pdf="false"
+                   dmx-bind:pagination="false"></dmx-ag-grid>
+    </div>
+    <div class="controls">
+      <button onclick="TestKit.callMethod('noExp','exportGrid','csv')">exportGrid('csv') — should warn</button>
+    </div>
+  </section>
+</main>
+</body>
+</html>

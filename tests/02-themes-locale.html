@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>02 · Themes &amp; Locale · AG Grid Test Suite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-balham.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-material.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-quartz.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../node_modules/@ag-grid-community/locale/dist/umd/@ag-grid-community/locale.min.js" defer></script>
+  <script src="../ru.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page02">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '02 · Themes & Locale',
+      summary: 'Toggle theme, dark mode, RTL, locale. The grid re-renders when dark_mode flips.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+
+  <section class="feature">
+    <h2>Theme matrix</h2>
+    <p class="desc">Each grid is a separate instance, demonstrating that the <code>grid_theme</code> attribute swaps the CSS class.</p>
+
+    <h3 style="margin-top:14px;">Alpine</h3>
+    <div class="grid-wrap"><dmx-ag-grid id="g_alpine" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine" dmx-bind:pagination="false" dmx-bind:row_height="28"></dmx-ag-grid></div>
+
+    <h3 style="margin-top:14px;">Balham</h3>
+    <div class="grid-wrap"><dmx-ag-grid id="g_balham" dmx-bind:data="rows.value" grid_theme="ag-theme-balham" dmx-bind:pagination="false" dmx-bind:row_height="26"></dmx-ag-grid></div>
+
+    <h3 style="margin-top:14px;">Material</h3>
+    <div class="grid-wrap"><dmx-ag-grid id="g_material" dmx-bind:data="rows.value" grid_theme="ag-theme-material" dmx-bind:pagination="false"></dmx-ag-grid></div>
+
+    <h3 style="margin-top:14px;">Quartz</h3>
+    <div class="grid-wrap"><dmx-ag-grid id="g_quartz" dmx-bind:data="rows.value" grid_theme="ag-theme-quartz" dmx-bind:pagination="false"></dmx-ag-grid></div>
+
+    <h3 style="margin-top:14px;">Custom (alpine + ag-theme-custom)</h3>
+    <div class="grid-wrap"><dmx-ag-grid id="g_custom" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine ag-theme-custom" dmx-bind:pagination="false"></dmx-ag-grid></div>
+  </section>
+
+  <section class="feature">
+    <h2>Dark mode toggle</h2>
+    <p class="desc">Flipping <code>dark_mode</code> triggers the grid's <code>requestUpdate</code> branch and rebuilds the instance with a <code>-dark</code> theme suffix.</p>
+    <div class="controls">
+      <button class="primary" onclick="toggleDark()">Toggle dark mode</button>
+      <span class="kv" style="display:inline-grid; grid-template-columns: auto auto; gap: 4px 8px;">
+        <span class="k">dark_mode</span><span class="v" id="dark-val">false</span>
+      </span>
+    </div>
+    <div class="grid-wrap">
+      <dmx-ag-grid id="g_dark" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine" dmx-bind:dark_mode="false" dmx-bind:pagination="false"></dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>RTL + locale</h2>
+    <p class="desc">Hebrew locale forces RTL; Russian uses the shipped <code>ru.js</code>; Spanish/Portuguese come from <code>@ag-grid-community/locale</code>.</p>
+    <h3>Hebrew (RTL)</h3>
+    <div class="grid-wrap"><dmx-ag-grid id="g_he" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine" locale_text="HE" dmx-bind:enable_rtl="true" dmx-bind:pagination="false"></dmx-ag-grid></div>
+
+    <h3 style="margin-top:14px;">Russian</h3>
+    <div class="grid-wrap"><dmx-ag-grid id="g_ru" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine" locale_text="RU" dmx-bind:pagination="false"></dmx-ag-grid></div>
+
+    <h3 style="margin-top:14px;">Spanish</h3>
+    <div class="grid-wrap"><dmx-ag-grid id="g_es" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine" locale_text="ES" dmx-bind:pagination="false"></dmx-ag-grid></div>
+  </section>
+</main>
+
+<script>
+  let dark = false;
+  function toggleDark() {
+    dark = !dark;
+    document.getElementById('dark-val').textContent = String(dark);
+    const c = TestKit.grid('g_dark');
+    if (c) c.set('dark_mode', dark);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>09 · Grouping &amp; Aggregation</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page09">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '09 · Grouping & Aggregation',
+      summary: 'group_config groups columns; columns_to_sum / columns_to_count drive footer aggregates.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="emp" source="employees"></dmx-test-data>
+  <dmx-test-data id="ord" source="orders"></dmx-test-data>
+
+  <section class="feature">
+    <h2>Grouped column headers</h2>
+    <p class="desc">
+      <code>group_config</code> bundles <code>first_name</code>+<code>last_name</code> under "Name" and
+      <code>salary</code>+<code>rating</code> under "Compensation".
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="grpGrid"
+        dmx-bind:data="emp.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:group_config="[{headerName:'Name', children:['first_name','last_name']}, {headerName:'Compensation', children:['salary','rating']}]"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Footer sum + count (orders)</h2>
+    <p class="desc">
+      <code>columns_to_sum="qty,total"</code> with precision 2; <code>columns_to_count=["customer"]</code>.
+      The grid shows a footer-row aggregation.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="aggGrid"
+        dmx-bind:data="ord.value"
+        grid_theme="ag-theme-alpine"
+        amount_fields="unit_price,total"
+        dmx-bind:amount_field_precision="2"
+        columns_to_sum="qty,total"
+        dmx-bind:footer_sum_precision="2"
+        dmx-bind:columns_to_count='[{"field":"customer","unique_values":"Acme Corp,Globex,Initech,Umbrella,Stark Ind.,Wayne Ent."}]'
+        dmx-bind:columns_to_count_nonunique="false"
+        dmx-bind:numeric_column_align="true"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+</main>
+</body>
+</html>

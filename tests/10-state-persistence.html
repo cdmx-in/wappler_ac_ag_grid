@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>10 · State Persistence</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page10">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '10 · State Persistence',
+      summary: 'Save/reset column state in localStorage, applied filter introspection, programmatic filters.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+
+  <section class="feature">
+    <h2>Column + filter state</h2>
+    <p class="desc">
+      Reorder/hide a column, then click "saveColumnState" — the state lands in <code>localStorage</code>
+      under <code>dmxState-&lt;column_state_storage_key&gt;</code>. Reload the page and the state restores.
+    </p>
+
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="stateGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        column_state_storage_key="ag-grid-test-state"
+        dmx-bind:pagination="true"
+        dmx-bind:pagination_page_size="10">
+      </dmx-ag-grid>
+    </div>
+
+    <div class="controls" style="margin-top: 12px;">
+      <button class="primary" onclick="TestKit.callMethod('stateGrid','saveColumnState')">saveColumnState()</button>
+      <button onclick="TestKit.callMethod('stateGrid','resetColumnState')">resetColumnState()</button>
+      <button onclick="TestKit.callMethod('stateGrid','getAppliedFilters')">getAppliedFilters()</button>
+      <button onclick="applyDeptFilter()">apply Engineering filter</button>
+      <button onclick="TestKit.callMethod('stateGrid','clearFilters')">clearFilters()</button>
+      <button onclick="dumpLocalStorage()">log localStorage key</button>
+    </div>
+
+    <div class="kv">
+      <div class="k">filterState</div>
+      <div class="v" dmx-text="stateGrid.filterState">{}</div>
+      <div class="k">columnState (length)</div>
+      <div class="v" dmx-text="stateGrid.columnState.length">0</div>
+    </div>
+
+    <div class="log" id="ls-log"></div>
+  </section>
+</main>
+
+<script>
+  function applyDeptFilter() {
+    TestKit.callMethod('stateGrid', 'applyFilters', {
+      department: { type: 'equals', filter: 'Engineering' }
+    });
+  }
+  function dumpLocalStorage() {
+    const key = 'dmxState-ag-grid-test-state';
+    const v = localStorage.getItem(key);
+    const box = document.getElementById('ls-log');
+    box.textContent = key + ' = ' + (v || '(empty)');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>07 · Import · AG Grid Test Suite</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../node_modules/papaparse/papaparse.min.js" defer></script>
+  <script src="../node_modules/read-excel-file/bundle/read-excel-file.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page07">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '07 · Import',
+      summary: 'Parse uploaded CSV/XLSX into fileData via importFileData(fileInputId).'
+    });
+  });
+</script>
+
+<main class="test-main">
+
+  <section class="feature">
+    <h2>Import CSV / Excel</h2>
+    <p class="desc">
+      Pick a file (CSV via Papa, XLSX via read-excel-file) — its parsed rows land in
+      <code>importGrid.fileData</code>. The "load into grid" button below mirrors that array into the grid's data binding.
+    </p>
+
+    <dmx-test-data id="rows" dmx-bind:data="[]"></dmx-test-data>
+
+    <div class="controls">
+      <input type="file" id="csvFile" accept=".csv,.xlsx,.xls">
+      <button class="primary" onclick="TestKit.callMethod('importGrid','importFileData','csvFile')">importFileData('csvFile')</button>
+      <button onclick="copyFileDataToGrid()">load parsed rows into grid</button>
+    </div>
+
+    <div class="grid-wrap">
+      <dmx-ag-grid id="importGrid" dmx-bind:data="rows.value" grid_theme="ag-theme-alpine" dmx-bind:pagination="true" dmx-bind:pagination_page_size="10"></dmx-ag-grid>
+    </div>
+
+    <div class="kv">
+      <div class="k">parsed fileData length</div>
+      <div class="v" dmx-text="importGrid.fileData.length">0</div>
+    </div>
+
+    <details style="margin-top: 12px;">
+      <summary>Sample CSV (copy/paste into a .csv file to test)</summary>
+      <pre class="log" id="sample-csv"></pre>
+    </details>
+  </section>
+</main>
+
+<script>
+  document.getElementById('sample-csv').textContent =
+    'id,first_name,last_name,department,salary,active\n' +
+    '1,Imported,One,Engineering,50000,true\n' +
+    '2,Imported,Two,Sales,60000,false\n' +
+    '3,Imported,Three,Marketing,55000,true\n';
+
+  function copyFileDataToGrid() {
+    const c = TestKit.grid('importGrid');
+    const rowsHost = TestKit.grid('rows');
+    if (!c || !rowsHost) return;
+    const fd = c.get('fileData') || [];
+    rowsHost.set('value', fd);
+  }
+</script>
+</body>
+</html>

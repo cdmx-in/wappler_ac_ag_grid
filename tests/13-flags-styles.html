@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>13 · Flags &amp; Styles · AG Grid Test Suite</title>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+
+  <script>
+    // Window-scoped function condition target for rstyles[*].condition = 'isRowVip()'.
+    // Must take row data and return boolean.
+    window.isRowVip = function (row) {
+      return !!row && row.rating >= 4.7 && row.active === true;
+    };
+  </script>
+</head>
+<body is="dmx-app" id="page13">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '13 · Flags & Styles (rstyles v2.1.4)',
+      summary: 'Suppression flags + the full rstyles condition matrix added in 2.1.4: function, value/operator, compound, field+shorthand, first-match-wins, legacy object form.'
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+
+  <section class="feature">
+    <h2>Suppression flags + ci_sort + hide_filters/sort</h2>
+    <p class="desc">
+      Most behavior-suppression flags toggled on at once. <code>hide_filters="email,rating"</code>
+      and <code>hide_sort="department"</code> selectively disable filtering / sorting per column.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="flagsGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:ci_sort="true"
+        dmx-bind:suppress_row_deselection="true"
+        dmx-bind:suppress_row_click_selection="true"
+        dmx-bind:suppress_menu_hide="true"
+        dmx-bind:suppress_movable_columns="true"
+        dmx-bind:suppress_clipboard_paste="true"
+        dmx-bind:suppress_scroll_on_new_data="true"
+        dmx-bind:always_show_vertical_scroll="true"
+        hide_filters="email,rating"
+        hide_sort="department"
+        dmx-bind:tooltip_show_delay="500"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <!--
+    rstyles entry shape (2.1.4):
+      { field?: string, condition: string, customColor: css-color }
+    condition forms (first matching entry wins, color is applied as row background):
+      1. Function:        condition = 'myFn()' — window.myFn(rowData) returns boolean
+      2. Value/operator:  condition = 'salary > 90000', '==', '!=', '>=', '<=', '<'
+      3. Compound:        condition = 'active == true && department == Engineering'
+      4. Field+shorthand: field = 'department', condition = 'Engineering' (exact match)
+    Bare values (no operator, no field) are skipped. customColor is applied as
+    `background` on the row.
+  -->
+
+  <section class="feature">
+    <h2>rstyles · function condition</h2>
+    <p class="desc">
+      Single entry: <code>{ condition: 'isRowVip()', customColor: '#fef3c7' }</code>.
+      <code>window.isRowVip(row)</code> returns true when rating ≥ 4.7 and active.
+      Expect ~4 highlighted rows (David, Kate, Olivia, Sam, Xavier).
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="rsFn"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:rstyles='[{"condition":"isRowVip()","customColor":"#fef3c7"}]'
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>rstyles · value/operator condition</h2>
+    <p class="desc">
+      <code>condition: 'salary &gt; 90000'</code> → light green for high earners,
+      <code>condition: 'salary &lt;= 65000'</code> → light red for low (exercises the 2.1.4
+      <code>&lt;=</code>/<code>&gt;=</code> parser fix).
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="rsOp"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:rstyles='[{"condition":"salary > 90000","customColor":"#d1fae5"},{"condition":"salary <= 65000","customColor":"#fee2e2"}]'
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>rstyles · compound &amp;&amp; / ||</h2>
+    <p class="desc">
+      <code>active == true &amp;&amp; department == Engineering</code> →
+      light blue.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="rsCompound"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:rstyles='[{"condition":"active == true && department == Engineering","customColor":"#dbeafe"}]'
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>rstyles · Field + plain-value shorthand</h2>
+    <p class="desc">
+      <code>{ field: 'department', condition: 'Marketing', customColor: '#fce7f3' }</code> —
+      exact string match on <code>row.department</code>.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="rsShort"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:rstyles='[{"field":"department","condition":"Marketing","customColor":"#fce7f3"}]'
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>rstyles · first-match wins</h2>
+    <p class="desc">
+      Two overlapping conditions on the same field. The first entry
+      (<code>salary &gt; 95000 → orange</code>) should win for David (110k) and
+      Kate (105k); the second entry (<code>salary &gt; 90000 → yellow</code>) catches
+      the next band only.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="rsFirst"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:rstyles='[{"condition":"salary > 95000","customColor":"#fed7aa"},{"condition":"salary > 90000","customColor":"#fef9c3"}]'
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>rstyles · legacy object form (backwards compat)</h2>
+    <p class="desc">
+      Pre-2.1.4 callers passed an object keyed by field name. The runtime still accepts both
+      shapes (<code>Object.values()</code> normalises to the array path), but
+      <code>rstyles</code>'s schema is <code>type: Array</code>, so AppConnect coerces an
+      object-shaped <code>dmx-bind:</code> attribute to <code>[]</code> before the runtime sees
+      it. The legacy code path is only reachable programmatically — this scenario sets
+      <code>rstyles</code> via <code>dmx.app.get('rsLegacy').set(...)</code> and reloads.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="rsLegacy"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>cstyles · text + cell area, with &gt;= / &lt;= operators</h2>
+    <p class="desc">
+      Two cstyles entries for <code>salary</code>:
+      <code>area:'text'</code> recolors the text (green if ≥ 90k),
+      <code>area:'cell'</code> sets the cell background (red if &lt;= 65k).
+      Exercises the same 2.1.4 operator parsing fix.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="csCell"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:cstyles='[{"field":"salary","condition":"salary >= 90000","customColor":"#047857","font":"bold","area":"text"},{"field":"salary","condition":"salary <= 65000","customColor":"#fee2e2","area":"cell"}]'
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>data_changes &amp; display_data_changes</h2>
+    <p class="desc">
+      <code>data_changes</code> rewrites field values before display.
+      <code>display_data_changes</code> overlays HTML badges on values.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="transformGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:data_changes="[{field:'department', changes:[{from:'Engineering', to:'Eng.'},{from:'Marketing', to:'Mktg.'}]}]"
+        dmx-bind:display_data_changes="[{field:'active', changes:[{from:true, to:'<span style=color:green>ACTIVE</span>'},{from:false, to:'<span style=color:red>INACTIVE</span>'}]}]"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Custom tooltip</h2>
+    <p class="desc"><code>custom_tooltip</code> sets an HTML tooltip template; <code>tooltip_show_delay</code> shortens the hover delay.</p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="tipGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        custom_tooltip="<b>{{field}}</b>: {{value}}"
+        dmx-bind:tooltip_config="[{field:'email'},{field:'salary'}]"
+        dmx-bind:tooltip_show_delay="300"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Live rstyles assertions</h2>
+    <p class="desc">
+      Runs in the page after the grids render and counts coloured rows per scenario.
+      The puppeteer runner reads <code>window.__rsCheck</code> and fails the page if any
+      condition didn't apply at least one matching row.
+    </p>
+    <pre class="log" id="rs-check"></pre>
+  </section>
+</main>
+
+<script>
+  // Helpers: count rows in a grid's DOM with a given background colour. Multiple matches
+  // are accepted (puppeteer normalises CSS to rgb()).
+  function bgCount(gridId, predicate) {
+    const root = document.querySelector('#' + gridId + '-grid');
+    if (!root) return -1;
+    let n = 0;
+    root.querySelectorAll('.ag-row').forEach(row => {
+      const bg = (row.getAttribute('style') || '').toLowerCase();
+      if (predicate(bg)) n++;
+    });
+    return n;
+  }
+  // Match a hex color by translating to the rgb() AG Grid leaves on style="".
+  function hexToRgb(hex) {
+    hex = hex.replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    const num = parseInt(hex, 16);
+    return 'rgb(' + ((num >> 16) & 255) + ', ' + ((num >> 8) & 255) + ', ' + (num & 255) + ')';
+  }
+  function hasBg(color) {
+    const rgb = hexToRgb(color);
+    return bg => bg.includes(rgb) || bg.includes(color.toLowerCase());
+  }
+
+  // Inject the legacy object-form rstyles directly onto the component, then trigger a
+  // re-render — this is the only way to exercise the backwards-compat branch in 2.1.4
+  // because `dmx-bind:rstyles="{…}"` is coerced to [] by AppConnect's Array type schema.
+  function primeLegacy() {
+    if (!window.dmx || !dmx.app || !dmx.app.get) return setTimeout(primeLegacy, 100);
+    const c = dmx.app.get('rsLegacy');
+    if (!c) return setTimeout(primeLegacy, 100);
+    if (!c.__primed) {
+      const legacy = {
+        sales: { field: 'department', condition: 'Sales', customColor: '#e9d5ff' },
+        hr:    { field: 'department', condition: 'HR',    customColor: '#fef9c3' }
+      };
+      // Reach the underlying component instance so we can mutate props.rstyles and call
+      // refreshGrid — `c` is the reactive proxy, not the component.
+      const inst = document.getElementById('rsLegacy');
+      const comp = inst && inst.dmxComponent;
+      if (comp) {
+        comp.props.rstyles = legacy;
+        if (typeof comp.refreshGrid === 'function') {
+          const gi = comp.refreshGrid();
+          comp.set('gridInstance', gi);
+        }
+        c.__primed = true;
+      }
+    }
+  }
+  primeLegacy();
+
+  // Wait for ready then evaluate every rstyles scenario and store outcomes for the runner.
+  function runChecks() {
+    if (document.body.dataset.gridsReady !== 'true') return setTimeout(runChecks, 200);
+    // Read fixtures here — they're populated by the deferred sample-data.js, so capturing
+    // them at module scope would freeze them at [] before that script ran.
+    const employees = (window.SampleData && window.SampleData.employees) || [];
+    if (!employees.length) return setTimeout(runChecks, 200);
+    // Wait an extra cycle so the legacy-form re-render lands before we count rows.
+    if (!document.querySelector('#rsLegacy-grid .ag-row [col-id]')) return setTimeout(runChecks, 200);
+
+    // Expected hand-counts derived from sample-data.js
+    const vipRows       = employees.filter(r => r.rating >= 4.7 && r.active === true).length;
+    const highSalary    = employees.filter(r => r.salary > 90000).length;
+    const lowSalary     = employees.filter(r => r.salary <= 65000).length;
+    const activeEng     = employees.filter(r => r.active === true && r.department === 'Engineering').length;
+    const marketingRows = employees.filter(r => r.department === 'Marketing').length;
+    const over95        = employees.filter(r => r.salary > 95000).length;
+    const between90_95  = employees.filter(r => r.salary > 90000 && r.salary <= 95000).length;
+    const salesRows     = employees.filter(r => r.department === 'Sales').length;
+    const hrRows        = employees.filter(r => r.department === 'HR').length;
+
+    const checks = {
+      rsFn:        { expect: vipRows,       actual: bgCount('rsFn',       hasBg('#fef3c7')) },
+      rsOp_high:   { expect: highSalary,    actual: bgCount('rsOp',       hasBg('#d1fae5')) },
+      rsOp_low:    { expect: lowSalary,     actual: bgCount('rsOp',       hasBg('#fee2e2')) },
+      rsCompound:  { expect: activeEng,     actual: bgCount('rsCompound', hasBg('#dbeafe')) },
+      rsShort:     { expect: marketingRows, actual: bgCount('rsShort',    hasBg('#fce7f3')) },
+      rsFirst_top: { expect: over95,        actual: bgCount('rsFirst',    hasBg('#fed7aa')) },
+      rsFirst_mid: { expect: between90_95,  actual: bgCount('rsFirst',    hasBg('#fef9c3')) },
+      rsLegacy_sl: { expect: salesRows,     actual: bgCount('rsLegacy',   hasBg('#e9d5ff')) },
+      rsLegacy_hr: { expect: hrRows,        actual: bgCount('rsLegacy',   hasBg('#fef9c3')) }
+    };
+    // cstyles: text-area uses inline color: rgb(...) on the cell, cell-area uses background-color
+    const csTextHigh = (() => {
+      const root = document.querySelector('#csCell-grid');
+      if (!root) return -1;
+      let n = 0;
+      const targetRgb = hexToRgb('#047857');
+      root.querySelectorAll('[col-id="salary"]').forEach(cell => {
+        const s = (cell.getAttribute('style') || '').toLowerCase();
+        if (s.includes(targetRgb)) n++;
+      });
+      return n;
+    })();
+    const csCellLow = (() => {
+      const root = document.querySelector('#csCell-grid');
+      if (!root) return -1;
+      let n = 0;
+      const targetRgb = hexToRgb('#fee2e2');
+      root.querySelectorAll('[col-id="salary"]').forEach(cell => {
+        const s = (cell.getAttribute('style') || '').toLowerCase();
+        if (s.includes(targetRgb)) n++;
+      });
+      return n;
+    })();
+    checks.cs_textHigh = { expect: highSalary, actual: csTextHigh };
+    checks.cs_cellLow  = { expect: lowSalary,  actual: csCellLow };
+
+    const failed = Object.entries(checks).filter(([_, v]) => v.actual !== v.expect);
+    window.__rsCheck = { checks, ok: failed.length === 0, failed: failed.map(([k]) => k) };
+
+    const box = document.getElementById('rs-check');
+    box.textContent = Object.entries(checks)
+      .map(([k, v]) => (v.actual === v.expect ? '✓' : '✗') + ' ' + k + ' — expected ' + v.expect + ', got ' + v.actual)
+      .join('\n');
+  }
+  runChecks();
+</script>
+</body>
+</html>

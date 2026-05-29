@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>01 · Basic Render · AG Grid Test Suite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../ag-theme-custom.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page01">
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '01 · Basic Render',
+      summary: 'Auto-inferred columns, default sort + text/number filters, floating filter row, pagination.'
+    });
+  });
+</script>
+
+<main class="test-main">
+
+  <section class="feature">
+    <h2>Default grid — inferred columns</h2>
+    <p class="desc">
+      Source: <code>window.SampleData.employees</code> (25 rows). The grid infers column types from
+      data, renders Alpine theme, pagination size 10, sortable + filterable + floating filter row.
+    </p>
+    <dmx-test-data id="employees" source="employees"></dmx-test-data>
+
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="basicGrid"
+        dmx-bind:data="employees.value"
+        grid_theme="ag-theme-alpine"
+        pagination="true"
+        dmx-bind:pagination_page_size="10"
+        sortable="true"
+        filter="true"
+        floating_filter="true"
+        resizable="true"
+        animate_rows="true">
+      </dmx-ag-grid>
+    </div>
+
+    <div class="kv">
+      <div class="k">Row count (binding)</div>
+      <div class="v" id="row-count" dmx-text="basicGrid.count">…</div>
+      <div class="k">gridReady</div>
+      <div class="v" dmx-text="basicGrid.state.gridReady">…</div>
+      <div class="k">firstDataRendered</div>
+      <div class="v" dmx-text="basicGrid.state.firstDataRendered">…</div>
+      <div class="k">rowDataUpdated</div>
+      <div class="v" dmx-text="basicGrid.state.rowDataUpdated">…</div>
+    </div>
+
+    <div class="controls" style="margin-top: 12px;">
+      <button class="primary" onclick="TestKit.callMethod('basicGrid', 'reloadGrid', true)">reloadGrid()</button>
+      <button onclick="TestKit.callMethod('basicGrid', 'loadGrid')">loadGrid()</button>
+      <button onclick="logSnapshot('basicGrid')">log snapshot</button>
+      <input type="search" id="qf" placeholder="Quick filter…" oninput="quickFilter(this.value)">
+    </div>
+  </section>
+
+  <section class="feature">
+    <h2>Console log</h2>
+    <div class="log" id="cli-log"></div>
+  </section>
+
+</main>
+
+<script>
+  function log(line) {
+    const box = document.getElementById('cli-log');
+    if (!box) return;
+    const el = document.createElement('div');
+    el.className = 'log-entry';
+    el.textContent = '[' + new Date().toISOString().slice(11,19) + '] ' + line;
+    box.insertBefore(el, box.firstChild);
+  }
+  function logSnapshot(id) {
+    log(id + ': ' + JSON.stringify(TestKit.snapshot(id)));
+  }
+  function quickFilter(value) {
+    const g = TestKit.grid('basicGrid');
+    if (!g) return;
+    const inst = g.get('gridInstance');
+    if (inst && inst.setGridOption) {
+      inst.setGridOption('quickFilterText', value);
+    }
+  }
+  window.addEventListener('error', (e) => log('error: ' + e.message));
+</script>
+</body>
+</html>
