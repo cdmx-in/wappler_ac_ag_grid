@@ -1,6 +1,6 @@
 {
     "name": "@cdmx/wappler_ag_grid",
-    "version": "2.1.4",
+    "version": "2.1.5",
     "type": "module",
     "description": "App Connect module for AG Grid v35 - Advanced data grid with enhanced editing, filtering, and tree data capabilities.",
     "license": "MIT",
@@ -16,10 +16,12 @@
     "dependencies": {
         "@ag-grid-community/locale": "~35.1.0",
         "ag-grid-community": "~35.1.0",
-        "exceljs": "^4.4.0",
         "papaparse": "~5.5.2",
         "pdfmake": "~0.2.18",
         "read-excel-file": "~5.8.7"
+    },
+    "devDependencies": {
+        "exceljs": "github:cdmx-in/exceljs#v4.4.0-uuid11.1.1-r2"
     },
     "scripts": {
         "build": "rollup --config",
