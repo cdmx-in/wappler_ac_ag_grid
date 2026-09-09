@@ -28,6 +28,7 @@
 
 <main class="test-main">
   <dmx-test-data id="rows" source="employees"></dmx-test-data>
+  <dmx-test-data id="statusData" source="statusRows"></dmx-test-data>
   <dmx-event-log id="evLog"></dmx-event-log>
 
   <section class="feature">
@@ -70,6 +71,29 @@
   </section>
 
   <section class="feature">
+    <h2>Status toggle column</h2>
+    <p class="desc">
+      Data has a <code>status</code> field, so <code>row_status_event=true</code> renders
+      <code>checkboxCellRenderer</code>. The toggle must dispatch its event via a delegated
+      listener and emit <strong>no inline <code>onclick</code></strong> — inline handlers are
+      blocked by a CSP without <code>'unsafe-inline'</code> in <code>script-src</code>.
+      The puppeteer runner reads <code>window.__statusCheck</code>.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="statusGrid"
+        dmx-bind:data="statusData.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:row_status_event="true"
+        dmx-bind:pagination="false"
+        dmx-on:row_status_enabled="evLog.add('row_status_enabled')"
+        dmx-on:row_status_disabled="evLog.add('row_status_disabled')">
+      </dmx-ag-grid>
+    </div>
+    <pre class="log" id="status-check"></pre>
+  </section>
+
+  <section class="feature">
     <h2>Single-row selection</h2>
     <p class="desc"><code>row_selection="singleRow"</code> — clicking a row replaces selection.</p>
     <div class="grid-wrap">
@@ -88,6 +112,44 @@
     const c = TestKit.grid('selGrid');
     console.log('selectedRows', c && c.get('selectedRows'));
   }
+  // Status-toggle assertions — exposed as window.__statusCheck for the runners.
+  // Guards the CSP fix: checkboxCellRenderer must emit data-status-* attributes and no
+  // inline onclick, with a delegated listener still dispatching row_status_*.
+  function runStatusChecks(tries) {
+    tries = tries || 0;
+    if (document.body.dataset.gridsReady !== 'true') return setTimeout(() => runStatusChecks(tries), 200);
+    const root = document.querySelector('#statusGrid-grid');
+    const input = root && root.querySelector('.switch-input');
+    if (!input) {
+      if (tries > 25) return publish({ toggle_rendered: { expect: true, actual: false } });
+      return setTimeout(() => runStatusChecks(tries + 1), 200);
+    }
+
+    const checks = {
+      // First row is status:true, so it renders checked — clicking it disables.
+      toggle_rendered:    { expect: true, actual: true },
+      no_inline_onclick:  { expect: 0,    actual: root.querySelectorAll('[onclick]').length },
+      toggle_has_dataset: { expect: true, actual: !!(input.dataset.statusId && input.dataset.statusCol) }
+    };
+
+    const log = dmx.app.get('evLog');
+    input.click();
+    setTimeout(() => {
+      const last = log && log.last;
+      checks.toggle_dispatches = { expect: 'row_status_disabled', actual: (last && last.name) || null };
+      publish(checks);
+    }, 150);
+  }
+
+  function publish(checks) {
+    const failed = Object.entries(checks).filter(([_, v]) => v.actual !== v.expect);
+    window.__statusCheck = { checks, ok: failed.length === 0, failed: failed.map(([k]) => k) };
+    document.getElementById('status-check').textContent = Object.entries(checks)
+      .map(([k, v]) => (v.actual === v.expect ? '✓' : '✗') + ' ' + k + ' — expected ' + v.expect + ', got ' + v.actual)
+      .join('\n');
+  }
+  runStatusChecks();
+
   (function pollLog() {
     if (!window.dmx || !dmx.app) return setTimeout(pollLog, 100);
     const log = dmx.app.get('evLog');

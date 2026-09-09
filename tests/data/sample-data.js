@@ -48,5 +48,16 @@
     { id: 112, customer: 'Wayne Ent.',  region: 'NA',  product: 'Gadget',   qty: 11, unit_price: 99.99,  total: 1099.89,order_date: '2025-05-04' }
   ];
 
-  window.SampleData = { employees, orders, departments };
+  // Rows carrying a `status` field — the only shape that makes dmx-ag-grid render
+  // checkboxCellRenderer (needs a `status` column plus row_status_event). Kept separate
+  // from `employees` so the other scenarios don't grow a stray column.
+  const statusRows = [
+    { id: 1, name: 'Alpha',   department: 'Engineering', status: true  },
+    { id: 2, name: 'Bravo',   department: 'Sales',       status: false },
+    { id: 3, name: 'Charlie', department: 'Marketing',   status: true  },
+    { id: 4, name: 'Delta',   department: 'HR',          status: false },
+    { id: 5, name: 'Echo',    department: 'Finance',     status: true  }
+  ];
+
+  window.SampleData = { employees, orders, departments, statusRows };
 })();

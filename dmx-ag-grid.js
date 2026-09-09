@@ -648,6 +648,18 @@ dmx.Component('ag-grid', {
         this.dispatchEvent('row_status_disabled')
       }
     };
+    // ponytail: delegated — checkboxCellRenderer emits no inline onclick (CSP script-src).
+    // Delegation rather than per-input binding because AG Grid virtualizes rows.
+    if (themeContainer) {
+      themeContainer.removeEventListener('click', this._statusToggleHandler);
+      this._statusToggleHandler = (event) => {
+        const input = event.target.closest('.switch-input[data-status-id]');
+        if (input) {
+          window.handleStatusToggle(event, input.dataset.statusCol, input.dataset.statusValue, input.dataset.statusId);
+        }
+      };
+      themeContainer.addEventListener('click', this._statusToggleHandler);
+    }
     function clickCellRenderer(params) {
       const idValue = params.data.id;
       const columnName = params.colDef.field;
@@ -696,13 +708,14 @@ dmx.Component('ag-grid', {
       }
         // Assuming `value` is a boolean representing the status
         const checked = value==true ? "checked" : "";
+        const attr = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
         return `
         <div class="col pt-2 pb-1 ps-1 pe-1 d-flex justify-content-center">
           <label class="switch switch-success">
-            <input 
+            <input
               type="checkbox" class="switch-input"
               ${checked}
-              onclick="handleStatusToggle(event, '${columnName}', '${value}', '${idValue}')"
+              data-status-col="${attr(columnName)}" data-status-value="${attr(value)}" data-status-id="${attr(idValue)}"
             />
             <span class="switch-toggle-slider" role="status">
             </span>

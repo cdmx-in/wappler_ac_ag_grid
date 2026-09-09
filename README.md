@@ -2,6 +2,35 @@
 
 **Major Update:** This release upgrades AG Grid to v35.1.0, bringing continued performance improvements and new features.
 
+## 🔒 What's New in v2.1.7
+
+**Content Security Policy compliance.** The status toggle column (rendered when a grid has a
+`status` field and `row_status_event` is enabled) previously emitted an inline
+`onclick="handleStatusToggle(...)"` attribute per row. Inline event handlers are blocked by any
+CSP without `'unsafe-inline'` in `script-src`, and they cannot be allowed by hash because the
+attribute interpolates per-row data — so under a locked-down policy the toggle rendered normally
+but silently stopped firing `row_status_enabled` / `row_status_disabled`.
+
+The renderer now emits `data-status-col` / `data-status-value` / `data-status-id` attributes, and
+a single delegated `click` listener on the grid container dispatches the events. Behaviour is
+unchanged; no configuration or view changes are required.
+
+- **No inline event handlers** are emitted anywhere in the grid, so `script-src` needs neither
+  `'unsafe-inline'` nor per-row hashes.
+- The three runtime `<style>` blocks (cell centering, sticky horizontal scrollbar, pagination
+  layout) are static and unchanged, and can be allowed by hash in `style-src`:
+  ```
+  'sha256-rW177u2hd7RHx4qSlJmD1nI6607/SZ01lrewgfHuj/M='   cell centering
+  'sha256-Et0Yl8993s0IRJOeeDT++DYDRSXLRDRvbgCj9zG2J9A='   sticky horizontal scrollbar
+  'sha256-6oQ3cIavZD3cp6igHrAN3HjrosWY41/7+bYLY+je9F0='   pagination panel
+  ```
+  These must be recomputed if that CSS text is ever edited.
+- Toggle values are now attribute-escaped rather than interpolated into a JavaScript string
+  literal, closing a quote-breakout in the previous renderer.
+
+Regression coverage lives in `tests/04-selection.html` (`window.__statusCheck`), which asserts the
+grid emits zero `[onclick]` attributes and that the toggle still dispatches its events.
+
 ## 🚀 What's New in v2.1.1
 
 1. **🔥 AG Grid v35.1.0** - Latest version with all community features

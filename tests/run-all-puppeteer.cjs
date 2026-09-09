@@ -13,7 +13,7 @@ const PAGES = [
   { file: '01-basic-render.html',     grids: ['basicGrid'] },
   { file: '02-themes-locale.html',    grids: ['g_alpine','g_balham','g_material','g_quartz','g_custom','g_dark','g_he','g_ru','g_es'] },
   { file: '03-editing.html',          grids: ['cellEdit','rowEdit','selectEdit'] },
-  { file: '04-selection.html',        grids: ['selGrid','singleSel'] },
+  { file: '04-selection.html',        grids: ['selGrid','singleSel','statusGrid'], pageAssertion: '__statusCheck' },
   { file: '05-action-buttons.html',   grids: ['actGrid'] },
   { file: '06-export.html',           grids: ['expGrid','noExp'] },
   { file: '07-import.html',           grids: ['importGrid'], expectEmpty: true },
