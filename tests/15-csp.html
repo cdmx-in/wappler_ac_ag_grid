@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Strict policy: no 'unsafe-inline' anywhere. Every <style> AG Grid or the module injects must carry the nonce. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-csp15'; style-src 'self' 'nonce-csp15'; img-src 'self' data:; font-src 'self' data:">
+  <meta name="csp-nonce" content="csp15">
+  <title>15 · CSP nonce</title>
+  <script nonce="csp15">
+    // Must be installed before any deferred script runs so every violation is counted.
+    window.__cspViolations = [];
+    document.addEventListener('securitypolicyviolation', e => window.__cspViolations.push(e.violatedDirective + ' ' + (e.sourceFile || '').split('/').pop() + ':' + e.lineNumber));
+  </script>
+  <link rel="stylesheet" href="./lib/test-suite.css">
+  <link rel="stylesheet" href="../node_modules/ag-grid-community/styles/ag-theme-alpine.css">
+  <link rel="stylesheet" href="../switch-toggle-slider.css">
+  <script src="./dmxAppConnect/dmxAppConnect.js" defer></script>
+  <script src="./lib/version-banner.js" defer></script>
+  <script src="./lib/test-helpers.js" defer></script>
+  <script src="./lib/page-template.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.noStyle.js" defer></script>
+  <script src="../dmx-ag-grid.js" defer></script>
+  <script src="./data/sample-data.js" defer></script>
+</head>
+<body is="dmx-app" id="page15">
+
+<script nonce="csp15">
+  window.addEventListener('DOMContentLoaded', () => {
+    TestPage.header({
+      title: '15 · CSP nonce',
+      summary: "Page served under style-src 'self' 'nonce-csp15' with no 'unsafe-inline'. The module reads the nonce from &lt;meta name=\"csp-nonce\"&gt; and passes it to AG Grid (styleNonce) and its own &lt;style&gt; blocks."
+    });
+  });
+</script>
+
+<main class="test-main">
+  <dmx-test-data id="rows" source="employees"></dmx-test-data>
+  <dmx-test-data id="statusData" source="statusRows"></dmx-test-data>
+
+  <section class="feature">
+    <h2>Grid under a nonce-only style-src</h2>
+    <p class="desc">
+      Pagination, <code>vert_center_cell_data</code>, <code>fixed_horizontal_scroll</code> and the status toggle —
+      every path where the module itself creates a <code>&lt;style&gt;</code>. The puppeteer runner reads
+      <code>window.__cspCheck</code>.
+    </p>
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="cspGrid"
+        dmx-bind:data="rows.value"
+        grid_theme="ag-theme-alpine"
+        dmx-bind:pagination="true"
+        dmx-bind:pagination_page_size="10"
+        dmx-bind:vert_center_cell_data="true"
+        dmx-bind:fixed_horizontal_scroll="true">
+      </dmx-ag-grid>
+    </div>
+    <div class="grid-wrap">
+      <dmx-ag-grid id="statusGrid" dmx-bind:data="statusData.value" grid_theme="ag-theme-alpine" dmx-bind:row_status_event="true" dmx-bind:pagination="false"></dmx-ag-grid>
+    </div>
+    <pre class="log" id="csp-check"></pre>
+  </section>
+</main>
+
+<script nonce="csp15">
+  function runCspChecks(tries) {
+    tries = tries || 0;
+    if (document.body.dataset.gridsReady !== 'true') {
+      if (tries > 50) return publish({ grids_ready: { expect: true, actual: false } });
+      return setTimeout(() => runCspChecks(tries + 1), 200);
+    }
+    setTimeout(() => {
+      const root = document.querySelector('#cspGrid-grid');
+      const wrap = root && root.querySelector('.ag-root-wrapper');
+      const cell = root && root.querySelector('.ag-cell');
+      const styles = [...document.querySelectorAll('style')];
+      publish({
+        csp_violations:      { expect: 0,      actual: window.__cspViolations.length },
+        style_elements_seen: { expect: true,   actual: styles.length > 0 },
+        all_styles_nonced:   { expect: 0,      actual: styles.filter(s => s.nonce !== 'csp15').length },
+        layout_intact:       { expect: 'flex', actual: wrap ? getComputedStyle(wrap).display : 'no-wrapper' },
+        vcenter_applied:     { expect: 'flex', actual: cell ? getComputedStyle(cell).display : 'no-cell' },
+        hscroll_fixed:       { expect: 'fixed', actual: (el => el ? getComputedStyle(el).position : 'none')(root && root.querySelector('.ag-body-horizontal-scroll')) }
+      });
+      if (window.__cspViolations.length) console.warn('CSP violations:', window.__cspViolations);
+    }, 400);
+  }
+  function publish(checks) {
+    const failed = Object.entries(checks).filter(([_, v]) => v.actual !== v.expect);
+    window.__cspCheck = { checks, ok: failed.length === 0, failed: failed.map(([k]) => k) };
+    document.getElementById('csp-check').textContent = Object.entries(checks)
+      .map(([k, v]) => (v.actual === v.expect ? '✓' : '✗') + ' ' + k + ' — expected ' + v.expect + ', got ' + v.actual)
+      .join('\n');
+  }
+  runCspChecks();
+</script>
+</body>
+</html>

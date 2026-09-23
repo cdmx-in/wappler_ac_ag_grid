@@ -11,7 +11,7 @@
   <script src="./lib/version-banner.js" defer></script>
   <script src="./lib/test-helpers.js" defer></script>
   <script src="./lib/page-template.js" defer></script>
-  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.js" defer></script>
+  <script src="../node_modules/ag-grid-community/dist/ag-grid-community.min.noStyle.js" defer></script>
   <script src="../dmx-ag-grid.js" defer></script>
   <script src="./data/sample-data.js" defer></script>
 
@@ -311,6 +311,10 @@
     if (!employees.length) return setTimeout(runChecks, 200);
     // Wait an extra cycle so the legacy-form re-render lands before we count rows.
     if (!document.querySelector('#rsLegacy-grid .ag-row [col-id]')) return setTimeout(runChecks, 200);
+    // cellStyle lands a tick after the rows: wait for a styled salary cell (capped so a real
+    // regression still surfaces as a failed count rather than a page that never publishes).
+    runChecks.tries = (runChecks.tries || 0) + 1;
+    if (runChecks.tries < 25 && !document.querySelector('#csCell-grid [col-id="salary"][style*="color"]')) return setTimeout(runChecks, 200);
 
     // Expected hand-counts derived from sample-data.js
     const vipRows       = employees.filter(r => r.rating >= 4.7 && r.active === true).length;

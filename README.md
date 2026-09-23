@@ -2,6 +2,60 @@
 
 **Major Update:** This release upgrades AG Grid to v35.1.0, bringing continued performance improvements and new features.
 
+## 🔒 What's New in v2.1.8
+
+**`style-src` without `'unsafe-inline'`, via a page nonce.** AG Grid v35 injects its theme CSS as
+`<style>` elements at runtime, so any policy without `'unsafe-inline'` broke the grid. This release:
+
+- ships `ag-grid-community.min.noStyle.js` under the existing `js/ag-grid-community.min.js` name.
+  The with-styles build injected 14 `<style>` blocks at script load that cannot take a nonce, and
+  AG Grid deleted them again the moment a grid initialised (they only serve legacy-theme mode, which
+  this module never uses). Nothing visible changes and existing `<script>` links keep working —
+  update the module in each project and the file is overwritten.
+- reads a page nonce and passes it to AG Grid (`styleNonce`) and to the module's own three
+  `<style>` blocks. The nonce is page-global, as AG Grid requires; it is taken from
+  `<meta name="csp-nonce" content="…">` or from any `<script nonce="…">` already on the page. Pages
+  without a nonce behave exactly as before.
+
+To use it, generate a fresh random nonce **per response** (a fixed value is equivalent to
+`'unsafe-inline'`) and put it in both places:
+
+```html
+<meta name="csp-nonce" content="<nonce>">        <!-- layout <head> -->
+```
+```
+Content-Security-Policy: style-src 'self' 'nonce-<nonce>'; img-src 'self' data:; font-src 'self' data:
+```
+
+`img-src data:` covers AG Grid's SVG icons, `font-src data:` the icon fonts embedded in the theme
+CSS; `script-src` needs nothing from the module (`'unsafe-eval'` only with `enable_cell_expressions`).
+
+Server side:
+
+- **Express / Wappler NodeJS** — middleware registered before the page routes (in Wappler, a custom
+  routes file under `extensions/server_connect/routes/` receives the Express `app`):
+  ```js
+  const crypto = require('crypto');
+  app.use((req, res, next) => {
+    res.locals.cspNonce = crypto.randomBytes(16).toString('base64');
+    res.setHeader('Content-Security-Policy',
+      `style-src 'self' 'nonce-${res.locals.cspNonce}'; img-src 'self' data:; font-src 'self' data:`);
+    next();
+  });
+  ```
+  and `<meta name="csp-nonce" content="<%= cspNonce %>">` in the EJS layout.
+- **nginx** — `set $csp_nonce $request_id;`, `add_header Content-Security-Policy "style-src 'self'
+  'nonce-$csp_nonce'; img-src 'self' data:; font-src 'self' data:" always;`, and inject it into the
+  HTML with `sub_filter '__CSP_NONCE__' $csp_nonce; sub_filter_once off;` against
+  `<meta name="csp-nonce" content="__CSP_NONCE__">` in the layout (`sub_filter` needs uncompressed
+  upstream HTML: `proxy_set_header Accept-Encoding "";`).
+- **PHP** — `$nonce = base64_encode(random_bytes(16));` then `header("Content-Security-Policy: …
+  'nonce-$nonce' …");` and `<meta name="csp-nonce" content="<?= $nonce ?>">`.
+
+Regression coverage: `tests/15-csp.html` is served under `style-src 'self' 'nonce-csp15'` with no
+`'unsafe-inline'` and asserts zero violations, every `<style>` nonced, and the layout,
+`vert_center_cell_data` and `fixed_horizontal_scroll` styles applied.
+
 ## 🔒 What's New in v2.1.7
 
 **Content Security Policy compliance.** The status toggle column (rendered when a grid has a
@@ -26,45 +80,17 @@ unchanged; no configuration or view changes are required.
 Regression coverage lives in `tests/04-selection.html` (`window.__statusCheck`), which asserts the
 grid emits zero `[onclick]` attributes and that the toggle still dispatches its events.
 
-### `style-src` without `'unsafe-inline'`
+### Alternative without a nonce: hash allow-list
 
-AG Grid injects `<style>` elements at runtime, and none of them can be nonced from outside: the
-shipped with-styles bundle (`ag-grid-community.min.js`) inserts 14 blocks the moment the script
-loads (webpack style-loader, no nonce support), the v35 Theming API inserts ~25 more when a grid is
-created (including the grid's structural CSS), and this module inserts 3 static blocks. Every block
-is a fixed function of the shipped bytes, so a policy without `'unsafe-inline'` allows them by hash.
-The complete list is generated — and verified against every test scenario — by:
-
-```bash
-node tests/csp-hashes.cjs            # prints the style-src directive + helmet array form
-node tests/csp-hashes.cjs --verify   # also reloads all scenarios under that header; exit 1 on any violation
-```
-
-Output for `ag-grid-community` 35.1.0 + this release (43 hashes, ≈2.4 KB; verified: 14 pages,
-42 grids, 0 violations, every layout intact):
-
-```
-style-src 'self' 'sha256-6oQ3cIavZD3cp6igHrAN3HjrosWY41/7+bYLY+je9F0=' 'sha256-Et0Yl8993s0IRJOeeDT++DYDRSXLRDRvbgCj9zG2J9A=' 'sha256-rW177u2hd7RHx4qSlJmD1nI6607/SZ01lrewgfHuj/M=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-2/xG8YjcEYWT9sKvpg3pEEvtE36TMGc6V/T6v130Xes=' 'sha256-buL/S8c0LW0f+ls2LEb7TfiKGpJXqLSNvzIqVM4CNaA=' 'sha256-cOGXK0hePku9pVU2OIFAyapCqrQFRKyfDGKB8D9UtFU=' 'sha256-cwaJSyEdT1ph7Mj8Smc8IrSYfBQjFom3ShhYWg7iLLA=' 'sha256-eNLzJJcA3RywlsShYcVbCcuRUR+LdF2XlkoGOQc3Ntk=' 'sha256-HlO1Gl1PqjMhfGD2/EHNy1HjUpLydQLzOAquQItvR3Q=' 'sha256-HqxKd4b5SS0lsE456mixvIFcDApWusVKUuDjUPJf0BA=' 'sha256-ls5CKJJRiSAP8r/fFvAg/Cke55MhIDr++nMuFuWxNpA=' 'sha256-Md80aJjbTomuTgTRL91ZHcLY9TzxfNlw4FNCulYKTSw=' 'sha256-npdbdyBh6FyFJEroKOzlu+YNt0zhGMecsVFgQyW+dlI=' 'sha256-u/iDw/8gHA2DljERH39CSJSTbd0s2WvtEFAgwA3GcMg=' 'sha256-UY2P5LxXCP5d6ExKb1t4qTXdSBQwbbkFyBwycPCTtJI=' 'sha256-zCuVxWS9MAbdcMFGAMfL6BnT80DRpOv1ONJ38+H+FZA=' 'sha256-zzdTrjO9VgpIMRL7TXClsAuG4NnBN4ygvMevN4hJROU=' 'sha256-+soAzMi22c6suKR3qsxWNi891PI7bDqCrR58dYzu+nw=' 'sha256-0//Y//yOB4hYUnQtJ4nufkQeLD6qQJmlXvjd8WWgMOs=' 'sha256-3dv8bVnKPc6YTDex/98SX/y5OlgOjjkSaSoSKx2fRXg=' 'sha256-4A9WusJPNXvACV0C20kpw9zHDGVaOdQd2/ruaIQXRFY=' 'sha256-9VhovH3h0G1rr5VNLCZrvP0YWA28pnMCT9ou/m9WFHY=' 'sha256-DdD72VU8ifkvS+36YRX6FCNrQEh7mA/MWb6yyVzsuyA=' 'sha256-dxrEw072G3f1/tpHBm1e2ADZjuldGd2jgWpjTS4CnLc=' 'sha256-fBTAfSJ7b2FTtyoNO6+HBq7Q0e85B/3gMwTCX1XDLhI=' 'sha256-FM75s5uuXkK86B/C68hC7cpzgy3JvdYPOatniwEa22o=' 'sha256-FQ++KHv7Ig7R6XP9C2X0S4uD1OrwUSTWAFpWBRiFjK0=' 'sha256-g/jaOuV/qTLpkqu0OtbzZSQui9inv22j1OGRUdrz8x8=' 'sha256-InjJemMgkafKGywVu3nJD6FLfIcGQ1MMZDiRPj1KvZ8=' 'sha256-IpHnH5jvYqms3n+z/NMON95+gcdwsd1enDoGgvF9Opg=' 'sha256-JRWqiJWSAbNhoHollkAYzVo5eNeD2neItfNV5zIkwao=' 'sha256-obSG11sB9ozolIz3//Xup/dwqSp2aI9tDRc8bvBVRtE=' 'sha256-Og5SyHytXfIhbYbsjWyPWbJTWcVop/ta3Fzt/+9+FlQ=' 'sha256-OuRrlCkNoyXgmSVwU0BT+5yVQA+KqyfRd/dFEA+8nSg=' 'sha256-pHpijFKBO+KoWAoGptUg3d/dTHW/qv1Sr/21rcpzdQM=' 'sha256-QGsVmmjIgmPlvak+CaOVC1AZM/hIkIqZKWGXHb2+xSw=' 'sha256-RlOoLMMZXEFHzuOJyJCBK08d6ipmlX2JEJCatv9j61o=' 'sha256-U2M2ZJvlBYzAoqENSzfQQBH8cSviqExUmG3s8gmGaIE=' 'sha256-up4oMJUfLusqRzByKS+Wh8lEIoNust+QaA5gwa/WiSQ=' 'sha256-WdVLWYvwxpx/Qjnw+uNg8EmsPpZgGU1w0CMT2IsUrJ8=' 'sha256-X8ikrSrJ8KtgOpLNU+7+1v0CW0DSFOAZvNtX0ExB1vs=' 'sha256-YK9eUhPhSb6QQKWujWP9V/2YXlJkbLBVjuQ4j584TJs='
-```
-
-Also required by the grid: `img-src 'self' data:` (SVG icons) and `font-src 'self' data:` (icon
-fonts embedded in the theme CSS). `script-src` needs `'unsafe-eval'` only when
-`enable_cell_expressions` is on. Deliver the policy as a header (nginx `add_header`, helmet
-`styleSrc: [...]`) or as `<meta http-equiv="Content-Security-Policy">` in the layout (hashes work in
-`<meta>`; `report-uri` does not).
-
-Caveats:
-
-- The hashes are bound to the exact bytes of `ag-grid-community.min.js` and `dmx-ag-grid.js`.
-  Regenerate after **any** upgrade of either. A stale list shows up as console errors naming the
-  missing hash, and as a collapsed grid if a core block changed.
-- The list is the union of what the test scenarios (plus column-menu, filter-popup, editor, sort
-  and paging interactions) make AG Grid inject. AG Grid injects component CSS lazily, so a feature
-  outside the suite can need one more hash; that component renders unstyled and the console names
-  the hash. Add a scenario page for it and re-run the generator.
-- Hashes allow `<style>` elements only. Inline `style="…"` attributes in your own pages still need
-  `style-src-attr` handling (`'unsafe-hashes'` plus hashes, or removing them). AG Grid and this
-  module set styles through the CSSOM, which CSP does not restrict.
+If a per-request nonce is not possible on your stack, every `<style>` block AG Grid and this module
+inject can be allowed by `'sha256-…'` hash instead. `node tests/csp-hashes.cjs` harvests them from
+the test scenarios and prints the `style-src` directive (helmet array form too); `--verify` reloads
+every scenario under that header and exits 1 on any violation. Caveats, which are why the nonce is
+the recommended route: the hashes are bound to the exact bytes of `ag-grid-community.min.js` and
+`dmx-ag-grid.js` (regenerate after **any** upgrade of either), AG Grid injects component CSS lazily
+so a feature the scenarios don't exercise can need one more hash (that component renders unstyled and
+the console names the hash), and hashes cover `<style>` elements only — inline `style="…"` attributes
+in your own pages still need `style-src-attr` handling.
 
 ## 🚀 What's New in v2.1.1
 

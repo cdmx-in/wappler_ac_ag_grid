@@ -621,6 +621,10 @@ dmx.Component('ag-grid', {
     
     const gridThemeClass = options.dark_mode ? `${options.grid_theme}-dark` : options.grid_theme;
     this.$node.innerHTML = `<div id=${options.id}-grid class="${gridThemeClass}"></div>`;
+    // CSP: nonce for every <style> AG Grid and this module inject. Page-global, read from
+    // <meta name="csp-nonce" content="…"> or any nonce'd <script>; undefined when the page has none.
+    const cspNonce = (document.querySelector('meta[name="csp-nonce"]') || {}).content
+      || (document.querySelector('script[nonce]') || {}).nonce || undefined;
     
     // Apply theme mode using data attribute
     const themeContainer = this.$node.querySelector(`#${options.id}-grid`);
@@ -1823,6 +1827,7 @@ dmx.Component('ag-grid', {
       localeText = AG_GRID_LOCALE_ES
     }
     const gridOptions = {
+      styleNonce: cspNonce,
       ...(idFieldPresent ? { getRowId: params => String(params.data.id) } : {}),
       columnDefs: (groupedColumnDefs && groupedColumnDefs.length > 0) ? groupedColumnDefs : columnDefs,
       getRowStyle: options.rstyles ? createRowStyleFunction(options.rstyles): undefined,
@@ -2153,6 +2158,7 @@ dmx.Component('ag-grid', {
     const gridElement = document.getElementById(options.id+'-grid');
     if (options.vert_center_cell_data) {
       const styleElement = document.createElement('style');
+      if (cspNonce) styleElement.setAttribute('nonce', cspNonce);
       if (options.vert_center_cell_data) {
           styleElement.textContent += `
             .ag-cell {
@@ -2250,6 +2256,7 @@ dmx.Component('ag-grid', {
       if (options.fixed_horizontal_scroll) {
         const styleElement = document.createElement('style');
         styleElement.id = 'hovering-bar-style';
+        if (cspNonce) styleElement.setAttribute('nonce', cspNonce);
         const agRootWrapper = gridElement.querySelector('.ag-root-wrapper');
         const bodyHorizontalScrollElement = gridElement.querySelector('.ag-body-horizontal-scroll');
         const rootWrapperWidth = agRootWrapper.clientWidth;
@@ -2961,6 +2968,7 @@ dmx.Component('ag-grid', {
     `;
 
     const paginationPanelStyle = document.createElement('style');
+    if (cspNonce) paginationPanelStyle.setAttribute('nonce', cspNonce);
     paginationPanelStyle.innerHTML = paginationPanelCss;
     document.head.appendChild(paginationPanelStyle);
 

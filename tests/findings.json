@@ -1,5 +1,5 @@
 {
-  "startedAt": "2026-05-29T04:18:06.905Z",
+  "startedAt": "2026-09-23T12:01:47.474Z",
   "base": "http://localhost:8765/tests",
   "pages": [
     {
@@ -215,7 +215,8 @@
       "status": "PASS",
       "expectedGrids": [
         "selGrid",
-        "singleSel"
+        "singleSel",
+        "statusGrid"
       ],
       "missing": [],
       "result": {
@@ -234,6 +235,17 @@
             "columnStateLen": 0,
             "domRows": 25
           },
+          "statusGrid": {
+            "count": 5,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 5
+          },
           "singleSel": {
             "count": 25,
             "state": {
@@ -248,7 +260,28 @@
         }
       },
       "pageErrors": [],
-      "assertion": null
+      "assertion": {
+        "checks": {
+          "toggle_rendered": {
+            "expect": true,
+            "actual": true
+          },
+          "no_inline_onclick": {
+            "expect": 0,
+            "actual": 0
+          },
+          "toggle_has_dataset": {
+            "expect": true,
+            "actual": true
+          },
+          "toggle_dispatches": {
+            "expect": "row_status_disabled",
+            "actual": "row_status_disabled"
+          }
+        },
+        "ok": true,
+        "failed": []
+      }
     },
     {
       "file": "05-action-buttons.html",
@@ -784,7 +817,76 @@
       },
       "pageErrors": [],
       "assertion": null
+    },
+    {
+      "file": "15-csp.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "cspGrid",
+        "statusGrid"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/15-csp.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "cspGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 10
+          },
+          "statusGrid": {
+            "count": 5,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 5
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": {
+        "checks": {
+          "csp_violations": {
+            "expect": 0,
+            "actual": 0
+          },
+          "style_elements_seen": {
+            "expect": true,
+            "actual": true
+          },
+          "all_styles_nonced": {
+            "expect": 0,
+            "actual": 0
+          },
+          "layout_intact": {
+            "expect": "flex",
+            "actual": "flex"
+          },
+          "vcenter_applied": {
+            "expect": "flex",
+            "actual": "flex"
+          },
+          "hscroll_fixed": {
+            "expect": "fixed",
+            "actual": "fixed"
+          }
+        },
+        "ok": true,
+        "failed": []
+      }
     }
   ],
-  "finishedAt": "2026-05-29T04:18:30.933Z"
+  "finishedAt": "2026-09-23T12:02:10.813Z"
 }

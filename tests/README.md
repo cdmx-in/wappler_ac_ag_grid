@@ -54,6 +54,7 @@ tests/
 ├── 12-methods.html              ← every imperative method as a button
 ├── 13-flags-styles.html         ← suppress_*, rstyles, cstyles, data_changes
 ├── 14-compact-view.html         ← compact_view + buttons 6–15
+├── 15-csp.html                  ← nonce-only style-src, no 'unsafe-inline' (__cspCheck)
 ├── serve.cjs                    ← cross-platform static server
 ├── run-all.cjs                  ← agent-browser CLI driver (cross-platform)
 ├── run-all-puppeteer.cjs        ← headless Chrome driver (recommended)

@@ -23,7 +23,8 @@ const PAGES = [
   { file: '11-layout.html',           grids: ['autoH','fixedH','scrollH'] },
   { file: '12-methods.html',          grids: ['m'] },
   { file: '13-flags-styles.html',     grids: ['flagsGrid','rsFn','rsOp','rsCompound','rsShort','rsFirst','rsLegacy','csCell','transformGrid','tipGrid'], pageAssertion: '__rsCheck' },
-  { file: '14-compact-view.html',     grids: ['compactGrid','extButtons','cellEvtGrid'] }
+  { file: '14-compact-view.html',     grids: ['compactGrid','extButtons','cellEvtGrid'] },
+  { file: '15-csp.html',              grids: ['cspGrid','statusGrid'], pageAssertion: '__cspCheck' }
 ];
 
 function findChrome() {

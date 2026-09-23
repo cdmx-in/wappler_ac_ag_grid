@@ -3862,7 +3862,7 @@
       "allowed_children": {},
       "copyFiles": [
         {
-          "src": "../../../node_modules/ag-grid-community/dist/ag-grid-community.min.js",
+          "src": "../../../node_modules/ag-grid-community/dist/ag-grid-community.min.noStyle.js",
           "dst": "js/ag-grid-community.min.js"
         },
         {
