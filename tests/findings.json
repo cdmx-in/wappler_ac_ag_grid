@@ -1,0 +1,790 @@
+{
+  "startedAt": "2026-05-29T04:18:06.905Z",
+  "base": "http://localhost:8765/tests",
+  "pages": [
+    {
+      "file": "01-basic-render.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "basicGrid"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/01-basic-render.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "basicGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 10
+          }
+        }
+      },
+      "pageErrors": [
+        {
+          "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "assertion": null
+    },
+    {
+      "file": "02-themes-locale.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "g_alpine",
+        "g_balham",
+        "g_material",
+        "g_quartz",
+        "g_custom",
+        "g_dark",
+        "g_he",
+        "g_ru",
+        "g_es"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/02-themes-locale.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "g_alpine": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "g_balham": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "g_material": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "g_quartz": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "g_custom": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "g_dark": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "g_he": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "g_ru": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "g_es": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "03-editing.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "cellEdit",
+        "rowEdit",
+        "selectEdit"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/03-editing.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "cellEdit": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "rowEdit": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "selectEdit": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "04-selection.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "selGrid",
+        "singleSel"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/04-selection.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "selGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "singleSel": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "05-action-buttons.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "actGrid"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/05-action-buttons.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "actGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 50
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "06-export.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "expGrid",
+        "noExp"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/06-export.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "expGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "noExp": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "07-import.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "importGrid"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/07-import.html",
+        "appConnect": "2.2.4",
+        "ready": false,
+        "grids": {
+          "importGrid": {
+            "count": {},
+            "state": {
+              "gridReady": false,
+              "firstDataRendered": false,
+              "rowDataUpdated": false
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 0
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "08-formatting.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "fmtGrid",
+        "ctypeGrid",
+        "hdrGrid"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/08-formatting.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "fmtGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "ctypeGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "hdrGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "09-grouping.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "grpGrid",
+        "aggGrid"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/09-grouping.html",
+        "appConnect": "2.2.4",
+        "ready": false,
+        "grids": {
+          "grpGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "aggGrid": {
+            "count": 12,
+            "state": {
+              "rowDataUpdated": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 13
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "10-state-persistence.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "stateGrid"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/10-state-persistence.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "stateGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 10
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "11-layout.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "autoH",
+        "fixedH",
+        "scrollH"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/11-layout.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "autoH": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "fixedH": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 11
+          },
+          "scrollH": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "12-methods.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "m"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/12-methods.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "m": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 10
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    },
+    {
+      "file": "13-flags-styles.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "flagsGrid",
+        "rsFn",
+        "rsOp",
+        "rsCompound",
+        "rsShort",
+        "rsFirst",
+        "rsLegacy",
+        "csCell",
+        "transformGrid",
+        "tipGrid"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/13-flags-styles.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "flagsGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "rsFn": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "rsOp": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "rsCompound": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "rsShort": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "rsFirst": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "rsLegacy": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "csCell": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "transformGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "tipGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": {
+        "checks": {
+          "rsFn": {
+            "expect": 3,
+            "actual": 3
+          },
+          "rsOp_high": {
+            "expect": 7,
+            "actual": 7
+          },
+          "rsOp_low": {
+            "expect": 5,
+            "actual": 5
+          },
+          "rsCompound": {
+            "expect": 7,
+            "actual": 7
+          },
+          "rsShort": {
+            "expect": 5,
+            "actual": 5
+          },
+          "rsFirst_top": {
+            "expect": 5,
+            "actual": 5
+          },
+          "rsFirst_mid": {
+            "expect": 2,
+            "actual": 2
+          },
+          "rsLegacy_sl": {
+            "expect": 5,
+            "actual": 5
+          },
+          "rsLegacy_hr": {
+            "expect": 4,
+            "actual": 4
+          },
+          "cs_textHigh": {
+            "expect": 7,
+            "actual": 7
+          },
+          "cs_cellLow": {
+            "expect": 5,
+            "actual": 5
+          }
+        },
+        "ok": true,
+        "failed": []
+      }
+    },
+    {
+      "file": "14-compact-view.html",
+      "status": "PASS",
+      "expectedGrids": [
+        "compactGrid",
+        "extButtons",
+        "cellEvtGrid"
+      ],
+      "missing": [],
+      "result": {
+        "url": "http://localhost:8765/tests/14-compact-view.html",
+        "appConnect": "2.2.4",
+        "ready": true,
+        "grids": {
+          "compactGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 25
+          },
+          "extButtons": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 50
+          },
+          "cellEvtGrid": {
+            "count": 25,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 50
+          }
+        }
+      },
+      "pageErrors": [],
+      "assertion": null
+    }
+  ],
+  "finishedAt": "2026-05-29T04:18:30.933Z"
+}

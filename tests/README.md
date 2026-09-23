@@ -18,6 +18,10 @@ node tests/serve.cjs                 # http://localhost:8765/tests/index.html
 node tests/run-all-puppeteer.cjs
 #    alternative — drives the agent-browser CLI (Windows + Linux):
 node tests/run-all.cjs
+
+# 3. CSP: print the style-src hash allow-list AG Grid + the module need, and
+#    (--verify) reload every scenario under that header. Starts its own server.
+node tests/csp-hashes.cjs --verify
 ```
 
 Both produce the same `tests/findings.json` and per-page status table.
@@ -53,6 +57,7 @@ tests/
 ├── serve.cjs                    ← cross-platform static server
 ├── run-all.cjs                  ← agent-browser CLI driver (cross-platform)
 ├── run-all-puppeteer.cjs        ← headless Chrome driver (recommended)
+├── csp-hashes.cjs               ← CSP style-src hash allow-list generator (+ --verify)
 ├── data/
 │   └── sample-data.js           ← employees + orders fixtures
 ├── dmxAppConnect/

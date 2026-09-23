@@ -1,0 +1,29 @@
+{
+  "$comment": "Versions this test suite was written against. Bump these and re-run the suite when any dependency changes.",
+  "module": {
+    "name": "@cdmx/wappler_ag_grid",
+    "version": "2.1.3"
+  },
+  "appConnect": {
+    "expected": "2.2.4",
+    "build": "2026-01-19 14:03:35",
+    "file": "./dmxAppConnect/dmxAppConnect.js",
+    "detect": "window.dmx && dmx.version"
+  },
+  "vendor": {
+    "ag-grid-community": "~35.1.0",
+    "@ag-grid-community/locale": "~35.1.0",
+    "papaparse": "~5.5.2",
+    "pdfmake": "~0.2.18",
+    "read-excel-file": "~5.8.7",
+    "exceljs": "^4.4.0"
+  },
+  "compatibility": {
+    "policy": "If dmxAppConnect.js is replaced with a newer build, the suite should keep working as long as the dmx.Component API surface and dmx-bind:* attribute parsing remain backwards-compatible.",
+    "smokeCheck": "Open tests/index.html; the AppConnect version pill in the header should match expected. If it drifts, run all scenarios and update this manifest.",
+    "knownRisks": [
+      "performUpdate vs requestUpdate lifecycle — the grid still uses requestUpdate; AppConnect must keep supporting the older form.",
+      "dmx-bind:* attribute parser — any change to expression parsing would break data binding in every scenario."
+    ]
+  }
+}
