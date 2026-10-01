@@ -1542,14 +1542,18 @@ dmx.Component('ag-grid', {
               }
               // ponytail: filter on what the user sees - renderer output with tags stripped.
               // Covers column/floating filters, quick filter, applyFilters and cfilters (all read filterValueGetter).
-              const baseFilterValueGetter = filterValueGetter;
-              filterValueGetter = (params) => {
-                const fn = window[matchingJsChange.function];
-                if (typeof fn !== 'function' || !params.data) {
-                  return baseFilterValueGetter ? baseFilterValueGetter(params) : undefined;
-                }
-                return removeHtmlTags(fn(params.data));
-              };
+              // Text columns only: number/date filters compare the raw value, so they keep the base getter.
+              if (dataType === 'text') {
+                const baseFilterValueGetter = filterValueGetter;
+                filterValueGetter = (params) => {
+                  const fn = window[matchingJsChange.function];
+                  const rendered = (typeof fn === 'function' && params.data) ? fn(params.data) : undefined;
+                  if (typeof rendered !== 'string') {
+                    return baseFilterValueGetter ? baseFilterValueGetter(params) : undefined;
+                  }
+                  return removeHtmlTags(rendered);
+                };
+              }
             }
             else {
               cellRenderer = undefined;

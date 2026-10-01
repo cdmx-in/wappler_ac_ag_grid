@@ -1,5 +1,5 @@
 {
-  "startedAt": "2026-10-01T12:37:40.392Z",
+  "startedAt": "2026-10-01T12:45:25.153Z",
   "base": "http://localhost:8765/tests",
   "pages": [
     {
@@ -789,6 +789,10 @@
             "expect": 1,
             "actual": 1
           },
+          "jsFilter_numberWithRenderer": {
+            "expect": 3,
+            "actual": 3
+          },
           "jsFilter_quick": {
             "expect": 4,
             "actual": 4
@@ -924,5 +928,5 @@
       }
     }
   ],
-  "finishedAt": "2026-10-01T12:38:05.318Z"
+  "finishedAt": "2026-10-01T12:45:49.727Z"
 }

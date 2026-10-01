@@ -244,7 +244,8 @@
     <p class="desc">
       <code>monitoring_results</code> / <code>screening_results</code> are JSON lists rendered by
       <code>js_data_changes</code> functions (one entry per line via <code>&lt;br&gt;</code>). Since 2.1.9 the
-      column filters, <code>applyFilters</code> and the quick filter match the rendered text, not the raw array.
+      column filters, <code>applyFilters</code> and the quick filter match the rendered text, not the raw array
+      (text columns only: <code>amount</code> also has a JS renderer and must keep its number filter).
       Try typing <code>PAYOUT</code> in a floating filter or the quick filter box.
     </p>
     <input type="search" id="jsqf" placeholder="Quick filter…" oninput="document.getElementById('jsFilterGrid').dmxComponent.get('gridInstance').setGridOption('quickFilterText', this.value)">
@@ -254,7 +255,7 @@
         dmx-bind:data="txns.value"
         grid_theme="ag-theme-alpine"
         quick_filter_field="jsqf"
-        dmx-bind:js_data_changes="[{field:'monitoring_results', function:'renderMonitoring'},{field:'screening_results', function:'renderScreening'}]"
+        dmx-bind:js_data_changes="[{field:'monitoring_results', function:'renderMonitoring'},{field:'screening_results', function:'renderScreening'},{field:'amount', function:'renderAmount'}]"
         dmx-bind:pagination="false">
       </dmx-ag-grid>
     </div>
@@ -275,6 +276,8 @@
   // js_data_changes renderers for jsFilterGrid: JSON lists -> one entry per line.
   window.renderMonitoring = data => (data.monitoring_results || []).map(r => '<b>' + r.rule + '</b> (' + r.score + ')').join('<br>');
   window.renderScreening  = data => (data.screening_results  || []).map(r => r.list + ': ' + r.match).join('<br>');
+  // Number column with a JS renderer: its number filter must keep comparing the raw value.
+  window.renderAmount     = data => '<span class="badge">' + Number(data.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</span>';
 
   // Helpers: count rows in a grid's DOM with a given background colour. Multiple matches
   // are accepted (puppeteer normalises CSS to rgb()).
@@ -414,6 +417,8 @@
         checks.jsFilter_noMatch = { expect: 0, actual: visible() };
         await call('applyFilters', { id: { type: 'equals', filter: 9003 } });
         checks.jsFilter_plainColumn = { expect: 1, actual: visible() };
+        await call('applyFilters', { amount: { type: 'greaterThan', filter: 1000 } });
+        checks.jsFilter_numberWithRenderer = { expect: txns.filter(r => r.amount > 1000).length, actual: visible() };
         await call('clearFilters');
         gi.setGridOption('quickFilterText', 'payout');
         checks.jsFilter_quick = { expect: anyPayout, actual: visible() };

@@ -9,9 +9,9 @@ value is a JSON array/object are matched against their JSON text. Fixes "contain
 columns (e.g. Monitoring Results / Screening Results) returning no rows.
 
 ### Changes Made
-1. **`dmx-ag-grid.js`** - `js_data_changes` columns get a `filterValueGetter` that runs the render function
-   and strips tags via `removeHtmlTags` (now a hoisted function declaration); the shared filter value getter
-   stringifies object/array values.
+1. **`dmx-ag-grid.js`** - text-type `js_data_changes` columns get a `filterValueGetter` that runs the render
+   function and strips tags via `removeHtmlTags` (now a hoisted function declaration); number/date columns keep
+   the raw value for their comparison filters. The shared filter value getter stringifies object/array values.
 2. **`tests/13-flags-styles.html`**, **`tests/data/sample-data.js`** - `jsFilterGrid` scenario with a
    `transactions` fixture and page assertions for column + quick filters.
 

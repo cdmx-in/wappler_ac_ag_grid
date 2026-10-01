@@ -408,7 +408,7 @@ ex: jsChanges.
   }
 </script>
   ```
-Column filters, the floating filter row and the quick filter match the text this function renders (HTML tags removed, `<br>` treated as a line break), so searching for a word that is visible in the cell finds the row. Columns whose raw value is a JSON array/object are matched against their JSON text.
+Column filters, the floating filter row and the quick filter match the text this function renders (HTML tags removed, `<br>` treated as a line break), so searching for a word that is visible in the cell finds the row. This applies to text columns; number and date columns keep filtering on their raw value. Columns whose raw value is a JSON array/object are matched against their JSON text.
 
 ---
 # Custom Headers
