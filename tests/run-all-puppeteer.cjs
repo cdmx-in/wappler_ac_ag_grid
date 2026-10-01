@@ -22,7 +22,7 @@ const PAGES = [
   { file: '10-state-persistence.html',grids: ['stateGrid'] },
   { file: '11-layout.html',           grids: ['autoH','fixedH','scrollH'] },
   { file: '12-methods.html',          grids: ['m'] },
-  { file: '13-flags-styles.html',     grids: ['flagsGrid','rsFn','rsOp','rsCompound','rsShort','rsFirst','rsLegacy','csCell','transformGrid','tipGrid'], pageAssertion: '__rsCheck' },
+  { file: '13-flags-styles.html',     grids: ['flagsGrid','rsFn','rsOp','rsCompound','rsShort','rsFirst','rsLegacy','csCell','transformGrid','tipGrid','jsFilterGrid'], pageAssertion: '__rsCheck' },
   { file: '14-compact-view.html',     grids: ['compactGrid','extButtons','cellEvtGrid'] },
   { file: '15-csp.html',              grids: ['cspGrid','statusGrid'], pageAssertion: '__cspCheck' }
 ];
@@ -132,8 +132,11 @@ function findChrome() {
     let assertion = null;
     if (spec.pageAssertion) {
       try {
+        // Page checks poll until their grids settle; wait for them to publish instead of
+        // reading too early (a missing assertion must fail, not pass silently).
+        await page.waitForFunction((key) => !!window[key], { timeout: 10000 }, spec.pageAssertion);
         assertion = await page.evaluate((key) => window[key] || null, spec.pageAssertion);
-      } catch (e) { assertion = { error: e.message }; }
+      } catch (e) { assertion = { ok: false, error: e.message }; }
     }
     const assertionFailed = assertion && assertion.ok === false;
 
@@ -160,6 +163,7 @@ function findChrome() {
     if (assertion) {
       if (assertionFailed) {
         console.log('  assertion FAILED — checks that did not match:');
+        if (assertion.error) console.log('   error: ' + assertion.error);
         (assertion.failed || []).forEach(k => {
           const c = assertion.checks && assertion.checks[k];
           console.log('   ' + k + ' expected ' + (c && c.expect) + ' got ' + (c && c.actual));

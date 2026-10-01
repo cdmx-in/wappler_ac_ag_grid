@@ -59,5 +59,16 @@
     { id: 5, name: 'Echo',    department: 'Finance',     status: true  }
   ];
 
-  window.SampleData = { employees, orders, departments, statusRows };
+  // Transactions whose result columns are JSON lists rendered via js_data_changes.
+  // Used by 13-flags-styles.html to prove column + quick filters match the rendered text.
+  const transactions = [
+    { id: 9001, reference: 'TXN9001', amount: 1250.00, monitoring_results: [{ rule: 'PAYOUT', score: 80 }, { rule: 'VELOCITY', score: 40 }],    screening_results: [{ list: 'PEP', match: 'PAYOUT AGENT' }] },
+    { id: 9002, reference: 'TXN9002', amount: 300.00,  monitoring_results: [{ rule: 'VELOCITY', score: 55 }],                                     screening_results: [{ list: 'SANCTIONS', match: 'NONE' }] },
+    { id: 9003, reference: 'TXN9003', amount: 9800.00, monitoring_results: [{ rule: 'PAYOUT', score: 95 }],                                       screening_results: [] },
+    { id: 9004, reference: 'TXN9004', amount: 75.00,   monitoring_results: [],                                                                     screening_results: [{ list: 'PEP', match: 'PAYOUT' }] },
+    { id: 9005, reference: 'TXN9005', amount: 410.00,  monitoring_results: null,                                                                   screening_results: null },
+    { id: 9006, reference: 'TXN9006', amount: 2200.00, monitoring_results: [{ rule: 'STRUCTURING', score: 70 }, { rule: 'PAYOUT', score: 60 }], screening_results: [{ list: 'ADVERSE MEDIA', match: 'NONE' }] }
+  ];
+
+  window.SampleData = { employees, orders, departments, statusRows, transactions };
 })();

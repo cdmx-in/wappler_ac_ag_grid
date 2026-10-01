@@ -1,5 +1,22 @@
 # Change Log
 
+## Version 2.1.9 (Filter on JS-rendered columns)
+
+### Summary
+Column filters, the floating filter row, the quick filter, `applyFilters` and preset `cfilters` now match the
+text a `js_data_changes` function renders (HTML removed) instead of the raw field value. Columns whose raw
+value is a JSON array/object are matched against their JSON text. Fixes "contains" filters on result-list
+columns (e.g. Monitoring Results / Screening Results) returning no rows.
+
+### Changes Made
+1. **`dmx-ag-grid.js`** - `js_data_changes` columns get a `filterValueGetter` that runs the render function
+   and strips tags via `removeHtmlTags` (now a hoisted function declaration); the shared filter value getter
+   stringifies object/array values.
+2. **`tests/13-flags-styles.html`**, **`tests/data/sample-data.js`** - `jsFilterGrid` scenario with a
+   `transactions` fixture and page assertions for column + quick filters.
+
+---
+
 ## Version 2.1.4 (Row Color Formatting Fix)
 
 ### Summary

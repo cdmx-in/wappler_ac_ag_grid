@@ -1353,8 +1353,10 @@ dmx.Component('ag-grid', {
             return parseFloat(value);
           }
         }
-        // Return the original value if no matching changes were found
-        return value;
+        // Return the original value if no matching changes were found.
+        // ponytail: arrays/objects (JSON result lists) stringify so text filters can match nested words;
+        // keys match too - flatten string leaves if that ever bites.
+        return (value !== null && typeof value === 'object') ? JSON.stringify(value) : value;
       };
     };
     if (Array.isArray(this.props.column_defs) && this.props.column_defs.length > 0) {
@@ -1538,6 +1540,16 @@ dmx.Component('ag-grid', {
                   return cellValue;
                 }
               }
+              // ponytail: filter on what the user sees - renderer output with tags stripped.
+              // Covers column/floating filters, quick filter, applyFilters and cfilters (all read filterValueGetter).
+              const baseFilterValueGetter = filterValueGetter;
+              filterValueGetter = (params) => {
+                const fn = window[matchingJsChange.function];
+                if (typeof fn !== 'function' || !params.data) {
+                  return baseFilterValueGetter ? baseFilterValueGetter(params) : undefined;
+                }
+                return removeHtmlTags(fn(params.data));
+              };
             }
             else {
               cellRenderer = undefined;
@@ -2288,7 +2300,8 @@ dmx.Component('ag-grid', {
 
     //CSV Export Function
     // Helper function to remove HTML tags from string
-    const removeHtmlTags = (htmlString) => {
+    // Function declaration (hoisted): column-def filter getters built earlier in refreshGrid use it.
+    function removeHtmlTags(htmlString) {
       if (typeof htmlString !== 'string') return htmlString;
       // Remove all HTML tags and decode common HTML entities
       return htmlString
@@ -2300,7 +2313,7 @@ dmx.Component('ag-grid', {
         .replace(/&amp;/g, '&')
         .replace(/&quot;/g, '"')
         .replace(/&#39;/g, "'");
-    };
+    }
 
     exportGridData = (currentGridInstance, currentGridConfig) => {
       const exportConfig = currentGridConfig.context.exportConfig;

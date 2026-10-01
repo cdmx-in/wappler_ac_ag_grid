@@ -36,6 +36,7 @@
 
 <main class="test-main">
   <dmx-test-data id="rows" source="employees"></dmx-test-data>
+  <dmx-test-data id="txns" source="transactions"></dmx-test-data>
 
   <section class="feature">
     <h2>Suppression flags + ci_sort + hide_filters/sort</h2>
@@ -239,6 +240,27 @@
   </section>
 
   <section class="feature">
+    <h2>Filters on JS-rendered columns (js_data_changes)</h2>
+    <p class="desc">
+      <code>monitoring_results</code> / <code>screening_results</code> are JSON lists rendered by
+      <code>js_data_changes</code> functions (one entry per line via <code>&lt;br&gt;</code>). Since 2.1.9 the
+      column filters, <code>applyFilters</code> and the quick filter match the rendered text, not the raw array.
+      Try typing <code>PAYOUT</code> in a floating filter or the quick filter box.
+    </p>
+    <input type="search" id="jsqf" placeholder="Quick filter…" oninput="document.getElementById('jsFilterGrid').dmxComponent.get('gridInstance').setGridOption('quickFilterText', this.value)">
+    <div class="grid-wrap">
+      <dmx-ag-grid
+        id="jsFilterGrid"
+        dmx-bind:data="txns.value"
+        grid_theme="ag-theme-alpine"
+        quick_filter_field="jsqf"
+        dmx-bind:js_data_changes="[{field:'monitoring_results', function:'renderMonitoring'},{field:'screening_results', function:'renderScreening'}]"
+        dmx-bind:pagination="false">
+      </dmx-ag-grid>
+    </div>
+  </section>
+
+  <section class="feature">
     <h2>Live rstyles assertions</h2>
     <p class="desc">
       Runs in the page after the grids render and counts coloured rows per scenario.
@@ -250,6 +272,10 @@
 </main>
 
 <script>
+  // js_data_changes renderers for jsFilterGrid: JSON lists -> one entry per line.
+  window.renderMonitoring = data => (data.monitoring_results || []).map(r => '<b>' + r.rule + '</b> (' + r.score + ')').join('<br>');
+  window.renderScreening  = data => (data.screening_results  || []).map(r => r.list + ': ' + r.match).join('<br>');
+
   // Helpers: count rows in a grid's DOM with a given background colour. Multiple matches
   // are accepted (puppeteer normalises CSS to rgb()).
   function bgCount(gridId, predicate) {
@@ -364,13 +390,47 @@
     checks.cs_textHigh = { expect: highSalary, actual: csTextHigh };
     checks.cs_cellLow  = { expect: lowSalary,  actual: csCellLow };
 
-    const failed = Object.entries(checks).filter(([_, v]) => v.actual !== v.expect);
-    window.__rsCheck = { checks, ok: failed.length === 0, failed: failed.map(([k]) => k) };
+    // js_data_changes filter checks (2.1.9): filters must match the rendered text, not the raw JSON array.
+    // The component's filter methods defer to dmx.nextTick, so this part is async and __rsCheck is
+    // published once it has run.
+    (async () => {
+      const txns = (window.SampleData && window.SampleData.transactions) || [];
+      const hasWord = (list, key, word) => (list || []).some(r => String(r[key]).includes(word));
+      const monPayout = txns.filter(r => hasWord(r.monitoring_results, 'rule', 'PAYOUT')).length;
+      const scrPayout = txns.filter(r => hasWord(r.screening_results, 'match', 'PAYOUT')).length;
+      const anyPayout = txns.filter(r => hasWord(r.monitoring_results, 'rule', 'PAYOUT') || hasWord(r.screening_results, 'match', 'PAYOUT')).length;
+      const el = document.getElementById('jsFilterGrid');
+      const comp = el && el.dmxComponent;
+      const gi = comp && comp.get('gridInstance');
+      const tick = () => new Promise(res => dmx.nextTick(res));
+      const call = async (name, arg) => { comp.methods[name].call(comp, arg); await tick(); await tick(); };
+      const visible = () => gi.getDisplayedRowCount();
+      if (gi) {
+        await call('applyFilters', { monitoring_results: { type: 'contains', filter: 'PAYOUT' } });
+        checks.jsFilter_monitoring = { expect: monPayout, actual: visible() };
+        await call('applyFilters', { screening_results: { type: 'contains', filter: 'PAYOUT' } });
+        checks.jsFilter_screening = { expect: scrPayout, actual: visible() };
+        await call('applyFilters', { monitoring_results: { type: 'contains', filter: 'NO-SUCH-RULE' } });
+        checks.jsFilter_noMatch = { expect: 0, actual: visible() };
+        await call('applyFilters', { id: { type: 'equals', filter: 9003 } });
+        checks.jsFilter_plainColumn = { expect: 1, actual: visible() };
+        await call('clearFilters');
+        gi.setGridOption('quickFilterText', 'payout');
+        checks.jsFilter_quick = { expect: anyPayout, actual: visible() };
+        gi.setGridOption('quickFilterText', '');
+        checks.jsFilter_cleared = { expect: txns.length, actual: visible() };
+      } else {
+        checks.jsFilter_gridReady = { expect: true, actual: false };
+      }
 
-    const box = document.getElementById('rs-check');
-    box.textContent = Object.entries(checks)
-      .map(([k, v]) => (v.actual === v.expect ? '✓' : '✗') + ' ' + k + ' — expected ' + v.expect + ', got ' + v.actual)
-      .join('\n');
+      const failed = Object.entries(checks).filter(([_, v]) => v.actual !== v.expect);
+      window.__rsCheck = { checks, ok: failed.length === 0, failed: failed.map(([k]) => k) };
+
+      const box = document.getElementById('rs-check');
+      box.textContent = Object.entries(checks)
+        .map(([k, v]) => (v.actual === v.expect ? '✓' : '✗') + ' ' + k + ' — expected ' + v.expect + ', got ' + v.actual)
+        .join('\n');
+    })();
   }
   runChecks();
 </script>

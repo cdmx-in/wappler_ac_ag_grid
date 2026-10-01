@@ -25,7 +25,7 @@ const PAGES = [
   { file: '10-state-persistence.html',grids: ['stateGrid'] },
   { file: '11-layout.html',           grids: ['autoH','fixedH','scrollH'] },
   { file: '12-methods.html',          grids: ['m'] },
-  { file: '13-flags-styles.html',     grids: ['flagsGrid','stylesGrid','transformGrid','tipGrid'] },
+  { file: '13-flags-styles.html',     grids: ['flagsGrid','stylesGrid','transformGrid','tipGrid','jsFilterGrid'] },
   { file: '14-compact-view.html',     grids: ['compactGrid','extButtons','cellEvtGrid'] },
   { file: '15-csp.html',              grids: ['cspGrid','statusGrid'] }
 ];

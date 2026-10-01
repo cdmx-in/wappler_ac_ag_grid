@@ -131,7 +131,9 @@
         console.error('[TestKit] no method', method, 'on', id);
         return null;
       }
-      return g[key].apply(g, args);
+      // AppConnect's __method wrapper drops its first argument (Wappler passes the event there),
+      // so prepend a placeholder or methods like applyFilters(model) receive undefined.
+      return g[key].apply(g, [null].concat(args));
     },
     list: function () {
       // Find dmx-ag-grid elements in the DOM and return their dmx ids — more reliable

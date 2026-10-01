@@ -1,5 +1,5 @@
 {
-  "startedAt": "2026-09-23T12:01:47.474Z",
+  "startedAt": "2026-10-01T12:37:40.392Z",
   "base": "http://localhost:8765/tests",
   "pages": [
     {
@@ -594,7 +594,8 @@
         "rsLegacy",
         "csCell",
         "transformGrid",
-        "tipGrid"
+        "tipGrid",
+        "jsFilterGrid"
       ],
       "missing": [],
       "result": {
@@ -711,6 +712,17 @@
             "filterStateKeys": [],
             "columnStateLen": 0,
             "domRows": 25
+          },
+          "jsFilterGrid": {
+            "count": 6,
+            "state": {
+              "firstDataRendered": true
+            },
+            "dataLen": null,
+            "selectedRowsLen": 0,
+            "filterStateKeys": [],
+            "columnStateLen": 0,
+            "domRows": 6
           }
         }
       },
@@ -760,6 +772,30 @@
           "cs_cellLow": {
             "expect": 5,
             "actual": 5
+          },
+          "jsFilter_monitoring": {
+            "expect": 3,
+            "actual": 3
+          },
+          "jsFilter_screening": {
+            "expect": 2,
+            "actual": 2
+          },
+          "jsFilter_noMatch": {
+            "expect": 0,
+            "actual": 0
+          },
+          "jsFilter_plainColumn": {
+            "expect": 1,
+            "actual": 1
+          },
+          "jsFilter_quick": {
+            "expect": 4,
+            "actual": 4
+          },
+          "jsFilter_cleared": {
+            "expect": 6,
+            "actual": 6
           }
         },
         "ok": true,
@@ -888,5 +924,5 @@
       }
     }
   ],
-  "finishedAt": "2026-09-23T12:02:10.813Z"
+  "finishedAt": "2026-10-01T12:38:05.318Z"
 }
